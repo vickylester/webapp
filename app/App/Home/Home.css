@@ -1,0 +1,62 @@
+#HomeContainer .img {
+    max-height: 500px;
+}
+
+#HomeContainer .a {
+    cursor: pointer;
+}
+
+#HomeContainer .a-label {
+    cursor: pointer;
+    color: #fff;
+}
+
+#HomeContainer .a-label:hover {
+    cursor: pointer;
+    color: #fff;
+}
+
+#HomeContainer #body {
+    margin-top: 50px;
+}
+
+#HomeContainer #listAddedDepicts {
+    font-size: 140%;
+    margin-top: 10px;
+}
+
+#HomeContainer .label {
+    margin-right: 5px;
+}
+
+#HomeContainer .imageLabel {
+    font-size: 120%;
+}
+
+#HomeContainer .div-langage {
+    padding: 5px 20px;
+    background-color: #EEE;
+    margin-top: 0;
+    border-top: solid 1px #CCC;
+}
+
+#HomeContainer .jumbotron {
+    margin-bottom: 0;
+}
+
+#HomeContainer .h2a {
+    color: #222;
+}
+
+#HomeContainer .h2a:focus, #HomeContainer .h2a:hover {
+    text-decoration: underline;
+}
+
+#HomeContainer #game {
+    border-left: solid 10px #EEE;
+    padding: 10px;
+}
+
+#HomeContainer #game .progress {
+    margin-bottom: 0;
+}
