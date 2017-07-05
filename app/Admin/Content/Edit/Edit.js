@@ -70,6 +70,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
         $scope.submit.action = function() {
             $scope.submit.isLoading = true;
             if($scope.content.id === null) {
+                delete $scope.content.id;
                 $http.post('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/contents', $scope.content).then(function (response) {
                     console.log(response.data);
                     $scope.validation.isLoading = false;

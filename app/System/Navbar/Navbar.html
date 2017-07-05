@@ -11,13 +11,21 @@
         </div>
     </div>
     <div class="collapse navbar-collapse">
-        <ul data-ng-if="user != null" class="nav navbar-nav navbar-right">
-            <li><a ui-sref="admin.home" class="text-muted">Admin</a></li>
-            <li><a ui-sref="app.user.profile" class="text-muted">{{ user.email }}</a></li>
-        </ul>
         <ul data-ng-if="user == null" class="nav navbar-nav navbar-right">
             <li><a ui-sref="app.security.login" class="text-muted">Connexion</a></li>
             <li><a ui-sref="app.security.register" class="text-muted">Inscription</a></li>
+        </ul>
+        <ul data-ng-if="user != null" class="nav navbar-nav navbar-right">
+            <li><a ui-sref="admin.home" class="text-muted">Admin</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    {{ user.email }} <span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-right">
+                    <li><a ui-sref="app.user.profile" class="text-muted">Profile</a></li>
+                    <li><a ui-sref="app.security.logout" class="text-muted">Logout</a></li>
+                </ul>
+            </li>
         </ul>
     </div>
 </nav>

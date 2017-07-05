@@ -1,3 +1,7 @@
 <div class="jumbotron">
     <h2>Liste des entités</h2>
 </div>
+
+<ul>
+    <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({id: entity.id})">{{ entity.will.title }}</a></li>
+</ul>

@@ -18,6 +18,15 @@ angular.module('transcript.app.security', ['ui.router'])
         })
     }])
 
+    .service('AccessService', function($http, $rootScope, $stateProvider) {
+        return {
+            getAccess: function($stateProvider) {
+                console.log($stateProvider);
+                return null;
+            }
+        };
+    })
+
     .controller('AppSecurityCtrl', ['$rootScope','$scope', '$http', '$sce', function($rootScope, $scope, $http, $sce) {
         $scope.page = {};
     }])

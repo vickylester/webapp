@@ -20,6 +20,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
     }])
 
     .controller('AppSecurityRegisterCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
+        if($rootScope.user !== undefined) {$state.go('app.user.profile');}
         $scope.page = {};
         $scope.form = {
             name: null,
@@ -30,9 +31,13 @@ angular.module('transcript.app.security.register', ['ui.router'])
             },
             errors: []
         };
+        $scope.submit = {
+            isLoading: false
+        };
 
         /* Register data */
-        $scope.register = function() {
+        $scope.submit.action = function() {
+            $scope.submit.isLoading = true;
             if($scope.form.password.plain === $scope.form.password.confirmation) {
                 $scope.form.errors = [];
                 $http.post("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/users",
@@ -56,9 +61,11 @@ angular.module('transcript.app.security.register', ['ui.router'])
                                 }
                             }
                         }
+                        $scope.submit.isLoading = false;
                     });
             } else {
                 $scope.form.errors.push('Password and confirmation are not the same');
+                $scope.submit.isLoading = false;
             }
         };
     }])

@@ -1,9 +1,7 @@
 <div class="jumbotron">
-    <div class="pull-right">
-        <a class="btn btn-default" ui-sref="admin.content.edit({id: content.id})">Edit <i class="fa fa-edit"></i></a>
-    </div>
-    <h2>{{ content.title }}</h2>
-    <p><span class="label label-info">Statut : {{ content.status }}</span> <span class="label label-info">Type : {{ content.type }}</span></p>
+    <h2>{{ user.name }}</h2>
+    <dl class="dl-horizontal">
+        <dt>email:</dt>
+        <dd>{{ user.email }}</dd>
+    </dl>
 </div>
-
-{{ content.content }}

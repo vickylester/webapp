@@ -19,21 +19,32 @@ angular.module('transcript.app.user', ['ui.router'])
         })
     }])
 
-    .service('UserService', function($http, $rootScope, $cookieStore) {
+    .service('UserService', function($http, $rootScope, $cookies) {
         return {
-            getUser: function() {
-                if($cookieStore.get('transcript_security_token') !== undefined && $rootScope.user === undefined) {
-                    $rootScope.user = null;
-                    $rootScope.access_token = $cookieStore.get('transcript_security_token');
+            getUsers: function() {
+                return $http.get($rootScope.api+"/users").then(function(response) {
+                    return response.data;
+                });
+            },
+            getUser: function(id) {
+                if(id !== undefined) {
+                    return $http.get($rootScope.api+"/users/"+id).then(function(response) {
+                        return response.data;
+                    });
+                } else {
+                    if($cookies.get('transcript_security_token') !== undefined && $rootScope.user === undefined) {
+                        $rootScope.user = null;
+                        $rootScope.access_token = $cookies.get('transcript_security_token');
 
-                    $http.get($rootScope.api+"/auth-token",{headers:{'X-Auth-Token': $rootScope.access_token}})
-                        .then(function (response) {
-                            $rootScope.user = response.data;
-                        });
-                } else if($cookieStore.get('transcript_security_token') === undefined && $rootScope.user === undefined) {
-                    return $rootScope.user = null;
+                        $http.get($rootScope.api+"/auth-token",{headers:{'X-Auth-Token': $rootScope.access_token}})
+                            .then(function (response) {
+                                $rootScope.user = response.data;
+                            });
+                    } else if($cookies.get('transcript_security_token') === undefined && $rootScope.user === undefined) {
+                        return $rootScope.user = null;
+                    }
+                    return $rootScope.user;
                 }
-                return $rootScope.user;
             }
         };
     })

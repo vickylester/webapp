@@ -2,14 +2,28 @@
     <p>Page de connexion</p>
 </div>
 
-<form>
-    <div class="form-group">
-        <label for="app_security_login_email">Email address</label>
-        <input type="email" data-ng-model="form.email" class="form-control" id="app_security_login_email" placeholder="Email">
+<div class="row">
+    <div class="col-xs-12">
+        <section class="alert alert-danger" data-ng-if="errors.length > 0">
+            <ul>
+                <li data-ng-repeat="error in errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
+            </ul>
+        </section>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="app_security_login_login" class="control-label col-sm-3">Email address</label>
+                <div class="col-sm-7">
+                    <input type="email" data-ng-model="form.login" class="form-control" id="app_security_login_login" name="app_security_login_login" placeholder="Email" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app_security_login_password" class="control-label col-sm-3">Password</label>
+                <div class="col-sm-7">
+                    <input type="password" data-ng-model="form.password" class="form-control" id="app_security_login_password" name="app_security_login_login" placeholder="Password" required />
+                </div>
+            </div>
+            <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Login <i data-ng-if="submit.isLoading == true;" class="fa fa-spin fa-circle-o-notch"></i></button></div>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="app_security_login_password">Password</label>
-        <input type="password" data-ng-model="form.password" class="form-control" id="app_security_login_password" placeholder="Password">
-    </div>
-    <button type="button" data-ng-click="login()" class="btn btn-primary">Login</button>
-</form>
+</div>

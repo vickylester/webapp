@@ -28,10 +28,11 @@ angular.module('transcriptApp', [
     'transcript.app.contact',
     'transcript.app.content',
     'transcript.app.security',
-    'transcript.app.security.login',
-    'transcript.app.security.register',
     'transcript.app.security.check',
     'transcript.app.security.confirm',
+    'transcript.app.security.login',
+    'transcript.app.security.logout',
+    'transcript.app.security.register',
     'transcript.app.training',
     'transcript.app.transcript',
     'transcript.app.user',
@@ -44,16 +45,16 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', fu
     $qProvider.errorOnUnhandledRejections(false);
     $httpProvider.interceptors.push('authInterceptor');
 }])
-.run(['$rootScope', '$http', '$sce', '$state', '$cookieStore', '$injector', function($rootScope, $http, $sce, $state, $cookieStore, $injector) {
+.run(['$rootScope', '$http', '$sce', '$state', '$cookies', '$injector', function($rootScope, $http, $sce, $state, $cookies, $injector) {
     /* Parameters */
     $rootScope.api = "http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php";
     /* Parameters */
 
     /* Token management */
-    if($cookieStore.get('transcript_security_token') !== undefined && $rootScope.user === undefined) {
+    if($cookies.get('transcript_security_token') !== undefined && $rootScope.user === undefined) {
         $rootScope.user = false;
-        //console.log($cookieStore.get('transcript_security_token'));
-        $rootScope.access_token = $cookieStore.get('transcript_security_token');
+        //console.log($cookies.get('transcript_security_token'));
+        $rootScope.access_token = $cookies.get('transcript_security_token');
 
         $http.get($rootScope.api+"/auth-token", { headers:  {
                 'X-Auth-Token': $rootScope.access_token

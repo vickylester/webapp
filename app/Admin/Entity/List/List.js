@@ -14,10 +14,16 @@ angular.module('transcript.admin.entity.list', ['ui.router'])
                     controller: 'AdminEntityListCtrl'
                 }
             },
-            url: '/list'
+            url: '/list',
+            resolve: {
+                entities: function(EntityService) {
+                    return EntityService.getEntities();
+                }
+            }
         })
     }])
 
-    .controller('AdminEntityListCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
+    .controller('AdminEntityListCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entities', function($rootScope, $scope, $http, $sce, $state, entities) {
+        $scope.entities = entities;
     }])
 ;

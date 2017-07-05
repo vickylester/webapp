@@ -1,7 +1,7 @@
 <div class="jumbotron">
-    <h2>Liste des contenus</h2>
+    <h2>Liste des utilisateurs</h2>
 </div>
 
 <ul>
-    <li data-ng-repeat="content in contents"><a ui-sref="admin.content.view({id: content.id})">{{ content.title }}</a></li>
+    <li data-ng-repeat="user in users"><a ui-sref="admin.user.view({id: user.id})">{{ user.name }}</a></li>
 </ul>

@@ -1,4 +1,7 @@
 <div class="jumbotron text-center">
+    <div class="pull-right">
+        <a class="btn btn-warning" data-ng-if="user.role == 'admin'">Edit <i class="fa fa-edit"></i></a>
+    </div>
     {{ entity.will.title }}
 </div>
 

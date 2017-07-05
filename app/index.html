@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="App/Entity/Entity.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Security.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Login/Login.css" type="text/css" />
+    <link rel="stylesheet" href="App/Security/Logout/Logout.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Register/Register.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Check/Check.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Confirm/Confirm.css" type="text/css" />
@@ -52,12 +53,8 @@
 <body>
     <header ui-view="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style=""></header>
 
-    <section class="container-fluid" style="margin-top: 70px; margin-bottom: 50px;">
-        <div class="row">
-            <section class="col-sm-12" id="sectionContent">
-                <div ui-view="page"></div>
-            </section>
-        </div>
+    <section class="container-fluid" style="margin-top: 70px; margin-bottom: 50px;" id="sectionContent">
+        <div ui-view="page"></div>
     </section>
 
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
@@ -99,6 +96,7 @@
     <script type="text/javascript" src="App/Home/Home.js"></script>
     <script type="text/javascript" src="App/Security/Security.js"></script>
     <script type="text/javascript" src="App/Security/Login/Login.js"></script>
+    <script type="text/javascript" src="App/Security/Logout/Logout.js"></script>
     <script type="text/javascript" src="App/Security/Register/Register.js"></script>
     <script type="text/javascript" src="App/Security/Check/Check.js"></script>
     <script type="text/javascript" src="App/Security/Confirm/Confirm.js"></script>
