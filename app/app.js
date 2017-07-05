@@ -2,15 +2,31 @@
 
 angular.module('transcriptApp', [
     'ui.router',
+    'ui.ace',
+    'ngRoute',
+    'ngCookies',
+    'ckeditor',
+    'transcript.admin',
+    'transcript.admin.home',
+    'transcript.admin.content',
+    'transcript.admin.content.edit',
+    'transcript.admin.content.list',
+    'transcript.admin.content.view',
+    'transcript.app',
     'transcript.app.home',
+    'transcript.app.entity',
+    'transcript.app.transcript',
     'transcript.app.security.login',
     'transcript.app.security.register',
     'transcript.app.security.check',
     'transcript.app.security.confirm',
+    'transcript.app.user',
+    'transcript.app.user.profile',
+    'transcript.app.user.edit',
     'transcript.system.navbar'
 ]).
 config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider) {
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/');
     $qProvider.errorOnUnhandledRejections(false);
 
     // See https://engineering.talis.com/articles/elegant-api-auth-angular-js/
@@ -51,11 +67,34 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', fu
         }]
     );*/
 }])
-.run(['$rootScope', '$injector', function($rootScope, $injector) {
+.run(['$rootScope', '$http', '$sce', '$state', '$cookieStore', '$injector', function($rootScope, $http, $sce, $state, $cookieStore, $injector) {
+    /* Parameters */
+    $rootScope.api = "http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php";
+    /* Parameters */
+
+
     $injector.get("$http").defaults.transformRequest = function(data, headersGetter) {
+        //console.log($rootScope.access_token);
         if ($rootScope.access_token) headersGetter()['Authorization'] = "Bearer "+$rootScope.access_token;
         if (data) {
             return angular.toJson(data);
         }
     };
+
+    /* Token management */
+    if($cookieStore.get('transcript_security_token') !== undefined && $rootScope.user === undefined) {
+        $rootScope.user = false;
+        //console.log($cookieStore.get('transcript_security_token'));
+        $rootScope.access_token = $cookieStore.get('transcript_security_token');
+
+        $http.get($rootScope.api+"/auth-token", { headers:  {
+                'X-Auth-Token': $rootScope.access_token
+            }
+        })
+            .then(function (response) {
+                console.log(response.data);
+                $rootScope.user = response.data;
+            });
+    }
+    /* Token management */
 }]);

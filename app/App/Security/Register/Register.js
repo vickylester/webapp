@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.register', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('register', {
+        $stateProvider.state('app.security.register', {
             views: {
                 "navbar" : {
                     templateUrl: 'System/Navbar/Navbar.html',
@@ -14,7 +14,8 @@ angular.module('transcript.app.security.register', ['ui.router'])
                         controller: 'AppSecurityRegisterCtrl'
                 }
             },
-            url: '/register'
+            url: '/register',
+            requireLogin: false
         })
     }])
 
@@ -30,7 +31,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
             errors: []
         };
 
-        /* Loading data */
+        /* Register data */
         $scope.register = function() {
             if($scope.form.password.plain === $scope.form.password.confirmation) {
                 $scope.form.errors = [];
@@ -42,13 +43,11 @@ angular.module('transcript.app.security.register', ['ui.router'])
                     })
                     .then(function (response) {
                         if(response.status === 201) {
-                            console.log(response.data);
                             $state.go('check');
                         }
                     }, function errorCallback(response) {
                         console.log(response);
                         if(response.data.code === 400) {
-                            console.log("error");
                             for(var field in response.data.errors.children) {
                                 for(var error in response.data.errors.children[field]) {
                                     if(error === "errors") {

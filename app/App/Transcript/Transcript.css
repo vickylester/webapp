@@ -1,0 +1,110 @@
+/* Loading page */
+#transcriptContainer #transcript-loading {
+    font-size: 200%;
+    border: solid 1px #CCC;
+    border-radius: 5px;
+    padding-top: 10%;
+    min-height: 400px;
+}
+
+/* Reading page */
+#transcriptContainer #transcript-read {
+    border: solid 1px #CCC;
+    border-radius: 5px;
+    min-height: 400px;
+}
+
+#transcriptContainer #transcript-read #transcript-read-header {
+    padding: 5px;
+    background-color: #eee;
+    border-bottom: solid 1px #ccc;
+}
+
+#transcriptContainer #transcript-read #transcript-read-content {
+    padding: 10px;
+}
+
+/* Editing page */
+#transcriptContainer #transcript-edit {
+    /* These properties care for modal management */
+    overflow: hidden;
+    position:relative;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-toolBar {
+    border: solid 1px #CCC;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    background-color: #eee;
+    padding: 2px;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor {
+
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-ace {
+    padding-right: 0;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-ace #transcript-edit-editor-ace-area  {
+    padding: 10px;
+    min-height: 400px;
+
+    border: solid 1px #ccc;
+    border-top: none;
+
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-ace #transcript-edit-editor-ace-area:focus {
+    outline: none;
+    border-color: #ccc;
+    box-shadow: 0 0;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-interaction {
+    min-height: 400px;
+    background-color: #eee;
+    margin:0;
+    padding: 0;
+
+    border-right: solid 1px #ccc;
+    border-bottom: solid 1px #ccc;
+
+    font-size: 80%;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-interaction #div-interaction-help #div-interaction-help-header {
+    border-bottom: solid 1px #CCC;
+    padding: 2px 5px;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-interaction #div-interaction-help #div-interaction-help-content {
+    padding: 5px;
+}
+
+#transcriptContainer #transcript-edit #transcript-edit-editor #transcript-edit-editor-interaction #div-interaction-live {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#transcriptContainer #transcript-edit .modal, .modal-backdrop {
+    position: absolute !important;
+}
+#transcriptContainer #transcript-edit .modal-footer {
+    padding: 5px;
+}
+
+#transcriptContainer #transcript-validation {
+    padding: 5px;
+    background-color: #EEE;
+    border: solid 1px #CCC;
+    border-top: none;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+}

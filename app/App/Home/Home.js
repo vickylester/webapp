@@ -3,7 +3,7 @@
 angular.module('transcript.app.home', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('home', {
+        $stateProvider.state('app.home', {
             views: {
                 "navbar" : {
                     templateUrl: 'System/Navbar/Navbar.html',
@@ -14,7 +14,7 @@ angular.module('transcript.app.home', ['ui.router'])
                     controller: 'AppHomeCtrl'
                 }
             },
-            url: '/home'
+            url: '/'
         })
     }])
 

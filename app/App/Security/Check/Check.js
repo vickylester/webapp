@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.check', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('check', {
+        $stateProvider.state('app.security.check', {
             views: {
                 "navbar" : {
                     templateUrl: 'System/Navbar/Navbar.html',
@@ -14,11 +14,11 @@ angular.module('transcript.app.security.check', ['ui.router'])
                         controller: 'AppSecurityCheckCtrl'
                 }
             },
-            url: '/register/check'
+            url: '/check'
         })
     }])
 
-    .controller('AppSecurityCheckCtrl', ['$rootScope','$scope', '$http', '$sce', function($rootScope, $scope, $http, $sce) {
+    .controller('AppSecurityCheckCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
         $scope.page = {};
     }])
 ;

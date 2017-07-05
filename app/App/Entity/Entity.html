@@ -1,0 +1,93 @@
+<div class="jumbotron text-center">
+    {{ entity.will.title }}
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div class="list-group">
+            <div class="list-group-item-heading">
+                {{ entity.will.title }}
+            </div>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Cote</dt>
+                <dd>{{ entity.will.number }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Date de la minute</dt>
+                <dd>{{ entity.will.minute_date }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Date d'écriture</dt>
+                <dd>{{ entity.will.will_writing_date }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Lieu d'écriture</dt>
+                <dd>{{ entity.will.will_writing_place }}</dd>
+            </dl>
+        </div>
+        <div class="list-group">
+            <div class="list-group-item-heading">
+                Testateur
+            </div>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Nom complet</dt>
+                <dd>{{ entity.will.testator.full_name }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Nom de famille</dt>
+                <dd>{{ entity.will.testator.surname }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Prénoms</dt>
+                <dd>{{ entity.will.testator.firstnames }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Profession</dt>
+                <dd>{{ entity.will.testator.profession }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Adresse</dt>
+                <dd>{{ entity.will.testator.address }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Naissance</dt>
+                <dd>{{ entity.will.testator.date_of_birth }} à {{ entity.will.testator.place_of_birth }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Décès</dt>
+                <dd>{{ entity.will.testator.date_of_death }} à {{ entity.will.testator.place_of_death }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Mention</dt>
+                <dd>{{ entity.will.testator.death_mention }}</dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Mémoires des hommes</dt>
+                <dd><a href="{{ entity.will.testator.memoire_des_hommes }}" target="_blank">Lien</a></dd>
+            </dl>
+            <dl class="dl-horizontal list-group-item">
+                <dt>Grade</dt>
+                <dd>{{ entity.will.testator.rank }}, {{ entity.will.testator.regiment }}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="well">
+            <h2>Ressources :</h2>
+            <div class="row">
+                <div class="alert alert-danger" data-ng-if="entity.resources.length == 0">Oups ... Cette entité ne possède pas de ressource à transcrire</div>
+                <div class="col-sm-4" data-ng-repeat="resource in entity.resources">
+                    <div class="thumbnail">
+                        <a ui-sref="app.transcript({ id: resource.transcript.id })"><img src="../../webapp/app/web/images/no-images.png" class="img-responsive" /></a>
+                        <div class="caption">
+                            <div>{{ resource.type }} {{ resource.order_in_will }}</div>
+                            <div class="text-right">
+                                <label title="État de la transcription" class="label" data-ng-class="getResourceClassLabel(resource)">{{ getResourceLabel(resource) }}</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

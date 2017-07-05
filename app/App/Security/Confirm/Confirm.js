@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.confirm', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('confirm', {
+        $stateProvider.state('app.security.confirm', {
             views: {
                 "navbar" : {
                     templateUrl: 'System/Navbar/Navbar.html',
@@ -14,7 +14,7 @@ angular.module('transcript.app.security.confirm', ['ui.router'])
                         controller: 'AppSecurityConfirmCtrl'
                 }
             },
-            url: '/register/confirm'
+            url: '/confirm'
         })
     }])
 

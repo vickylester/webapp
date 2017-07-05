@@ -1,0 +1,35 @@
+<div class="jumbotron">
+    <h2 data-ng-if="content.title != null">{{ content.title }}</h2>
+    <h2 data-ng-if="content.title == null">Nouveau contenu</h2>
+</div>
+
+<form>
+    <div class="form-group">
+        <label for="admin-content-edit-title">Titre :</label>
+        <input id="admin-content-edit-title" type="text" class="form-control" data-ng-model="content.title" />
+    </div>
+    <div class="form-group">
+        <label for="admin-content-edit-content">Contenu :</label>
+        <div id="admin-content-edit-content" ckeditor="options" data-ng-model="content.content"></div>
+    </div>
+    <div class="form-group">
+        <label for="admin-content-edit-type">Type :</label>
+        <select id="admin-content-edit-type" class="form-control" data-ng-model="content.type">
+            <option selected disabled>Sélectionnez ...</option>
+            <option value="blogContent">Article de blog</option>
+            <option value="helpContent">Page d'aide</option>
+            <option value="staticContent">Page statique</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="admin-content-edit-status">Statut :</label>
+        <select id="admin-content-edit-status" class="form-control" data-ng-model="content.type">
+            <option selected disabled>Sélectionnez ...</option>
+            <option value="draft">Brouillon</option>
+            <option value="public">Public</option>
+            <option value="private">Privé</option>
+            <option value="notIndexed">Non indexé</option>
+        </select>
+    </div>
+    <div class="text-center"><button class="btn btn-primary" type="button" data-ng-click="submit()">Submit</button></div>
+</form>

@@ -1,0 +1,17 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="row" id="transcriptContainer">
+            <div class="col-sm-8">
+                <div id="transcript-loading" data-ng-if="page.loading == true" class="text-center">
+                    <div><i class="fa fa-spin fa-circle-o-notch"></i></div>
+                    <div><strong>Chargement de la transcription</strong></div>
+                </div>
+                <div id="transcript-read" data-ng-if="page.loading == false && page.status == 'read'" data-ng-include="'App/Transcript/tpl/transcript-read.html'"></div>
+                <div data-ng-if="page.loading == false && page.status == 'edit'" data-ng-include="'App/Transcript/tpl/transcript-edit.html'"></div>
+            </div>
+            <div class="col-sm-4">
+                <img id="transcript-image" class="img-responsive" src="../../webapp/app/web/test/images/will.jpg" />
+            </div>
+        </div>
+    </div>
+</div>

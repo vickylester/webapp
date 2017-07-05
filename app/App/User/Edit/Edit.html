@@ -1,0 +1,17 @@
+<div class="jumbotron">
+    <p>Edition du profil</p>
+</div>
+
+<div class="alert alert-danger" ng-if="form.errors.length > 0">
+    <ul>
+        <li ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span ng-repeat="content in error.error"><span ng-if="$first == false">, </span>{{ content }}</span></li>
+    </ul>
+</div>
+
+<form>
+    <div class="form-group">
+        <label for="app_user_edit_name">Name</label>
+        <input type="text" ng-model="form.name" class="form-control" id="app_user_edit_name" placeholder="Your name" />
+    </div>
+    <button type="button" ng-click="edit()" class="btn btn-primary">Edit</button>
+</form>

@@ -13,18 +13,32 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="web/libraries/css/font-awesome/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="web/libraries/js/viewerjs/dist/viewer.css"  type="text/css" />
     <link rel="stylesheet" href="web/custom/css/style.css" type="text/css" />
+
+    <link rel="stylesheet" href="Admin/Admin.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Home/Home.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Content/Content.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Content/Edit/Edit.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Content/List/List.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Content/View/View.css" type="text/css" />
+    <link rel="stylesheet" href="App/App.css" type="text/css" />
     <link rel="stylesheet" href="App/Home/Home.css" type="text/css" />
+    <link rel="stylesheet" href="App/Entity/Entity.css" type="text/css" />
+    <link rel="stylesheet" href="App/Transcript/Transcript.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Login/Login.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Register/Register.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Check/Check.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Confirm/Confirm.css" type="text/css" />
+    <link rel="stylesheet" href="App/User/User.css" type="text/css" />
+    <link rel="stylesheet" href="App/User/Profile/Profile.css" type="text/css" />
+    <link rel="stylesheet" href="App/User/Edit/Edit.css" type="text/css" />
 </head>
 
 <body>
     <header ui-view="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style=""></header>
 
-    <section class="container-fluid" style="margin-top: 50px; margin-bottom: 50px;">
+    <section class="container-fluid" style="margin-top: 70px; margin-bottom: 50px;">
         <div class="row">
             <section class="col-sm-12" id="sectionContent">
                 <div ui-view="page"></div>
@@ -40,12 +54,31 @@
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="web/libraries/angular/yaml-js/dist/yaml.min.js"></script>
 
+    <script src="web/libraries/js/ace/src/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="web/libraries/js/ace/src/mode-xml.js" type="text/javascript" charset="utf-8"></script>
+    <script src="web/libraries/angular/ui-ace/ui-ace.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="web/libraries/js/viewerjs/dist/viewer.js"></script>
+    <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script>
+    <script src="web/libraries/angular/angular-ckeditor/angular-ckeditor.js"></script>
+
     <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="Admin/Admin.js"></script>
+    <script type="text/javascript" src="Admin/Home/Home.js"></script>
+    <script type="text/javascript" src="Admin/Content/Content.js"></script>
+    <script type="text/javascript" src="Admin/Content/List/List.js"></script>
+    <script type="text/javascript" src="Admin/Content/Edit/Edit.js"></script>
+    <script type="text/javascript" src="Admin/Content/View/View.js"></script>
+    <script type="text/javascript" src="App/App.js"></script>
     <script type="text/javascript" src="App/Home/Home.js"></script>
+    <script type="text/javascript" src="App/Entity/Entity.js"></script>
+    <script type="text/javascript" src="App/Transcript/Transcript.js"></script>
     <script type="text/javascript" src="App/Security/Login/Login.js"></script>
     <script type="text/javascript" src="App/Security/Register/Register.js"></script>
     <script type="text/javascript" src="App/Security/Check/Check.js"></script>
     <script type="text/javascript" src="App/Security/Confirm/Confirm.js"></script>
+    <script type="text/javascript" src="App/User/User.js"></script>
+    <script type="text/javascript" src="App/User/Profile/Profile.js"></script>
+    <script type="text/javascript" src="App/User/Edit/Edit.js"></script>
     <script type="text/javascript" src="System/Navbar/Navbar.js"></script>
 </body>
 </html>

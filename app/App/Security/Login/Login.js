@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.login', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('login', {
+        $stateProvider.state('app.security.login', {
             views: {
                 "navbar" : {
                     templateUrl: 'System/Navbar/Navbar.html',
@@ -18,12 +18,13 @@ angular.module('transcript.app.security.login', ['ui.router'])
         })
     }])
 
-    .controller('AppSecurityLoginCtrl', ['$rootScope', '$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
+    .controller('AppSecurityLoginCtrl', ['$rootScope', '$scope', '$http', '$sce', '$state', '$cookieStore', function($rootScope, $scope, $http, $sce, $state, $cookieStore) {
         $scope.page = {};
         $scope.form = {
             email: null,
             password: null
         };
+        if($rootScope.user !== undefined) {$state.go('user.profile');}
 
         /* Loading data */
         $scope.login = function() {
@@ -32,6 +33,7 @@ angular.module('transcript.app.security.login', ['ui.router'])
                     console.log(response.data);
                     $rootScope.access_token = response.data.value;
                     $rootScope.user = response.data.user;
+                    $cookieStore.put('transcript_security_token', $rootScope.access_token);
                     $state.go('home');
                 });
         };
