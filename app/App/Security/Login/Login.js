@@ -34,7 +34,7 @@ angular.module('transcript.app.security.login', ['ui.router'])
                     $rootScope.access_token = response.data.value;
                     $rootScope.user = response.data.user;
                     $cookieStore.put('transcript_security_token', $rootScope.access_token);
-                    $state.go('home');
+                    $state.go('app.home');
                 });
         };
     }])

@@ -47,6 +47,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             $scope.content = content;
         } else {
             $scope.content = {
+                id: null,
                 title: null,
                 content: null,
                 status: null,
@@ -54,10 +55,31 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             };
         }
 
+        $scope.submit = {
+            isLoading: false
+        };
         $scope.options = {
             language: 'fr',
             allowedContent: true,
             entities: false
+        };
+
+        /**
+         * Submit management
+         */
+        $scope.submit.action = function() {
+            $scope.submit.isLoading = true;
+            if($scope.content.id === null) {
+                $http.post('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/contents', $scope.content).then(function (response) {
+                    console.log(response.data);
+                    $scope.validation.isLoading = false;
+                });
+            } else if($scope.content.id !== null) {
+                $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/contents/'+$scope.content.id, $scope.content).then(function (response) {
+                    console.log(response.data);
+                    $scope.validation.isLoading = false;
+                });
+            }
         };
     }])
 ;

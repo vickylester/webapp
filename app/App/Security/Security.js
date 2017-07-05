@@ -10,7 +10,7 @@ angular.module('transcript.app.security', ['ui.router'])
                         controller: 'SystemNavbarCtrl'
                 },
                 "page" : {
-                    templateUrl: 'App/Security/Check/Check.html',
+                    templateUrl: 'App/Security/Security.html',
                         controller: 'AppSecurityCtrl'
                 }
             },

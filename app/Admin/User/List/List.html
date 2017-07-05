@@ -1,0 +1,7 @@
+<div class="jumbotron">
+    <h2>Liste des contenus</h2>
+</div>
+
+<ul>
+    <li data-ng-repeat="content in contents"><a ui-sref="admin.content.view({id: content.id})">{{ content.title }}</a></li>
+</ul>

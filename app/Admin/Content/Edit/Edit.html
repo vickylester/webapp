@@ -14,8 +14,8 @@
     </div>
     <div class="form-group">
         <label for="admin-content-edit-type">Type :</label>
-        <select id="admin-content-edit-type" class="form-control" data-ng-model="content.type">
-            <option selected disabled>Sélectionnez ...</option>
+        <select id="admin-content-edit-type" name="admin-content-edit-type" class="form-control" data-ng-model="content.type">
+            <option value="" disabled>Sélectionnez ...</option>
             <option value="blogContent">Article de blog</option>
             <option value="helpContent">Page d'aide</option>
             <option value="staticContent">Page statique</option>
@@ -23,13 +23,13 @@
     </div>
     <div class="form-group">
         <label for="admin-content-edit-status">Statut :</label>
-        <select id="admin-content-edit-status" class="form-control" data-ng-model="content.type">
-            <option selected disabled>Sélectionnez ...</option>
+        <select id="admin-content-edit-status" name="admin-content-edit-status" class="form-control" data-ng-model="content.status">
+            <option value="" disabled>Sélectionnez ...</option>
             <option value="draft">Brouillon</option>
             <option value="public">Public</option>
             <option value="private">Privé</option>
             <option value="notIndexed">Non indexé</option>
         </select>
     </div>
-    <div class="text-center"><button class="btn btn-primary" type="button" data-ng-click="submit()">Submit</button></div>
+    <div class="text-center"><button class="btn btn-primary" type="button" data-ng-click="submit.action()">Submit <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
 </form>

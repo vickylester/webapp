@@ -18,22 +18,6 @@ angular.module('transcript.admin.content', ['ui.router'])
         })
     }])
 
-    .service('ContentService', function($http, $rootScope) {
-        return {
-            getContents: function() {
-                return $http.get($rootScope.api+"/contents").then(function(response) {
-                    return response.data;
-                });
-            },
-
-            getContent: function(id) {
-                return $http.get($rootScope.api+"/contents/"+id).then(function(response) {
-                    return response.data;
-                });
-            }
-        };
-    })
-
 
     .controller('AdminContentCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
 

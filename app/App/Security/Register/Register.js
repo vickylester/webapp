@@ -43,7 +43,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
                     })
                     .then(function (response) {
                         if(response.status === 201) {
-                            $state.go('check');
+                            $state.go('app.security.check');
                         }
                     }, function errorCallback(response) {
                         console.log(response);

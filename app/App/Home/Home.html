@@ -2,11 +2,15 @@
     <p>Hello, World!</p>
 </div>
 
-<div data-ng-if="page.loading == true" class="text-center">
-    <i class="fa fa-spin fa-circle-o-notch fa-5x"></i>
-</div>
-<div data-ng-if="page.loading == false">
-    <ul>
-        <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.title }}</a></li>
-    </ul>
+<div class="row">
+    <div class="col-sm-6">
+        <ul>
+            <li data-ng-repeat="content in contents"><a ui-sref="app.content({ id: content.id })" >{{ content.title }}</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-6">
+        <ul>
+            <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.title }}</a></li>
+        </ul>
+    </div>
 </div>

@@ -7,19 +7,33 @@ angular.module('transcriptApp', [
     'ngCookies',
     'ckeditor',
     'transcript.admin',
-    'transcript.admin.home',
     'transcript.admin.content',
     'transcript.admin.content.edit',
     'transcript.admin.content.list',
     'transcript.admin.content.view',
+    'transcript.admin.entity',
+    'transcript.admin.entity.edit',
+    'transcript.admin.entity.import',
+    'transcript.admin.entity.list',
+    'transcript.admin.home',
+    'transcript.admin.transcript',
+    'transcript.admin.transcript.export',
+    'transcript.admin.transcript.validation',
+    'transcript.admin.user',
+    'transcript.admin.user.list',
+    'transcript.admin.user.view',
     'transcript.app',
     'transcript.app.home',
     'transcript.app.entity',
-    'transcript.app.transcript',
+    'transcript.app.contact',
+    'transcript.app.content',
+    'transcript.app.security',
     'transcript.app.security.login',
     'transcript.app.security.register',
     'transcript.app.security.check',
     'transcript.app.security.confirm',
+    'transcript.app.training',
+    'transcript.app.transcript',
     'transcript.app.user',
     'transcript.app.user.profile',
     'transcript.app.user.edit',
@@ -28,58 +42,12 @@ angular.module('transcriptApp', [
 config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider) {
     $urlRouterProvider.otherwise('/');
     $qProvider.errorOnUnhandledRejections(false);
-
-    // See https://engineering.talis.com/articles/elegant-api-auth-angular-js/
-    /*$httpProvider.responseInterceptors.push([
-        '$rootScope', '$q', '$injector','$location',
-        function ($rootScope, $q, $injector, $location) {
-            return function(promise) {
-                return promise.then(function(response) {
-                    return response; // no action, was successful
-                }, function (response) {
-                    // error - was it 401 or something else?
-                    if (response.status===401 && response.data.error && response.data.error === "invalid_token") {
-                        var deferred = $q.defer(); // defer until we can re-request a new token
-                        // Get a new token... (cannot inject $http directly as will cause a circular ref)
-                        $injector.get("$http").jsonp('/some/endpoint/that/reissues/tokens?cb=JSON_CALLBACK').then(function(loginResponse) {
-                            if (loginResponse.data) {
-                                $rootScope.oauth = loginResponse.data.oauth; // we have a new oauth token - set at $rootScope
-                                // now let's retry the original request - transformRequest in .run() below will add the new OAuth token
-                                $injector.get("$http")(response.config).then(function(response) {
-                                    // we have a successful response - resolve it using deferred
-                                    deferred.resolve(response);
-                                },function(response) {
-                                    deferred.reject(); // something went wrong
-                                });
-                            } else {
-                                deferred.reject(); // login.json didn't give us data
-                            }
-                        }, function(response) {
-                            deferred.reject(); // token retry failed, redirect so user can login again
-                            $location.path('/user/sign/in');
-                            return;
-                        });
-                        return deferred.promise; // return the deferred promise
-                    }
-                    return $q.reject(response); // not a recoverable error
-                });
-            };
-        }]
-    );*/
+    $httpProvider.interceptors.push('authInterceptor');
 }])
 .run(['$rootScope', '$http', '$sce', '$state', '$cookieStore', '$injector', function($rootScope, $http, $sce, $state, $cookieStore, $injector) {
     /* Parameters */
     $rootScope.api = "http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php";
     /* Parameters */
-
-
-    $injector.get("$http").defaults.transformRequest = function(data, headersGetter) {
-        //console.log($rootScope.access_token);
-        if ($rootScope.access_token) headersGetter()['Authorization'] = "Bearer "+$rootScope.access_token;
-        if (data) {
-            return angular.toJson(data);
-        }
-    };
 
     /* Token management */
     if($cookieStore.get('transcript_security_token') !== undefined && $rootScope.user === undefined) {
@@ -97,4 +65,25 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', fu
             });
     }
     /* Token management */
-}]);
+}])
+.factory('authInterceptor', authInterceptor);
+
+function authInterceptor($rootScope, $q) {
+    return {
+        request: function (config) {
+            config.headers = config.headers || {};
+            if ($rootScope.access_token) {
+                config.headers['X-Auth-Token'] = $rootScope.access_token;
+            } else {
+                console.log("Loading token failed");
+            }
+            return config;
+        },
+        responseError: function (rejection) {
+            if (rejection.status === 401) {
+                console.log("not authorised");
+            }
+            return $q.reject(rejection);
+        }
+    };
+};

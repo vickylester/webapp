@@ -16,8 +16,8 @@ angular.module('transcript.admin.content.list', ['ui.router'])
             },
             url: '/list',
             resolve: {
-                contents: function(ContentService, $transition$) {
-                    return ContentService.getContents($transition$.params().id);
+                contents: function(ContentService) {
+                    return ContentService.getContents();
                 }
             }
         })

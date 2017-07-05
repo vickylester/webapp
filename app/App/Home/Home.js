@@ -14,23 +14,20 @@ angular.module('transcript.app.home', ['ui.router'])
                     controller: 'AppHomeCtrl'
                 }
             },
-            url: '/'
+            url: '/',
+            resolve: {
+                entities: function(EntityService) {
+                    return EntityService.getEntities();
+                },
+                contents: function(ContentService) {
+                    return ContentService.getContents();
+                }
+            }
         })
     }])
 
-    .controller('AppHomeCtrl', ['$scope', '$http', '$sce', function($scope, $http, $sce) {
-        $scope.page = {
-            loading: true
-        };
-        $scope.entities = null;
-
-
-        /* Loading data */
-        $http.get("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/entities")
-            .then(function (response) {
-                $scope.entities = response.data;
-                $scope.page.loading = false;
-            });
-
+    .controller('AppHomeCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entities', 'contents', function($rootScope, $scope, $http, $sce, $state, entities, contents) {
+        $scope.entities = entities;
+        $scope.contents = contents;
     }])
 ;
