@@ -5,10 +5,6 @@ angular.module('transcript.app.security.register', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.security.register', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                        controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/Security/Register/Register.html',
                         controller: 'AppSecurityRegisterCtrl'
@@ -20,7 +16,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
     }])
 
     .controller('AppSecurityRegisterCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-        if($rootScope.user !== undefined) {$state.go('app.user.profile');}
+        if($rootScope.user !== undefined) {$state.go('app.user.profile', {id: $rootScope.user.id});}
         $scope.page = {};
         $scope.form = {
             name: null,
@@ -42,9 +38,14 @@ angular.module('transcript.app.security.register', ['ui.router'])
                 $scope.form.errors = [];
                 $http.post("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/users",
                     {
-                        'name': $scope.form.name,
-                        'email': $scope.form.email,
-                        'plainPassword': $scope.form.password.plain
+                        'fos_user_registration_form' : {
+                            'name': $scope.form.name,
+                            'email': $scope.form.email,
+                            'plainPassword': {
+                                'first': $scope.form.password.plain,
+                                'second': $scope.form.password.confirmation
+                            }
+                        }
                     })
                     .then(function (response) {
                         if(response.status === 201) {

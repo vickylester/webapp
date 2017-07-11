@@ -5,10 +5,6 @@ angular.module('transcript.app.content', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.content', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/Content/Content.html',
                     controller: 'AppContentCtrl'

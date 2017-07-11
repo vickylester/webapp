@@ -1,0 +1,15 @@
+<div class="modal-content" id="choice-modal-content">
+    <div class="modal-body">
+        <strong>Attention, vous êtes sur le point de quitter l'interface de transcription et vous n'avez pas sauvergardé votre travail.</strong>
+        <div class="text-center">
+            <button data-ng-click="validation.load('load-read')" class="btn btn-primary">
+                <span data-ng-if="validation.isLoading == false">Sauvegarder mon travail</span>
+                <span data-ng-if="validation.isLoading == true">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
+            </button>
+            <a class="btn btn-warning" data-ng-click="validation.safeGoBack()">Quitter sans sauvergarder mon travail</a>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Annuler</button>
+    </div>
+</div>

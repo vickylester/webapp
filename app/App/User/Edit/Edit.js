@@ -5,37 +5,35 @@ angular.module('transcript.app.user.edit', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.user.edit', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/User/Edit/Edit.html',
                     controller: 'AppUserEditCtrl'
                 }
             },
-            url: '/edit',
+            url: '/edit/{id}',
             requireLogin: true,
             resolve: {
-                user: function(UserService) {
-                    return UserService.getUser();
+                userEdit: function(UserService, $transition$) {
+                    return UserService.getUser($transition$.params().id);
                 }
             }
         })
     }])
 
-    .controller('AppUserEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', function($rootScope, $scope, $http, $sce, $state, user) {
-        $scope.page = {};
-        $rootScope.user = user;
-        if($rootScope.user === undefined) {$state.go('login');}
+    .controller('AppUserEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', function($rootScope, $scope, $http, $sce, $state, userEdit) {
+        if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('login');}
 
         $scope.form = {
             name: $rootScope.user.name,
             errors: []
         };
+        $scope.submit = {
+            isLoading: false
+        };
 
         /* Submit data */
-        $scope.edit = function() {
+        $scope.submit.action = function() {
+            $scope.submit.isLoading = true;
             $scope.form.errors = [];
             $http.patch("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/users/"+$rootScope.user.id,
                 {
@@ -43,7 +41,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
                 })
                 .then(function (response) {
                     if(response.status === 200) {
-                        $state.go('user.profile');
+                        $state.go('app.user.profile', {id: userEdit.id});
                     }
                 }, function errorCallback(response) {
                     console.log(response);
@@ -56,6 +54,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
                             }
                         }
                     }
+                    $scope.submit.isLoading = false;
                 });
         };
     }])

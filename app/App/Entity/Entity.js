@@ -5,10 +5,6 @@ angular.module('transcript.app.entity', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.entity', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/Entity/Entity.html',
                     controller: 'AppEntityCtrl'

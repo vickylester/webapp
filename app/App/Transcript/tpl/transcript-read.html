@@ -1,9 +1,10 @@
 <div id="transcript-read-header" class="text-right">
-    <button data-ng-if="(user.status == 'editor' || user.status == 'validator') && transcript.status == 'todo'" data-ng-click="page.status = 'edit'" class="btn btn-primary">Commencer cette transcription <i class="fa fa-edit"></i></button>
-    <button data-ng-if="(user.status == 'editor' || user.status == 'validator') && transcript.status == 'transcription'" data-ng-click="page.status = 'edit'" class="btn btn-primary">Éditer cette transcription <i class="fa fa-edit"></i></button>
-    <button data-ng-if="user.status == 'editor' && transcript.status == 'validation'" class="btn btn-warning">En cours de validation</button>
-    <button data-ng-if="user.status == 'validator' && transcript.status == 'validation'" data-ng-click="page.status = 'edit'" class="btn btn-warning">En cours de validation</button>
-    <button data-ng-if="user.status == 'editor' && transcript.status == 'validated'" class="btn btn-success">Cette transcription est terminée</button>
-    <button data-ng-if="user.status == 'validator' && transcript.status == 'validated'" data-ng-click="page.status = 'edit'" class="btn btn-success">Cette transcription est terminée</button>
+    <button data-ng-if="readOnly == true" data-ng-click="page.status = 'login'" class="btn btn-primary">Participer à la transcription <i class="fa fa-edit"></i></button>
+    <button data-ng-if="(user.transcript.role == 'editor' || user.transcript.role == 'validator') && transcript.status == 'todo'" data-ng-click="page.status = 'edit'" class="btn btn-primary">Commencer cette transcription <i class="fa fa-edit"></i></button>
+    <button data-ng-if="(user.transcript.role == 'editor' || user.transcript.role == 'validator') && transcript.status == 'transcription'" data-ng-click="page.status = 'edit'" class="btn btn-primary">Éditer cette transcription <i class="fa fa-edit"></i></button>
+    <button data-ng-if="user.transcript.role == 'editor' && transcript.status == 'validation'" class="btn btn-warning">En cours de validation</button>
+    <button data-ng-if="user.transcript.role == 'validator' && transcript.status == 'validation'" data-ng-click="page.status = 'edit'" class="btn btn-warning">En cours de validation</button>
+    <button data-ng-if="user.transcript.role == 'editor' && transcript.status == 'validated'" class="btn btn-success">Cette transcription est terminée</button>
+    <button data-ng-if="user.transcript.role == 'validator' && transcript.status == 'validated'" data-ng-click="page.status = 'edit'" class="btn btn-success">Cette transcription est terminée</button>
 </div>
 <div id="transcript-read-content" data-ng-bind-html="wysiwyg.live.content"></div>

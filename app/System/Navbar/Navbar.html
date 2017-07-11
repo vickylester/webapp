@@ -22,7 +22,7 @@
                     {{ user.email }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a ui-sref="app.user.profile" class="text-muted">Profile</a></li>
+                    <li><a ui-sref="app.user.profile({id: user.id})" class="text-muted">Profile</a></li>
                     <li><a ui-sref="app.security.logout" class="text-muted">Logout</a></li>
                 </ul>
             </li>

@@ -5,10 +5,6 @@ angular.module('transcript.app.security.confirm', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.security.confirm', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                        controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/Security/Confirm/Confirm.html',
                         controller: 'AppSecurityConfirmCtrl'

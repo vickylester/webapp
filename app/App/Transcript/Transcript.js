@@ -5,10 +5,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.transcript', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/Transcript/Transcript.html',
                     controller: 'AppTranscriptCtrl'
@@ -43,9 +39,21 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Variables definition */
         var viewer = new Viewer(document.getElementById('transcript-image'), {inline: true, button: true, tooltip: false, title:false, scalable: false});
         var config = YAML.load('App/Transcript/toolbar.yml');
-        $scope.user = {
-            status: "editor"
-        };
+        var user_role_transcript;
+
+        if($rootScope.user !== undefined) {
+            if ($.inArray("ROLE_ADMIN", $rootScope.user.roles) > -1 && $.inArray("ROLE_MODO", $rootScope.user.roles) > -1) {
+                user_role_transcript = "validator";
+            } else {
+                user_role_transcript = "editor";
+            }
+            $rootScope.user.transcript = {
+                role: user_role_transcript
+            };
+            $scope.readOnly = false;
+        } else {
+            $scope.readOnly = true;
+        }
         $scope.page = {
             loading: true,
             status: "read"
@@ -251,7 +259,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * @returns {string|*}
          */
         $scope.loadFile = function(file) {
-            return 'App/Transcript/tpl/'+file+'.html'; //Routing.generate('app_transcript_loadTpl', {"label": file});
+            return 'App/Transcript/tpl/'+file+'.html';
         };
 
         /**
@@ -266,12 +274,33 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * Validation management
          */
-        $scope.validation.load = function() {
+        $scope.validation.load = function(action) {
             $scope.validation.isLoading = true;
             $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id, {"content": $scope.wysiwyg.area}).then(function (response) {
                 console.log(response.data);
                 $scope.validation.isLoading = false;
+
+                if(action === 'load-read') {$scope.page.status = 'read';}
             });
+        };
+
+        /**
+         * Go back management
+         */
+        $scope.validation.goBack = function() {
+            if($scope.transcript.content === $scope.wysiwyg.area) {
+                $scope.page.status = 'read';
+            } else {
+                $scope.modal('goBack');
+            }
+        };
+
+        /**
+         * Safe go back management
+         */
+        $scope.validation.safeGoBack = function() {
+            $scope.wysiwyg.area = $scope.transcript.content;
+            $scope.page.status = 'read';
         };
     }])
 ;

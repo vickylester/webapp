@@ -5,10 +5,6 @@ angular.module('transcript.app.home', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.home', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'App/Home/Home.html',
                     controller: 'AppHomeCtrl'

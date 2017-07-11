@@ -7,6 +7,17 @@
     min-height: 400px;
 }
 
+/* Login page */
+#transcriptContainer #transcript-login {
+    border: solid 1px #CCC;
+    border-radius: 5px;
+    min-height: 400px;
+}
+
+#transcriptContainer #transcript-login #transcript-login-content {
+    padding: 10px;
+}
+
 /* Reading page */
 #transcriptContainer #transcript-read {
     border: solid 1px #CCC;

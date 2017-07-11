@@ -1,9 +1,9 @@
 'use strict';
 
-angular.module('transcript.app', ['ui.router'])
+angular.module('transcript.system.error', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app', {
+        $stateProvider.state('error', {
             abstract: true,
             views: {
                 "navbar" : {
@@ -14,12 +14,7 @@ angular.module('transcript.app', ['ui.router'])
                     template: '<div ui-view="page"></div>'
                 }
             },
-            url: '',
-            resolve: {
-                user: function(UserService) {
-                    return UserService.getCurrent();
-                }
-            }
+            url: '/user'
         })
     }])
 ;
