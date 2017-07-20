@@ -4,18 +4,14 @@ angular.module('transcript.admin.entity', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('admin.entity', {
+            abstract: true,
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
-                    templateUrl: 'Admin/Entity/Entity.html',
+                    template: '<div ui-view="page"></div>',
                     controller: 'AdminEntityCtrl'
                 }
             },
-            url: '/entities',
-            abstract: true
+            url: '/entities'
         })
     }])
 

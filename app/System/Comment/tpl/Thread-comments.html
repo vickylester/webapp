@@ -1,0 +1,10 @@
+<div class="comment-comment" data-ng-repeat="commentContainer in threadContainer.comments">
+    <div class="comment-comment-header">
+        Écrit le <span data-ng-bind="commentContainer.comment.created_at | date:'MM/dd/yyyy'"></span> à <span data-ng-bind="commentContainer.comment.created_at | date:'H:mm'"></span>, par <a data-ng-if="commentContainer.comment.author != null" ui-sref="app.user.profile({id: commentContainer.comment.author.id})" data-ng-bind="commentContainer.comment.author.name"></a><span data-ng-if="commentContainer.comment.author == null" >Anonyme</span>
+        <span data-ng-if="user.isAdmin == true">| <a>Edit</a> - <a data-ng-click="admin.remove(commentContainer.comment.id)">Remove</a></span>
+    </div>
+    <blockquote data-ng-bind-html="commentContainer.comment.body"></blockquote>
+</div>
+<div data-ng-if="threadContainer.comments.length == 0" class="alert alert-info alert-in-block">
+    <p>Soyez-le premier à commencer la discussion !</p>
+</div>

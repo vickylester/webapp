@@ -1,0 +1,29 @@
+<div class="jumbotron">
+    <p>Edition des préférences</p>
+</div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<div class="alert alert-danger" data-ng-if="form.errors.length > 0">
+    <ul>
+        <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
+    </ul>
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="app_user_preference_transcriptionDeskPosition" class="control-label col-sm-3">Affichage de l'interface de transcription</label>
+        <div class="col-sm-9">
+            <select id="app_user_preference_transcriptionDeskPosition" name="app_user_preference_transcriptionDeskPosition" class="form-control" data-ng-model="form.transcription_desk_position">
+                <option value="" disabled>Sélectionnez ...</option>
+                <option value="readLeft">Image à gauche</option>
+                <option value="readRight">Image à droite</option>
+            </select>
+        </div>
+    </div>
+    <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Edit <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
+</form>

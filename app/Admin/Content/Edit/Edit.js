@@ -6,10 +6,6 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
         $stateProvider
             .state('admin.content.new', {
                 views: {
-                    "navbar" : {
-                        templateUrl: 'System/Navbar/Navbar.html',
-                        controller: 'SystemNavbarCtrl'
-                    },
                     "page" : {
                         templateUrl: 'Admin/Content/Edit/Edit.html',
                         controller: 'AdminContentEditCtrl'
@@ -36,13 +32,13 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 url: '/edit/:id',
                 resolve: {
                     content: function(ContentService, $transition$) {
-                        return ContentService.getContent($transition$.params().id);
+                        return ContentService.getContent($transition$.params().id, false);
                     }
                 }
             })
     }])
 
-    .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', function($rootScope, $scope, $http, $sce, $state, content) {
+    .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', 'CommentService', 'flash', function($rootScope, $scope, $http, $sce, $state, content, CommentService, flash) {
         if(content !== null) {
             $scope.content = content;
         } else {
@@ -55,7 +51,11 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             };
         }
 
+        console.log($scope.content);
         $scope.submit = {
+            isLoading: false
+        };
+        $scope.remove = {
             isLoading: false
         };
         $scope.options = {
@@ -69,18 +69,86 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
          */
         $scope.submit.action = function() {
             $scope.submit.isLoading = true;
+            var form = {
+                title: $scope.content.title,
+                content: $scope.content.content,
+                type: $scope.content.type,
+                status: $scope.content.status
+            };
             if($scope.content.id === null) {
-                delete $scope.content.id;
-                $http.post('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/contents', $scope.content).then(function (response) {
+                /* If content.id == null > The content doesn't exist, we post it */
+                $http.post($rootScope.api+'/contents', form, {
+                    headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
+                }).then(function (response) {
                     console.log(response.data);
-                    $scope.validation.isLoading = false;
+                    $scope.thread = CommentService.postThread('content-'+response.data.id);
+                    flash.success = "Votre contenu a bien été créé";
+                    flash.success = $sce.trustAsHtml(flash.success);
+                    $scope.submit.isLoading = false;
+                    $state.go('app.content', {id: response.data.id});
+                }, function errorCallback(response) {
+                    $scope.submit.isLoading = false;
+                    if(response.data.code === 400) {
+                        flash.error = "<ul>";
+                        for(var field in response.data.errors.children) {
+                            for(var error in response.data.errors.children[field]) {
+                                if(error === "errors") {
+                                    flash.error += "<li><strong>"+field+"</strong> : "+response.data.errors.children[field][error]+"</li>";
+                                }
+                            }
+                        }
+                        flash.error += "</ul>";
+                        flash.error = $sce.trustAsHtml(flash.error);
+                    }
+                    console.log(response);
                 });
             } else if($scope.content.id !== null) {
-                $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/contents/'+$scope.content.id, $scope.content).then(function (response) {
+                /* If content.id != null > The content already exists, we just patch it */
+                $http.patch($rootScope.api+'/contents/'+$scope.content.id, form, {
+                    headers:  {
+                        'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
+                    }
+                }).then(function (response) {
                     console.log(response.data);
-                    $scope.validation.isLoading = false;
+                    flash.success = "Votre contenu a bien été mis à jour";
+                    flash.success = $sce.trustAsHtml(flash.success);
+                    $scope.submit.isLoading = false;
+                }, function errorCallback(response) {
+                    if(response.data.code === 400) {
+                        flash.error = "<ul>";
+                        for(var field in response.data.errors.children) {
+                            for(var error in response.data.errors.children[field]) {
+                                if(error === "errors") {
+                                    flash.error += "<li><strong>"+field+"</strong> : "+response.data.errors.children[field][error]+"</li>";
+                                }
+                            }
+                        }
+                        flash.error += "</ul>";
+                        flash.error = $sce.trustAsHtml(flash.error);
+                    }
+                    $scope.submit.isLoading = false;
+                    console.log(response);
                 });
             }
+        };
+
+        /**
+         * Submit management
+         */
+        $scope.remove.action = function() {
+            $scope.remove.isLoading = true;
+            $http.delete($rootScope.api+'/contents/'+$scope.content.id, {
+                headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
+            }).then(function (response) {
+                flash.success = "Votre contenu a bien été supprimé";
+                flash.success = $sce.trustAsHtml(flash.success);
+                $scope.submit.isLoading = false;
+                $state.go('admin.content.list');
+            }, function errorCallback(response) {
+                $scope.validation.isLoading = false;
+                console.log(response);
+            });
+
         };
     }])
 ;

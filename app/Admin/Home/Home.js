@@ -15,8 +15,6 @@ angular.module('transcript.admin.home', ['ui.router'])
     }])
 
     .controller('AdminHomeCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-        $scope.page = {
-            loading: true
-        };
+
     }])
 ;

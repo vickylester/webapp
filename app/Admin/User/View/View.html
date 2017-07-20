@@ -1,7 +1,36 @@
 <div class="jumbotron">
-    <h2>{{ user.name }}</h2>
+    <h2>{{ fUser.name }}</h2>
     <dl class="dl-horizontal">
         <dt>email:</dt>
-        <dd>{{ user.email }}</dd>
+        <dd>{{ fUser.email }}</dd>
     </dl>
+</div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <div>
+            <h3>Gestion des rôles</h3>
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="admin-fUser-role-manage" class="col-sm-3 control-label">Rôles :</label>
+                    <div class="col-sm-9">
+                        <select id="admin-fUser-role-manage" name="admin-fUser-role-manage" class="form-control" data-ng-model="fUser.roles" multiple >
+                            <option value="ROLE_USER">Utilisateur</option>
+                            <option value="ROLE_MODO">Modérateur</option>
+                            <option value="ROLE_ADMIN">Administrateur</option>
+                            <option value="ROLE_SUPER_ADMIN">Super Admin</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center"><button type="submit" class="btn btn-primary" data-ng-click="roles.submit.action()">Submit <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-6"></div>
 </div>

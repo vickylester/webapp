@@ -5,6 +5,12 @@
     {{ entity.will.title }}
 </div>
 
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
 <div class="row">
     <div class="col-sm-6">
         <div class="list-group">

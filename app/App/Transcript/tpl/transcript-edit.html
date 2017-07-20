@@ -1,8 +1,14 @@
-<div id="transcript-edit">
-    <div id="transcript-edit-toolBar" data-ng-include="'App/Transcript/tpl/transcript-edit-toolbar.html'"></div>
-    <div id="transcript-edit-editor" class="row" data-ng-include="'App/Transcript/tpl/transcript-edit-editor.html'"></div>
-    <div id="transcript-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title" aria-hidden="true">
-        <div class="modal-dialog" data-ng-include="wysiwyg.modal"></div>
+<div class="row-h100">
+    <div class="col-sm-4 no-padding">
+        <div class="h100" data-ng-if="user._embedded.preferences.transcription_desk_position == 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+        <div class="h100" data-ng-if="user._embedded.preferences.transcription_desk_position != 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
+    </div>
+    <div class="col-sm-4 no-padding-right no-padding-left">
+        <div class="h100"  data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
+    </div>
+    <div class="col-sm-4 no-padding">
+        <div class="h100" data-ng-if="user._embedded.preferences.transcription_desk_position != 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+        <div class="h100" data-ng-if="user._embedded.preferences.transcription_desk_position == 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
     </div>
 </div>
-<div id="transcript-validation" data-ng-include="'App/Transcript/tpl/transcript-edit-validation.html'"></div>
+

@@ -3,3 +3,9 @@
     <p>Oups ... Il semblerait que la page à laquelle vous souhaitez accéder n'existe pas sur notre site ...</p>
     <div class="text-center"><a ui-sref="app.home">Retour à l'accueil</a></div>
 </div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>

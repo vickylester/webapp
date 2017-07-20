@@ -5,10 +5,6 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('admin.entity.edit', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'Admin/Entity/Edit/Edit.html',
                     controller: 'AdminEntityEditCtrl'

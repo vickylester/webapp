@@ -8,12 +8,24 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 "page" : {
                     templateUrl: 'App/Transcript/Transcript.html',
                     controller: 'AppTranscriptCtrl'
+                },
+                "comment@app.transcript" : {
+                    templateUrl: 'System/Comment/tpl/Thread.html',
+                    controller: 'SystemCommentCtrl'
                 }
             },
             url: '/transcript/{id}',
             resolve: {
                 transcript: function(TranscriptService, $transition$) {
                     return TranscriptService.getTranscript($transition$.params().id);
+                },
+                thread: function(CommentService, $transition$) {
+                    if(CommentService.getThread('transcript-'+$transition$.params().id) === null) {
+                        CommentService.postThread('transcript-'+$transition$.params().id);
+                        return CommentService.getThread('transcript-'+$transition$.params().id);
+                    } else {
+                        return CommentService.getThread('transcript-'+$transition$.params().id);
+                    }
                 }
             }
         })
@@ -35,14 +47,16 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
     })
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', function($rootScope, $scope, $http, $sce, $state, transcript) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'ContentService', function($rootScope, $scope, $http, $sce, $state, transcript, ContentService) {
         /* Variables definition */
-        var viewer = new Viewer(document.getElementById('transcript-image'), {inline: true, button: true, tooltip: false, title:false, scalable: false});
+        /*function loadViewer(id) {
+            return new Viewer(document.getElementById(id), {inline: true, button: true, tooltip: false, title:false, scalable: false});
+        }*/
         var config = YAML.load('App/Transcript/toolbar.yml');
         var user_role_transcript;
 
         if($rootScope.user !== undefined) {
-            if ($.inArray("ROLE_ADMIN", $rootScope.user.roles) > -1 && $.inArray("ROLE_MODO", $rootScope.user.roles) > -1) {
+            if ($.inArray("ROLE_SUPER_ADMIN", $rootScope.user.roles) > -1 && $.inArray("ROLE_ADMIN", $rootScope.user.roles) > -1 && $.inArray("ROLE_MODO", $rootScope.user.roles) > -1) {
                 user_role_transcript = "validator";
             } else {
                 user_role_transcript = "editor";
@@ -50,6 +64,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $rootScope.user.transcript = {
                 role: user_role_transcript
             };
+            console.log($rootScope.user.transcript);
             $scope.readOnly = false;
         } else {
             $scope.readOnly = true;
@@ -67,20 +82,37 @@ angular.module('transcript.app.transcript', ['ui.router'])
             area: transcript.content,
             buttons: config.tei,
             buttonsGroups: config.buttonsGroups,
-            modal: ""
+            modal: {
+                content: "",
+                variables: {}
+            }
         };
-        $scope.validation = {
-            isLoading: false
+        $scope.submit = {
+            isLoading: false,
+            form: {}
         };
-        //console.log(transcript);
+        $scope.admin = {
+            validation: {
+                accept: {
+                    isLoading: false
+                },
+                refuse: {
+                    isLoading: false
+                }
+            },
+            versions: {
+                show: false
+            },
+            status: {
+                show: false,
+                isLoading: false,
+                value: transcript.status
+            }
+        };
+
+        console.log(transcript);
         $scope.transcript = transcript;
         $scope.page.loading = false;
-        /* Get item */
-        /*$http.get(Routing.generate('app_transcript_loadTranscript', {"id_transcript": $scope.transcript.id})).then(function (response) {
-            $scope.wysiwyg.area = response.data.content;
-            $scope.transcript.status = response.data.status;
-            $scope.page.loading = false;
-        });*/
 
         /**
          * On loading page
@@ -202,46 +234,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
         }
 
         /**
-         * Modal management
-         * @param id_modal
-         */
-        $scope.modal = function(id_modal) {
-            $('#transcript-edit-modal').modal('hide');
-            // Reset variables :
-            if(id_modal === "choice-orig") {
-                $scope.wysiwyg.choice_orig_modal_orig = "";
-                $scope.wysiwyg.choice_orig_modal_reg = "";
-                $scope.wysiwyg.choice_orig_modal_orig = $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange());
-            }
-
-            $scope.wysiwyg.modal = $scope.loadFile("modal-"+id_modal);
-            $('#transcript-edit-modal').modal('show');
-            $(".modal-backdrop").appendTo("#transcript-edit");
-            $("body").removeClass();
-        };
-
-        /**
-         * Modal validation
-         * @param id_validation
-         */
-        $scope.validModal = function(id_validation) {
-            $('#choice-modal, #choice-abbr-modal, #choice-orig-modal, #choice-sic-modal').modal('hide');
-            if(id_validation === "choice-orig-modal") {
-                var orig_insertHTML = "",
-                    reg_insertHTML = "";
-
-                if($scope.choice_orig_modal_orig !== "") {orig_insertHTML = "<orig>"+$scope.choice_orig_modal_orig+"</orig>";}
-                else {orig_insertHTML = "<orig />";}
-                if($scope.choice_orig_modal_reg !== "") {reg_insertHTML = "<reg>"+$scope.choice_orig_modal_reg+"</reg>";}
-                else {reg_insertHTML = "<reg />";}
-
-                var insertXML = "<choice>"+orig_insertHTML+reg_insertHTML+"</choice>";
-                $scope.wysiwyg.aceEditor.insert(insertXML);
-            }
-            $scope.wysiwyg.aceEditor.focus();
-        };
-
-        /**
          * Undo management
          * @param direction
          */
@@ -251,6 +243,51 @@ angular.module('transcript.app.transcript', ['ui.router'])
             } else if(direction === "next" === true) {
                 $scope.aceEditor.redo();
             }
+        };
+
+        // -------------------- Modal management
+
+        /**
+         * Modal management
+         * @param id_modal
+         */
+        $scope.wysiwyg.modal.load = function(id_modal) {
+            $scope.wysiwyg.modal.setContent(id_modal);
+            $("#transcript-edit-modal").modal();
+            $(".modal-backdrop").appendTo("#transcript-edit");
+            $("body").removeClass();
+        };
+
+        $scope.wysiwyg.modal.setContent = function(id_modal) {
+            // Reset variables :
+            if(id_modal === "choice-orig") {
+                $scope.wysiwyg.modal.variables.choice_orig_modal_orig = "";
+                $scope.wysiwyg.modal.variables.choice_orig_modal_reg = "";
+                $scope.wysiwyg.modal.variables.choice_orig_modal_orig = $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange());
+            }
+
+            $scope.wysiwyg.modal.content = $scope.loadFile("modal-"+id_modal);
+        };
+
+        /**
+         * Modal validation
+         * @param id_validation
+         */
+        $scope.wysiwyg.modal.valid = function(id_validation) {
+            $('.modal').modal('hide');
+            if(id_validation === "choice-orig") {
+                let orig_insertHTML = "",
+                    reg_insertHTML = "";
+
+                if($scope.wysiwyg.modal.variables.choice_orig_modal_orig !== "") {orig_insertHTML = "<orig>"+$scope.wysiwyg.modal.variables.choice_orig_modal_orig+"</orig>";}
+                else {orig_insertHTML = "<orig />";}
+                if($scope.wysiwyg.modal.variables.choice_orig_modal_reg !== "") {reg_insertHTML = "<reg>"+$scope.wysiwyg.modal.variables.choice_orig_modal_reg+"</reg>";}
+                else {reg_insertHTML = "<reg />";}
+
+                let insertXML = "<choice>"+orig_insertHTML+reg_insertHTML+"</choice>";
+                $scope.aceEditor.insert(insertXML);
+            }
+            $scope.aceEditor.focus();
         };
 
         /**
@@ -267,27 +304,70 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * @param file
          */
         $scope.help = function(file) {
-            $scope.wysiwyg.interaction = $scope.loadFile('help-'+file);
+            loadHelpData(file);
             $scope.wysiwyg.live.status = false;
+
+            function loadHelpData(file) {
+                return ContentService.getContent(file).then(function(data) {
+                    let doc = document.createElement('div');
+                        doc.innerHTML = data.content;
+                    let links = doc.getElementsByTagName("a");
+                    for(let oldLink of links){
+                        if(oldLink.getAttribute("class").indexOf("internalHelpLink") !== -1 ){
+                            let newLink = document.createElement("a");
+                            newLink.setAttribute('data-ng-click', 'help(\''+oldLink.getAttribute('href')+'\')');
+                            newLink.innerHTML = oldLink.innerHTML;
+                            oldLink.parentNode.insertBefore(newLink, oldLink);
+                            oldLink.parentNode.removeChild(oldLink);
+                        }
+                    }
+                    $scope.wysiwyg.interaction = doc.innerHTML;
+                });
+            }
         };
 
-        /**
-         * Validation management
-         */
-        $scope.validation.load = function(action) {
-            $scope.validation.isLoading = true;
-            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id, {"content": $scope.wysiwyg.area}).then(function (response) {
-                console.log(response.data);
-                $scope.validation.isLoading = false;
+        $scope.loadViewer = function(id) {
+            return new Viewer(document.getElementById(id), {inline: true, button: true, tooltip: false, title:false, scalable: false});
+        };
 
-                if(action === 'load-read') {$scope.page.status = 'read';}
-            });
+        //--------------- Submit
+
+        /**
+         * Submit management
+         */
+        $scope.submit.load = function(action) {
+            if($scope.transcript.content !== $scope.wysiwyg.area) {
+                $scope.submit.isLoading = true;
+                if($scope.submit.form.isEnd === true) {
+                    $scope.transcript.status = "validation";
+                }
+                $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/' + $scope.transcript.id,
+                    {
+                        "content": $scope.wysiwyg.area,
+                        "updateComment": $scope.submit.form.comment,
+                        "status": $scope.transcript.status
+                    },
+                    {headers: {'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token}}
+                ).then(function (response) {
+                    console.log(response.data);
+                    $scope.transcript = response.data;
+                    $scope.submit.isLoading = false;
+                    $scope.submit.form.isEnd = false;
+                    $scope.submit.form.comment = "";
+
+                    if(action === 'load-read' || $scope.transcript.status === "validation") {
+                        $scope.page.status = 'read';
+                    }
+                });
+            } else {
+                alert('It seems you didn\'t edit anything.')
+            }
         };
 
         /**
          * Go back management
          */
-        $scope.validation.goBack = function() {
+        $scope.submit.goBack = function() {
             if($scope.transcript.content === $scope.wysiwyg.area) {
                 $scope.page.status = 'read';
             } else {
@@ -298,9 +378,102 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * Safe go back management
          */
-        $scope.validation.safeGoBack = function() {
+        $scope.submit.safeGoBack = function() {
             $scope.wysiwyg.area = $scope.transcript.content;
             $scope.page.status = 'read';
         };
+
+        //------------- Administration:
+        /**
+         * Admin init:
+         */
+        function adminInit() {
+            $scope.admin.versions.show = false;
+            $scope.admin.status.show = false;
+        }
+
+        /**
+         * Management of versions loading
+         */
+        $scope.admin.versions.load = function() {
+            if($scope.admin.versions.show === false) {
+                adminInit();
+                $scope.admin.versions.show = true;
+            } else if($scope.admin.versions.show === true) {
+                $scope.admin.versions.show = false;
+            }
+        };
+
+        /**
+         * Management of status loading
+         */
+        $scope.admin.status.load = function() {
+            if($scope.admin.status.show === false) {
+                adminInit();
+                $scope.admin.status.show = true;
+            } else if($scope.admin.status.show === true) {
+                $scope.admin.status.show = false;
+            }
+        };
+
+        /**
+         * Status management
+         */
+        $scope.admin.status.submit = function() {
+            $scope.admin.status.isLoading = true;
+            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id,
+                {
+                    "updateComment": "Edit status to "+$scope.admin.status.value,
+                    "status": $scope.admin.status.value
+                },
+                {headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+            ).then(function (response) {
+                console.log(response.data);
+                $scope.transcript = response.data;
+                $scope.admin.status.isLoading = false;
+                $scope.page.status = 'read';
+            });
+        };
+
+        /**
+         * Validation accept management
+         */
+        $scope.admin.validation.accept.load = function() {
+            $scope.admin.validation.accept.isLoading = true;
+            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id,
+                {
+                    "content": $scope.wysiwyg.area,
+                    "updateComment": "Accept validation",
+                    "status": "validated"
+                },
+                {headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+            ).then(function (response) {
+                console.log(response.data);
+                $scope.transcript = response.data;
+                $scope.admin.validation.accept.isLoading = false;
+                $scope.page.status = 'read';
+            });
+        };
+
+        /**
+         * Validation refuse management
+         */
+        $scope.admin.validation.refuse.load = function() {
+            $scope.admin.validation.refuse.isLoading = true;
+            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id,
+                {
+                    "content": $scope.wysiwyg.area,
+                    "updateComment": "Refuse validation",
+                    "status": "transcription"
+                },
+                {headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+            ).then(function (response) {
+                console.log(response.data);
+                $scope.transcript = response.data;
+                $scope.admin.validation.refuse.isLoading = false;
+                $scope.page.status = 'read';
+            });
+        };
+
     }])
 ;

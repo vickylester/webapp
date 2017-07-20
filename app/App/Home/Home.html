@@ -1,13 +1,21 @@
 <div class="jumbotron">
     <p>Hello, World!</p>
-    Développer système de commentaire
+</div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
 </div>
 
 <div class="row">
     <div class="col-sm-6">
-        <ul>
-            <li data-ng-repeat="content in contents"><a ui-sref="app.content({ id: content.id })" >{{ content.title }}</a></li>
-        </ul>
+        <div data-ng-repeat="article in contents">
+            <h3><a ui-sref="app.content({ id: article.id })" >{{ article.title }}</a></h3>
+            <div data-ng-bind-html="article.content | limitTo: 1000"></div>
+            <a ui-sref="app.content({ id: article.id })" >Lire la suite ...</a>
+        </div>
+        <div class="text-center"><a ui-sref="app.blog">Accéder à plus d'articles</a></div>
     </div>
     <div class="col-sm-6">
         <ul>

@@ -4,13 +4,10 @@ angular.module('transcript.admin.user', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('admin.user', {
+            abstract: true,
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
-                    templateUrl: 'Admin/User/User.html',
+                    template: '<div ui-view="page"></div>',
                     controller: 'AdminUserCtrl'
                 }
             },

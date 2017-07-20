@@ -2,6 +2,12 @@
     <p>Votre profil ou profil public</p>
 </div>
 
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
 <div class="row">
     <div class="col-sm-6">
         <h2>Informations personnelles</h2>
@@ -19,6 +25,10 @@
         <dl class="dl-horizontal">
             <dt>Modifier le profil</dt>
             <dd><a ui-sref="app.user.edit({id: user.id})">Lien</a></dd>
+        </dl>
+        <dl class="dl-horizontal">
+            <dt>Modifier les préférences</dt>
+            <dd><a ui-sref="app.user.preferences({id: user.id})">Lien</a></dd>
         </dl>
         <dl class="dl-horizontal">
             <dt>Modifier le mot de passe</dt>

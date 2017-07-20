@@ -2,6 +2,12 @@
     <h2>Liste des entités</h2>
 </div>
 
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
 <ul>
     <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({id: entity.id})">{{ entity.will.title }}</a></li>
 </ul>

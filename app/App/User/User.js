@@ -17,12 +17,26 @@ angular.module('transcript.app.user', ['ui.router'])
     .service('UserService', function($http, $rootScope, $cookies) {
         return {
             getUsers: function() {
-                return $http.get($rootScope.api+"/users").then(function(response) {
+                return $http.get($rootScope.api+"/users", { headers:  {
+                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
+                }
+                }).then(function(response) {
                     return response.data;
                 });
             },
             getUser: function(id) {
-                return $http.get($rootScope.api+"/users/"+id).then(function(response) {
+                return $http.get($rootScope.api+"/users/"+id, { headers:  {
+                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
+                }
+                }).then(function(response) {
+                    return response.data;
+                });
+            },
+            getPreferences: function(id) {
+                return $http.get($rootScope.api+"/preferences?user="+id, { headers:  {
+                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
+                }
+                }).then(function(response) {
                     return response.data;
                 });
             },

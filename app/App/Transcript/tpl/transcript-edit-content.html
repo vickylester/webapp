@@ -1,0 +1,15 @@
+<div id="transcript-edit" class="h100">
+    <div id="transcript-edit-editor" class="h100">
+        <div id="transcript-edit-editor-ace" class="h100">
+            <div ui-ace="{
+                mode: 'xml',
+                onLoad: aceLoaded,
+                onChange: aceChanged,
+                useWrapMode: true
+                }" id="transcript-edit-editor-ace-area" class="h100" data-ng-model="wysiwyg.area"></div>
+        </div>
+    </div>
+    <div id="transcript-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title">
+        <div class="modal-dialog modal-transcribe" data-ng-include="wysiwyg.modal.content"></div>
+    </div>
+</div>

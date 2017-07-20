@@ -16,7 +16,7 @@ angular.module('transcript.app.home', ['ui.router'])
                     return EntityService.getEntities();
                 },
                 contents: function(ContentService) {
-                    return ContentService.getContents();
+                    return ContentService.getContents("blogContent", "public", "DESC", 10);
                 }
             }
         })

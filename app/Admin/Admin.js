@@ -26,7 +26,7 @@ angular.module('transcript.admin', ['ui.router'])
 
     .controller('AdminCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', function($rootScope, $scope, $http, $sce, $state, user) {
         if($rootScope.user === undefined) {$rootScope.user = user;}
-        console.log("ok");
+
         if($rootScope.user === undefined) {$state.go("app.security.login");}
         else {
             if($.inArray("ROLE_ADMIN", $rootScope.user.roles) === -1) {

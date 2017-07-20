@@ -2,6 +2,12 @@
     <p>Edition du profil</p>
 </div>
 
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
 <div class="alert alert-danger" data-ng-if="form.errors.length > 0">
     <ul>
         <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>

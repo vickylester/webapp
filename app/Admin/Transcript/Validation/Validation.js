@@ -5,10 +5,6 @@ angular.module('transcript.admin.transcript.validation', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('admin.transcript.validation', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'Admin/Transcript/Validation/Validation.html',
                     controller: 'AdminTranscriptValidationCtrl'

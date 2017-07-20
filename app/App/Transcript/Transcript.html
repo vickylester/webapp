@@ -1,17 +1,54 @@
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
 <div class="row">
     <div class="col-sm-12">
-        <div class="row" id="transcriptContainer">
-            <div class="col-sm-8">
-                <div id="transcript-loading" data-ng-if="page.loading == true" class="text-center">
-                    <div><i class="fa fa-spin fa-circle-o-notch"></i></div>
-                    <div><strong>Chargement de la transcription</strong></div>
+        <div id="transcriptContainer">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div id="transcript-toolbar">
+                        <div id="transcript-toolbar-read" data-ng-if="page.loading == false && page.status == 'read'" data-ng-include="'App/Transcript/tpl/transcript-toolbar-read.html'"></div>
+                        <div id="transcript-toolbar-edit" data-ng-if="page.loading == false && page.status == 'edit'" data-ng-include="'App/Transcript/tpl/transcript-toolbar-edit.html'"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" data-ng-if="page.loading == false && page.status == 'edit'">
+                <div class="col-xs-12">
+                    <div class="alert alert-warning alert-in-block alert-sm border">
+                        <div class="pull-right"><i class="fa fa-warning"></i></div>
+                        <p>Attention, durant votre édition, les autres utilisateurs ne peuvent pas éditer cette transcription. Veillez à sauvegarder votre travail (<strong>régulièrement</strong>) et à quitter l'interface lorsque vous avez fini.</p>
+                    </div>
+                </div>
+            </div>
+            <div id="transcript-workarea">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div id="transcript-loading" data-ng-if="page.loading == true" class="text-center">
+                            <div><i class="fa fa-spin fa-circle-o-notch"></i></div>
+                            <div><strong>Chargement de la transcription</strong></div>
+                        </div>
+                    </div>
                 </div>
                 <div id="transcript-login" data-ng-if="page.loading == false && page.status == 'login'" data-ng-include="'App/Transcript/tpl/transcript-login.html'"></div>
                 <div id="transcript-read" data-ng-if="page.loading == false && page.status == 'read'" data-ng-include="'App/Transcript/tpl/transcript-read.html'"></div>
                 <div data-ng-if="page.loading == false && page.status == 'edit'" data-ng-include="'App/Transcript/tpl/transcript-edit.html'"></div>
             </div>
-            <div class="col-sm-4">
-                <img id="transcript-image" class="img-responsive" src="../../webapp/app/web/test/images/will.jpg" />
+            <div id="transcript-submit" data-ng-if="page.loading == false && page.status == 'edit'" data-ng-include="'App/Transcript/tpl/transcript-submit.html'"></div>
+        </div>
+
+        <hr />
+        <div data-ng-if="user.transcript.role != 'validator'">
+            <div ui-view="comment"></div>
+        </div>
+        <div data-ng-if="user.transcript.role == 'validator'" class="row">
+            <div class="col-sm-6">
+                <div ui-view="comment"></div>
+            </div>
+            <div class="col-sm-6">
+                <div id="transcript-admin" data-ng-include="'App/Transcript/tpl/transcript-admin.html'"></div>
             </div>
         </div>
     </div>

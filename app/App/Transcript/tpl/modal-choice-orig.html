@@ -4,11 +4,11 @@
         <form>
             <div class="form-group">
                 <label for="choice-orig-modal-orig">Telle qu'écrit dans le texte :</label>
-                <input id="choice-orig-modal-orig" type="text" class="form-control" data-ng-model="wysiwyg.choice_orig_modal_orig" />
+                <input id="choice-orig-modal-orig" type="text" class="form-control" data-ng-model="wysiwyg.modal.variables.choice_orig_modal_orig" />
             </div>
             <div class="form-group">
                 <label for="choice-orig-modal-reg">Telle qu'écrit aujourd'hui :</label>
-                <input id="choice-orig-modal-reg" type="text" class="form-control" data-ng-model="wysiwyg.choice_orig_modal_reg" />
+                <input id="choice-orig-modal-reg" type="text" class="form-control" data-ng-model="wysiwyg.modal.variables.choice_orig_modal_reg" />
             </div>
         </form>
     </div>
@@ -16,10 +16,10 @@
         <div class="row">
             <div class="col-sm-6 text-left">
                 <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Annuler</button>
-                <button type="button" class="btn btn-sm btn-primary" data-ng-click="modal('choice')"><i class="fa fa-arrow-left"></i></button>
+                <button type="button" class="btn btn-sm btn-primary" data-ng-click="wysiwyg.modal.setContent('choice')"><i class="fa fa-arrow-left"></i></button>
             </div>
             <div class="col-sm-6 text-right">
-                <button type="button" class="btn btn-sm btn-primary" data-ng-click="validModal('choice-orig')"><i class="fa fa-check"></i></button>
+                <button type="button" class="btn btn-sm btn-primary" data-ng-click="wysiwyg.modal.valid('choice-orig')"><i class="fa fa-check"></i></button>
             </div>
         </div>
     </div>

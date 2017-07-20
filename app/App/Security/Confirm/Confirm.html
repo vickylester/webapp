@@ -3,3 +3,9 @@
     <p>Votre compte est désormais actif.</p>
     <p><a>Retour à l'accueil</a> - <a>Commencer le tutoriel d'initiation</a></p>
 </div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>

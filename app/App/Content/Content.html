@@ -1,6 +1,19 @@
 <div class="jumbotron text-center">
     <h2>{{ content.title }}</h2>
-    <p data-ng-if="content.createUser != null">par {{ content.createUser.name }}</p>
+    <p>Publié le <span data-ng-bind="content.create_date |  date:'MM/dd/yyyy à HH:mm'"></span><span data-ng-if="content.create_user != null">, par <a ui-sref="app.user.profile({id: content.user_name.id})">{{ content.create_user.name }}</a></span></p>
+    <div data-ng-if="isAdmin() == true">
+        <a ui-sref="admin.content.edit({id: content.id})">Editer <i class="fa fa-edit"></i></a>
+    </div>
 </div>
 
-{{ content.content }}
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<div data-ng-bind-html="content.content"></div>
+<div data-ng-if="content.type == 'blogContent'">
+    <hr />
+    <div ui-view="comment"></div>
+</div>

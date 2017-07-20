@@ -5,10 +5,6 @@ angular.module('transcript.admin.user.list', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('admin.user.list', {
             views: {
-                "navbar" : {
-                    templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'SystemNavbarCtrl'
-                },
                 "page" : {
                     templateUrl: 'Admin/User/List/List.html',
                     controller: 'AdminUserListCtrl'
