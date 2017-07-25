@@ -31,6 +31,94 @@ angular.module('transcript.app.entity', ['ui.router'])
                 return $http.get($rootScope.api+"/entities/"+id).then(function(response) {
                     return response.data;
                 });
+            },
+
+            postEntity: function(data) {
+                return $http.post($rootScope.api+"/entities", data,
+                    {
+                        headers: {
+                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
+                        }
+                    }
+                ).then(function(response) {
+                    return response.data;
+                });
+            },
+
+            removeEntity: function(id) {
+                return $http.delete($rootScope.api+"/entities/"+id,
+                    {
+                        headers: {
+                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
+                        }
+                    }
+                ).then(function(response) {
+                    return response.data;
+                });
+            },
+
+            getTestators: function() {
+                return $http.get($rootScope.api+"/testators").then(function(response) {
+                    return response.data;
+                });
+            },
+
+            getTestator: function(id) {
+                return $http.get($rootScope.api+"/testators/"+id).then(function(response) {
+                    return response.data;
+                });
+            },
+
+            postTestator: function(data) {
+                return $http.post($rootScope.api+"/testators", data,
+                    {
+                        headers: {
+                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
+                        }
+                    }
+                ).then(function(response) {
+                    return response.data;
+                });
+            },
+
+            postWill: function(data) {
+                return $http.post($rootScope.api+"/wills", data,
+                    {
+                        headers: {
+                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
+                        }
+                    }
+                ).then(function(response) {
+                    return response.data;
+                });
+            },
+
+            getResource: function(id_transcript) {
+                return $http.get($rootScope.api+"/resources?transcript="+id_transcript,
+                    {
+                        headers: {
+                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
+                        }
+                    }
+                ).then(function(response) {
+                    return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
+            },
+
+            postResource: function(resource) {
+                return $http.post($rootScope.api+"/resources", resource,
+                    {
+                        headers: {
+                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
+                        }
+                    }
+                ).then(function(response) {
+                    return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                });
             }
         };
     })

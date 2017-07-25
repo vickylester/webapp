@@ -19,6 +19,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 transcript: function(TranscriptService, $transition$) {
                     return TranscriptService.getTranscript($transition$.params().id);
                 },
+                resource: function(EntityService, $transition$) {
+                    return EntityService.getResource($transition$.params().id);
+                },
                 thread: function(CommentService, $transition$) {
                     if(CommentService.getThread('transcript-'+$transition$.params().id) === null) {
                         CommentService.postThread('transcript-'+$transition$.params().id);
@@ -47,7 +50,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
     })
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'ContentService', function($rootScope, $scope, $http, $sce, $state, transcript, ContentService) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'resource', 'ContentService', function($rootScope, $scope, $http, $sce, $state, transcript, resource, ContentService) {
         /* Variables definition */
         /*function loadViewer(id) {
             return new Viewer(document.getElementById(id), {inline: true, button: true, tooltip: false, title:false, scalable: false});
@@ -89,7 +92,21 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
         $scope.submit = {
             isLoading: false,
-            form: {}
+            form: {},
+            checkList: {
+                /**
+                 * a1 = ok
+                 * a2 = non ok
+                 * a3 = don't know
+                 * a4 = no info
+                 */
+                isTranscribed: "a4"
+            },
+            state: {
+                icon: "fa-thumbs-o-up",
+                bg: "bg-success",
+                btn: "btn-success"
+            }
         };
         $scope.admin = {
             validation: {
@@ -112,6 +129,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
 
         console.log(transcript);
         $scope.transcript = transcript;
+        $scope.resource = resource;
         $scope.page.loading = false;
 
         /**
@@ -338,7 +356,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.submit.load = function(action) {
             if($scope.transcript.content !== $scope.wysiwyg.area) {
                 $scope.submit.isLoading = true;
-                if($scope.submit.form.isEnd === true) {
+                if($scope.submit.form.isEnded === true) {
                     $scope.transcript.status = "validation";
                 }
                 $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/' + $scope.transcript.id,
@@ -352,7 +370,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     console.log(response.data);
                     $scope.transcript = response.data;
                     $scope.submit.isLoading = false;
-                    $scope.submit.form.isEnd = false;
+                    $scope.submit.form.isEnded = false;
                     $scope.submit.form.comment = "";
 
                     if(action === 'load-read' || $scope.transcript.status === "validation") {

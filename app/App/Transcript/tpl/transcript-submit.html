@@ -1,32 +1,34 @@
 <div class="row-h100">
     <div class="col-sm-2 no-padding no-margin">
-        <div id="transcript-submit-status" class="bg-warning h100">
-            <i class="fa fa-warning"></i>
+        <div id="transcript-submit-status" class="bg-success h100">
+            <i class="fa fa-thumbs-o-up"></i>
         </div>
     </div>
     <div class="col-sm-8">
-        <form class="form-horizontal">
-            <div id="app-transcript-edit-submit-isEnd-group" class="form-group col-xs-12">
-                <div class="checkbox">
-                    <label>
-                        <input data-ng-model="submit.form.isEnd" id="app-transcript-edit-submit-isEnd" name="app-transcript-edit-submit-isEnd" type="checkbox" value="1">
-                        Cochez cette case si vous estimez que la transcription est <strong>totalement</strong> achevée
-                    </label>
-                </div>
-            </div>
+        <form class="form-horizontal margin-top-20">
             <div id="app-transcript-edit-submit-comment-group" class="form-group col-xs-12">
                 <label for="app-transcript-edit-submit-comment" class="sr-only">Description de votre contribution</label>
                 <div class="col-xs-12">
                     <input data-ng-model="submit.form.comment" type="text" class="form-control" id="app-transcript-edit-submit-comment" name="app-transcript-edit-submit-comment" placeholder="Pouvez-vous décrire votre contribution en quelques mots ?" maxlength="250" />
                 </div>
             </div>
+            <div id="app-transcript-edit-submit-isEnded-group" class="form-group col-xs-12">
+                <div class="checkbox">
+                    <label>
+                        <input data-ng-model="submit.form.isEnded" id="app-transcript-edit-submit-isEnded" name="app-transcript-edit-submit-isEnded" type="checkbox" value="1">
+                        Cochez cette case si vous estimez que la transcription est <strong>totalement</strong> achevée
+                    </label>
+                </div>
+            </div>
         </form>
+        <div id="transcript-check" data-ng-if="submit.form.isEnded == true" data-ng-include="'App/Transcript/tpl/transcript-check.html'"></div>
+
         <div class="text-right">
-            <p class="text-muted"><small>En enregistrant votre contribution, vous acceptez de la placer irrévocablement sous licence CC BY-SA 3.0 et GFDL. Vous acceptez d’être crédité pour la transcription à laquelle vous contribuez. Voyez les conditions d’utilisation pour plus de détails.</small></p>
+            <p class="text-muted"><small>En enregistrant votre contribution, vous acceptez de la placer irrévocablement sous <a href="https://creativecommons.org/publicdomain/zero/1.0/deed.fr" target="_blank">licence CC-0</a>.<br />Voyez les conditions d’utilisation pour plus de détails.</small></p>
         </div>
     </div>
     <div class="col-sm-2 text-right no-margin no-padding">
-        <button type="submit" data-ng-click="submit.load()" class="btn btn-primary btn-block btn-h100 btn-no-radius">
+        <button data-ng-click="submit.load()" class="btn btn-primary btn-block btn-h100 btn-no-radius">
             <span data-ng-if="submit.isLoading == false">Soumettre</span>
             <span data-ng-if="submit.isLoading == true">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
         </button>

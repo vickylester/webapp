@@ -1,0 +1,29 @@
+<div class="well well-sm">
+    <div id="transcript-check-header">
+        <h3>Vérifions ensemble que tous les éléments de la transcription sont présents <i class="fa fa-smile-o"></i> :</h3>
+        <p><small><i class="fa fa-info-circle"></i> Cochez les cases pour confirmer la présence des éléments de transcription.</small></p>
+    </div>
+    <div id="transcript-check-content">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <p class="col-sm-6 control-label">L'intégralité du texte olographe est-elle transcrite ?</p>
+                <div class="col-sm-6">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" data-ng-model="submit.checkList.isTranscribed" id="inlineRadio1" value="a1"> Oui
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" data-ng-model="submit.checkList.isTranscribed" id="inlineRadio2" value="a2"> Non
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" data-ng-model="submit.checkList.isTranscribed" id="inlineRadio3" value="a3"> Je ne sais pas
+                    </label>
+                </div>
+                <p class="text-center">
+                    <span data-ng-if="submit.checkList.isTranscribed == 'a1'" class="text-success">Très bien !</span>
+                    <span data-ng-if="submit.checkList.isTranscribed == 'a2'" class="text-warning">Il s'agit d'un point fondamental pour nous, veillez à ce que toutes les parties olographes soient transcrites.</span>
+                    <span data-ng-if="submit.checkList.isTranscribed == 'a3'" class="text-info">Besoin d'aide pour identifier les parties olographes du testament ?</span>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>

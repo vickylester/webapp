@@ -9,6 +9,7 @@ angular.module('transcriptApp', [
     'http-auth-interceptor',
     'angular-flash.service',
     'angular-flash.flash-alert-directive',
+    'ui.bootstrap',
     'transcript.admin',
     'transcript.admin.content',
     'transcript.admin.content.edit',
@@ -60,6 +61,7 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$
 }])
 .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', function($rootScope, $http, $injector, $location, authService, $state, $cookies) {
     $rootScope.api = "http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php";
+    $rootScope.api_web = "http://localhost:8888/TestamentsDePoilus/api/web/";
     $rootScope.siteURL = "http://testament-de-poilus.huma-num.fr";
 
     if($cookies.get('transcript_security_token_access') !== undefined) {

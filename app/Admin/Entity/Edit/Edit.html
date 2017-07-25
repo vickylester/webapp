@@ -7,3 +7,244 @@
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <span class="alert-message">{{flash.message}}</span>
 </div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <form class="form-horizontal">
+            <fieldset>
+                <label>À propos de l'entité abstraite</label>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-willNumber" class="control-label col-sm-6">Numéro de numérisation du testament :</label>
+                            <div class="col-sm-6">
+                                <input type="number" id="admin-entity-edit-entity-willNumber" class="form-control" data-ng-model="entity.will_number" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Identifiant</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.id }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Créé par</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.create_user.name }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Date de création</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.create_date | date:'dd-mm-yyyy à HH:mm' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>À propos du testament</label>
+
+                <div class="row" data-ng-if="entity.will != null">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-callNumber" class="control-label col-sm-6">Côte :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-callNumber" class="form-control" data-ng-model="entity.will.call_number" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-minuteDate" class="control-label col-sm-6">Date de la minute :</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input id="admin-entity-edit-will-minuteDate" class="form-control datepicker" data-ng-model="entity.will.minute_date" />
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-willWritingDate" class="control-label col-sm-6">Date d'écriture du testament :</label>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <input id="admin-entity-edit-will-willWritingDate" class="form-control datepicker" data-ng-model="entity.will.will_writing_date" />
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-calendar"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-willWritingPlace" class="control-label col-sm-6">Lieu d'écriture du testament :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-willWritingPlace" class="form-control" data-ng-model="entity.will.will_writing_place" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Identifiant</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.will.id }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Créé par</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.will.create_user.name }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Date de création</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.will.create_date | date:'dd-mm-yyyy à HH:mm' }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Titre généré</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static">{{ entity.will.title }}</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">Testateur</label>
+                                <div class="col-sm-8">
+                                    <p class="form-control-static"><a>{{ entity.will.testator.full_name }}</a> <a class="text-warning"><i class="fa fa-edit"></i></a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" data-ng-if="entity.will == null">
+                    <div class="col-sm-12">
+                        <div class="alert alert-danger">
+                            <p>Attention, cette entité abstraite ne possède pas de testament associé. <a>Résoudre le problème</a></p>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <label>À propos des ressources</label>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="alert alert-info">
+                            <p>L'entité compte actuellement {{ entity.resources.length }} ressources. <a data-ng-click="form.addResource(entity.resources.length)">Cliquez pour ajouter une ressource</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" data-ng-repeat="resource in entity.resources">
+                    <div class="col-sm-12">
+                        <div class="well">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label for="admin-entity-edit-resource-type" class="control-label col-sm-6">Type de ressource :</label>
+                                        <div class="col-sm-6">
+                                            <select id="admin-entity-edit-resource-type" name="admin-entity-edit-resource-type" class="form-control" data-ng-model="resource.type">
+                                                <option value="" disabled>Sélectionnez ...</option>
+                                                <option value="page">Page</option>
+                                                <option value="envelop">Enveloppe</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admin-entity-edit-resource-orderInWill" class="control-label col-sm-6">Index de la ressource dans le testament :</label>
+                                        <div class="col-sm-3">
+                                            <input type="number" id="admin-entity-edit-resource-orderInWill" class="form-control" data-ng-model="resource.order_in_will" />
+                                        </div>
+                                        <div class="col-sm-1">
+                                            <p class="form-control-static">/</p>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <p class="form-control-static">{{ entity.resources.length }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admin-entity-edit-resource-images" class="control-label col-sm-6">Identifiants des images :</label>
+                                        <div class="col-sm-6">
+                                            <input id="admin-entity-edit-resource-images" class="form-control" data-ng-model="resource.images" />
+                                            <p class="help-block">Identifiants des images de la ressource, séparés par des virgules. Ex: 02a, 02b, 02c</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="admin-entity-edit-resource-notes" class="control-label col-sm-6">Notes (de numérisation ou autre) :</label>
+                                        <div class="col-sm-6">
+                                            <input id="admin-entity-edit-resource-notes" class="form-control" data-ng-model="resource.notes" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="well" data-ng-if="resource.id">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Identifiant</label>
+                                            <div class="col-sm-8">
+                                                <p class="form-control-static">{{ resource.id }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Créé par</label>
+                                            <div class="col-sm-8">
+                                                <p class="form-control-static">{{ resource.create_user.name }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Date de création</label>
+                                            <div class="col-sm-8">
+                                                <p class="form-control-static">{{ resource.create_date | date:'dd-mm-yyyy à HH:mm' }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Statut de la transcription</label>
+                                            <div class="col-sm-8">
+                                                <p class="form-control-static"><a>{{ resource.transcript.status }}</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Aperçu des images</label>
+                                            <div class="col-sm-8">
+                                                <div class="form-control-static">
+                                                    <div class="thumbnail">
+                                                        <img src="{{ api_web  }}/images/data/testament_{{ entity.will_number }}/JPEG/FRAN_Poilus_t-{{ entity.will_number }}_{{ resource.images[0] }}.jpg" class="img-responsive thumbnail-transcript" />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">Remove</label>
+                                            <div class="col-sm-8">
+                                                <p class="form-control-static"><button data-ng-click="form.removeResource(resource)" class="btn btn-danger">Remove resource</button></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="text-center">
+                <button data-ng-click="submit.action()" class="btn btn-lg btn-primary">Soumettre <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="alert alert-danger">
+            <h3>Danger zone</h3>
+            <dl class="dl-horizontal">
+                <dt>Remove entity :</dt>
+                <dd><button class="btn btn-danger" data-ng-click="remove.action()">Remove entity <i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></dd>
+            </dl>
+        </div>
+    </div>
+</div>

@@ -20,10 +20,6 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             })
             .state('admin.content.edit', {
                 views: {
-                    "navbar" : {
-                        templateUrl: 'System/Navbar/Navbar.html',
-                        controller: 'SystemNavbarCtrl'
-                    },
                     "page" : {
                         templateUrl: 'Admin/Content/Edit/Edit.html',
                         controller: 'AdminContentEditCtrl'
