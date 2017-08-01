@@ -1,0 +1,22 @@
+<div class="jumbotron">
+    <h2>Search interface</h2>
+</div>
+<div ncy-breadcrumb></div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<div class="row">
+    <div class="col-sm-3">
+        <h3>Search criteria</h3>
+    </div>
+    <div class="col-sm-9">
+        <h3>Search results</h3>
+        <ul>
+            <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.title }}</a></li>
+        </ul>
+    </div>
+</div>

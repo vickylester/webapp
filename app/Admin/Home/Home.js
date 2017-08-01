@@ -10,7 +10,11 @@ angular.module('transcript.admin.home', ['ui.router'])
                     controller: 'AdminHomeCtrl'
                 }
             },
-            url: '/'
+            url: '/',
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Admin'
+            }
         })
     }])
 

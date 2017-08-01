@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-sm-4" data-ng-include="'App/Thesaurus/tpl/entities.html'"></div>
+    <div class="col-sm-8">
+        <div class="jumbotron text-center">
+            <div class="pull-right">
+                <a class="btn btn-primary" ui-sref="app.thesaurus.edit({type: entity.dataType, id: entity.id})">Edit</a>
+            </div>
+            <h2>{{ entity.name }}</h2>
+        </div>
+        <div ncy-breadcrumb></div>
+
+        <div flash-alert active-class="in alert" class="fade" duration="5000">
+            <!-- Manually hide the alert with `hide()` -->
+            <button type="button" class="close" ng-click="hide()">&times;</button>
+            <span class="alert-message">{{flash.message}}</span>
+        </div>
+
+        <div>
+            <div data-ng-if="entity.dataType == 'testators'" data-ng-include="'App/Thesaurus/View/tpl/testator-metadata.html'"></div>
+        </div>
+        <div class="well" data-ng-if="entity.description != '' && entity.description != null">
+            {{ entity.description }}
+        </div>
+    </div>
+</div>

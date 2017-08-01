@@ -11,15 +11,19 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 }
             },
             url: '/import',
+            ncyBreadcrumb: {
+                parent: 'admin.entity.list',
+                label: 'Importation'
+            },
             resolve: {
-                testators: function(EntityService) {
-                    return EntityService.getTestators();
+                testators: function(ThesaurusService) {
+                    return ThesaurusService.getThesaurusEntities('testators');
                 }
             }
         })
     }])
 
-    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'EntityService', function($rootScope, $scope, $http, $sce, $state, testators, EntityService) {
+    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'EntityService', 'flash', function($rootScope, $scope, $http, $sce, $state, testators, EntityService, flash) {
         $scope.form = {
             submit: {
                 loading: false
@@ -59,6 +63,21 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 return EntityService.postTestator($scope.entity.will.testator).then(function(data) {
                     $scope.entity.will.testator = data.id;
                     postEntity();
+                }, function errorCallback(response) {
+                    $scope.form.submit.loading = false;
+                    if(response.data.code === 400) {
+                        flash.error = "<ul>";
+                        for(let field of response.data.errors.children) {
+                            for(let error of field) {
+                                if(error === "errors") {
+                                    flash.error += "<li><strong>"+field+"</strong> : "+error+"</li>";
+                                }
+                            }
+                        }
+                        flash.error += "</ul>";
+                        flash.error = $sce.trustAsHtml(flash.error);
+                    }
+                    console.log(response);
                 });
             }
 
@@ -74,34 +93,23 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 return EntityService.postEntity($scope.entity).then(function(data) {
                     $scope.form.submit.loading = false;
                     $state.go('app.entity', {id: data.id});
-                });
-            }
-
-
-            /*$http.post($rootScope.api+'/entities', $scope.entity,
-                {
-                    headers:  {
-                        'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                }
-            }).then(function (response) {
-                console.log(response.data);
-                $scope.form.submit.loading = false;
-            }, function errorCallback(response) {
-                $scope.form.submit.loading = false;
-                if(response.data.code === 400) {
-                    flash.error = "<ul>";
-                    for(let field of response.data.errors.children) {
-                        for(let error of field) {
-                            if(error === "errors") {
-                                flash.error += "<li><strong>"+field+"</strong> : "+error+"</li>";
+                }, function errorCallback(response) {
+                    $scope.form.submit.loading = false;
+                    if(response.data.code === 400) {
+                        flash.error = "<ul>";
+                        for(let field of response.data.errors.children) {
+                            for(let error of field) {
+                                if(error === "errors") {
+                                    flash.error += "<li><strong>"+field+"</strong> : "+error+"</li>";
+                                }
                             }
                         }
+                        flash.error += "</ul>";
+                        flash.error = $sce.trustAsHtml(flash.error);
                     }
-                    flash.error += "</ul>";
-                    flash.error = $sce.trustAsHtml(flash.error);
-                }
-                console.log(response);
-            });*/
+                    console.log(response);
+                });
+            }
         }
 
     }])

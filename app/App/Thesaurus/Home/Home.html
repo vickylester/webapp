@@ -1,0 +1,31 @@
+<div class="jumbotron">
+    <h2>Documenter</h2>
+</div>
+<div ncy-breadcrumb></div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<div class="row">
+    <div class="col-sm-4">
+        <div class="well">
+            <h3>Testataires</h3>
+            <p><a ui-sref="app.thesaurus.list({type: 'testators'})">Accéder à la liste des testataires</a></p>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="well">
+            <h3>Lieux</h3>
+            <p><a ui-sref="app.thesaurus.list({type: 'places'})">Accéder à la liste des lieux</a></p>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="well">
+            <h3>Régiments</h3>
+            <p><a ui-sref="app.thesaurus.list({type: 'regiments'})">Accéder à la liste des régiments</a></p>
+        </div>
+    </div>
+</div>

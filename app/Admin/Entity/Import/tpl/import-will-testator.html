@@ -1,0 +1,11 @@
+<label for="admin-entity-edit-will-testator" class="control-label col-sm-6">Testateur :</label>
+<div class="col-sm-6">
+    <uib-tabset active="activeJustified" justified="true">
+        <uib-tab index="0" heading="List">
+            <div class="well">
+                <select class="form-control" id="admin-entity-edit-will-testator" data-ng-model="entity.will.testator" name="admin-entity-edit-will-testator" data-ng-options="testator.id as testator.name for testator in testators" required></select>
+            </div>
+        </uib-tab>
+        <uib-tab index="1" heading="New"><div data-ng-include="'Admin/Entity/Import/tpl/import-will-testator-new.html'"></div></uib-tab>
+    </uib-tabset>
+</div>

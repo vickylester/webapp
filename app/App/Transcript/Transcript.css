@@ -144,3 +144,18 @@
         width: 600px;
     }
 }
+
+
+/* Full screen management */
+#transcriptContainerFullScreen:fullscreen .fullscreen-h100 {
+    height: 100%;
+}
+#transcriptContainerFullScreen:-moz-full-screen .fullscreen-h100 {
+    height: 100%;
+}
+#transcriptContainerFullScreen:-ms-fullscreen .fullscreen-h100 {
+    height: 100%;
+}
+#transcriptContainerFullScreen:-webkit-full-screen .fullscreen-h100 {
+    height: 100%;
+}

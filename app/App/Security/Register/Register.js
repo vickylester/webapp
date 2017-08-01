@@ -11,6 +11,10 @@ angular.module('transcript.app.security.register', ['ui.router'])
                 }
             },
             url: '/register',
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Inscription'
+            },
             requireLogin: false
         })
     }])

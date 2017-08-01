@@ -10,7 +10,11 @@ angular.module('transcript.app.security.logout', ['ui.router'])
                         controller: 'AppSecurityLogoutCtrl'
                 }
             },
-            url: '/logout'
+            url: '/logout',
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Déconnexion'
+            }
         })
     }])
 

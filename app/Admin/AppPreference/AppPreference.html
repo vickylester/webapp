@@ -1,0 +1,43 @@
+<div class="jumbotron">
+    <h2>Préférences de l'Application</h2>
+</div>
+<div ncy-breadcrumb></div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <div data-ng-bind-html="flash.message"></div>
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="admin-app-preference-project-title" class="control-label col-sm-3">Titre du Projet :</label>
+        <div class="col-sm-9">
+            <input id="admin-app-preference-project-title" type="text" class="form-control" data-ng-model="preferences.project_title" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="admin-app-preference-help-home-content" class="control-label col-sm-3">Page d'acceil de l'aide :</label>
+        <div class="col-sm-9">
+            <input id="admin-app-preference-help-home-content" type="number" class="form-control" data-ng-model="preferences.help_home_content" />
+            <p class="help-block">Cette page correspond à la page accessible dans le menu "Aide"</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="admin-app-preference-help-inside-home-content" class="control-label col-sm-3">Page d'acceil de l'aide interne :</label>
+        <div class="col-sm-9">
+            <input id="admin-app-preference-help-inside-home-content" type="number" class="form-control" data-ng-model="preferences.help_inside_home_content" />
+            <p class="help-block">Cette page correspond à la page d'accueil de l'aide du module de transcription</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="admin-app-preference-discover-home-content" class="control-label col-sm-3">Page d'accueil de la découverte :</label>
+        <div class="col-sm-9">
+            <input id="admin-app-preference-discover-home-content" type="number" class="form-control" data-ng-model="preferences.discover_home_content" />
+        </div>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-lg btn-primary" type="button" data-ng-click="submit.action()">Submit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+    </div>
+</form>

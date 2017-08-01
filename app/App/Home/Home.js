@@ -10,6 +10,9 @@ angular.module('transcript.app.home', ['ui.router'])
                     controller: 'AppHomeCtrl'
                 }
             },
+            ncyBreadcrumb: {
+                label: 'Home'
+            },
             url: '/',
             resolve: {
                 entities: function(EntityService) {

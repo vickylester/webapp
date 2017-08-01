@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="web/libraries/css/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-2.5.0-csp.css"  type="text/css" />
+    <link rel="stylesheet" href="web/libraries/js/bootstrap-fileinput/css/fileinput.min.css"  type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/viewerjs/dist/viewer.css"  type="text/css" />
     <link rel="stylesheet" href="web/custom/css/style.css" type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css">
@@ -23,6 +24,7 @@
     <link rel="stylesheet" href="Admin/Entity/Edit/Edit.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Entity/Import/Import.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Entity/List/List.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/AppPreference/AppPreference.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Home/Home.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Transcript/Export/Export.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Transcript/Validation/Validation.css" type="text/css" />
@@ -33,11 +35,17 @@
     <link rel="stylesheet" href="App/Contact/Contact.css" type="text/css" />
     <link rel="stylesheet" href="App/Content/Content.css" type="text/css" />
     <link rel="stylesheet" href="App/Entity/Entity.css" type="text/css" />
+    <link rel="stylesheet" href="App/Search/Search.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Login/Login.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Logout/Logout.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Register/Register.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Check/Check.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Confirm/Confirm.css" type="text/css" />
+    <link rel="stylesheet" href="App/Thesaurus/Create/Create.css" type="text/css" />
+    <link rel="stylesheet" href="App/Thesaurus/Edit/Edit.css" type="text/css" />
+    <link rel="stylesheet" href="App/Thesaurus/Home/Home.css" type="text/css" />
+    <link rel="stylesheet" href="App/Thesaurus/List/List.css" type="text/css" />
+    <link rel="stylesheet" href="App/Thesaurus/View/View.css" type="text/css" />
     <link rel="stylesheet" href="App/Training/Training.css" type="text/css" />
     <link rel="stylesheet" href="App/Transcript/Transcript.css" type="text/css" />
     <link rel="stylesheet" href="App/User/Edit/Edit.css" type="text/css" />
@@ -65,6 +73,7 @@
     <script src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-2.5.0.min.js"></script>
     <script src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script src="web/libraries/angular/yaml-js/dist/yaml.min.js"></script>
+    <script src="web/libraries/angular/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
 
     <script type="text/javascript" src="web/libraries/js/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="web/libraries/js/moment/locale/fr.js"></script>
@@ -79,11 +88,13 @@
     <script src="web/libraries/angular/angular-http-auth/dist/http-auth-interceptor.js"></script>
     <script src="web/libraries/angular/angular-flash/dist/angular-flash.min.js"></script>
 
-    <script src="web/libraries/js/viewerjs/dist/viewer.js"></script>
+    <!--<script src="web/libraries/js/viewerjs/dist/viewer.js"></script>-->
     <script src="web/libraries/js/openseadragon/openseadragon.min.js"></script>
+    <script src="web/libraries/angular/angular-openseadragon/src/angular-openseadragon.js"></script>
 
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="Admin/Admin.js"></script>
+    <script type="text/javascript" src="Admin/AppPreference/AppPreference.js"></script>
     <script type="text/javascript" src="Admin/Content/Content.js"></script>
     <script type="text/javascript" src="Admin/Content/List/List.js"></script>
     <script type="text/javascript" src="Admin/Content/Edit/Edit.js"></script>
@@ -104,12 +115,19 @@
     <script type="text/javascript" src="App/Content/Content.js"></script>
     <script type="text/javascript" src="App/Entity/Entity.js"></script>
     <script type="text/javascript" src="App/Home/Home.js"></script>
+    <script type="text/javascript" src="App/Search/Search.js"></script>
     <script type="text/javascript" src="App/Security/Security.js"></script>
     <script type="text/javascript" src="App/Security/Login/Login.js"></script>
     <script type="text/javascript" src="App/Security/Logout/Logout.js"></script>
     <script type="text/javascript" src="App/Security/Register/Register.js"></script>
     <script type="text/javascript" src="App/Security/Check/Check.js"></script>
     <script type="text/javascript" src="App/Security/Confirm/Confirm.js"></script>
+    <script type="text/javascript" src="App/Thesaurus/Thesaurus.js"></script>
+    <script type="text/javascript" src="App/Thesaurus/Create/Create.js"></script>
+    <script type="text/javascript" src="App/Thesaurus/Edit/Edit.js"></script>
+    <script type="text/javascript" src="App/Thesaurus/Home/Home.js"></script>
+    <script type="text/javascript" src="App/Thesaurus/List/List.js"></script>
+    <script type="text/javascript" src="App/Thesaurus/View/View.js"></script>
     <script type="text/javascript" src="App/Training/Training.js"></script>
     <script type="text/javascript" src="App/Transcript/Transcript.js"></script>
     <script type="text/javascript" src="App/User/User.js"></script>

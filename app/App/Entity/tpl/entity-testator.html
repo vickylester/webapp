@@ -1,0 +1,5 @@
+<div class="well">
+    <h3>Testament de <a ui-sref="app.thesaurus.view({type: 'testators', id: entity.will.testator.id})">{{ entity.will.testator.name }}</a></h3>
+    <p>Né le {{ entity.will.testator.date_of_birth | date:'dd-MM-yyyy' }} à {{ entity.will.testator.place_of_birth }}</p>
+    <p>Mort le {{ entity.will.testator.date_of_death | date:'dd-MM-yyyy' }} à {{ entity.will.testator.place_of_death }}</p>
+</div>

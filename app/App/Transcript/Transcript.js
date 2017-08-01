@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('transcript.app.transcript', ['ui.router'])
-
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.transcript', {
             views: {
@@ -13,6 +12,10 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     templateUrl: 'System/Comment/tpl/Thread.html',
                     controller: 'SystemCommentCtrl'
                 }
+            },
+            ncyBreadcrumb: {
+                parent: 'app.entity({id: resource.entity.id})',
+                label: 'Transcription de {{ resource.type }} {{resource.order_in_will}}'
             },
             url: '/transcript/{id}',
             resolve: {
@@ -46,35 +49,78 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 return $http.get($rootScope.api+"/transcripts/"+id).then(function(response) {
                     return response.data;
                 });
+            },
+            getTranscriptRights: function(user) {
+                let role;
+                console.log(user);
+
+                if(user !== undefined && user !== null) {
+                    if ($.inArray("ROLE_SUPER_ADMIN", user.roles) > -1 && $.inArray("ROLE_ADMIN", user.roles) > -1 && $.inArray("ROLE_MODO", user.roles) > -1) {
+                        role = "validator";
+                    } else {
+                        role = "editor";
+                    }
+                } else {
+                    role = "readOnly";
+                }
+                return role;
+
+            },
+            encodeHTML: function(encodeLiveRender, button) {
+                let regex = "",
+                    html = "";
+
+                if(button.type === "tag") {
+                    let attributesHtml = "";
+                    if(button.html.attributes !== undefined) {
+                        for(let attribute in button.html.attributes) {
+                            attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
+                        }
+                    }
+
+                    if (button.xml.unique === "false") {
+                        regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
+                        html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
+                    } else if (button.xml.unique === "true") {
+                        regex = new RegExp("<" + button.xml.name + " />", "g");
+                        html = "<"+button.html.name+" />";
+                    }
+                    encodeLiveRender = encodeLiveRender.replace(regex, html);
+                } else if(button.type === "key") {
+                    regex = new RegExp("<" + button.xml.name + " />", "g");
+                    html = "<"+button.html.name+" />";
+                    encodeLiveRender = encodeLiveRender.replace(regex, html);
+                } else if(button.type === "attribute") {
+                    if (button.xml.type === "inline") {
+                        regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
+                        html = "<span "+button.html.name+"=\""+button.html.value+"\" >$1</span>";
+                    } else if (button.xml.type === "block") {
+                        regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
+                        html = "<div "+button.html.name+"=\""+button.html.value+"\" >$1</div>";
+                    }
+                    encodeLiveRender = encodeLiveRender.replace(regex, html);
+                }
+
+                return encodeLiveRender;
+            },
+            loadFile: function(file) {
+                return 'App/Transcript/tpl/'+file+'.html';
             }
         };
     })
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'resource', 'ContentService', function($rootScope, $scope, $http, $sce, $state, transcript, resource, ContentService) {
-        /* Variables definition */
-        /*function loadViewer(id) {
-            return new Viewer(document.getElementById(id), {inline: true, button: true, tooltip: false, title:false, scalable: false});
-        }*/
-        var config = YAML.load('App/Transcript/toolbar.yml');
-        var user_role_transcript;
-
-        if($rootScope.user !== undefined) {
-            if ($.inArray("ROLE_SUPER_ADMIN", $rootScope.user.roles) > -1 && $.inArray("ROLE_ADMIN", $rootScope.user.roles) > -1 && $.inArray("ROLE_MODO", $rootScope.user.roles) > -1) {
-                user_role_transcript = "validator";
-            } else {
-                user_role_transcript = "editor";
-            }
-            $rootScope.user.transcript = {
-                role: user_role_transcript
-            };
-            console.log($rootScope.user.transcript);
-            $scope.readOnly = false;
-        } else {
-            $scope.readOnly = true;
-        }
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'resource', 'TranscriptService', 'ContentService', function($rootScope, $scope, $http, $sce, $state, transcript, resource, TranscriptService, ContentService) {
+        /* -------------------------------------------------------------------------------- */
+        /* $scope & variables */
+        /* -------------------------------------------------------------------------------- */
+        console.log(resource);
+        let config = YAML.load('App/Transcript/toolbar.yml');
         $scope.page = {
             loading: true,
-            status: "read"
+            status: "read",
+            fullscreen: {
+                status: false
+            }
         };
         $scope.wysiwyg = {
             live: {
@@ -126,12 +172,29 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 value: transcript.status
             }
         };
-
-        console.log(transcript);
         $scope.transcript = transcript;
+        $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
         $scope.resource = resource;
+        /* $scope & variables ------------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Functions */
+        /* -------------------------------------------------------------------------------- */
+        /**
+         * Encode the transcription in HTML
+         *
+         * @param encodeLiveRender
+         * @param button
+         * @returns {*}
+         */
+        function encodeHTML(encodeLiveRender, button) {return TranscriptService.encodeHTML(encodeLiveRender, button);}
+        /* Functions ---------------------------------------------------------------------- */
+
         $scope.page.loading = false;
 
+        /* -------------------------------------------------------------------------------- */
+        /* Ace Editor */
+        /* -------------------------------------------------------------------------------- */
         /**
          * On loading page
          * @param _editor
@@ -144,6 +207,16 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 name: 'enterLb',
                 bindKey: {win: 'Enter',  mac: 'Enter'},
                 exec: function(editor) {
+                    let lineNumber = $scope.aceEditor.getCursorPosition().row,
+                        column = $scope.aceEditor.getCursorPosition().column;
+
+
+                    console.log(editor);
+                    console.log(lineNumber+"<>"+column);
+
+                    console.log(editor.getValue());
+
+
                     editor.insert("<lb />\n");
                 }
             });
@@ -157,7 +230,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Actions on addTag
          */
         $scope.addTag = function(tagName) {
-            var tag = config.tei[tagName],
+            let tag = config.tei[tagName],
                 tagInsert = "",
                 defaultAddChar = 2;
 
@@ -170,7 +243,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
 
 
             //console.log($scope.aceEditor.getCursorPosition());
-            var lineNumber = $scope.aceEditor.getCursorPosition().row,
+            let lineNumber = $scope.aceEditor.getCursorPosition().row,
                 column = $scope.aceEditor.getCursorPosition().column+tag.xml.name.length+defaultAddChar;
             //console.log(lineNumber+"<>"+column);
 
@@ -183,12 +256,12 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Actions on addAttribute
          */
         $scope.addAttribute = function(attributeName) {
-            var attribute = config.tei[attributeName],
+            let attribute = config.tei[attributeName],
                 defaultAddChar = 8;
 
-            var attrInsert = "<hi " + attribute.xml.name + "=\"" + attribute.xml.value + "\">" + $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()) + "</hi>";
+            let attrInsert = "<hi " + attribute.xml.name + "=\"" + attribute.xml.value + "\">" + $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()) + "</hi>";
 
-            var lineNumber = $scope.aceEditor.getCursorPosition().row,
+            let lineNumber = $scope.aceEditor.getCursorPosition().row,
                 column = $scope.aceEditor.getCursorPosition().column+attribute.xml.name.length+attribute.xml.value.length+defaultAddChar;
             $scope.aceEditor.insert(attrInsert);
             $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
@@ -199,57 +272,13 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * This function watches #live.content, encodes it and displays it
          */
         $scope.$watch('wysiwyg.area', function() {
-            var encodeLiveRender = $scope.wysiwyg.area;
-            for(var buttonId in config.tei) {
+            let encodeLiveRender = $scope.wysiwyg.area;
+            for(let buttonId in config.tei) {
                 encodeLiveRender = encodeHTML(encodeLiveRender, config.tei[buttonId]);
             }
             $scope.wysiwyg.live.content = $sce.trustAsHtml(encodeLiveRender);
         });
 
-        /**
-         * Encode the transcription in HTML
-         *
-         * @param encodeLiveRender
-         * @param button
-         * @returns {*}
-         */
-        function encodeHTML(encodeLiveRender, button) {
-            var regex = "",
-                html = "";
-
-            if(button.type === "tag") {
-                var attributesHtml = "";
-                if(button.html.attributes !== undefined) {
-                    for(var attribute in button.html.attributes) {
-                        attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
-                    }
-                }
-
-                if (button.xml.unique === "false") {
-                    regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
-                    html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
-                } else if (button.xml.unique === "true") {
-                    regex = new RegExp("<" + button.xml.name + " />", "g");
-                    html = "<"+button.html.name+" />";
-                }
-                encodeLiveRender = encodeLiveRender.replace(regex, html);
-            } else if(button.type === "key") {
-                regex = new RegExp("<" + button.xml.name + " />", "g");
-                html = "<"+button.html.name+" />";
-                encodeLiveRender = encodeLiveRender.replace(regex, html);
-            } else if(button.type === "attribute") {
-                if (button.xml.type === "inline") {
-                    regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-                    html = "<span "+button.html.name+"=\""+button.html.value+"\" >$1</span>";
-                } else if (button.xml.type === "block") {
-                    regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-                    html = "<div "+button.html.name+"=\""+button.html.value+"\" >$1</div>";
-                }
-                encodeLiveRender = encodeLiveRender.replace(regex, html);
-            }
-
-            return encodeLiveRender;
-        }
 
         /**
          * Undo management
@@ -262,9 +291,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 $scope.aceEditor.redo();
             }
         };
+        /* Ace editor --------------------------------------------------------------------- */
 
-        // -------------------- Modal management
-
+        /* -------------------------------------------------------------------------------- */
+        /* Modal Management */
+        /* -------------------------------------------------------------------------------- */
         /**
          * Modal management
          * @param id_modal
@@ -284,7 +315,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 $scope.wysiwyg.modal.variables.choice_orig_modal_orig = $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange());
             }
 
-            $scope.wysiwyg.modal.content = $scope.loadFile("modal-"+id_modal);
+            $scope.wysiwyg.modal.content = TranscriptService.loadFile("modal-"+id_modal);
         };
 
         /**
@@ -307,16 +338,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
             }
             $scope.aceEditor.focus();
         };
+        /* Modal Management --------------------------------------------------------------- */
 
-        /**
-         * This function loads files for twig and angularJS
-         * @param file
-         * @returns {string|*}
-         */
-        $scope.loadFile = function(file) {
-            return 'App/Transcript/tpl/'+file+'.html';
-        };
-
+        /* -------------------------------------------------------------------------------- */
+        /* Help Management */
+        /* -------------------------------------------------------------------------------- */
         /**
          * Help management
          * @param file
@@ -328,7 +354,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             function loadHelpData(file) {
                 return ContentService.getContent(file).then(function(data) {
                     let doc = document.createElement('div');
-                        doc.innerHTML = data.content;
+                    doc.innerHTML = data.content;
                     let links = doc.getElementsByTagName("a");
                     for(let oldLink of links){
                         if(oldLink.getAttribute("class").indexOf("internalHelpLink") !== -1 ){
@@ -343,13 +369,36 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 });
             }
         };
+        /* Help Management ---------------------------------------------------------------- */
 
-        $scope.loadViewer = function(id) {
-            return new Viewer(document.getElementById(id), {inline: true, button: true, tooltip: false, title:false, scalable: false});
-        };
+        /* -------------------------------------------------------------------------------- */
+        /* Viewer Management */
+        /* -------------------------------------------------------------------------------- */
+        /*
+            https://github.com/nfabre/deepzoom.php
+            https://openseadragon.github.io/docs/
+            $scope.openseadragon = {
 
-        //--------------- Submit
+            prefixUrl: $rootScope.webapp.resources+"libraries/js/openseadragon/images/",
+            tileSources: {
+                Image: {
+                    xmlns:    "http://schemas.microsoft.com/deepzoom/2008",
+                    Url:      $rootScope.api_web+"/images/data/testament_"+$scope.resource.entity.will_number+"/JPEG/FRAN_Poilus_t-"+$scope.resource.entity.will_number+"_"+$scope.resource.images[0],
+                    Format:   "jpg",
+                    Overlap:  "2",
+                    TileSize: "256",
+                    Size: {
+                        Height: "9221",
+                        Width:  "7026"
+                    }
+                }
+            }
+        };*/
+        /* Viewer Management -------------------------------------------------------------- */
 
+        /* -------------------------------------------------------------------------------- */
+        /* Submit Management */
+        /* -------------------------------------------------------------------------------- */
         /**
          * Submit management
          */
@@ -389,7 +438,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             if($scope.transcript.content === $scope.wysiwyg.area) {
                 $scope.page.status = 'read';
             } else {
-                $scope.modal('goBack');
+                $scope.wysiwyg.modal.load('goBack');
             }
         };
 
@@ -400,8 +449,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.wysiwyg.area = $scope.transcript.content;
             $scope.page.status = 'read';
         };
+        /* Submit Management -------------------------------------------------------------- */
 
-        //------------- Administration:
+        /* -------------------------------------------------------------------------------- */
+        /* Admin Management */
+        /* -------------------------------------------------------------------------------- */
         /**
          * Admin init:
          */
@@ -492,6 +544,32 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 $scope.page.status = 'read';
             });
         };
+        /* Admin Management --------------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Full screen Management */
+        /* -------------------------------------------------------------------------------- */
+        let fullscreenDiv    = document.getElementById("transcriptContainerFullScreen");
+        let fullscreenFunc   = fullscreenDiv.requestFullscreen;
+        if (!fullscreenFunc) {
+            ['mozRequestFullScreen',
+                'msRequestFullscreen',
+                'webkitRequestFullScreen'].forEach(function (req) {
+                fullscreenFunc = fullscreenFunc || fullscreenDiv[req];
+            });
+        }
+
+        $scope.page.fullscreen.open = function() {
+            console.log('fullscreen');
+            fullscreenFunc.call(fullscreenDiv);
+            $scope.page.fullscreen.status = true;
+        };
+
+        $scope.page.fullscreen.close = function() {
+            document.exitFullscreen();
+            $scope.page.fullscreen.status = false;
+        }
+        /* Full screen Management --------------------------------------------------------- */
 
     }])
 ;

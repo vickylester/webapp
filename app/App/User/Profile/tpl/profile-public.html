@@ -1,0 +1,11 @@
+<h3>Dernières contributions</h3>
+<div class="row">
+    <div class="col-md-3" data-ng-repeat="entity in iUser._embedded.contributions">
+        <div class="thumbnail">
+            <img src="{{ webapp.resources }}images/no-images.png" class="img-responsive" />
+            <div class="caption">
+                <h3><a ui-sref="app.entity({id: entity.id})">{{ entity.will.title }}</a></h3>
+            </div>
+        </div>
+    </div>
+</div>

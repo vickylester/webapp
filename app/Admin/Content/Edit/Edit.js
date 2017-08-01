@@ -12,6 +12,10 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     }
                 },
                 url: '/new',
+                ncyBreadcrumb: {
+                    parent: 'admin.content.list',
+                    label: 'Nouveau contenu'
+                },
                 resolve: {
                     content: function() {
                         return null;
@@ -26,6 +30,10 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     }
                 },
                 url: '/edit/:id',
+                ncyBreadcrumb: {
+                    parent: 'app.content({id: content.id})',
+                    label: 'Edition'
+                },
                 resolve: {
                     content: function(ContentService, $transition$) {
                         return ContentService.getContent($transition$.params().id, false);
@@ -34,7 +42,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             })
     }])
 
-    .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', 'CommentService', 'flash', function($rootScope, $scope, $http, $sce, $state, content, CommentService, flash) {
+    .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', 'CommentService', 'flash', '$upload', function($rootScope, $scope, $http, $sce, $state, content, CommentService, flash, $upload) {
         if(content !== null) {
             $scope.content = content;
         } else {
@@ -57,13 +65,25 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
         $scope.options = {
             language: 'fr',
             allowedContent: true,
-            entities: false
+            entities: false,
+            toolbar: [
+                ['Source','NewPage','Print','Templates','-','Find','Replace','Scayt','RemoveFormat','-','Undo','Redo','-','Maximize','ShowBlocks'],
+                ['Bold','Italic','Underline','StrikeThrough','Strike','Subscript','Superscript','-','NumberedList','BulletedList','Outdent','Indent','Blockquote','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','-','Link','Unlink','Anchor'],
+                ['Image','Table','HorizontalRule','Smiley','SpecialChar','PageBreak','InsertPre'],
+                ['Styles','Format','Font','FontSize','-','TextColor','BGColor']
+            ]
         };
 
         /**
          * Submit management
          */
         $scope.submit.action = function() {
+            $upload.upload({
+                url: $rootScope.api+'/images',
+                method: 'POST',
+                file: $scope.content.image
+            });
+
             $scope.submit.isLoading = true;
             var form = {
                 title: $scope.content.title,
@@ -146,5 +166,9 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             });
 
         };
+
+        $(document).on('ready', function() {
+            $("#admin-content-edit-image").fileinput({'showUpload':false, 'previewFileType':'any'});
+        });
     }])
 ;

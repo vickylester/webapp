@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-sm-4" data-ng-include="'App/Thesaurus/tpl/entities.html'"></div>
+    <div class="col-sm-8">
+        <div class="jumbotron text-center">
+            <h2>{{ entity.name }}</h2>
+        </div>
+        <div ncy-breadcrumb></div>
+
+        <div flash-alert active-class="in alert" class="fade" duration="5000">
+            <!-- Manually hide the alert with `hide()` -->
+            <button type="button" class="close" ng-click="hide()">&times;</button>
+            <span class="alert-message">{{flash.message}}</span>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="well">
+                <div data-ng-if="entity.dataType == 'testators'" data-ng-include="'App/Thesaurus/tpl/form-testator.html'"></div>
+                <div data-ng-if="entity.dataType == 'places'" data-ng-include="'App/Thesaurus/tpl/form-place.html'"></div>
+                <div data-ng-if="entity.dataType == 'regiments'" data-ng-include="'App/Thesaurus/tpl/form-regiment.html'"></div>
+            </div>
+        </form>
+    </div>
+</div>

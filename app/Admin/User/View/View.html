@@ -1,10 +1,11 @@
 <div class="jumbotron">
-    <h2>{{ fUser.name }}</h2>
+    <h2>{{ iUser.name }}</h2>
     <dl class="dl-horizontal">
         <dt>email:</dt>
-        <dd>{{ fUser.email }}</dd>
+        <dd>{{ iUser.email }}</dd>
     </dl>
 </div>
+<div ncy-breadcrumb></div>
 
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
@@ -18,9 +19,9 @@
             <h3>Gestion des rôles</h3>
             <form class="form-horizontal">
                 <div class="form-group">
-                    <label for="admin-fUser-role-manage" class="col-sm-3 control-label">Rôles :</label>
+                    <label for="admin-iUser-role-manage" class="col-sm-3 control-label">Rôles :</label>
                     <div class="col-sm-9">
-                        <select id="admin-fUser-role-manage" name="admin-fUser-role-manage" class="form-control" data-ng-model="fUser.roles" multiple >
+                        <select id="admin-iUser-role-manage" name="admin-iUser-role-manage" class="form-control" data-ng-model="iUser.roles" multiple >
                             <option value="ROLE_USER">Utilisateur</option>
                             <option value="ROLE_MODO">Modérateur</option>
                             <option value="ROLE_ADMIN">Administrateur</option>

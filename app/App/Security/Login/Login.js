@@ -10,13 +10,17 @@ angular.module('transcript.app.security.login', ['ui.router'])
                         controller: 'AppSecurityLoginCtrl'
                 }
             },
-            url: '/login'
+            url: '/login',
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Connexion'
+            }
         })
     }])
 
     .controller('AppSecurityLoginCtrl', ['$rootScope', '$scope', '$http', '$sce', '$state', '$cookies', function($rootScope, $scope, $http, $sce, $state, $cookies) {
         //console.log(user);
-        if($rootScope.user !== undefined) {$state.go('app.user.profile', {id: user.id});}
+        if($rootScope.user !== undefined) {$state.go('app.user.profile', {id: $rootScope.user.id});}
 
         $scope.form = {
             username: null,

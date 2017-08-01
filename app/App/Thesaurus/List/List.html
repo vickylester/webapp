@@ -1,0 +1,16 @@
+<div class="row">
+    <div class="col-sm-4" data-ng-include="'App/Thesaurus/tpl/entities.html'"></div>
+    <div class="col-sm-8">
+        <div class="jumbotron text-center">
+            <h2>Sélectionnez votre entrée dans la liste</h2>
+            <p><a ui-sref="app.thesaurus.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
+        </div>
+        <div ncy-breadcrumb></div>
+
+        <div flash-alert active-class="in alert" class="fade" duration="5000">
+            <!-- Manually hide the alert with `hide()` -->
+            <button type="button" class="close" ng-click="hide()">&times;</button>
+            <span class="alert-message">{{flash.message}}</span>
+        </div>
+    </div>
+</div>

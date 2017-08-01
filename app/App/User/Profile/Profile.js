@@ -12,6 +12,10 @@ angular.module('transcript.app.user.profile', ['ui.router'])
                     }
                 },
                 url: '/profile/{id}',
+                ncyBreadcrumb: {
+                    parent: 'app.home',
+                    label: '{{ iUser.name }}'
+                },
                 requireLogin: true,
                 resolve: {
                     userEdit: function(UserService, $transition$) {
@@ -21,9 +25,18 @@ angular.module('transcript.app.user.profile', ['ui.router'])
             })
     }])
 
-    .controller('AppUserProfileCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', function($rootScope, $scope, $http, $sce, $state, userEdit) {
-        $scope.page = {};
-        $scope.user = userEdit;
-        //if($rootScope.user === undefined) {$state.go('login');}
+    .controller('AppUserProfileCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'EntityService', function($rootScope, $scope, $http, $sce, $state, userEdit, EntityService) {
+        console.log($rootScope.user);
+        console.log(userEdit);
+
+        $scope.context = "view";
+        $scope.iUser = userEdit;
+        if($rootScope.user === undefined) {
+            $scope.context = "view";
+        } else if($rootScope.user.id === $scope.iUser.id) {
+            $scope.context = "self";
+        } else if($rootScope.user.id !== $scope.iUser.id && $rootScope.user.isAdmin === true) {
+            $scope.context = "admin";
+        }
     }])
 ;

@@ -10,7 +10,11 @@ angular.module('transcript.app.contact', ['ui.router'])
                     controller: 'AppContactCtrl'
                 }
             },
-            url: '/contact'
+            url: '/contact',
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Contact'
+            },
         })
     }])
 

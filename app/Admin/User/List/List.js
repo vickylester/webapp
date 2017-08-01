@@ -11,6 +11,10 @@ angular.module('transcript.admin.user.list', ['ui.router'])
                 }
             },
             url: '/list',
+            ncyBreadcrumb: {
+                parent: 'admin.home',
+                label: 'Liste des utilisateurs'
+            },
             resolve: {
                 users: function(UserService) {
                     return UserService.getUsers();

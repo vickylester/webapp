@@ -10,6 +10,10 @@ angular.module('transcript.app.entity', ['ui.router'])
                     controller: 'AppEntityCtrl'
                 }
             },
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Testament {{ entity.will.title }}'
+            },
             url: '/entity/{id}',
             resolve: {
                 entity: function(EntityService, $transition$) {
@@ -47,30 +51,6 @@ angular.module('transcript.app.entity', ['ui.router'])
 
             removeEntity: function(id) {
                 return $http.delete($rootScope.api+"/entities/"+id,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
-                    return response.data;
-                });
-            },
-
-            getTestators: function() {
-                return $http.get($rootScope.api+"/testators").then(function(response) {
-                    return response.data;
-                });
-            },
-
-            getTestator: function(id) {
-                return $http.get($rootScope.api+"/testators/"+id).then(function(response) {
-                    return response.data;
-                });
-            },
-
-            postTestator: function(data) {
-                return $http.post($rootScope.api+"/testators", data,
                     {
                         headers: {
                             'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
@@ -119,11 +99,17 @@ angular.module('transcript.app.entity', ['ui.router'])
                 }, function errorCallback(response) {
                     console.log(response);
                 });
+            },
+
+            exportEntity: function(id) {
+                return $http.get($rootScope.api+"/export?type=entity&id="+id).then(function(response) {
+                    return response.data;
+                });
             }
         };
     })
 
-    .controller('AppEntityCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', function($rootScope, $scope, $http, $sce, $state, entity) {
+    .controller('AppEntityCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'EntityService', function($rootScope, $scope, $http, $sce, $state, entity, EntityService) {
         $scope.page = {
             loading: true
         };
@@ -145,5 +131,46 @@ angular.module('transcript.app.entity', ['ui.router'])
             else{return "label-danger";}
         };
 
+
+        /* -- Admin management -- */
+        $scope.admin = {
+            export: {
+                show: false,
+                submit: {
+                    loading: false,
+                    result: false,
+                    content: ""
+                },
+                form: {
+
+                }
+            }
+        };
+
+        function adminInit() {
+            $scope.admin.export.show = false;
+        }
+
+        $scope.admin.export.load = function() {
+            if($scope.admin.export.show === false) {
+                adminInit();
+                $scope.admin.export.show = true;
+            } else if($scope.admin.export.show === true) {
+                $scope.admin.export.show = false;
+            }
+        };
+
+        $scope.admin.export.submit.action = function() {
+            $scope.admin.export.submit.loading = true;
+            EntityService.exportEntity(entity.id).then(function(response) {
+                console.log(response);
+                $scope.admin.export.submit.loading = false;
+                $scope.admin.export.submit.result = true;
+                $scope.admin.export.submit.content = response.link;
+            }, function errorCallback(response) {
+                $scope.admin.export.submit.loading = true;
+                console.log(response);
+            });
+        };
     }])
 ;

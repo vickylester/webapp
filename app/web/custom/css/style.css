@@ -108,3 +108,13 @@ a {
 .thumbnail-transcript {
     max-height: 200px;
 }
+
+.img-100 {
+    max-height: 100px;
+    max-width: 100px;
+}
+
+.img-250 {
+    max-height: 250px;
+    max-width: 250px;
+}

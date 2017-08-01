@@ -10,7 +10,11 @@ angular.module('transcript.app.training', ['ui.router'])
                     controller: 'AppTrainingCtrl'
                 }
             },
-            url: '/training'
+            url: '/training',
+            ncyBreadcrumb: {
+                parent: 'app.home',
+                label: 'Découvrir'
+            }
         })
     }])
 

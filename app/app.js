@@ -10,6 +10,8 @@ angular.module('transcriptApp', [
     'angular-flash.service',
     'angular-flash.flash-alert-directive',
     'ui.bootstrap',
+    'ui.openseadragon',
+    'ncy-angular-breadcrumb',
     'transcript.admin',
     'transcript.admin.content',
     'transcript.admin.content.edit',
@@ -19,6 +21,7 @@ angular.module('transcriptApp', [
     'transcript.admin.entity.import',
     'transcript.admin.entity.list',
     'transcript.admin.home',
+    'transcript.admin.preference',
     'transcript.admin.transcript',
     'transcript.admin.transcript.export',
     'transcript.admin.transcript.validation',
@@ -31,12 +34,19 @@ angular.module('transcriptApp', [
     'transcript.app.content',
     'transcript.app.entity',
     'transcript.app.home',
+    'transcript.app.search',
     'transcript.app.security',
     'transcript.app.security.check',
     'transcript.app.security.confirm',
     'transcript.app.security.login',
     'transcript.app.security.logout',
     'transcript.app.security.register',
+    'transcript.app.thesaurus',
+    'transcript.app.thesaurus.create',
+    'transcript.app.thesaurus.edit',
+    'transcript.app.thesaurus.home',
+    'transcript.app.thesaurus.list',
+    'transcript.app.thesaurus.view',
     'transcript.app.training',
     'transcript.app.transcript',
     'transcript.app.user',
@@ -62,6 +72,10 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$
 .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', function($rootScope, $http, $injector, $location, authService, $state, $cookies) {
     $rootScope.api = "http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php";
     $rootScope.api_web = "http://localhost:8888/TestamentsDePoilus/api/web/";
+    $rootScope.webapp = {
+        strict: "http://localhost:8888/TestamentsDePoilus/webapp/app/#!/",
+        resources: "http://localhost:8888/TestamentsDePoilus/webapp/app/web/"
+    };
     $rootScope.siteURL = "http://testament-de-poilus.huma-num.fr";
 
     if($cookies.get('transcript_security_token_access') !== undefined) {

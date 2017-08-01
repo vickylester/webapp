@@ -1,6 +1,7 @@
 <div class="jumbotron">
     <p>Edition des préférences</p>
 </div>
+<div ncy-breadcrumb></div>
 
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
@@ -20,8 +21,12 @@
         <div class="col-sm-9">
             <select id="app_user_preference_transcriptionDeskPosition" name="app_user_preference_transcriptionDeskPosition" class="form-control" data-ng-model="form.transcription_desk_position">
                 <option value="" disabled>Sélectionnez ...</option>
-                <option value="readLeft">Image à gauche</option>
-                <option value="readRight">Image à droite</option>
+                <option value="leftRead-centerHelp-rightImage">Écrire à gauche - Aide au centre - Image à droite</option>
+                <option value="leftRead-centerImage-rightHelp">Écrire à gauche - Image au centre - Aide à droite</option>
+                <option value="leftHelp-centerRead-rightImage">Aide à gauche - Écrire au centre - Image à droite</option>
+                <option value="leftHelp-centerImage-rightRead">Aide à gauche - Image au centre - Écrire à droite</option>
+                <option value="leftImage-centerHelp-rightRead">Image à gauche - Aide au centre - Écrire à droite</option>
+                <option value="leftImage-centerRead-rightHelp">Image à gauche - Écrire au centre - Aide à droite</option>
             </select>
         </div>
     </div>

@@ -1,10 +1,10 @@
 <div class="row-h100">
     <div class="col-sm-6 no-padding border">
-        <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
-        <div data-ng-if="user._embedded.preferences.transcription_desk_position != 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-read-content.html'"></div>
+        <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftHelp-centerImage-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerHelp-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerRead-rightHelp'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+        <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftRead-centerHelp-rightImage' || user._embedded.preferences.transcription_desk_position == 'leftRead-centerImage-rightHelp' || user._embedded.preferences.transcription_desk_position == 'leftHelp-centerRead-rightImage'" data-ng-include="'App/Transcript/tpl/transcript-read-content.html'"></div>
     </div>
     <div class="col-sm-6 no-padding border">
-        <div data-ng-if="user._embedded.preferences.transcription_desk_position != 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
-        <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'readLeft'" data-ng-include="'App/Transcript/tpl/transcript-read-content.html'"></div>
+        <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftRead-centerHelp-rightImage' || user._embedded.preferences.transcription_desk_position == 'leftRead-centerImage-rightHelp' || user._embedded.preferences.transcription_desk_position == 'leftHelp-centerRead-rightImage'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+        <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftHelp-centerImage-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerHelp-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerRead-rightHelp'" data-ng-include="'App/Transcript/tpl/transcript-read-content.html'"></div>
     </div>
 </div>

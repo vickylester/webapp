@@ -1,0 +1,21 @@
+<div class="list-group">
+    <div class="list-group-item-heading">
+        {{ entity.will.title }}
+    </div>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Cote</dt>
+        <dd>{{ entity.will.call_number }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Date de la minute</dt>
+        <dd>{{ entity.will.minute_date | date:'dd-MM-yyyy' }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Date d'écriture</dt>
+        <dd>{{ entity.will.will_writing_date | date:'dd-MM-yyyy' }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Lieu d'écriture</dt>
+        <dd>{{ entity.will.will_writing_place }}</dd>
+    </dl>
+</div>

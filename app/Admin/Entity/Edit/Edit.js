@@ -11,6 +11,10 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
                 }
             },
             url: '/edit/:id',
+            ncyBreadcrumb: {
+                parent: 'admin.entity({id: entity.id})',
+                label: 'Edition'
+            },
             resolve: {
                 entity: function(EntityService, $transition$) {
                     return EntityService.getEntity($transition$.params().id);

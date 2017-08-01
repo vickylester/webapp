@@ -15,6 +15,10 @@ angular.module('transcript.app.content', ['ui.router'])
                 }
             },
             url: '/content/{id}',
+            ncyBreadcrumb: {
+                parent: 'app.blog',
+                label: '{{ content.title }}'
+            },
             resolve: {
                 content: function(ContentService, $transition$) {
                     return ContentService.getContent($transition$.params().id, true);

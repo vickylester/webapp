@@ -11,6 +11,10 @@ angular.module('transcript.admin.entity.list', ['ui.router'])
                 }
             },
             url: '/list',
+            ncyBreadcrumb: {
+                parent: 'admin.home',
+                label: 'Liste des entités'
+            },
             resolve: {
                 entities: function(EntityService) {
                     return EntityService.getEntities();

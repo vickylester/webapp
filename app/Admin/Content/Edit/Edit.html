@@ -1,7 +1,8 @@
 <div class="jumbotron">
-    <h2 data-ng-if="content.title != null">{{ content.title }}</h2>
-    <h2 data-ng-if="content.title == null">Nouveau contenu</h2>
+    <h2 data-ng-if="content.title != null && content.title != ''">{{ content.title }}</h2>
+    <h2 data-ng-if="content.title == null || content.title == ''">Nouveau contenu</h2>
 </div>
+<div ncy-breadcrumb></div>
 
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
@@ -46,6 +47,15 @@
                     <option value="private">Privé</option>
                     <option value="notIndexed">Non indexé</option>
                 </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <label for="admin-content-edit-image" class="col-sm-12">Image d'illustration :</label>
+            <div class="col-sm-12">
+                <input id="admin-content-edit-image" type="file" class="file" data-ng-model="content.image" />
             </div>
         </div>
 

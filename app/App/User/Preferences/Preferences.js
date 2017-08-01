@@ -11,6 +11,10 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
                 }
             },
             url: '/preferences/{id}',
+            ncyBreadcrumb: {
+                parent: 'app.user.profile({id: user.id})',
+                label: 'Préférences'
+            },
             requireLogin: true,
             resolve: {
                 userPreferences: function(UserService, $transition$) {
@@ -40,6 +44,7 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
                     'transcriptionDeskPosition': $scope.form.transcription_desk_position
                 })
                 .then(function (response) {
+                    $rootScope.user._embedded.preferences = response.data;
                     $state.go('app.user.profile', {id: $rootScope.user.id});
                     flash.success = "Vos préférences ont bien été modifiées";
                 }, function errorCallback(response) {

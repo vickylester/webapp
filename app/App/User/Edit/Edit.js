@@ -11,6 +11,10 @@ angular.module('transcript.app.user.edit', ['ui.router'])
                 }
             },
             url: '/edit/{id}',
+            ncyBreadcrumb: {
+                parent: 'app.user.profile({id: user.id})',
+                label: 'Edition'
+            },
             requireLogin: true,
             resolve: {
                 userEdit: function(UserService, $transition$) {
@@ -25,6 +29,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
 
         $scope.form = {
             name: $rootScope.user.name,
+            email: $rootScope.user.email,
             errors: []
         };
         $scope.submit = {
@@ -37,7 +42,8 @@ angular.module('transcript.app.user.edit', ['ui.router'])
             $scope.form.errors = [];
             $http.patch("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/users/"+$rootScope.user.id,
                 {
-                    'name': $scope.form.name
+                    'name': $scope.form.name,
+                    'email': $scope.form.email
                 })
                 .then(function (response) {
                     if(response.status === 200) {

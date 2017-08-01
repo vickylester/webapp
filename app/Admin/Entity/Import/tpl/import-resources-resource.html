@@ -1,0 +1,40 @@
+<div class="well">
+    <div class="">
+        <h4>Ressource {{ $index+1 }}</h4>
+    </div>
+    <div class="form-group">
+        <label for="admin-entity-edit-resource-type" class="control-label col-sm-6">Type de ressource :</label>
+        <div class="col-sm-6">
+            <select id="admin-entity-edit-resource-type" name="admin-entity-edit-resource-type" class="form-control" data-ng-model="resource.type" required>
+                <option value="" disabled>Sélectionnez ...</option>
+                <option value="page">Page</option>
+                <option value="envelop">Enveloppe</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="admin-entity-edit-resource-orderInWill" class="control-label col-sm-6">Index de la ressource dans le testament :</label>
+        <div class="col-sm-3">
+            <input type="number" id="admin-entity-edit-resource-orderInWill" class="form-control" data-ng-model="resource.orderInWill" required />
+        </div>
+        <div class="col-sm-1">
+            <p class="form-control-static">/</p>
+        </div>
+        <div class="col-sm-2">
+            <p class="form-control-static">{{ entity.resources.length }}</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="admin-entity-edit-resource-image" class="control-label col-sm-6">Identifiants des images :</label>
+        <div class="col-sm-6">
+            <input id="admin-entity-edit-resource-image" class="form-control" data-ng-model="resource.images"  />
+            <p class="help-block">Identifiants des images de la ressource, séparés par des virgules. Ex: 02a, 02b, 02c</p>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="admin-entity-edit-resource-notes" class="control-label col-sm-6">Notes (de numérisation ou autre) :</label>
+        <div class="col-sm-6">
+            <input id="admin-entity-edit-resource-notes" class="form-control" data-ng-model="resource.notes" />
+        </div>
+    </div>
+</div>

@@ -7,10 +7,17 @@
             <span class="icon-bar"></span>
         </button>
         <div class="navbar-brand" id="home-logo">
-            <h1><a ui-sref="app.home">TranscribeToTEI</a></h1>
+            <h1><a ui-sref="app.home" data-ng-bind="preferences.project_title"></a></h1>
         </div>
     </div>
     <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+            <li><a>Découvrir</a></li>
+            <li><a ui-sref="app.content({id: preferences.help_home_content})">Aide</a></li>
+            <li><a ui-sref="app.blog">Actualités</a></li>
+            <li><a ui-sref="app.search">Transcrire</a></li>
+            <li><a ui-sref="app.thesaurus.home">Documenter</a></li>
+        </ul>
         <ul data-ng-if="user == null" class="nav navbar-nav navbar-right">
             <li><a ui-sref="app.security.login" class="text-muted">Connexion</a></li>
             <li><a ui-sref="app.security.register" class="text-muted">Inscription</a></li>
@@ -26,7 +33,7 @@
                     <li><a class="text-muted">Private messages</a></li>
                     <li><a class="text-muted">Discovering TEI</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a class="text-muted">Preferences</a></li>
+                    <li><a ui-sref="app.user.preferences({id: user.id})" class="text-muted">Preferences</a></li>
                     <li><a ui-sref="app.security.logout" class="text-muted">Logout</a></li>
                 </ul>
             </li>

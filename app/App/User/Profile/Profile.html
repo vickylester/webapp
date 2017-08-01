@@ -1,6 +1,15 @@
 <div class="jumbotron">
-    <p>Votre profil ou profil public</p>
+    <div class="pull-right">
+        <div class="thumbnail">
+            <img class="img-responsive img-100" src="{{ webapp.resources }}images/no-images.png" />
+        </div>
+    </div>
+    <div>
+        <h2>{{ iUser.name }} <a data-ng-if="context != 'self'" class="btn btn-default" title="Send a private message"><i class="fa fa-send"></i></a></h2>
+        <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
+    </div>
 </div>
+<div ncy-breadcrumb></div>
 
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
@@ -8,31 +17,30 @@
     <span class="alert-message">{{flash.message}}</span>
 </div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <h2>Informations personnelles</h2>
-        <dl class="dl-horizontal">
-            <dt>Nom</dt>
-            <dd>{{ user.name }}</dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>Email</dt>
-            <dd>{{ user.email }}</dd>
-        </dl>
+<div class="row" data-ng-if="context == 'self' || context == 'admin'">
+    <div class="col-sm-3">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <a ui-sref="app.user.edit({id: iUser.id})">
+                    <span data-ng-if="context == 'self'">Éditer mon profil</span>
+                    <span data-ng-if="context == 'admin'">Éditer le profil</span>
+                </a>
+            </li>
+            <li class="list-group-item">
+                <a ui-sref="app.user.preferences({id: iUser.id})">
+                    <span data-ng-if="context == 'self'">Éditer mes préférences</span>
+                    <span data-ng-if="context == 'admin'">Éditer les préférences</span>
+                </a>
+            </li>
+            <li class="list-group-item" data-ng-if="context == 'self'">
+                <a>
+                    Mes messages <span class="label label-info">0</span>
+                </a>
+            </li>
+        </ul>
     </div>
-    <div class="col-sm-6">
-        <h2>Actions</h2>
-        <dl class="dl-horizontal">
-            <dt>Modifier le profil</dt>
-            <dd><a ui-sref="app.user.edit({id: user.id})">Lien</a></dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>Modifier les préférences</dt>
-            <dd><a ui-sref="app.user.preferences({id: user.id})">Lien</a></dd>
-        </dl>
-        <dl class="dl-horizontal">
-            <dt>Modifier le mot de passe</dt>
-            <dd><a>Lien</a></dd>
-        </dl>
-    </div>
+    <div class="col-sm-9" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
+</div>
+<div class="row" data-ng-if="context == 'view'">
+    <div class="col-sm-12" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
 </div>

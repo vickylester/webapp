@@ -11,6 +11,10 @@ angular.module('transcript.admin.user.view', ['ui.router'])
                 }
             },
             url: '/{id}',
+            ncyBreadcrumb: {
+                parent: 'admin.user.list',
+                label: 'Edition de {{ iUser.name }}'
+            },
             resolve: {
                 user: function(UserService, $transition$) {
                     return UserService.getUser($transition$.params().id);
@@ -20,7 +24,7 @@ angular.module('transcript.admin.user.view', ['ui.router'])
     }])
 
     .controller('AdminUserViewCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', function($rootScope, $scope, $http, $sce, $state, user) {
-        $scope.fUser = user;
+        $scope.iUser = user;
         $scope.roles = {
             submit: {
                 isLoading: false
@@ -30,10 +34,10 @@ angular.module('transcript.admin.user.view', ['ui.router'])
         $scope.roles.submit.action = function() {
             $scope.roles.submit.isLoading = true;
             var form = {
-                roles: $scope.fUser.roles
+                roles: $scope.iUser.roles
             };
 
-            $http.patch($rootScope.api+'/users/'+$scope.fUser.id, form, {
+            $http.patch($rootScope.api+'/users/'+$scope.iUser.id, form, {
                 headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
             }).then(function (response) {
                 console.log(response.data);

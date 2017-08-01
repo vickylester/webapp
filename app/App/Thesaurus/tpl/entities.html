@@ -1,0 +1,10 @@
+<h3>Liste des entrées</h3>
+<ul data-ng-if="entities.length > 0">
+   <li data-ng-repeat="iEntity in entities">
+       <a data-ng-if="iEntity.id != entity.id" ui-sref="app.thesaurus.view({type: entity.dataType, id: iEntity.id})">{{ iEntity.name }}</a>
+       <span data-ng-if="iEntity.id == entity.id">{{ iEntity.name }}</span>
+   </li>
+</ul>
+<div class="alert alert-warning" data-ng-if="entities.length == 0">
+    <p><i class="fa fa-warning"></i> Ce thesaurus ne compte aucune entrée pour le moment.</p>
+</div>

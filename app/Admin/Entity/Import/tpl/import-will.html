@@ -1,0 +1,37 @@
+<label>À propos du testament</label>
+
+<div class="form-group">
+    <label for="admin-entity-edit-will-callNumber" class="control-label col-sm-6">Côte :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-callNumber" class="form-control" data-ng-model="entity.will.callNumber" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-minuteDate" class="control-label col-sm-6">Date de la minute :</label>
+    <div class="col-sm-6">
+        <div class="input-group">
+            <input id="admin-entity-edit-will-minuteDate" class="form-control datepicker" data-ng-model="entity.will.minuteDate" />
+            <span class="input-group-addon">
+                <span class="fa fa-calendar"></span>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-willWritingDate" class="control-label col-sm-6">Date d'écriture du testament :</label>
+    <div class="col-sm-6">
+        <div class="input-group">
+            <input id="admin-entity-edit-will-willWritingDate" class="form-control datepicker" data-ng-model="entity.will.willWritingDate" />
+            <span class="input-group-addon">
+                <span class="fa fa-calendar"></span>
+            </span>
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-willWritingPlace" class="control-label col-sm-6">Lieu d'écriture du testament :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-willWritingPlace" class="form-control" data-ng-model="entity.will.willWritingPlace" />
+    </div>
+</div>
+<div class="form-group" data-ng-include="'Admin/Entity/Import/tpl/import-will-testator.html'"></div>
