@@ -38,7 +38,23 @@
     <div class="form-group">
         <label for="admin-entity-edit-will-testator-placeOfBirth" class="control-label col-sm-3">Lieu de naissance :</label>
         <div class="col-sm-9">
-            <input id="admin-entity-edit-will-testator-placeOfBirth" class="form-control" data-ng-model="entity.will.testator.placeOfBirth" />
+            <uib-tabset active="activeTestatorPlaceOfBirth" justified="true">
+                <uib-tab index="0" heading="List">
+                    <div class="well">
+                        <select class="form-control" id="admin-entity-edit-will-testator-placeOfBirth" data-ng-model="entity.will.testator.placeOfBirth" name="admin-entity-edit-will-testator-placeOfBirth" data-ng-options="place.id as place.name for place in places"></select>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="New">
+                    <div class="well">
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-testator-placeOfBirth-name" class="control-label col-sm-3">Nom :</label>
+                            <div class="col-sm-9">
+                                <input id="admin-entity-edit-will-testator-placeOfBirth-name" class="form-control" data-ng-model="entity.will.testator.placeOfBirth.name" />
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
     <div class="form-group">
@@ -50,7 +66,23 @@
     <div class="form-group">
         <label for="admin-entity-edit-will-testator-placeOfDeath" class="control-label col-sm-3">Lieu de décès :</label>
         <div class="col-sm-9">
-            <input id="admin-entity-edit-will-testator-placeOfDeath" class="form-control" data-ng-model="entity.will.testator.placeOfDeath" />
+            <uib-tabset active="activeTestatorPlaceOfDeath" justified="true">
+                <uib-tab index="0" heading="List">
+                    <div class="well">
+                        <select class="form-control" id="admin-entity-edit-will-testator-placeOfDeath" data-ng-model="entity.will.testator.placeOfDeath" name="admin-entity-edit-will-testator-placeOfDeath" data-ng-options="place.id as place.name for place in places"></select>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="New">
+                    <div class="well">
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-testator-placeOfDeath-name" class="control-label col-sm-3">Nom :</label>
+                            <div class="col-sm-9">
+                                <input id="admin-entity-edit-will-testator-placeOfDeath-name" class="form-control" data-ng-model="entity.will.testator.placeOfDeath.name" />
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
     <div class="form-group">
@@ -68,7 +100,23 @@
     <div class="form-group">
         <label for="admin-entity-edit-will-testator-regiment" class="control-label col-sm-3">Régiment :</label>
         <div class="col-sm-9">
-            <input id="admin-entity-edit-will-testator-regiment" class="form-control" data-ng-model="entity.will.testator.regiment" />
+            <uib-tabset active="activeTestatorRegiment" justified="true">
+                <uib-tab index="0" heading="List">
+                    <div class="well">
+                        <select class="form-control" id="admin-entity-edit-will-testator-regiment" data-ng-model="entity.will.testator.regiment" name="admin-entity-edit-will-testator-regiment" data-ng-options="regiment.id as regiment.name for regiment in regiments"></select>
+                    </div>
+                </uib-tab>
+                <uib-tab index="1" heading="New">
+                    <div class="well">
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-testator-regiment-name" class="control-label col-sm-3">Nom :</label>
+                            <div class="col-sm-9">
+                                <input id="admin-entity-edit-will-testator-regiment-name" class="form-control" data-ng-model="entity.will.testator.regiment.name" />
+                            </div>
+                        </div>
+                    </div>
+                </uib-tab>
+            </uib-tabset>
         </div>
     </div>
     <div class="form-group">

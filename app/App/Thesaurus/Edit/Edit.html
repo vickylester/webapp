@@ -19,5 +19,17 @@
                 <div data-ng-if="entity.dataType == 'regiments'" data-ng-include="'App/Thesaurus/tpl/form-regiment.html'"></div>
             </div>
         </form>
+
+        <div class="panel panel-danger" data-ng-if="user.isAdmin == true">
+            <div class="panel-heading">
+                <h3 class="panel-title">Danger zone</h3>
+            </div>
+            <div class="panel-body">
+                <dl>
+                    <dt>Remove entity:</dt>
+                    <dd><button class="btn btn-danger" data-ng-click="remove.action()">Remove <i class="fa fa-remove" data-ng-if="remove.loading == false"></i><i class="fa fa-spin fa-circle-o-notch" data-ng-if="remove.loading == true"></i></button></dd>
+                </dl>
+            </div>
+        </div>
     </div>
 </div>

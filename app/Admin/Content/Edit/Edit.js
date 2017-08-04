@@ -42,25 +42,29 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             })
     }])
 
-    .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', 'CommentService', 'flash', '$upload', function($rootScope, $scope, $http, $sce, $state, content, CommentService, flash, $upload) {
+    .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', 'CommentService', 'flash', function($rootScope, $scope, $http, $sce, $state, content, CommentService, flash) {
         if(content !== null) {
             $scope.content = content;
+            $scope.content.updateComment = "";
         } else {
             $scope.content = {
                 id: null,
                 title: null,
                 content: null,
                 status: null,
-                type: null
+                type: null,
+                onHomepage: false,
+                updateComment: "Creation of the content"
             };
         }
 
         console.log($scope.content);
         $scope.submit = {
-            isLoading: false
+            loading: false,
+            success: false
         };
         $scope.remove = {
-            isLoading: false
+            loading: false
         };
         $scope.options = {
             language: 'fr',
@@ -78,18 +82,15 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
          * Submit management
          */
         $scope.submit.action = function() {
-            $upload.upload({
-                url: $rootScope.api+'/images',
-                method: 'POST',
-                file: $scope.content.image
-            });
-
-            $scope.submit.isLoading = true;
-            var form = {
+            $scope.submit.success = false;
+            $scope.submit.loading = true;
+            let form = {
                 title: $scope.content.title,
                 content: $scope.content.content,
                 type: $scope.content.type,
-                status: $scope.content.status
+                status: $scope.content.status,
+                onHomepage: $scope.content.onHomepage,
+                updateComment: $scope.content.updateComment
             };
             if($scope.content.id === null) {
                 /* If content.id == null > The content doesn't exist, we post it */
@@ -100,10 +101,11 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     $scope.thread = CommentService.postThread('content-'+response.data.id);
                     flash.success = "Votre contenu a bien été créé";
                     flash.success = $sce.trustAsHtml(flash.success);
-                    $scope.submit.isLoading = false;
+                    $scope.submit.loading = false;
+                    $scope.submit.success = true;
                     $state.go('app.content', {id: response.data.id});
                 }, function errorCallback(response) {
-                    $scope.submit.isLoading = false;
+                    $scope.submit.loading = false;
                     if(response.data.code === 400) {
                         flash.error = "<ul>";
                         for(var field in response.data.errors.children) {
@@ -128,7 +130,8 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     console.log(response.data);
                     flash.success = "Votre contenu a bien été mis à jour";
                     flash.success = $sce.trustAsHtml(flash.success);
-                    $scope.submit.isLoading = false;
+                    $scope.submit.loading = false;
+                    $scope.submit.success = true;
                 }, function errorCallback(response) {
                     if(response.data.code === 400) {
                         flash.error = "<ul>";
@@ -142,7 +145,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                         flash.error += "</ul>";
                         flash.error = $sce.trustAsHtml(flash.error);
                     }
-                    $scope.submit.isLoading = false;
+                    $scope.submit.loading = false;
                     console.log(response);
                 });
             }
@@ -152,16 +155,16 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
          * Submit management
          */
         $scope.remove.action = function() {
-            $scope.remove.isLoading = true;
+            $scope.remove.loading = true;
             $http.delete($rootScope.api+'/contents/'+$scope.content.id, {
                 headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
             }).then(function (response) {
                 flash.success = "Votre contenu a bien été supprimé";
                 flash.success = $sce.trustAsHtml(flash.success);
-                $scope.submit.isLoading = false;
+                $scope.submit.loading = false;
                 $state.go('admin.content.list');
             }, function errorCallback(response) {
-                $scope.validation.isLoading = false;
+                $scope.validation.loading = false;
                 console.log(response);
             });
 

@@ -31,7 +31,23 @@
 <div class="form-group">
     <label for="admin-entity-edit-will-willWritingPlace" class="control-label col-sm-6">Lieu d'écriture du testament :</label>
     <div class="col-sm-6">
-        <input id="admin-entity-edit-will-willWritingPlace" class="form-control" data-ng-model="entity.will.willWritingPlace" />
+        <uib-tabset active="activeWillWritingPlace" justified="true">
+            <uib-tab index="0" heading="List">
+                <div class="well">
+                    <select class="form-control" id="admin-entity-edit-will-willWritingPlace" data-ng-model="entity.will.willWritingPlace" name="admin-entity-edit-will-willWritingPlace" data-ng-options="place.id as place.name for place in places"></select>
+                </div>
+            </uib-tab>
+            <uib-tab index="1" heading="New">
+                <div class="well">
+                    <div class="form-group">
+                        <label for="admin-entity-edit-will-willWritingPlace-name" class="control-label col-sm-3">Nom :</label>
+                        <div class="col-sm-9">
+                            <input id="admin-entity-edit-will-willWritingPlace-name" class="form-control" data-ng-model="entity.will.willWritingPlace.name" />
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
     </div>
 </div>
 <div class="form-group" data-ng-include="'Admin/Entity/Import/tpl/import-will-testator.html'"></div>

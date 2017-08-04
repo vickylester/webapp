@@ -37,6 +37,19 @@
         </div>
     </div>
 
+    <hr />
+
+    <div class="form-group">
+        <label for="admin-app-preference-user-allowRegistration" class="control-label col-sm-3">Autoriser l'inscription d'utilisateurs</label>
+        <div class="col-sm-9">
+            <select id="admin-app-preference-user-allowRegistration" name="admin-app-preference-user-allowRegistration" class="form-control" data-ng-model="form.allow_registration">
+                <option value="" disabled>Sélectionnez ...</option>
+                <option value="opened">Inscriptions ouvertes</option>
+                <option value="closed">Inscriptions fermées</option>
+            </select>
+        </div>
+    </div>
+
     <div class="text-center">
         <button class="btn btn-lg btn-primary" type="button" data-ng-click="submit.action()">Submit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
     </div>

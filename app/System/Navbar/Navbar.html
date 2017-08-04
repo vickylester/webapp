@@ -19,10 +19,12 @@
             <li><a ui-sref="app.thesaurus.home">Documenter</a></li>
         </ul>
         <ul data-ng-if="user == null" class="nav navbar-nav navbar-right">
+            <li><a href="https://testaments-de-poilus.myjetbrains.com/" target="_blank" class="text-muted">BugTracker</a></li>
             <li><a ui-sref="app.security.login" class="text-muted">Connexion</a></li>
             <li><a ui-sref="app.security.register" class="text-muted">Inscription</a></li>
         </ul>
         <ul data-ng-if="user != null" class="nav navbar-nav navbar-right">
+            <li><a href="https://testaments-de-poilus.myjetbrains.com/" target="_blank" class="text-muted">BugTracker</a></li>
             <li data-ng-if="isAdmin()"><a ui-sref="admin.home" class="text-muted">Admin</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

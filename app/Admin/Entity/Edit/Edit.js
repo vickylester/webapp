@@ -18,15 +18,19 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             resolve: {
                 entity: function(EntityService, $transition$) {
                     return EntityService.getEntity($transition$.params().id);
+                },
+                places: function(ThesaurusService) {
+                    return ThesaurusService.getThesaurusEntities('places');
                 }
             }
         })
     }])
 
-    .controller('AdminEntityEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'flash', 'EntityService', function($rootScope, $scope, $http, $sce, $state, entity, flash, EntityService) {
+    .controller('AdminEntityEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'flash', 'EntityService', 'places', function($rootScope, $scope, $http, $sce, $state, entity, flash, EntityService, places) {
         if(entity === null) {$state.go('error.404');}
         else {$scope.entity = entity;}
         console.log($scope.entity);
+        $scope.places = places;
 
         $scope.submit = {
             loading: false
@@ -71,7 +75,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
                         callNumber: $scope.entity.will.call_number,
                         minuteDate: new Date($scope.entity.will.minute_date),
                         willWritingDate: new Date($scope.entity.will.will_writing_date),
-                        willWritingPlace: $scope.entity.will.will_writing_place
+                        willWritingPlace: $scope.entity.will.will_writing_place.id
                     },
                     resources: []
                 };

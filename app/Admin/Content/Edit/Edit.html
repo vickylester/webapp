@@ -37,6 +37,16 @@
                 </select>
             </div>
         </div>
+        <div class="form-group" data-ng-if="content.type == 'staticContent'">
+            <label for="admin-content-edit-onHomepage" class="control-label col-sm-3">Publié en page d'accueil :</label>
+            <div class="col-sm-9">
+                <select id="admin-content-edit-onHomepage" name="admin-content-edit-onHomepage" class="form-control" data-ng-model="content.onHomepage">
+                    <option value="" disabled>Sélectionnez ...</option>
+                    <option value="1">Oui</option>
+                    <option value="0">Non</option>
+                </select>
+            </div>
+        </div>
         <div class="form-group">
             <label for="admin-content-edit-status" class="control-label col-sm-3">Statut :</label>
             <div class="col-sm-9">
@@ -61,8 +71,15 @@
 
         <hr />
 
+        <div class="form-group" data-ng-if="content.id != null">
+            <label for="admin-content-edit-updateComment" class="control-label col-sm-3">Qu'avez-vous modifié ?</label>
+            <div class="col-sm-9">
+                <input id="admin-content-edit-updateComment" type="text" class="form-control" data-ng-model="content.updateComment" />
+            </div>
+        </div>
         <div>
-            <button class="btn btn-block btn-lg btn-primary" type="button" data-ng-click="submit.action()">Submit <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            <button data-ng-if="submit.success == false" class="btn btn-block btn-lg btn-primary" type="button" data-ng-click="submit.action()">Submit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            <button data-ng-if="submit.success == true" class="btn btn-block btn-lg btn-success" type="button" data-ng-click="submit.action()">Success !</button>
         </div>
 
         <hr data-ng-if="content.id !== null" />
@@ -86,7 +103,7 @@
             <div class="panel-body">
                 <dl>
                     <dt>Suppression du contenu</dt>
-                    <dd><button class="btn btn-danger" type="button" data-ng-click="remove.action()"><i class="fa fa-warning"></i> Delete <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button></dd>
+                    <dd><button class="btn btn-danger" type="button" data-ng-click="remove.action()">Delete <i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></dd>
                 </dl>
             </div>
         </div>

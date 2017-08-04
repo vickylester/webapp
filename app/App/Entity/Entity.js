@@ -168,7 +168,7 @@ angular.module('transcript.app.entity', ['ui.router'])
                 $scope.admin.export.submit.result = true;
                 $scope.admin.export.submit.content = response.link;
             }, function errorCallback(response) {
-                $scope.admin.export.submit.loading = true;
+                $scope.admin.export.submit.loading = false;
                 console.log(response);
             });
         };

@@ -81,7 +81,6 @@ tei:
             value: "header"
             attributes:
                 class: "tei-header"
-                style: "text-decoration: underline;"
         xml:
             name: "head"
             unique: "false"
@@ -115,9 +114,11 @@ tei:
         caret:
             position: "prepend"
         html:
-            name: "dateline"
+            name: "div"
             unique: "false"
             value: "ligne de date"
+            attributes:
+                class: "dateline"
         xml:
             name: "dateline"
             unique: "false"

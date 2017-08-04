@@ -13,7 +13,7 @@ angular.module('transcript.app.thesaurus.list', ['ui.router'])
             url: '/{type}',
             ncyBreadcrumb: {
                 parent: 'app.thesaurus.home',
-                label: 'Liste'
+                label: 'Liste des {{ entity.dataType }}'
             },
             resolve: {
                 entities: function(ThesaurusService, $transition$) {

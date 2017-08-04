@@ -159,3 +159,34 @@
 #transcriptContainerFullScreen:-webkit-full-screen .fullscreen-h100 {
     height: 100%;
 }
+
+.breadcrumb-interaction {
+    margin: 0;
+}
+
+.breadcrumb-interaction li {
+    font-size: 85%;
+}
+
+
+/* Live encoder rules */
+p.live-encoder {
+    border-left: solid 2px #000;
+    padding-left: 10px;
+}
+div.tei-header.live-encoder {
+    color: red;
+    text-align: center;
+}
+div.dateline.live-encoder {
+    font-style: italic;
+    text-align: right;
+}
+span.underlined.live-encoder {
+    text-decoration: underline;
+}
+span.sup.live-encoder {
+    font-size: 80%;
+    position: relative;
+    top: -0.5em;
+}

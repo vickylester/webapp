@@ -66,37 +66,70 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 return role;
 
             },
+            /**
+             * This function encodes the TEI XML in HTML for live rendering.
+             *
+             * More information about the buttons, the tags and their rendering into toolbar.yml
+             *
+             * @param encodeLiveRender
+             * @param button
+             * @returns string
+             */
             encodeHTML: function(encodeLiveRender, button) {
                 let regex = "",
                     html = "";
 
                 if(button.type === "tag") {
+                    /* Tags:
+                     * Tags are HTML tags such as <p>, <ul> or <section>
+                     */
                     let attributesHtml = "";
                     if(button.html.attributes !== undefined) {
                         for(let attribute in button.html.attributes) {
-                            attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
+                            if(attribute === "class") {
+                                attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+" live-encoder\"";
+                            } else {
+                                attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
+                            }
                         }
                     }
 
                     if (button.xml.unique === "false") {
                         regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
-                        html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
+                        html = "<"+button.html.name+attributesHtml+" class=\"live-encoder\" >$1</"+button.html.name+">";
                     } else if (button.xml.unique === "true") {
                         regex = new RegExp("<" + button.xml.name + " />", "g");
-                        html = "<"+button.html.name+" />";
+                        html = "<"+button.html.name+" class=\"live-encoder\" />";
                     }
                     encodeLiveRender = encodeLiveRender.replace(regex, html);
                 } else if(button.type === "key") {
-                    regex = new RegExp("<" + button.xml.name + " />", "g");
+                    /* Keys:
+                     * Keys are HTML tags without text inside such as <br />
+                     */
+                    regex = new RegExp("<" + button.xml.name + " class=\"live-encoder\" />", "g");
                     html = "<"+button.html.name+" />";
                     encodeLiveRender = encodeLiveRender.replace(regex, html);
                 } else if(button.type === "attribute") {
+                    /* Attributes:
+                     * Attributes are HTML attributes such as style, class, title, value.
+                     * By default, they are applying to a <span> or a <div> tag.
+                     */
                     if (button.xml.type === "inline") {
                         regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-                        html = "<span "+button.html.name+"=\""+button.html.value+"\" >$1</span>";
+
+                        if(button.html.name === "class") {
+                            html = "<span "+button.html.name+"=\""+button.html.value+" live-encoder\" >$1</span>";
+                        } else {
+                            html = "<span "+button.html.name+"=\""+button.html.value+"\" class=\"live-encoder\" >$1</span>";
+                        }
                     } else if (button.xml.type === "block") {
                         regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-                        html = "<div "+button.html.name+"=\""+button.html.value+"\" >$1</div>";
+
+                        if(button.html.name === "class") {
+                            html = "<div "+button.html.name+"=\""+button.html.value+" live-encoder\" >$1</div>";
+                        } else {
+                            html = "<div "+button.html.name+"=\""+button.html.value+"\" class=\"live-encoder\" >$1</div>";
+                        }
                     }
                     encodeLiveRender = encodeLiveRender.replace(regex, html);
                 }
@@ -127,7 +160,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 status: true,
                 content: ""
             },
-            interaction: "",
+            interaction: {
+                title: "",
+                content: "",
+                history: []
+            },
             area: transcript.content,
             buttons: config.tei,
             buttonsGroups: config.buttonsGroups,
@@ -365,7 +402,43 @@ angular.module('transcript.app.transcript', ['ui.router'])
                             oldLink.parentNode.removeChild(oldLink);
                         }
                     }
-                    $scope.wysiwyg.interaction = doc.innerHTML;
+                    $scope.wysiwyg.interaction.content = doc.innerHTML;
+                    $scope.wysiwyg.interaction.title = data.title;
+
+                    /* -----------------------------------------------------------------------------------  */
+                    /* Building breadcrumb  */
+                    /* -----------------------------------------------------------------------------------  */
+                    let elementToBreadcrumb = {
+                        title: data.title,
+                        id: data.id
+                    };
+
+                    /* -- Removing the previous items from history which are not relevant -- */
+                    let toSplice = [];
+                    for(let elementOfHistory of $scope.wysiwyg.interaction.history) {
+                        if(elementOfHistory.id === elementToBreadcrumb.id) {
+                            toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
+                        } else {
+                            for(let parent of elementOfHistory.parents) {
+                                if(parent === elementToBreadcrumb.id) {
+                                    toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
+                                }
+                            }
+                        }
+                    }
+                    for(let id of toSplice.sort(function(a, b){return b-a})) {
+                        $scope.wysiwyg.interaction.history.splice(id, 1 );
+                    }
+
+                    /* -- Building parents of current item -- */
+                    let parents = [];
+                    for(let elementOfHistory of $scope.wysiwyg.interaction.history) {
+                        parents.push(elementOfHistory.id);
+                    }
+                    elementToBreadcrumb.parents = parents;
+
+                    $scope.wysiwyg.interaction.history.push(elementToBreadcrumb);
+                    /* Building breadcrumb ---------------------------------------------------------------  */
                 });
             }
         };

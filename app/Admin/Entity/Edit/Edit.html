@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label for="admin-entity-edit-will-willWritingPlace" class="control-label col-sm-6">Lieu d'écriture du testament :</label>
                             <div class="col-sm-6">
-                                <input id="admin-entity-edit-will-willWritingPlace" class="form-control" data-ng-model="entity.will.will_writing_place" />
+                                <select class="form-control" id="admin-entity-edit-will-willWritingPlace" data-ng-model="entity.will.will_writing_place.id" name="admin-entity-edit-will-willWritingPlace" data-ng-options="place.id as place.name for place in places"></select>
                             </div>
                         </div>
                     </div>

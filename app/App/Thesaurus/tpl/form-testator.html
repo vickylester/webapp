@@ -37,7 +37,7 @@
 <div class="form-group">
     <label for="app-entity-edit-placeOfBirth" class="control-label col-sm-3">Lieu de naissance :</label>
     <div class="col-sm-9">
-        <input id="app-entity-edit-placeOfBirth" class="form-control" data-ng-model="entity.place_of_birth" />
+        <select class="form-control" id="app-entity-edit-placeOfBirth" data-ng-model="entity.place_of_birth.id" name="app-entity-edit-placeOfBirth" data-ng-options="place.id as place.name for place in places"></select>
     </div>
 </div>
 <div class="form-group">
@@ -49,7 +49,7 @@
 <div class="form-group">
     <label for="app-entity-edit-placeOfDeath" class="control-label col-sm-3">Lieu de décès :</label>
     <div class="col-sm-9">
-        <input id="app-entity-edit-placeOfDeath" class="form-control" data-ng-model="entity.place_of_death" />
+        <select class="form-control" id="app-entity-edit-placeOfDeath" data-ng-model="entity.place_of_death.id" name="app-entity-edit-placeOfDeath" data-ng-options="place.id as place.name for place in places"></select>
     </div>
 </div>
 <div class="form-group">
@@ -67,7 +67,7 @@
 <div class="form-group">
     <label for="app-entity-edit-regiment" class="control-label col-sm-3">Régiment :</label>
     <div class="col-sm-9">
-        <input id="app-entity-edit-regiment" class="form-control" data-ng-model="entity.regiment" />
+        <select class="form-control" id="app-entity-edit-regiment" data-ng-model="entity.regiment.id" name="app-entity-edit-regiment" data-ng-options="regiment.id as regiment.name for regiment in regiments"></select>
     </div>
 </div>
 <div class="form-group">

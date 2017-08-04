@@ -1,9 +1,17 @@
 <div id="transcript-interaction" class="h100">
     <div id="div-interaction-help" data-ng-if="wysiwyg.live.status == false">
         <div id="div-interaction-help-header">
-            <button class="btn btn-sm btn-default" data-ng-click="wysiwyg.live.status = true" title="Retour au rendu de la transcription"><i class="fa fa-chevron-left"></i> Back</button>
+            <div class="pull-right">
+                <button class="btn btn-default" data-ng-click="wysiwyg.live.status = true" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <ol class="breadcrumb breadcrumb-interaction">
+                <li data-ng-repeat="page in wysiwyg.interaction.history">
+                    <a data-ng-if="page.title != wysiwyg.interaction.title" data-ng-click="help(page.id)">{{ page.title }}</a>
+                    <span data-ng-if="page.title == wysiwyg.interaction.title" class="active">{{ page.title }}</span>
+                </li>
+            </ol>
         </div>
-        <div id="div-interaction-help-content" compile="wysiwyg.interaction"></div>
+        <div id="div-interaction-help-content" compile="wysiwyg.interaction.content"></div>
     </div>
     <div id="div-interaction-live" data-ng-if="wysiwyg.live.status == true" data-ng-bind-html="wysiwyg.live.content"></div>
 </div>

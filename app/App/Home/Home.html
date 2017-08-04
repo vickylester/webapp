@@ -12,6 +12,13 @@
 
 <div class="row">
     <div class="col-sm-6">
+        <div class="panel panel-default" data-ng-repeat="content in staticContents">
+            <div class="panel-heading">
+                <h3 class="panel-title">{{ content.title }}</h3>
+            </div>
+            <div class="panel-body" data-ng-bind-html="content.content"></div>
+        </div>
+
         <div data-ng-repeat="article in contents">
             <h3><a ui-sref="app.content({ id: article.id })" >{{ article.title }}</a></h3>
             <div data-ng-bind-html="article.content | limitTo: 1000"></div>

@@ -6,7 +6,7 @@
         </div>
 
         <div class="btn-group" role="group">
-            <a data-ng-click="help('20')" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-question-circle"></i></a>
+            <a data-ng-click="help(preferences.help_inside_home_content)" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-question-circle"></i></a>
             <a data-ng-if="page.fullscreen.status == false" data-ng-click="page.fullscreen.open()" class="btn btn-sm btn-default" title="Mode plein-écran"><i class="fa fa-arrows-alt"></i></a>
             <a data-ng-if="page.fullscreen.status == true" data-ng-click="page.fullscreen.close()" class="btn btn-sm btn-default" title="Quitter le mode plein-écran"><i class="fa fa-window-minimize"></i></a>
             <a data-ng-click="submit.goBack()" class="btn btn-sm btn-default" title="Revenir à la lecture"><i class="fa fa-times-circle"></i></a>

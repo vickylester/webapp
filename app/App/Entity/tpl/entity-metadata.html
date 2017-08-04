@@ -16,6 +16,6 @@
     </dl>
     <dl class="dl-horizontal list-group-item">
         <dt>Lieu d'écriture</dt>
-        <dd>{{ entity.will.will_writing_place }}</dd>
+        <dd><a ui-sref="app.thesaurus.view({type: 'places', id: entity.will.will_writing_place.id})">{{ entity.will.will_writing_place.name }}</a></dd>
     </dl>
 </div>

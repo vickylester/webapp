@@ -37,17 +37,19 @@ angular.module('transcript.app.content', ['ui.router'])
 
     .service('ContentService', function($http, $rootScope, $sce) {
         return {
-            getContents: function(type, status, date, limit) {
+            getContents: function(type, status, date, limit, onHomepage) {
                 var typeContainer = "",
                     statusContainer = "",
                     dateContainer = "",
                     limitContainer = "",
+                    onHomepageContainer = "",
                     arrayContainer = [];
 
                 if(type !== null) {typeContainer = "type="+type; arrayContainer.push(typeContainer);}
                 if(status !== null) {statusContainer = "status="+status; arrayContainer.push(statusContainer);}
                 if(date !== null) {dateContainer = "date="+date; arrayContainer.push(dateContainer);}
                 if(limit !== null) {limitContainer = "limit="+limit; arrayContainer.push(limitContainer);}
+                if(onHomepage !== undefined && onHomepage !== null) {onHomepageContainer = "onhomepage="+onHomepage; arrayContainer.push(onHomepageContainer);}
                 var query = arrayContainer.join("&");
 
                 return $http.get($rootScope.api+"/contents?"+query).then(function(response) {
