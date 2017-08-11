@@ -23,6 +23,42 @@
                                 <input type="number" id="admin-entity-edit-entity-willNumber" class="form-control" data-ng-model="entity.will_number" />
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-physDescSupport" class="control-label col-sm-6">Support physique :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-entity-physDescSupport" class="form-control" data-ng-model="entity.phys_desc_support" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-physDescHeight" class="control-label col-sm-6">Hauteur :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-entity-physDescHeight" class="form-control" data-ng-model="entity.phys_desc_height" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-physDescWidth" class="control-label col-sm-6">Largeur :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-entity-physDescWidth" class="form-control" data-ng-model="entity.phys_desc_width" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-physDescHand" class="control-label col-sm-6">Type d'écriture :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-entity-physDescHand" class="form-control" data-ng-model="entity.phys_desc_hand" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-hostingOrganization" class="control-label col-sm-6">Organisation (AN ou AD78) :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-entity-hostingOrganization" class="form-control" data-ng-model="entity.hosting_organization" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-entity-identificationUser" class="control-label col-sm-6">Personne ayant identifié le document :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-entity-identificationUser" class="form-control" data-ng-model="entity.identification_user" />
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="well">
@@ -240,12 +276,16 @@
 
 <div class="row">
     <div class="col-sm-12">
-        <div class="alert alert-danger">
-            <h3>Danger zone</h3>
-            <dl class="dl-horizontal">
-                <dt>Remove entity :</dt>
-                <dd><button class="btn btn-danger" data-ng-click="remove.action()">Remove entity <i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></dd>
-            </dl>
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <h3 class="panel-title">Danger area</h3>
+            </div>
+            <div class="panel-body">
+                <dl class="dl-horizontal">
+                    <dt>Remove entity :</dt>
+                    <dd><button class="btn btn-danger" data-mw-confirm-click="remove.action()" data-mw-confirm-click-message="Êtes-vous sûr de vouloir supprimer cette entité ?">Remove entity <i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></dd>
+                </dl>
+            </div>
         </div>
     </div>
 </div>

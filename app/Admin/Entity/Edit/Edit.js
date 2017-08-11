@@ -70,6 +70,12 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             $scope.submit.loading = true;
             let formEntity = {
                     willNumber: $scope.entity.will_number,
+                    physDescSupport: $scope.entity.phys_desc_support,
+                    physDescHeight: $scope.entity.phys_desc_height,
+                    physDescWidth: $scope.entity.phys_desc_width,
+                    physDescHand: $scope.entity.phys_desc_hand,
+                    hostingOrganization: $scope.entity.hosting_organization,
+                    identificationUser: $scope.entity.identification_user,
                     will: {
                         title: "Testament "+$scope.entity.will.call_number,
                         callNumber: $scope.entity.will.call_number,

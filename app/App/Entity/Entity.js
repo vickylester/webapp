@@ -102,7 +102,7 @@ angular.module('transcript.app.entity', ['ui.router'])
             },
 
             exportEntity: function(id) {
-                return $http.get($rootScope.api+"/export?type=entity&id="+id).then(function(response) {
+                return $http.get($rootScope.api+"/xml?context=export&type=entity&id="+id).then(function(response) {
                     return response.data;
                 });
             }

@@ -40,7 +40,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
             $scope.submit.isLoading = true;
             if($scope.form.password.plain === $scope.form.password.confirmation) {
                 $scope.form.errors = [];
-                $http.post("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/users",
+                $http.post($rootScope.api+"/users",
                     {
                         'fos_user_registration_form' : {
                             'name': $scope.form.name,

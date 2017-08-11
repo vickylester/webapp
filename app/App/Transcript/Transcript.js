@@ -86,27 +86,23 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     let attributesHtml = "";
                     if(button.html.attributes !== undefined) {
                         for(let attribute in button.html.attributes) {
-                            if(attribute === "class") {
-                                attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+" live-encoder\"";
-                            } else {
-                                attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
-                            }
+                            attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
                         }
                     }
 
                     if (button.xml.unique === "false") {
                         regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
-                        html = "<"+button.html.name+attributesHtml+" class=\"live-encoder\" >$1</"+button.html.name+">";
+                        html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
                     } else if (button.xml.unique === "true") {
                         regex = new RegExp("<" + button.xml.name + " />", "g");
-                        html = "<"+button.html.name+" class=\"live-encoder\" />";
+                        html = "<"+button.html.name+" />";
                     }
                     encodeLiveRender = encodeLiveRender.replace(regex, html);
                 } else if(button.type === "key") {
                     /* Keys:
                      * Keys are HTML tags without text inside such as <br />
                      */
-                    regex = new RegExp("<" + button.xml.name + " class=\"live-encoder\" />", "g");
+                    regex = new RegExp("<" + button.xml.name + " />", "g");
                     html = "<"+button.html.name+" />";
                     encodeLiveRender = encodeLiveRender.replace(regex, html);
                 } else if(button.type === "attribute") {
@@ -116,20 +112,10 @@ angular.module('transcript.app.transcript', ['ui.router'])
                      */
                     if (button.xml.type === "inline") {
                         regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-
-                        if(button.html.name === "class") {
-                            html = "<span "+button.html.name+"=\""+button.html.value+" live-encoder\" >$1</span>";
-                        } else {
-                            html = "<span "+button.html.name+"=\""+button.html.value+"\" class=\"live-encoder\" >$1</span>";
-                        }
+                        html = "<span "+button.html.name+"=\""+button.html.value+"\" >$1</span>";
                     } else if (button.xml.type === "block") {
                         regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-
-                        if(button.html.name === "class") {
-                            html = "<div "+button.html.name+"=\""+button.html.value+" live-encoder\" >$1</div>";
-                        } else {
-                            html = "<div "+button.html.name+"=\""+button.html.value+"\" class=\"live-encoder\" >$1</div>";
-                        }
+                        html = "<div "+button.html.name+"=\""+button.html.value+"\" >$1</div>";
                     }
                     encodeLiveRender = encodeLiveRender.replace(regex, html);
                 }
@@ -142,7 +128,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
     })
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'resource', 'TranscriptService', 'ContentService', function($rootScope, $scope, $http, $sce, $state, transcript, resource, TranscriptService, ContentService) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'resource', 'TranscriptService', 'ContentService', '$timeout', function($rootScope, $scope, $http, $sce, $state, transcript, resource, TranscriptService, ContentService, $timeout) {
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
         /* -------------------------------------------------------------------------------- */
@@ -174,7 +160,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
             }
         };
         $scope.submit = {
-            isLoading: false,
+            loading: false,
+            success: false,
             form: {},
             checkList: {
                 /**
@@ -194,10 +181,10 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.admin = {
             validation: {
                 accept: {
-                    isLoading: false
+                    loading: false
                 },
                 refuse: {
-                    isLoading: false
+                    loading: false
                 }
             },
             versions: {
@@ -205,13 +192,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
             },
             status: {
                 show: false,
-                isLoading: false,
+                loading: false,
                 value: transcript.status
             }
         };
         $scope.transcript = transcript;
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
         $scope.resource = resource;
+        if(transcript.content === null) {$scope.wysiwyg.area = "";}
         /* $scope & variables ------------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
@@ -257,6 +245,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     editor.insert("<lb />\n");
                 }
             });
+
+            $scope.aceEditor.container.addEventListener("dblclick", function(e) {
+                e.preventDefault();
+                if(config.list.indexOf($scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange())) !== -1) {
+                    $scope.help($scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()), "modelDoc", true);
+                }
+                return false;
+            }, false);
 
             $scope.aceUndoManager = $scope.aceSession.setUndoManager(new ace.UndoManager());
             $scope.aceEditor.focus();
@@ -380,68 +376,119 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* -------------------------------------------------------------------------------- */
         /* Help Management */
         /* -------------------------------------------------------------------------------- */
+        function resetInteractionZone() {
+            $scope.wysiwyg.interaction.content = '<p class="text-center" style="margin-top: 20px;"><i class="fa fa-5x fa-spin fa-circle-o-notch"></i></p>';
+        }
         /**
          * Help management
+         * @param string
+         * @param context
+         * @param resetBreadcrumb
+         */
+        $scope.help = function(string, context, resetBreadcrumb) {
+            if(context === "helpContent") {
+                if(resetBreadcrumb === true) {
+                    resetInteractionZone();
+                }
+                loadHelpData(string, resetBreadcrumb);
+            } else if(context === "modelDoc") {
+                resetInteractionZone(resetBreadcrumb);
+                loadDocumentation(string, resetBreadcrumb);
+            }
+            $scope.wysiwyg.live.status = false;
+        };
+
+        /**
+         * This function loads documentation about a TEI element
+         */
+        function loadDocumentation(element, resetBreadcrumb) {
+            $http.get($rootScope.api+'/model?info=doc&element=' + element, { headers: {'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token }}
+            ).then(function (response) {
+                //console.log(response.data);
+                if(response.data.doc !== null) {
+                    $scope.wysiwyg.interaction.content = response.data.doc;
+                } else {
+                    $scope.wysiwyg.interaction.content = "Oups ... Aucune documentation n'existe pour cet élément.";
+                }
+                $scope.wysiwyg.interaction.title = element;
+                breadcrumbManagement({title: element, id: 0}, resetBreadcrumb);
+            });
+        }
+
+        /**
+         * Loading contents of type helpContent
          * @param file
          */
-        $scope.help = function(file) {
-            loadHelpData(file);
-            $scope.wysiwyg.live.status = false;
+        function loadHelpData(file, resetBreadcrumb) {
+            return ContentService.getContent(file).then(function(data) {
+                let doc = document.createElement('div');
+                doc.innerHTML = data.content;
 
-            function loadHelpData(file) {
-                return ContentService.getContent(file).then(function(data) {
-                    let doc = document.createElement('div');
-                    doc.innerHTML = data.content;
-                    let links = doc.getElementsByTagName("a");
-                    for(let oldLink of links){
-                        if(oldLink.getAttribute("class").indexOf("internalHelpLink") !== -1 ){
-                            let newLink = document.createElement("a");
-                            newLink.setAttribute('data-ng-click', 'help(\''+oldLink.getAttribute('href')+'\')');
-                            newLink.innerHTML = oldLink.innerHTML;
-                            oldLink.parentNode.insertBefore(newLink, oldLink);
-                            oldLink.parentNode.removeChild(oldLink);
-                        }
+                //-------------------------------------------------------------
+                // -- Encoding internal links to be clickable
+                let links = doc.getElementsByTagName("a");
+                for(let oldLink of links){
+                    if(oldLink.getAttribute("class").indexOf("internalHelpLink") !== -1 ){
+                        let newLink = document.createElement("a");
+                        newLink.setAttribute('data-ng-click', 'help(\''+oldLink.getAttribute('href')+'\', \'helpContent\', false)');
+                        newLink.innerHTML = oldLink.innerHTML;
+                        oldLink.parentNode.insertBefore(newLink, oldLink);
+                        oldLink.parentNode.removeChild(oldLink);
                     }
-                    $scope.wysiwyg.interaction.content = doc.innerHTML;
-                    $scope.wysiwyg.interaction.title = data.title;
+                }
+                //-------------------------------------------------------------
 
-                    /* -----------------------------------------------------------------------------------  */
-                    /* Building breadcrumb  */
-                    /* -----------------------------------------------------------------------------------  */
-                    let elementToBreadcrumb = {
-                        title: data.title,
-                        id: data.id
-                    };
+                $scope.wysiwyg.interaction.content = doc.innerHTML;
+                $scope.wysiwyg.interaction.title = data.title;
+                breadcrumbManagement(data, resetBreadcrumb);
+            });
+        }
 
-                    /* -- Removing the previous items from history which are not relevant -- */
-                    let toSplice = [];
-                    for(let elementOfHistory of $scope.wysiwyg.interaction.history) {
-                        if(elementOfHistory.id === elementToBreadcrumb.id) {
-                            toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
-                        } else {
-                            for(let parent of elementOfHistory.parents) {
-                                if(parent === elementToBreadcrumb.id) {
-                                    toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
-                                }
+        /**
+         * Building breadcrumb for the interaction area
+         * @param content
+         * @param reset
+         */
+        function breadcrumbManagement(content, reset) {
+            let elementToBreadcrumb = {
+                title: content.title,
+                id: content.id
+            };
+
+            console.log(reset);
+            if(reset === true) {
+                // If reset === true -> we clean the history
+                $scope.wysiwyg.interaction.history = [];
+            } else {
+                // Else -> we keep the history and we remove the previous items from history which are no longer relevant
+                let toSplice = [];
+                for (let elementOfHistory of $scope.wysiwyg.interaction.history) {
+                    if (elementOfHistory.id === elementToBreadcrumb.id) {
+                        toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
+                    } else {
+                        for (let parent of elementOfHistory.parents) {
+                            if (parent === elementToBreadcrumb.id) {
+                                toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
                             }
                         }
                     }
-                    for(let id of toSplice.sort(function(a, b){return b-a})) {
-                        $scope.wysiwyg.interaction.history.splice(id, 1 );
-                    }
-
-                    /* -- Building parents of current item -- */
-                    let parents = [];
-                    for(let elementOfHistory of $scope.wysiwyg.interaction.history) {
-                        parents.push(elementOfHistory.id);
-                    }
-                    elementToBreadcrumb.parents = parents;
-
-                    $scope.wysiwyg.interaction.history.push(elementToBreadcrumb);
-                    /* Building breadcrumb ---------------------------------------------------------------  */
-                });
+                }
+                for (let id of toSplice.sort(function (a, b) {
+                    return b - a
+                })) {
+                    $scope.wysiwyg.interaction.history.splice(id, 1);
+                }
             }
-        };
+
+            /* -- Building parents of current item -- */
+            let parents = [];
+            for(let elementOfHistory of $scope.wysiwyg.interaction.history) {
+                parents.push(elementOfHistory.id);
+            }
+            elementToBreadcrumb.parents = parents;
+
+            $scope.wysiwyg.interaction.history.push(elementToBreadcrumb);
+        }
         /* Help Management ---------------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
@@ -476,12 +523,16 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Submit management
          */
         $scope.submit.load = function(action) {
+            if($scope.transcript.status === "todo" && $scope.wysiwyg.area !== "") {
+                // Updating status value in case of first edition
+                $scope.transcript.status = "transcription";
+            }
             if($scope.transcript.content !== $scope.wysiwyg.area) {
-                $scope.submit.isLoading = true;
+                $scope.submit.loading = true;
                 if($scope.submit.form.isEnded === true) {
                     $scope.transcript.status = "validation";
                 }
-                $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/' + $scope.transcript.id,
+                $http.patch($rootScope.api+'/transcripts/' + $scope.transcript.id,
                     {
                         "content": $scope.wysiwyg.area,
                         "updateComment": $scope.submit.form.comment,
@@ -491,12 +542,15 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 ).then(function (response) {
                     console.log(response.data);
                     $scope.transcript = response.data;
-                    $scope.submit.isLoading = false;
+                    $scope.submit.loading = false;
                     $scope.submit.form.isEnded = false;
                     $scope.submit.form.comment = "";
 
                     if(action === 'load-read' || $scope.transcript.status === "validation") {
                         $scope.page.status = 'read';
+                    } else {
+                        $scope.submit.success = true;
+                        $timeout(function() { $scope.submit.success = false; }, 3000);
                     }
                 });
             } else {
@@ -563,8 +617,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Status management
          */
         $scope.admin.status.submit = function() {
-            $scope.admin.status.isLoading = true;
-            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id,
+            $scope.admin.status.loading = true;
+            $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
                 {
                     "updateComment": "Edit status to "+$scope.admin.status.value,
                     "status": $scope.admin.status.value
@@ -573,7 +627,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             ).then(function (response) {
                 console.log(response.data);
                 $scope.transcript = response.data;
-                $scope.admin.status.isLoading = false;
+                $scope.admin.status.loading = false;
                 $scope.page.status = 'read';
             });
         };
@@ -582,8 +636,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Validation accept management
          */
         $scope.admin.validation.accept.load = function() {
-            $scope.admin.validation.accept.isLoading = true;
-            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id,
+            $scope.admin.validation.accept.loading = true;
+            $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
                 {
                     "content": $scope.wysiwyg.area,
                     "updateComment": "Accept validation",
@@ -593,7 +647,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             ).then(function (response) {
                 console.log(response.data);
                 $scope.transcript = response.data;
-                $scope.admin.validation.accept.isLoading = false;
+                $scope.admin.validation.accept.loading = false;
                 $scope.page.status = 'read';
             });
         };
@@ -602,8 +656,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Validation refuse management
          */
         $scope.admin.validation.refuse.load = function() {
-            $scope.admin.validation.refuse.isLoading = true;
-            $http.patch('http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/transcripts/'+$scope.transcript.id,
+            $scope.admin.validation.refuse.loading = true;
+            $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
                 {
                     "content": $scope.wysiwyg.area,
                     "updateComment": "Refuse validation",
@@ -613,7 +667,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             ).then(function (response) {
                 console.log(response.data);
                 $scope.transcript = response.data;
-                $scope.admin.validation.refuse.isLoading = false;
+                $scope.admin.validation.refuse.loading = false;
                 $scope.page.status = 'read';
             });
         };

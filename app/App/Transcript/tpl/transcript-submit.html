@@ -29,8 +29,9 @@
     </div>
     <div class="col-sm-2 text-right no-margin no-padding">
         <button data-ng-click="submit.load()" class="btn btn-primary btn-block btn-h100 btn-no-radius">
-            <span data-ng-if="submit.isLoading == false">Soumettre</span>
-            <span data-ng-if="submit.isLoading == true">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
+            <span data-ng-if="submit.loading == false && submit.success == false">Soumettre</span>
+            <span data-ng-if="submit.loading == true && submit.success == false">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
+            <span data-ng-if="submit.loading == false && submit.success == true">Enregistré <i class="fa fa-check"></i></span>
         </button>
     </div>
 </div>

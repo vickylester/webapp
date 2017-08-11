@@ -40,10 +40,13 @@ angular.module('transcript.app.user.edit', ['ui.router'])
         $scope.submit.action = function() {
             $scope.submit.isLoading = true;
             $scope.form.errors = [];
-            $http.patch("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/users/"+$rootScope.user.id,
+            $http.patch($rootScope.api+"/users/"+$rootScope.user.id,
                 {
                     'name': $scope.form.name,
                     'email': $scope.form.email
+                }, { headers:  {
+                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
+                }
                 })
                 .then(function (response) {
                     if(response.status === 200) {

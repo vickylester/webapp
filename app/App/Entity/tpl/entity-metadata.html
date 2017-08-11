@@ -18,4 +18,24 @@
         <dt>Lieu d'écriture</dt>
         <dd><a ui-sref="app.thesaurus.view({type: 'places', id: entity.will.will_writing_place.id})">{{ entity.will.will_writing_place.name }}</a></dd>
     </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Support physique</dt>
+        <dd>{{ entity.phys_desc_support }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Type d'écriture</dt>
+        <dd>{{ entity.phys_desc_hand }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Dimensions</dt>
+        <dd>{{ entity.phys_desc_height }} x {{ entity.phys_desc_width }} cm</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Institution de conservation</dt>
+        <dd>{{ entity.hosting_organization }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Identifié par</dt>
+        <dd>{{ entity.identification_user }}</dd>
+    </dl>
 </div>

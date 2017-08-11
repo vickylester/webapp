@@ -26,20 +26,24 @@ angular.module('transcript.app.security.login', ['ui.router'])
             username: null,
             password: null,
             grant_type: "password",
-            client_id: "1_3bcbxd9e24g0gk4swg0kwgcwg4o8k8g4g888kwc44gcc0gwwk4",
-            client_secret: "4ok2x70rlfokc8g0wws8c8kwcokw80k44sg48goc0ok4w0so0k"
+            client_id: $rootScope.client_id,
+            client_secret: $rootScope.client_secret
         };
         $scope.errors = [];
         $scope.submit = {
-            isLoading: false
+            loading: false
         };
 
         /* Loading data */
         $scope.submit.action = function() {
             $scope.errors = [];
-            $scope.submit.isLoading = true;
+            $scope.submit.loading = true;
             // Connecting user:
             $http.post($rootScope.api+"/oauth/v2/token", $scope.form)
+            /*$http({
+                url: $rootScope.api+"/oauth/v2/token?client_id="+$rootScope.client_id+"&client_secret="+$rootScope.client_secret+"&grant_type=password&username="+$scope.form.username+"&password="+$scope.form.password,
+                method: "post",
+            })*/
                 .then(function (response) {
                     console.log(response.data);
                     $rootScope.oauth = response.data;
@@ -59,6 +63,7 @@ angular.module('transcript.app.security.login', ['ui.router'])
                             $state.go('app.home');
                         });
                 }, function errorCallback(response) {
+                    $scope.submit.loading = true;
                     console.log(response);
                     if(response.data.code === 400) {
                         for(var field in response.data.errors.children) {
@@ -72,7 +77,6 @@ angular.module('transcript.app.security.login', ['ui.router'])
                     if(response.status === 400 || response.data.error_description !== undefined) {
                         $scope.errors.push({field: "Warning", error: [response.data.error_description]});
                     }
-                    $scope.submit.isLoading = false;
                 });
         };
     }])

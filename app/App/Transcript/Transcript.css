@@ -13,6 +13,11 @@
 
 #transcriptContainer #transcript-toolbar #transcript-toolbar-edit {
     padding: 2px;
+    padding-left: 7px;
+}
+
+#transcriptContainer #transcript-toolbar #transcript-toolbar-edit .btn-group, #transcriptContainer #transcript-toolbar #transcript-toolbar-edit .dropdown .btn {
+    margin-right: 5px;
 }
 
 /* Loading page */
@@ -170,22 +175,22 @@
 
 
 /* Live encoder rules */
-p.live-encoder {
+#div-container-encode p {
     border-left: solid 2px #000;
     padding-left: 10px;
 }
-div.tei-header.live-encoder {
+#div-container-encode div.tei-header {
     color: red;
     text-align: center;
 }
-div.dateline.live-encoder {
+#div-container-encode div.dateline {
     font-style: italic;
     text-align: right;
 }
-span.underlined.live-encoder {
+#div-container-encode span.underlined {
     text-decoration: underline;
 }
-span.sup.live-encoder {
+#div-container-encode span.sup {
     font-size: 80%;
     position: relative;
     top: -0.5em;

@@ -67,6 +67,9 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
             if(typeof($scope.entity.will.willWritingPlace) === "object") {
                 postPlace($scope.entity.will.willWritingPlace, 'willWritingPlace');
             }
+            if(typeof($scope.entity.will.willWritingPlace) === "number" && typeof($scope.entity.will.testator) === "number") {
+                postEntityStarter();
+            }
 
             function postEntityStarter() {
                 console.log('postEntityStarter');

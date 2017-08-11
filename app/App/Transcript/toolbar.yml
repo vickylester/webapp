@@ -1,19 +1,15 @@
 buttonsGroups:
     structure: "dropdown"
-    choice: "group"
+    subStructure: "group"
+    physicalStructure: "group"
+    layoutMarker: "group"
+    subLayoutMarker: "group"
+    microPhenomena: "group"
+    renderingDifficulties: "dropdown"
     semantic: "group"
-    text: "group"
+    notes: "group"
 tei:
-    br:
-        type: "key"
-        caret:
-            position: "after"
-        html:
-            name: "br"
-            unique: "true"
-        xml:
-            name: "lb"
-            unique: "true"
+    # éléments de structure logique du texte :
     paragraph:
         type: "tag"
         btn :
@@ -54,16 +50,6 @@ tei:
             unique: "false"
             sub:
                 item: "tag"
-    item:
-        type: "tag"
-        caret:
-            position: "prepend"
-        html:
-            name: "li"
-            unique: "false"
-        xml:
-            name: "item"
-            unique: "false"
     letterhead:
         type: "tag"
         btn :
@@ -140,26 +126,42 @@ tei:
         xml:
             name: "postscript"
             unique: "false"
-    choice:
-        type: "choice"
-        modal:
-            id: "choice"
-        btn :
-            id: "choice"
-            label: "Remplacement"
-            title: "Remplacer du texte"
-            icon: "fa fa-refresh"
+    # éléments de structure de 2e niveau :
+    item:
+        type: "tag"
+        btn:
+            id: "item"
+            label: "Puce"
+            title: "Ajouter une puce à la liste"
+            icon: "fa fa-circle"
             btn_class: ""
-            btn_group: "choice"
+            btn_group: "subStructure"
         caret:
-            position: "after"
+            position: "prepend"
         html:
-            name: "div"
+            name: "li"
+            unique: "false"
+        xml:
+            name: "item"
+            unique: "false"
+    seg:
+        type: "tag"
+        btn:
+            id: "seg"
+            label: "Segment"
+            title: "Segment de texte"
+            icon: "fa fa-arrows-h"
+            btn_class: ""
+            btn_group: "subStructure"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
             unique: "false"
             attributes:
-                class: "replacement-tag"
+                class: "segment"
         xml:
-            name: "occur"
+            name: "seg"
             unique: "false"
     address:
         type: "tag"
@@ -169,36 +171,113 @@ tei:
             title: "Ajouter une adresse"
             icon: ""
             btn_class: ""
-            btn_group: "semantic"
+            btn_group: "subStructure"
         caret:
             position: "prepend"
         html:
-            name: "div"
+            name: "span"
             unique: "false"
             attributes:
-                class: "address-tag"
+                class: "address"
         xml:
             name: "address"
             unique: "false"
-    person:
+    note:
         type: "tag"
         btn :
-            id: "person"
-            label: "Personne"
-            title: "Ajouter un nom de personne"
-            icon: "fa fa-user"
+            id: "note"
+            label: "Note"
+            title: "Note du testateur"
+            icon: "fa fa-comment-o"
             btn_class: ""
-            btn_group: "semantic"
+            btn_group: "subStructure"
         caret:
             position: "prepend"
         html:
-            name: "div"
+            name: "span"
             unique: "false"
             attributes:
-                class: "person-tag"
+                class: "note"
         xml:
-            name: "personName"
+            name: "note"
             unique: "false"
+    # éléments marqueurs de la structure physique du testament :
+    br:
+        type: "key"
+        btn:
+            id: "br"
+            label: "Retour à la ligne"
+            title: "Retourner à la ligne"
+            icon: "fa fa-arrow-down"
+            btn_class: ""
+            btn_group: "physicalStructure"
+        caret:
+            position: "after"
+        html:
+            name: "br"
+            unique: "true"
+        xml:
+            name: "lb"
+            unique: "true"
+    pb:
+        type: "tag"
+        btn:
+            id: "pb"
+            label: "Changement de page"
+            title: "Changement de page"
+            icon: "fa fa-file-text-o"
+            btn_class: ""
+            btn_group: "physicalStructure"
+        caret:
+            position: "after"
+        html:
+            name: "div"
+            unique: "true"
+            attributes:
+                class: "page-break"
+        xml:
+            name: "pb"
+            unique: "true"
+    # éléments marqueurs de la mise en page du testament, ou de la mise en valeur de parties du texte :
+    space:
+        type: "tag"
+        btn:
+            id: "space"
+            label: "Espace"
+            title: "Ajouter un espace"
+            icon: "fa fa-arrows-v"
+            btn_class: ""
+            btn_group: "layoutMarker"
+        caret:
+            position: "after"
+        html:
+            name: "div"
+            unique: "true"
+            attributes:
+                class: "space"
+        xml:
+            name: "space"
+            unique: "true"
+    metamark:
+        type: "tag"
+        btn:
+            id: "metamark"
+            label: "Marque"
+            title: "Signaler une marque"
+            icon: "fa fa-thumb-tack"
+            btn_class: ""
+            btn_group: "layoutMarker"
+        caret:
+            position: "after"
+        html:
+            name: "div"
+            unique: "true"
+            attributes:
+                class: "metamark"
+        xml:
+            name: "metamark"
+            unique: "true"
+    # éléments marqueurs de 2ème niveau :
     underlined:
         type: "attribute"
         btn :
@@ -207,7 +286,7 @@ tei:
             title: "Marquer le texte comme souligné"
             icon: "fa fa-underline"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "subLayoutMarker"
         caret:
             position: "prepend"
         html:
@@ -228,7 +307,7 @@ tei:
             title: "Marquer le texte comme exposant"
             icon: "fa fa-superscript"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "subLayoutMarker"
         caret:
             position: "prepend"
         html:
@@ -241,87 +320,130 @@ tei:
             value: "sup"
             type: "inline"
             combinable: "true"
-    align_left:
+    capitale-letters:
         type: "attribute"
         btn :
-            id: "align_left"
-            label: "Alignement gauche"
-            title: "Marquer le texte comme aligné à gauche"
-            icon: "fa fa-align-left"
+            id: "capitale-letters"
+            label: "Majuscule"
+            title: "Texte en majuscule"
+            icon: "fa fa-text-height"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "subLayoutMarker"
         caret:
             position: "prepend"
         html:
             name: "class"
-            value: "text-left"
-            type: "block"
-            combinable: "true"
+            value: "text-uppercase"
+            type: "inline"
+            combinable: "false"
         xml:
             name: "rend"
-            value: "left"
-            type: "block"
-            combinable: "true"
-    align_center:
-        type: "attribute"
+            value: "capital-letters"
+            type: "inline"
+            combinable: "false"
+    #align_left:
+    #    type: "attribute"
+    #    btn :
+    #        id: "align_left"
+    #        label: "Alignement gauche"
+    #        title: "Marquer le texte comme aligné à gauche"
+    #        icon: "fa fa-align-left"
+    #        btn_class: ""
+    #        btn_group: "subLayoutMarker"
+    #    caret:
+    #        position: "prepend"
+    #    html:
+#            name: "class"
+#            value: "text-left"
+#            type: "block"
+#            combinable: "true"
+#        xml:
+#            name: "rend"
+#            value: "left"
+#            type: "block"
+#            combinable: "true"
+#    align_center:
+#        type: "attribute"
+#        btn :
+#            id: "align_center"
+#            label: "Alignement au centre"
+#            title: "Marquer le texte comme aligné au centre"
+#            icon: "fa fa-align-center"
+#            btn_class: ""
+#            btn_group: "subLayoutMarker"
+#        caret:
+#            position: "prepend"
+#        html:
+#            name: "class"
+#            value: "text-center"
+#            type: "block"
+#            combinable: "true"
+#        xml:
+#            name: "rend"
+#            value: "center"
+#            type: "block"
+#            combinable: "true"
+#    align_right:
+#        type: "attribute"
+#        btn :
+#            id: "align_right"
+#            label: "Alignement droite"
+#            title: "Marquer le texte comme aligné à droite"
+#            icon: "fa fa-align-right"
+#            btn_class: ""
+#            btn_group: "subLayoutMarker"
+#        caret:
+#            position: "prepend"
+#        html:
+#            name: "class"
+#            value: "text-right"
+#            type: "block"
+#            combinable: "true"
+#        xml:
+#            name: "rend"
+#            value: "right"
+#            type: "block"
+#            combinable: "true"
+    # éléments permettant de consigner des micro-phénomènes de l'écriture :
+    choice:
+        type: "choice"
+        modal:
+            id: "choice"
         btn :
-            id: "align_center"
-            label: "Alignement au centre"
-            title: "Marquer le texte comme aligné au centre"
-            icon: "fa fa-align-center"
+            id: "choice"
+            label: "Remplacement"
+            title: "Remplacer du texte"
+            icon: "fa fa-refresh"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "microPhenomena"
         caret:
-            position: "prepend"
+            position: "after"
         html:
-            name: "class"
-            value: "text-center"
-            type: "block"
-            combinable: "true"
+            name: "div"
+            unique: "false"
+            attributes:
+                class: "replacement"
         xml:
-            name: "rend"
-            value: "center"
-            type: "block"
-            combinable: "true"
-    align_right:
-        type: "attribute"
-        btn :
-            id: "align_right"
-            label: "Alignement droite"
-            title: "Marquer le texte comme aligné à droite"
-            icon: "fa fa-align-right"
-            btn_class: ""
-            btn_group: "text"
-        caret:
-            position: "prepend"
-        html:
-            name: "class"
-            value: "text-right"
-            type: "block"
-            combinable: "true"
-        xml:
-            name: "rend"
-            value: "right"
-            type: "block"
-            combinable: "true"
-    exchange:
+            name: "occur"
+            unique: "false"
+    surplus:
         type: "tag"
         btn :
-            id: "exchange"
-            label: "Remplacement de texte"
-            title: "Marquer le texte comme remplacé"
-            icon: "fa fa-exchange"
+            id: "surplus"
+            label: "Superflu"
+            title: "Marquer le texte comme superflu"
+            icon: ""
             btn_class: ""
-            btn_group: "text"
+            btn_group: "microPhenomena"
         caret:
             position: "prepend"
         html:
             name: "div"
             unique: "false"
             attributes:
-                class: "exchange-tag"
+                class: "surplus"
         xml:
-            name: "exchange"
+            name: "surplus"
             unique: "false"
     add:
         type: "tag"
@@ -331,14 +453,14 @@ tei:
             title: "Marquer le texte comme ajouté"
             icon: "fa fa-plus"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "microPhenomena"
         caret:
             position: "prepend"
         html:
-            name: "div"
+            name: "span"
             unique: "false"
             attributes:
-                class: "add-tag"
+                class: "add"
         xml:
             name: "add"
             unique: "false"
@@ -350,7 +472,7 @@ tei:
             title: "Marquer le texte comme supprimé"
             icon: "fa fa-strikethrough"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "microPhenomena"
         caret:
             position: "prepend"
         html:
@@ -359,23 +481,312 @@ tei:
         xml:
             name: "del"
             unique: "false"
-    foreign:
+    subst:
         type: "tag"
         btn :
-            id: "foreign"
-            label: "Texte en langue étrangère"
-            title: "Marquer le texte comme étant en langue étrangère"
-            icon: "fa fa-globe"
+            id: "subst"
+            label: "Remplacement de texte"
+            title: "Marquer le texte comme remplacé"
+            icon: "fa fa-exchange"
             btn_class: ""
-            btn_group: "text"
+            btn_group: "microPhenomena"
         caret:
             position: "prepend"
         html:
-            name: "div"
+            name: "span"
             unique: "false"
             attributes:
-                class: "foreign-tag"
+                class: "subst"
         xml:
-            name: "foreign"
+            name: "subst"
             unique: "false"
-
+    # éléments permettant de consigner des difficultés de lecture :
+    damage:
+        type: "tag"
+        btn :
+            id: "damage"
+            label: "Endommagé"
+            title: "Marquer le texte comme endommagé"
+            icon: ""
+            btn_class: ""
+            btn_group: "renderingDifficulties"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "damage"
+        xml:
+            name: "damage"
+            unique: "false"
+    supplied:
+        type: "tag"
+        btn :
+            id: "supplied"
+            label: "Restitution"
+            title: "Texte restitué par le transcripteur"
+            icon: ""
+            btn_class: ""
+            btn_group: "renderingDifficulties"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "supplied"
+        xml:
+            name: "supplied"
+            unique: "false"
+    unclear:
+        type: "tag"
+        btn :
+            id: "unclear"
+            label: "Incertain"
+            title: "Texte transcript incertain"
+            icon: ""
+            btn_class: ""
+            btn_group: "renderingDifficulties"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "unclear"
+        xml:
+            name: "unclear"
+            unique: "false"
+    gap:
+        type: "tag"
+        btn :
+            id: "gap"
+            label: "Manque"
+            title: "Présence d'un manque dans la transcription"
+            icon: "fa fa-ellipsis-h"
+            btn_class: ""
+            btn_group: "renderingDifficulties"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "true"
+            attributes:
+                class: "gap"
+        xml:
+            name: "gap"
+            unique: "true"
+    # éléments de balisage sémantique :
+    persName:
+        type: "tag"
+        btn :
+            id: "persName"
+            label: "Personne"
+            title: "Marquer un nom de personne"
+            icon: "fa fa-user"
+            btn_class: ""
+            btn_group: "semantic"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "person-name"
+        xml:
+            name: "persName"
+            unique: "false"
+    placeName:
+        type: "tag"
+        btn :
+            id: "placeName"
+            label: "Lieu"
+            title: "Marquer un nom de lieu"
+            icon: "fa fa-map-marker"
+            btn_class: ""
+            btn_group: "semantic"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "place-name"
+        xml:
+            name: "placeName"
+            unique: "false"
+    orgName:
+        type: "tag"
+        btn :
+            id: "orgName"
+            label: "Organisation"
+            title: "Marquer un nom d'organisation"
+            icon: "fa fa-university"
+            btn_class: ""
+            btn_group: "semantic"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "org-name"
+        xml:
+            name: "orgName"
+            unique: "false"
+    date:
+        type: "tag"
+        btn :
+            id: "date"
+            label: "Date"
+            title: "Marquer une date"
+            icon: "fa fa-calendar-o"
+            btn_class: ""
+            btn_group: "semantic"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "date"
+        xml:
+            name: "date"
+            unique: "false"
+    term:
+        type: "tag"
+        btn :
+            id: "term"
+            label: "Terme"
+            title: "Marquer un terme"
+            icon: "fa fa-terminal"
+            btn_class: ""
+            btn_group: "semantic"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "term"
+        xml:
+            name: "term"
+            unique: "false"
+    # éléments pour les notes d'apparat critique ou les notes sur le contenu du testament :
+    ref:
+        type: "tag"
+        btn :
+            id: "ref"
+            label: "Référence"
+            title: "Pointer vers une note sur le contenu"
+            icon: "fa fa-tag"
+            btn_class: ""
+            btn_group: "notes"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "ref"
+        xml:
+            name: "ref"
+            unique: "false"
+    note:
+        type: "tag"
+        btn :
+            id: "note"
+            label: "Note"
+            title: "Note du testateur"
+            icon: "fa fa-comment-o"
+            btn_class: ""
+            btn_group: "notes"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "note"
+        xml:
+            name: "note"
+            unique: "false"
+    app:
+        type: "tag"
+        btn :
+            id: "app"
+            label: "Apparat"
+            title: "Note d'apparat critique"
+            icon: "fa fa-comment"
+            btn_class: ""
+            btn_group: "notes"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "app"
+        xml:
+            name: "app"
+            unique: "false"
+    lem:
+        type: "tag"
+        btn :
+            id: "lem"
+            label: "Leçon"
+            title: "Leçon textuelle"
+            icon: ""
+            btn_class: ""
+            btn_group: "notes"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "lem"
+        xml:
+            name: "lem"
+            unique: "false"
+    bibl:
+        type: "tag"
+        btn :
+            id: "bibl"
+            label: "Ref biblio"
+            title: "Référence bibliographique"
+            icon: "fa fa-book"
+            btn_class: ""
+            btn_group: "notes"
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            unique: "false"
+            attributes:
+                class: "bibl"
+        xml:
+            name: "bibl"
+            unique: "false"
+    #
+    #foreign:
+    #    type: "tag"
+    #    btn :
+    #        id: "foreign"
+    #        label: "Texte en langue étrangère"
+    #        title: "Marquer le texte comme étant en langue étrangère"
+    #        icon: "fa fa-globe"
+    #        btn_class: ""
+    #        btn_group: "text"
+    #    caret:
+    #        position: "prepend"
+    #    html:
+    #        name: "div"
+    #        unique: "false"
+    #        attributes:
+    #            class: "foreign"
+    #    xml:
+    #        name: "foreign"
+    #        unique: "false"
+list: [p, list, head, signed, dateline, postscript, item, seg, address, note, lb, pb, space, metamark, hi, occur, sic, abbr, orig, surplus, add, del, subst, dammage, supplied, unclear, gap, persName, placeName, orgName, date, term, ref, app, lem, bibl]

@@ -39,9 +39,12 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
         $scope.submit.action = function() {
             $scope.submit.isLoading = true;
             $scope.form.errors = [];
-            $http.patch("http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php/preferences/"+userPreferences.id,
+            $http.patch($rootScope.api+"/preferences/"+userPreferences.id,
                 {
                     'transcriptionDeskPosition': $scope.form.transcription_desk_position
+                }, { headers:  {
+                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
+                }
                 })
                 .then(function (response) {
                     $rootScope.user._embedded.preferences = response.data;

@@ -1,0 +1,21 @@
+<div class="jumbotron">
+    <h2>Réinitlisation du mot de passe</h2>
+</div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="app-security-resetting-email" class="control-label col-sm-3">Votre email</label>
+        <div class="col-sm-9">
+            <input type="email" placeholder="Votre email" id="app-security-resetting-email" name="app-security-resetting-email" data-ng-model="form.email" required="required" class="form-control" />
+        </div>
+    </div>
+    <div class="text-center">
+        <button class="btn btn-primary" data-ng-click="submit.action()">Soumettre <i class="fa fa-spin fa-circle-o-notch" data-ng-if="submit.loading == true"></i></button>
+    </div>
+</form>

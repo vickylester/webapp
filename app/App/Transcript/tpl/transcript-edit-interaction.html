@@ -6,12 +6,14 @@
             </div>
             <ol class="breadcrumb breadcrumb-interaction">
                 <li data-ng-repeat="page in wysiwyg.interaction.history">
-                    <a data-ng-if="page.title != wysiwyg.interaction.title" data-ng-click="help(page.id)">{{ page.title }}</a>
+                    <a data-ng-if="page.title != wysiwyg.interaction.title" data-ng-click="help(page.id, 'helpContent', false)">{{ page.title }}</a>
                     <span data-ng-if="page.title == wysiwyg.interaction.title" class="active">{{ page.title }}</span>
                 </li>
             </ol>
         </div>
         <div id="div-interaction-help-content" compile="wysiwyg.interaction.content"></div>
     </div>
-    <div id="div-interaction-live" data-ng-if="wysiwyg.live.status == true" data-ng-bind-html="wysiwyg.live.content"></div>
+    <div id="div-interaction-live" data-ng-if="wysiwyg.live.status == true">
+        <div  id="div-container-encode" data-ng-bind-html="wysiwyg.live.content"></div>
+    </div>
 </div>

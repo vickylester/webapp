@@ -41,6 +41,7 @@ angular.module('transcriptApp', [
     'transcript.app.security.login',
     'transcript.app.security.logout',
     'transcript.app.security.register',
+    'transcript.app.security.resetting',
     'transcript.app.thesaurus',
     'transcript.app.thesaurus.create',
     'transcript.app.thesaurus.edit',
@@ -70,13 +71,16 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$
 
 }])
 .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', function($rootScope, $http, $injector, $location, authService, $state, $cookies) {
-    $rootScope.api = "http://localhost:8888/TestamentsDePoilus/api/web/app_dev.php";
-    $rootScope.api_web = "http://localhost:8888/TestamentsDePoilus/api/web/";
+    let parameters = YAML.load('parameters.yml');
+    $rootScope.api = parameters.api;
+    $rootScope.api_web = parameters.api_web;
     $rootScope.webapp = {
-        strict: "http://localhost:8888/TestamentsDePoilus/webapp/app/#!/",
-        resources: "http://localhost:8888/TestamentsDePoilus/webapp/app/web/"
+        strict: parameters.webapp.strict,
+        resources: parameters.webapp.resources
     };
-    $rootScope.siteURL = "http://testament-de-poilus.huma-num.fr";
+    $rootScope.siteURL = parameters.siteURL;
+    $rootScope.client_id = parameters.client_id;
+    $rootScope.client_secret = parameters.client_secret;
 
     if($cookies.get('transcript_security_token_access') !== undefined) {
         $rootScope.oauth = {
@@ -104,7 +108,26 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$
             }
         )
     }
-}]);
+}])
+.directive( "mwConfirmClick", [
+    function( ) {
+        return {
+            priority: -1,
+            restrict: 'A',
+            scope: { confirmFunction: "&mwConfirmClick" },
+            link: function( scope, element, attrs ){
+                element.bind( 'click', function( e ){
+                    // message defaults to "Are you sure?"
+                    let message = attrs.mwConfirmClickMessage ? attrs.mwConfirmClickMessage : "Are you sure?";
+                    // confirm() requires jQuery
+                    if( confirm( message ) ) {
+                        scope.confirmFunction();
+                    }
+                });
+            }
+        }
+    }
+]);;
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

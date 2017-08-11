@@ -53,7 +53,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 content: null,
                 status: null,
                 type: null,
-                onHomepage: false,
+                onHomepage: 0,
                 updateComment: "Creation of the content"
             };
         }
