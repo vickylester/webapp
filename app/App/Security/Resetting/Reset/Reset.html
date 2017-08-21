@@ -1,0 +1,38 @@
+<div class="jumbotron">
+    <h2>Réinitialisation du mot de passe</h2>
+</div>
+<div ncy-breadcrumb></div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <section class="alert alert-danger" data-ng-if="errors.length > 0">
+            <ul>
+                <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
+            </ul>
+        </section>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="app_security_resetting_reset_password_plain" class="control-label col-sm-3">Password</label>
+                <div class="col-sm-9">
+                    <input type="password" data-ng-model="form.password.plain" class="form-control" id="app_security_resetting_reset_password_plain" name="app_security_resetting_reset_password_plain" placeholder="Password" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app_security_resetting_reset_password_confirmation" class="control-label col-sm-3">Confirmation</label>
+                <div class="col-sm-9">
+                    <input type="password" data-ng-model="form.password.confirmation" class="form-control" id="app_security_resetting_reset_password_confirmation" name="app_security_resetting_reset_password_confirmation" placeholder="Confirm your password" required />
+                </div>
+            </div>
+            <div class="text-center">
+                <button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Reset password <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            </div>
+        </form>
+    </div>
+</div>

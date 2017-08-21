@@ -42,6 +42,9 @@ angular.module('transcriptApp', [
     'transcript.app.security.logout',
     'transcript.app.security.register',
     'transcript.app.security.resetting',
+    'transcript.app.security.resetting.check',
+    'transcript.app.security.resetting.request',
+    'transcript.app.security.resetting.reset',
     'transcript.app.thesaurus',
     'transcript.app.thesaurus.create',
     'transcript.app.thesaurus.edit',
@@ -51,6 +54,7 @@ angular.module('transcriptApp', [
     'transcript.app.training',
     'transcript.app.transcript',
     'transcript.app.user',
+    'transcript.app.user.change-password',
     'transcript.app.user.edit',
     'transcript.app.user.preferences',
     'transcript.app.user.profile',
@@ -127,7 +131,7 @@ config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$
             }
         }
     }
-]);;
+]);
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);

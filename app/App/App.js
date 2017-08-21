@@ -10,7 +10,11 @@ angular.module('transcript.app', ['ui.router'])
                     controller: 'SystemNavbarCtrl'
                 },
                 "page" : {
-                    template: '<div ui-view="page"></div>',
+                    template: '<div ui-view="page">' +
+                    '               <div class="my-super-awesome-loading-box" data-ng-show="loadingTracker.active()">\n' +
+                    '                   <div class="text-center"><i class="fa fa-spin fa-circle-o-notch fa-4x"></i></div>\n' +
+                    '               </div>' +
+                    '           </div>',
                     controller: 'AppCtrl'
                 }
             },

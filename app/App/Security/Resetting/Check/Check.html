@@ -1,0 +1,11 @@
+<div class="jumbotron">
+    <p>Votre demande de réinitialisation a bien été enregistrée.
+        Vous allez recevoir dans quelques instants un mail de confirmation contenant un lien de réinitialisation.
+    Merci de cliquer sur ce lien.</p>
+</div>
+
+<div flash-alert active-class="in alert" class="fade" duration="5000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message">{{flash.message}}</span>
+</div>

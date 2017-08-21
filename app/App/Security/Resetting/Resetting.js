@@ -4,28 +4,13 @@ angular.module('transcript.app.security.resetting', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider.state('app.security.resetting', {
+            abstract: true,
             views: {
                 "page" : {
-                    templateUrl: 'App/Security/Resetting/Resetting.html',
-                        controller: 'AppSecurityResettingCtrl'
+                    template: '<div ui-view="page"></div>'
                 }
             },
             url: '/resetting'
         })
-    }])
-
-    .controller('AppSecurityResettingCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-        $scope.form = {
-            email: null
-        };
-        $scope.submit = {
-            loading: false
-        };
-
-        $scope.submit.action = function() {
-            $scope.submit.loading = true;
-
-
-        };
     }])
 ;

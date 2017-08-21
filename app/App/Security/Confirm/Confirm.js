@@ -10,11 +10,16 @@ angular.module('transcript.app.security.confirm', ['ui.router'])
                         controller: 'AppSecurityConfirmCtrl'
                 }
             },
-            url: '/confirm'
+            url: '/confirm/{token}',
+            resolve: {
+                confirmation: function(UserService, $transition$) {
+                    return UserService.confirm($transition$.params().token);
+                }
+            }
         })
     }])
 
-    .controller('AppSecurityConfirmCtrl', ['$rootScope','$scope', '$http', '$sce', function($rootScope, $scope, $http, $sce) {
-        $scope.page = {};
+    .controller('AppSecurityConfirmCtrl', ['$rootScope','$scope', '$http', '$sce', 'confirmation', function($rootScope, $scope, $http, $sce, confirmation) {
+        $scope.status = confirmation.code;
     }])
 ;
