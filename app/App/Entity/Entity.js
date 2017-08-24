@@ -12,7 +12,7 @@ angular.module('transcript.app.entity', ['ui.router'])
             },
             ncyBreadcrumb: {
                 parent: 'app.home',
-                label: 'Testament {{ entity.will.title }}'
+                label: '{{ entity.will.title }}'
             },
             url: '/entity/{id}',
             resolve: {

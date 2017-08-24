@@ -12,6 +12,9 @@ angular.module('transcriptApp', [
     'ui.bootstrap',
     'ui.openseadragon',
     'ncy-angular-breadcrumb',
+    //'blueimp.fileupload',
+    'angucomplete',
+    'leaflet-directive',
     'transcript.admin',
     'transcript.admin.content',
     'transcript.admin.content.edit',
@@ -46,7 +49,6 @@ angular.module('transcriptApp', [
     'transcript.app.security.resetting.request',
     'transcript.app.security.resetting.reset',
     'transcript.app.thesaurus',
-    'transcript.app.thesaurus.create',
     'transcript.app.thesaurus.edit',
     'transcript.app.thesaurus.home',
     'transcript.app.thesaurus.list',
@@ -62,6 +64,7 @@ angular.module('transcriptApp', [
     'transcript.system.error',
     'transcript.system.error.403',
     'transcript.system.error.404',
+    'transcript.system.footer',
     'transcript.system.navbar'
 ]).
 config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$injector', 'flashProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider, $injector, flashProvider) {

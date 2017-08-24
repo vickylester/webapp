@@ -33,9 +33,17 @@ angular.module('transcript.admin.preference', ['ui.router'])
                     $rootScope.preferences.id,
                     {
                         projectTitle : $rootScope.preferences.project_title,
+                        enableContact : $rootScope.preferences.enable_contact,
+                        contactEmail : $rootScope.preferences.contact_email,
+                        systemEmail : $rootScope.preferences.system_email,
                         helpHomeContent : $rootScope.preferences.help_home_content,
                         helpInsideHomeContent : $rootScope.preferences.help_inside_home_content,
                         discoverHomeContent : $rootScope.preferences.discover_home_content,
+                        aboutContent : $rootScope.preferences.about_content,
+                        legalNoticesContent : $rootScope.preferences.legal_notices_content,
+                        creditsContent : $rootScope.preferences.credits_content,
+                        facebookPageId : $rootScope.preferences.facebook_page_id,
+                        twitterId : $rootScope.preferences.twitter_id,
                     }
                 ).then(function(data) {
                     $rootScope.preferences = data;

@@ -1,0 +1,18 @@
+<div class="list-group">
+    <dl class="dl-horizontal list-group-item">
+        <dt>Identifiant Geonames</dt>
+        <dd>
+            <a ng-if="entity.geonames_id != null" href="http://sws.geonames.org/{{ entity.geonames_id }}" target="_blank">{{ entity.geonames_id }}</a>
+            <span ng-if="entity.geonames_id == null"><em>No data</em></span>
+        </dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Coordonnées géographiques</dt>
+        <dd>
+            <a ng-if="entity.geographical_coordinates != null" href="https://www.openstreetmap.org/#map=12/{{ entity.geographical_coordinates.replace('+', '/') }}" target="_blank">
+                {{ entity.geographical_coordinates }}
+            </a>
+            <span ng-if="entity.geographical_coordinates == null"><em>No data</em></span>
+        </dd>
+    </dl>
+</div>

@@ -3,20 +3,13 @@
 </div>
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
     <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message">{{flash.message}}</span>
+    <button type="button" class="close" data-ng-click="hide()">&times;</button>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
-<div class="row">
-    <div class="col-sm-3">
-        <h3>Search criteria</h3>
-    </div>
-    <div class="col-sm-9">
-        <h3>Search results</h3>
-        <ul>
-            <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.title }}</a></li>
-        </ul>
-    </div>
+<div id="searchInterface" class="row">
+    <div class="col-sm-6" data-ng-include="'App/Search/tpl/Search-form.html'"></div>
+    <div class="col-sm-6" data-ng-include="'App/Search/tpl/Search-results.html'"></div>
 </div>

@@ -3,37 +3,41 @@
 </div>
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message">{{flash.message}}</span>
+<div class="row">
+    <div class="col-sm-3">
+        <ul class="list-group">
+            <li class="list-group-item"><a ui-sref="app.user.changePassword({id: user.id})">Modifier mon mot de passe</a></li>
+            <li class="list-group-item"><a>Modifier mon identifiant</a></li>
+        </ul>
+    </div>
+    <div class="col-sm-9">
+        <div flash-alert data-active-class="in alert" class="fade" data-duration="5000">
+            <!-- Manually hide the alert with `hide()` -->
+            <button type="button" class="close" data-ng-click="hide()">&times;</button>
+            <span class="alert-message" data-ng-bind-html="flash.message"></span>
+        </div>
+
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="app_user_edit_name" class="control-label col-md-3">Name</label>
+                <div class="col-md-9">
+                    <input type="text" data-ng-model="form.name" class="form-control" id="app_user_edit_name" placeholder="Your name" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app_user_edit_biography" class="control-label col-md-3">Bio</label>
+                <div class="col-md-9">
+                    <input type="text" data-ng-model="form.biography" class="form-control" id="app_user_edit_biography" placeholder="A short biography ?" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app_user_edit_picture" class="control-label col-md-3">Picture</label>
+                <div class="col-md-9">
+                    <input type="url" data-ng-model="form.picture" class="form-control" id="app_user_edit_picture" placeholder="A link to your picture" />
+                </div>
+            </div>
+
+            <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Edit <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
+        </form>
+    </div>
 </div>
-
-<div class="alert alert-danger" data-ng-if="form.errors.length > 0">
-    <ul>
-        <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
-    </ul>
-</div>
-
-<form class="form-horizontal">
-    <div class="form-group">
-        <label for="app_user_edit_name" class="control-label col-md-3">Name</label>
-        <div class="col-md-9">
-            <input type="text" data-ng-model="form.name" class="form-control" id="app_user_edit_name" placeholder="Your name" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="app_user_edit_email" class="control-label col-md-3">Email</label>
-        <div class="col-md-9">
-            <input type="email" data-ng-model="form.email" class="form-control" id="app_user_edit_email" placeholder="Your email" />
-        </div>
-    </div>
-    <div class="form-group">
-        <label class="control-label col-md-3">Password</label>
-        <div class="col-md-9 form-control-static">
-            <a ui-sref="app.user.changePassword({id: user.id})">Edit my password</a>
-        </div>
-    </div>
-
-    <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Edit <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
-</form>

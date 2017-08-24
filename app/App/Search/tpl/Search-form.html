@@ -1,0 +1,118 @@
+<div class="well">
+    <h3>Filtrer les résultats</h3>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label class="col-sm-12">Nom du testateur</label>
+            <div class="col-sm-12">
+                <angucomplete id="app-search-form-testator-name"
+                              placeholder="Search by testator"
+                              pause="100"
+                              selectedobject="search.form.will.testator.name"
+                              localdata="search.values.will.testator.name"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Lieu de décès</label>
+            <div class="col-sm-12">
+                <angucomplete id="app-search-form-testator-deathPlace"
+                              placeholder="Search by place of death"
+                              pause="100"
+                              selectedobject="search.form.will.testator.place_of_death.name"
+                              localdata="search.values.will.testator.place_of_death.name"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Année de décès</label>
+            <div class="col-sm-12">
+                <angucomplete id="app-search-form-testator-deathDate"
+                              placeholder="Search by year of death"
+                              pause="100"
+                              selectedobject="search.form.will.testator.date_of_death"
+                              localdata="search.values.will.testator.date_of_death"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Commune d'origine</label>
+            <div class="col-sm-12">
+                <angucomplete id="app-search-form-testator-birthPlace"
+                              placeholder="Search by place of birth"
+                              pause="100"
+                              selectedobject="search.form.will.testator.place_of_birth.name"
+                              localdata="search.values.will.testator.place_of_birth.name"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Institution de conservation</label>
+            <div class="col-sm-12">
+                <angucomplete id="app-search-form-institution"
+                              placeholder="Search institution"
+                              pause="100"
+                              selectedobject="search.form.will.hosting_organization"
+                              localdata="search.values.will.hosting_organization"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Côte du testament</label>
+            <div class="col-sm-12">
+                <input id="app-search-form-will-callNumber"
+                       placeholder="Search by call number of the will"
+                       ng-model="search.form.will.call_number"
+                       class="form-control form-control-small" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Date d'écriture du testament</label>
+            <div class="col-sm-12">
+                <angucomplete id="app-search-form-will-date"
+                              placeholder="Search by will writing date"
+                              pause="100"
+                              selectedobject="search.form.will.will_writing_date"
+                              localdata="search.values.will.will_writing_date"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-12">Statut de transcription</label>
+            <div class="col-sm-12">
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.todo" value="todo"> À faire
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.transcription" value="transcription"> En cours
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.validation" value="validation"> En validation
+                </label>
+                <label class="checkbox-inline">
+                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.validated" value="validated"> Validé
+                </label>
+            </div>
+        </div>
+    </form>
+
+    <leaflet id="searchInterfaceMap" markers="markers" tiles="tiles" lf-center="center" data-height="400px" data-width="100%"></leaflet>
+</div>

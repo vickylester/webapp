@@ -59,7 +59,6 @@ angular.module('transcript.app.content', ['ui.router'])
                     return response.data;
                 });
             },
-
             getContent: function(id, encode) {
                 return $http.get($rootScope.api+"/contents/"+id).then(function(response) {
                     if(encode === true) {response.data.content = $sce.trustAsHtml(response.data.content);}

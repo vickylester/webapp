@@ -13,6 +13,10 @@ angular.module('transcript.admin', ['ui.router'])
                 "page" : {
                     template: '<div ui-view="page"></div>',
                     controller: 'AdminCtrl'
+                },
+                "footer" : {
+                    templateUrl: 'System/Footer/Footer.html',
+                    controller: 'SystemFooterCtrl'
                 }
             },
             url: '/admin',

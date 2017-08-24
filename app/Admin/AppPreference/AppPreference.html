@@ -10,45 +10,126 @@
 </div>
 
 <form class="form-horizontal">
-    <div class="form-group">
-        <label for="admin-app-preference-project-title" class="control-label col-sm-3">Titre du Projet :</label>
-        <div class="col-sm-9">
-            <input id="admin-app-preference-project-title" type="text" class="form-control" data-ng-model="preferences.project_title" />
+    <div class="row">
+        <div class="col-sm-7">
+            <fieldset>
+                <legend>Paramètres généraux</legend>
+
+                <div class="form-group">
+                    <label for="admin-app-preference-project-title" class="control-label col-sm-3">Titre du Projet :</label>
+                    <div class="col-sm-9">
+                        <input id="admin-app-preference-project-title" type="text" class="form-control" data-ng-model="preferences.project_title" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Contact :</legend>
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <label>
+                                <input data-ng-model="preferences.enable_contact" type="checkbox"> Activer la page de Contact
+                            </label>
+                        </div>
+                        <p class="help-block">Cette page permet aux utilisateurs de vous contacter par mail</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="admin-app-preference-system-email" class="control-label col-sm-3">Email du système :</label>
+                    <div class="col-sm-9">
+                        <input id="admin-app-preference-system-email" type="email" class="form-control" data-ng-model="preferences.system_email" />
+                        <p class="help-block">Cet email est utilisé par le système pour envoyer des emails automatiques. Il n'est pas nécessaire que l'adresse existe réellement.</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="admin-app-preference-contact-email" class="control-label col-sm-3">Email de contact :</label>
+                    <div class="col-sm-9">
+                        <input id="admin-app-preference-contact-email" type="email" class="form-control" data-ng-model="preferences.contact_email" />
+                        <p class="help-block">Cet email est utilisé pour communiquer avec les utilisateurs. Cette adresse doit être réelle et préexistée.</p>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Utilisateurs</legend>
+
+                <div class="form-group">
+                    <label for="admin-app-preference-user-allowRegistration" class="control-label col-sm-3">Autoriser l'inscription d'utilisateurs</label>
+                    <div class="col-sm-9">
+                        <select id="admin-app-preference-user-allowRegistration" name="admin-app-preference-user-allowRegistration" class="form-control" data-ng-model="form.allow_registration">
+                            <option value="" disabled>Sélectionnez ...</option>
+                            <option value="opened">Inscriptions ouvertes</option>
+                            <option value="closed">Inscriptions fermées</option>
+                        </select>
+                    </div>
+                </div>
+            </fieldset>
         </div>
-    </div>
-    <div class="form-group">
-        <label for="admin-app-preference-help-home-content" class="control-label col-sm-3">Page d'acceil de l'aide :</label>
-        <div class="col-sm-9">
-            <input id="admin-app-preference-help-home-content" type="number" class="form-control" data-ng-model="preferences.help_home_content" />
-            <p class="help-block">Cette page correspond à la page accessible dans le menu "Aide"</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="admin-app-preference-help-inside-home-content" class="control-label col-sm-3">Page d'acceil de l'aide interne :</label>
-        <div class="col-sm-9">
-            <input id="admin-app-preference-help-inside-home-content" type="number" class="form-control" data-ng-model="preferences.help_inside_home_content" />
-            <p class="help-block">Cette page correspond à la page d'accueil de l'aide du module de transcription</p>
-        </div>
-    </div>
-    <div class="form-group">
-        <label for="admin-app-preference-discover-home-content" class="control-label col-sm-3">Page d'accueil de la découverte :</label>
-        <div class="col-sm-9">
-            <input id="admin-app-preference-discover-home-content" type="number" class="form-control" data-ng-model="preferences.discover_home_content" />
+        <div class="col-sm-5">
+            <div class="well">
+                <fieldset>
+                    <legend>Contenus :</legend>
+
+                    <div class="form-group">
+                        <label for="admin-app-preference-help-home-content" class="control-label col-sm-6">Page d'accueil de l'aide :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-help-home-content" type="number" class="form-control" data-ng-model="preferences.help_home_content" />
+                        </div>
+                        <p class="col-sm-12 help-block">Cette page correspond à la page accessible dans le menu "Aide"</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-app-preference-help-inside-home-content" class="control-label col-sm-6">Page d'accueil de l'aide interne :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-help-inside-home-content" type="number" class="form-control" data-ng-model="preferences.help_inside_home_content" />
+                        </div>
+                        <p class="col-sm-12 help-block">Cette page correspond à la page d'accueil de l'aide du module de transcription</p>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-app-preference-discover-home-content" class="control-label col-sm-6">Page d'accueil de la découverte :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-discover-home-content" type="number" class="form-control" data-ng-model="preferences.discover_home_content" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-app-preference-about-content" class="control-label col-sm-6">Page "À propos" :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-about-content" type="number" class="form-control" data-ng-model="preferences.about_content" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-app-preference-legal-notices-content" class="control-label col-sm-6">Page "Mentions légales" :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-legal-notices-content" type="number" class="form-control" data-ng-model="preferences.legal_mentions_content" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-app-preference-credits-content" class="control-label col-sm-6">Page "Crédits" :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-credits-content" type="number" class="form-control" data-ng-model="preferences.credits_content" />
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Réseaux sociaux :</legend>
+
+                    <div class="form-group">
+                        <label for="admin-app-preference-facebook" class="control-label col-sm-6">Identifiant Facebook :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-facebook" class="form-control" data-ng-model="preferences.facebook_page_id" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="admin-app-preference-twitter" class="control-label col-sm-6">Identifiant Twitter :</label>
+                        <div class="col-sm-6">
+                            <input id="admin-app-preference-twitter" class="form-control" data-ng-model="preferences.twitter_id" />
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
         </div>
     </div>
 
     <hr />
-
-    <div class="form-group">
-        <label for="admin-app-preference-user-allowRegistration" class="control-label col-sm-3">Autoriser l'inscription d'utilisateurs</label>
-        <div class="col-sm-9">
-            <select id="admin-app-preference-user-allowRegistration" name="admin-app-preference-user-allowRegistration" class="form-control" data-ng-model="form.allow_registration">
-                <option value="" disabled>Sélectionnez ...</option>
-                <option value="opened">Inscriptions ouvertes</option>
-                <option value="closed">Inscriptions fermées</option>
-            </select>
-        </div>
-    </div>
 
     <div class="text-center">
         <button class="btn btn-lg btn-primary" type="button" data-ng-click="submit.action()">Submit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>

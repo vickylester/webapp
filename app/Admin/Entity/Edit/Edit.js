@@ -12,7 +12,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             },
             url: '/edit/:id',
             ncyBreadcrumb: {
-                parent: 'admin.entity({id: entity.id})',
+                parent: 'app.entity({id: entity.id})',
                 label: 'Edition'
             },
             resolve: {
@@ -70,18 +70,19 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             $scope.submit.loading = true;
             let formEntity = {
                     willNumber: $scope.entity.will_number,
-                    physDescSupport: $scope.entity.phys_desc_support,
-                    physDescHeight: $scope.entity.phys_desc_height,
-                    physDescWidth: $scope.entity.phys_desc_width,
-                    physDescHand: $scope.entity.phys_desc_hand,
-                    hostingOrganization: $scope.entity.hosting_organization,
-                    identificationUser: $scope.entity.identification_user,
                     will: {
                         title: "Testament "+$scope.entity.will.call_number,
                         callNumber: $scope.entity.will.call_number,
+                        minuteLink: $scope.entity.will.minute_link,
                         minuteDate: new Date($scope.entity.will.minute_date),
                         willWritingDate: new Date($scope.entity.will.will_writing_date),
-                        willWritingPlace: $scope.entity.will.will_writing_place.id
+                        willWritingPlace: $scope.entity.will.will_writing_place.id,
+                        physDescSupport: $scope.entity.will.phys_desc_support,
+                        physDescHeight: $scope.entity.will.phys_desc_height,
+                        physDescWidth: $scope.entity.will.phys_desc_width,
+                        physDescHand: $scope.entity.will.phys_desc_hand,
+                        hostingOrganization: $scope.entity.will.hosting_organization,
+                        identificationUser: $scope.entity.will.identification_user,
                     },
                     resources: []
                 };

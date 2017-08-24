@@ -18,6 +18,15 @@
     <link rel="stylesheet" href="web/libraries/js/viewerjs/dist/viewer.css"  type="text/css" />
     <link rel="stylesheet" href="web/custom/css/style.css" type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css">
+    <link rel="stylesheet" href="web/libraries/angular/angucomplete/angucomplete.css" type="text/css" />
+
+    <link rel="stylesheet" href="//unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
+
+
+    <!--
+    <link rel="stylesheet" href="web/libraries/js/jQuery-File-Upload/css/jquery.fileupload.css" />
+    <link rel="stylesheet" href="web/libraries/js/jQuery-File-Upload/css/jquery.fileupload-ui.css" />
+    -->
 
     <link rel="stylesheet" href="Admin/Content/Edit/Edit.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Content/List/List.css" type="text/css" />
@@ -41,8 +50,6 @@
     <link rel="stylesheet" href="App/Security/Login/Login.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Logout/Logout.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Register/Register.css" type="text/css" />
-    <link rel="stylesheet" href="App/Security/Resetting/Resetting.css" type="text/css" />
-    <link rel="stylesheet" href="App/Thesaurus/Create/Create.css" type="text/css" />
     <link rel="stylesheet" href="App/Thesaurus/Edit/Edit.css" type="text/css" />
     <link rel="stylesheet" href="App/Thesaurus/Home/Home.css" type="text/css" />
     <link rel="stylesheet" href="App/Thesaurus/List/List.css" type="text/css" />
@@ -55,6 +62,7 @@
     <link rel="stylesheet" href="System/Comment/Comment.css" type="text/css" />
     <link rel="stylesheet" href="System/Error/403/403.css" type="text/css" />
     <link rel="stylesheet" href="System/Error/404/404.css" type="text/css" />
+    <link rel="stylesheet" href="System/Footer/Footer.css" type="text/css" />
     <link rel="stylesheet" href="System/Navbar/Navbar.css" type="text/css" />
 </head>
 
@@ -65,16 +73,22 @@
         <div ui-view="page"></div>
     </section>
 
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
-    <script src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
-    <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-2.5.0.min.js"></script>
-    <script src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-tpls-2.5.0.min.js"></script>
-    <script src="web/libraries/angular/yaml-js/dist/yaml.min.js"></script>
-    <script src="web/libraries/angular/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
+    <footer ui-view="footer"></footer>
+
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
+    <script type="text/javascript" src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-2.5.0.min.js"></script>
+    <script type="text/javascript" src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script type="text/javascript" src="web/libraries/angular/yaml-js/dist/yaml.min.js"></script>
+    <script type="text/javascript" src="web/libraries/angular/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
+    <script type="text/javascript" src="web/libraries/angular/angucomplete/angucomplete.js"></script>
+
+    <script src="//unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+    <script type="text/javascript" src="web/libraries/angular/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
 
     <script type="text/javascript" src="web/libraries/js/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="web/libraries/js/moment/locale/fr.js"></script>
@@ -92,6 +106,13 @@
     <!--<script src="web/libraries/js/viewerjs/dist/viewer.js"></script>-->
     <script src="web/libraries/js/openseadragon/openseadragon.min.js"></script>
     <script src="web/libraries/angular/angular-openseadragon/src/angular-openseadragon.js"></script>
+
+    <!--
+    <script src="web/libraries/js/jQuery-File-Upload/js/vendor/jquery.ui.widget.js"></script>
+    <script src="web/libraries/js/jQuery-File-Upload/js/jquery.iframe-transport.js"></script>
+    <script src="web/libraries/js/jQuery-File-Upload/js/jquery.fileupload.js"></script>
+    <script src="web/libraries/js/jQuery-File-Upload/js/jquery.fileupload-angular.js"></script>
+    -->
 
     <script type="text/javascript" src="app.js"></script>
     <script type="text/javascript" src="Admin/Admin.js"></script>
@@ -128,7 +149,6 @@
     <script type="text/javascript" src="App/Security/Resetting/Request/Request.js"></script>
     <script type="text/javascript" src="App/Security/Resetting/Reset/Reset.js"></script>
     <script type="text/javascript" src="App/Thesaurus/Thesaurus.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/Create/Create.js"></script>
     <script type="text/javascript" src="App/Thesaurus/Edit/Edit.js"></script>
     <script type="text/javascript" src="App/Thesaurus/Home/Home.js"></script>
     <script type="text/javascript" src="App/Thesaurus/List/List.js"></script>
@@ -144,6 +164,7 @@
     <script type="text/javascript" src="System/Error/Error.js"></script>
     <script type="text/javascript" src="System/Error/403/403.js"></script>
     <script type="text/javascript" src="System/Error/404/404.js"></script>
+    <script type="text/javascript" src="System/Footer/Footer.js"></script>
     <script type="text/javascript" src="System/Navbar/Navbar.js"></script>
 </body>
 </html>

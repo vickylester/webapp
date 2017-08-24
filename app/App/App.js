@@ -16,6 +16,10 @@ angular.module('transcript.app', ['ui.router'])
                     '               </div>' +
                     '           </div>',
                     controller: 'AppCtrl'
+                },
+                "footer" : {
+                    templateUrl: 'System/Footer/Footer.html',
+                    controller: 'SystemFooterCtrl'
                 }
             },
             url: '',

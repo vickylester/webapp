@@ -1,0 +1,12 @@
+<div data-ng-include="'App/Search/tpl/Search-results-header.html'"></div>
+
+<div class="panel panel-warning" data-ng-if="results.length == 0">
+    <div class="panel-heading">
+        <h4 class="panel-title">Aucun résultat retourné</h4>
+    </div>
+    <div class="panel-body">
+        <p>Aucun résultat ne correspond à votre recherche. Modifiez les paramètres de recherche pour accéder à de nouveaux résultats.</p>
+    </div>
+</div>
+<div data-ng-if="search.result.display == 'tile'" data-ng-include="'App/Search/tpl/Search-results-content-tile.html'"></div>
+<div data-ng-if="search.result.display == 'list'" data-ng-include="'App/Search/tpl/Search-results-content-list.html'"></div>

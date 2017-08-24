@@ -1,13 +1,47 @@
 <div class="form-group">
-    <label for="app-entity-edit-name" class="control-label col-sm-3">Nom :</label>
+    <label for="app-entity-edit-name" class="control-label col-sm-3">Nom de la localité :</label>
     <div class="col-sm-9">
         <input id="app-entity-edit-name" class="form-control" data-ng-model="entity.name" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="app-entity-edit-frenchDepartement" class="control-label col-sm-3">Département :</label>
+    <div class="col-sm-9">
+        <input id="app-entity-edit-frenchDepartement" class="form-control" data-ng-model="entity.french_departement" />
+        <p class="help-block">Pour les localités françaises seulement</p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="app-entity-edit-frenchRegion" class="control-label col-sm-3">Région :</label>
+    <div class="col-sm-9">
+        <input id="app-entity-edit-frenchRegion" class="form-control" data-ng-model="entity.french_region" />
+        <p class="help-block">Pour les localités françaises seulement</p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="app-entity-edit-country" class="control-label col-sm-3">Pays :</label>
+    <div class="col-sm-9">
+        <input id="app-entity-edit-country" class="form-control" data-ng-model="entity.country" />
     </div>
 </div>
 <div class="form-group">
     <label for="app-entity-edit-description" class="control-label col-sm-3">Description :</label>
     <div class="col-sm-9">
         <textarea id="app-entity-edit-description" class="form-control" data-ng-model="entity.description"></textarea>
+    </div>
+</div>
+<div class="form-group">
+    <label for="app-entity-edit-geonameId" class="control-label col-sm-3">Identifiant Géonames :</label>
+    <div class="col-sm-9">
+        <input id="app-entity-edit-geonameId" class="form-control" data-ng-model="entity.geonames_id" />
+        <p class="help-block">Inscrire uniquement l'identifiant et non toute l'URL (ex: <code>2988784</code>)</p>
+    </div>
+</div>
+<div class="form-group">
+    <label for="app-entity-edit-geographicalCoordinates" class="control-label col-sm-3">Coordonnées géographiques :</label>
+    <div class="col-sm-9">
+        <input id="app-entity-edit-geographicalCoordinates" class="form-control" data-ng-model="entity.geographical_coordinates" />
+        <p class="help-block">À formater de la manière suivante : latitude+longitude (ex: <code>49.42535+3.69726</code>)</p>
     </div>
 </div>
 <div class="form-group" data-ng-if="context == 'edit'">

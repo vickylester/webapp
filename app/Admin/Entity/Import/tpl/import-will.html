@@ -7,6 +7,12 @@
     </div>
 </div>
 <div class="form-group">
+    <label for="admin-entity-edit-will-minuteLink" class="control-label col-sm-6">Lien vers la minute :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-minuteLink" type="url" class="form-control" data-ng-model="entity.will.minuteLink" />
+    </div>
+</div>
+<div class="form-group">
     <label for="admin-entity-edit-will-minuteDate" class="control-label col-sm-6">Date de la minute :</label>
     <div class="col-sm-6">
         <div class="input-group">
@@ -51,3 +57,43 @@
     </div>
 </div>
 <div class="form-group" data-ng-include="'Admin/Entity/Import/tpl/import-will-testator.html'"></div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-physDescSupport" class="control-label col-sm-6">Support physique :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-physDescSupport" class="form-control" data-ng-model="entity.will.physDescSupport" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-physDescHeight" class="control-label col-sm-6">Hauteur :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-physDescHeight" class="form-control" data-ng-model="entity.will.physDescHeight" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-physDescWidth" class="control-label col-sm-6">Largeur :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-physDescWidth" class="form-control" data-ng-model="entity.will.physDescWidth" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-physDescHand" class="control-label col-sm-6">Type d'écriture :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-physDescHand" class="form-control" data-ng-model="entity.will.physDescHand" />
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-hostingOrganization" class="control-label col-sm-6">Organisation (AN ou AD78) :</label>
+    <div class="col-sm-6">
+        <select id="admin-entity-edit-will-hostingOrganization" name="admin-entity-edit-will-hostingOrganization" class="form-control" data-ng-model="entity.will.hostingOrganization">
+            <option value="" disabled>Sélectionnez ...</option>
+            <option value="AN">Archives nationales</option>
+            <option value="AD78">Archives départementales des Yvelines</option>
+        </select>
+    </div>
+</div>
+<div class="form-group">
+    <label for="admin-entity-edit-will-identificationUser" class="control-label col-sm-6">Personne ayant identifié le document :</label>
+    <div class="col-sm-6">
+        <input id="admin-entity-edit-will-identificationUser" class="form-control" data-ng-model="entity.will.identificationUser" />
+    </div>
+</div>

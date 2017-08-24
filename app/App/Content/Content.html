@@ -1,8 +1,12 @@
 <div class="jumbotron text-center">
+    <img src="{{ content.illustration }}" style="max-height: 300px; max-width: 300px" alt="Illustration de {{ content.title }}" title="{{ content.title }}" data-ng-if="content.illustration != '' && content.illustration != null" />
     <h2>{{ content.title }}</h2>
     <p>Publié le <span data-ng-bind="content.create_date |  date:'MM/dd/yyyy à HH:mm'"></span><span data-ng-if="content.create_user != null">, par <a ui-sref="app.user.profile({id: content.user_name.id})">{{ content.create_user.name }}</a></span></p>
     <div data-ng-if="isAdmin() == true">
         <a ui-sref="admin.content.edit({id: content.id})">Editer <i class="fa fa-edit"></i></a>
+    </div>
+    <div data-ng-if="content.tags.length > 0">
+        <span class="label label-info" data-ng-repeat="tag in content.tags">{{ tag }}</span>
     </div>
 </div>
 <div ncy-breadcrumb></div>
@@ -10,7 +14,7 @@
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <div data-ng-bind-html="content.content"></div>

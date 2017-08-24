@@ -26,7 +26,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert active-class="in" class="alert fade">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -79,7 +79,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert="error" active-class="in" class="alert fade">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -124,7 +124,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert active-class="in" class="alert fade">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -171,7 +171,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert active-class="in" class="alert fade" >',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -188,7 +188,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert active-class="in" class="alert fade" duration="3000">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -206,7 +206,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert active-class="in" class="alert fade" duration="0">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -224,7 +224,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert="error" active-class="in" class="alert fade">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -246,7 +246,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert active-class="in" class="alert fade">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -268,7 +268,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert="error" active-class="in" class="alert fade">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -291,7 +291,7 @@ describe('flash-alert-directive', function () {
         var template = [
             '<div flash-alert="error" active-class="in" class="alert fade" duration="0">',
             '<strong class="alert-heading">{{flash.type}}</strong>',
-            '<span class="alert-message">{{flash.message}}</span>',
+            '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
             '</div>'
         ];
 
@@ -331,7 +331,7 @@ describe('flash-alert-directive', function () {
             var template = [
                 '<div flash-alert="error" active-class="in" class="alert fade">',
                 '<strong class="alert-heading">{{flash.type}}</strong>',
-                '<span class="alert-message">{{flash.message}}</span>',
+                '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
                 '</div>'
             ];
 
@@ -366,7 +366,7 @@ describe('flash-alert-directive', function () {
             var template = [
                 '<div flash-alert active-class="in" class="alert fade">',
                 '<strong class="alert-heading">{{flash.type}}</strong>',
-                '<span class="alert-message">{{flash.message}}</span>',
+                '<span class="alert-message" data-ng-bind-html="flash.message"></span>',
                 '</div>'
             ];
 

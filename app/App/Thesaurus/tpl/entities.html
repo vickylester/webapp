@@ -1,4 +1,9 @@
-<h3>Liste des entrées</h3>
+<div>
+    <div class="pull-right">
+        <a class="btn btn-primary btn-sm" ui-sref="app.thesaurus.create({type: entity.dataType})"><i class="fa fa-plus"></i></a>
+    </div>
+    <h3>Liste des entrées</h3>
+</div>
 <ul data-ng-if="entities.length > 0">
    <li data-ng-repeat="iEntity in entities">
        <a data-ng-if="iEntity.id != entity.id" ui-sref="app.thesaurus.view({type: entity.dataType, id: iEntity.id})">{{ iEntity.name }}</a>

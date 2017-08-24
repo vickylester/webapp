@@ -3,8 +3,43 @@
 </div>
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
     <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message">{{flash.message}}</span>
+    <button type="button" class="close" data-ng-click="hide()">&times;</button>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="app-contact-name" class="col-sm-12">Votre nom :</label>
+                <div class="col-sm-12">
+                    <input id="app-contact-name" class="form-control" data-ng-model="contact.name" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-contact-email" class="col-sm-12">Votre email :</label>
+                <div class="col-sm-12">
+                    <input id="app-contact-email" type="email" class="form-control" data-ng-model="contact.email" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-contact-object" class="col-sm-12">Objet de votre message :</label>
+                <div class="col-sm-12">
+                    <input id="app-contact-object" class="form-control" data-ng-model="contact.object" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="app-contact-message" class="col-sm-12">Message :</label>
+                <div class="col-sm-12">
+                    <textarea id="app-contact-message" class="form-control" data-ng-model="contact.message" required></textarea>
+                </div>
+            </div>
+
+            <div class="text-center">
+                <button class="btn btn-lg btn-primary" type="button" data-ng-click="submit.action()">Envoyer <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i><i data-ng-if="submit.loading == false" class="fa fa-send"></i></button>
+            </div>
+        </form>
+    </div>
 </div>

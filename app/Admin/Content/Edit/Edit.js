@@ -44,8 +44,15 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
 
     .controller('AdminContentEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'content', 'CommentService', 'flash', function($rootScope, $scope, $http, $sce, $state, content, CommentService, flash) {
         if(content !== null) {
+            console.log(content);
             $scope.content = content;
             $scope.content.updateComment = "";
+
+            $scope.content.onHomepage = content.on_homepage;
+            if($scope.content.onHomepage === true) { $scope.content.onHomepage = 1; }
+            if($scope.content.onHomepage === false) { $scope.content.onHomepage = 0; }
+
+            if(content.tags !== null) {$scope.content.tags = content.tags.join(', ');}
         } else {
             $scope.content = {
                 id: null,
@@ -54,11 +61,12 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 status: null,
                 type: null,
                 onHomepage: 0,
-                updateComment: "Creation of the content"
+                updateComment: "Creation of the content",
+                tags: null,
+                illustration: null
             };
         }
 
-        console.log($scope.content);
         $scope.submit = {
             loading: false,
             success: false
@@ -90,7 +98,9 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 type: $scope.content.type,
                 status: $scope.content.status,
                 onHomepage: $scope.content.onHomepage,
-                updateComment: $scope.content.updateComment
+                updateComment: $scope.content.updateComment,
+                tags: $scope.content.tags.split(","),
+                illustration: $scope.content.illustration
             };
             if($scope.content.id === null) {
                 /* If content.id == null > The content doesn't exist, we post it */

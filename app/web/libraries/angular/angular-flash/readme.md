@@ -70,25 +70,25 @@ Use the `flash-alert` directive to subscribe to flash messages...
 <!-- Subscribe to success flash messages. -->
 <div flash-alert="success" active-class="in" class="alert fade">
     <strong class="alert-heading">Congrats!</strong>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <!-- Subscribe to error flash messages. -->
 <div flash-alert="error" active-class="in" class="alert fade">
     <strong class="alert-heading">Boo!</strong>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <!-- Subscribe to all flash messages. -->
 <div flash-alert active-class="in" class="alert fade">
     <strong class="alert-heading">Boo!</strong>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <!-- Subscribe to all flash messages sent to `alert-1`. -->
 <div id="alert-1" flash-alert active-class="in" class="alert fade">
     <strong class="alert-heading">Boo!</strong>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <!-- Set the display duration in milli-secs.  Default is 5000, 0 disables the fade-away. -->
@@ -96,7 +96,7 @@ Use the `flash-alert` directive to subscribe to flash messages...
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <strong class="alert-heading">Boo!</strong>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 ```
 
@@ -177,7 +177,7 @@ Template:
 <div flash-alert="info" active-class="in" class="alert-flash fade">
     <i class="icon-info-sign"></i>
     <strong class="alert-heading">Ahem...</strong>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 ```
 

@@ -96,6 +96,11 @@ angular.module('transcript.app.thesaurus', ['ui.router'])
                     case 'places':
                         form = {
                             name: entity.name,
+                            frenchDepartement: entity.french_departement,
+                            frenchRegion: entity.french_region,
+                            country: entity.country,
+                            geonamesId: entity.geonames_id,
+                            geographicalCoordinates: entity.geographical_coordinates,
                             description: entity.description,
                             updateComment: entity.update_comment
                         };
@@ -107,6 +112,16 @@ angular.module('transcript.app.thesaurus', ['ui.router'])
                         };
                 }
                 return form;
+            }
+        };
+    })
+
+    .service('GeonamesService', function($http, $rootScope) {
+        return {
+            search: function(keywords) {
+                return $http.get("http://api.geonames.org/searchJSON?formatted=true&username=testamentsdepoilus&maxRows=3&continentCode=EU&lang=fr&searchlang=fr&inclBbox=false&q="+keywords).then(function(response) {
+                    return response.data;
+                });
             }
         };
     })

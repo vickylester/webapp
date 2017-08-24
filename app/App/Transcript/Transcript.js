@@ -64,7 +64,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     role = "readOnly";
                 }
                 return role;
-
             },
             /**
              * This function encodes the TEI XML in HTML for live rendering.
@@ -132,7 +131,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
         /* -------------------------------------------------------------------------------- */
-        console.log(resource);
         let config = YAML.load('App/Transcript/toolbar.yml');
         $scope.page = {
             loading: true,

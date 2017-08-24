@@ -16,6 +16,14 @@
             <label for="admin-content-edit-title" class="control-label col-sm-3">Titre :</label>
             <div class="col-sm-9">
                 <input id="admin-content-edit-title" type="text" class="form-control" data-ng-model="content.title" />
+                <p class="help-block">Optez pour un titre clair, décrivant précisément votre contenu et comportant des mots-clés signifiant si vous publiez un article.</p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="admin-content-edit-tags" class="control-label col-sm-3">Tags :</label>
+            <div class="col-sm-9">
+                <input id="admin-content-edit-tags" type="text" class="form-control" data-ng-model="content.tags" />
+                <p class="help-block">Séparez vos tags par une virgule</p>
             </div>
         </div>
         <div class="form-group">
@@ -65,7 +73,9 @@
         <div class="form-group">
             <label for="admin-content-edit-image" class="col-sm-12">Image d'illustration :</label>
             <div class="col-sm-12">
-                <input id="admin-content-edit-image" type="file" class="file" data-ng-model="content.image" />
+                <input id="admin-content-edit-image" type="url" class="form-control" data-ng-model="content.illustration" />
+                <p class="help-block">Spécifiez l'URL de votre image</p>
+                <img src="{{ content.illustration }}" class="thumbnail" style="max-height: 200px; max-width: 200px" alt="Prévisualisation de votre image" title="Prévisualisation de votre image" data-ng-if="content.illustration != '' && content.illustration != null" />
             </div>
         </div>
 

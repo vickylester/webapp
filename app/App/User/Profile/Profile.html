@@ -1,7 +1,8 @@
 <div class="jumbotron">
     <div class="pull-right">
         <div class="thumbnail">
-            <img class="img-responsive img-100" src="{{ webapp.resources }}images/no-images.png" />
+            <img data-ng-if="iUser.picture == null || iUser.picture == ''" class="img-responsive img-100" src="{{ webapp.resources }}images/no-images.png" />
+            <img data-ng-if="iUser.picture != null && iUser.picture != ''" class="img-responsive img-100" src="{{ iUser.picture }}" />
         </div>
     </div>
     <div>
@@ -14,7 +15,7 @@
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <div class="row" data-ng-if="context == 'self' || context == 'admin'">

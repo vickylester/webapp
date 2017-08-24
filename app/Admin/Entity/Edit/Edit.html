@@ -6,7 +6,7 @@
 <div flash-alert active-class="in alert" class="fade" duration="5000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message">{{flash.message}}</span>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
 <div class="row">
@@ -21,42 +21,6 @@
                             <label for="admin-entity-edit-entity-willNumber" class="control-label col-sm-6">Numéro de numérisation du testament :</label>
                             <div class="col-sm-6">
                                 <input type="number" id="admin-entity-edit-entity-willNumber" class="form-control" data-ng-model="entity.will_number" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin-entity-edit-entity-physDescSupport" class="control-label col-sm-6">Support physique :</label>
-                            <div class="col-sm-6">
-                                <input id="admin-entity-edit-entity-physDescSupport" class="form-control" data-ng-model="entity.phys_desc_support" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin-entity-edit-entity-physDescHeight" class="control-label col-sm-6">Hauteur :</label>
-                            <div class="col-sm-6">
-                                <input id="admin-entity-edit-entity-physDescHeight" class="form-control" data-ng-model="entity.phys_desc_height" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin-entity-edit-entity-physDescWidth" class="control-label col-sm-6">Largeur :</label>
-                            <div class="col-sm-6">
-                                <input id="admin-entity-edit-entity-physDescWidth" class="form-control" data-ng-model="entity.phys_desc_width" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin-entity-edit-entity-physDescHand" class="control-label col-sm-6">Type d'écriture :</label>
-                            <div class="col-sm-6">
-                                <input id="admin-entity-edit-entity-physDescHand" class="form-control" data-ng-model="entity.phys_desc_hand" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin-entity-edit-entity-hostingOrganization" class="control-label col-sm-6">Organisation (AN ou AD78) :</label>
-                            <div class="col-sm-6">
-                                <input id="admin-entity-edit-entity-hostingOrganization" class="form-control" data-ng-model="entity.hosting_organization" />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="admin-entity-edit-entity-identificationUser" class="control-label col-sm-6">Personne ayant identifié le document :</label>
-                            <div class="col-sm-6">
-                                <input id="admin-entity-edit-entity-identificationUser" class="form-control" data-ng-model="entity.identification_user" />
                             </div>
                         </div>
                     </div>
@@ -96,6 +60,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label for="admin-entity-edit-will-minuteLink" class="control-label col-sm-6">Lien vers la minute :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-minuteLink" type="url" class="form-control" data-ng-model="entity.will.minute_link" />
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label for="admin-entity-edit-will-minuteDate" class="control-label col-sm-6">Date de la minute :</label>
                             <div class="col-sm-6">
                                 <div class="input-group">
@@ -121,6 +91,46 @@
                             <label for="admin-entity-edit-will-willWritingPlace" class="control-label col-sm-6">Lieu d'écriture du testament :</label>
                             <div class="col-sm-6">
                                 <select class="form-control" id="admin-entity-edit-will-willWritingPlace" data-ng-model="entity.will.will_writing_place.id" name="admin-entity-edit-will-willWritingPlace" data-ng-options="place.id as place.name for place in places"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-physDescSupport" class="control-label col-sm-6">Support physique :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-physDescSupport" class="form-control" data-ng-model="entity.will.phys_desc_support" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-physDescHeight" class="control-label col-sm-6">Hauteur :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-physDescHeight" class="form-control" data-ng-model="entity.will.phys_desc_height" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-physDescWidth" class="control-label col-sm-6">Largeur :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-physDescWidth" class="form-control" data-ng-model="entity.will.phys_desc_width" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-physDescHand" class="control-label col-sm-6">Type d'écriture :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-physDescHand" class="form-control" data-ng-model="entity.will.phys_desc_hand" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-hostingOrganization" class="control-label col-sm-6">Organisation (AN ou AD78) :</label>
+                            <div class="col-sm-6">
+                                <select id="admin-entity-edit-will-hostingOrganization" name="admin-entity-edit-will-hostingOrganization" class="form-control" data-ng-model="entity.will.hosting_organization">
+                                    <option value="" disabled>Sélectionnez ...</option>
+                                    <option value="AN">Archives nationales</option>
+                                    <option value="AD78">Archives départementales des Yvelines</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="admin-entity-edit-will-identificationUser" class="control-label col-sm-6">Personne ayant identifié le document :</label>
+                            <div class="col-sm-6">
+                                <input id="admin-entity-edit-will-identificationUser" class="form-control" data-ng-model="entity.will.identification_user" />
                             </div>
                         </div>
                     </div>

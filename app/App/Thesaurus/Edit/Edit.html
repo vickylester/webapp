@@ -2,14 +2,41 @@
     <div class="col-sm-4" data-ng-include="'App/Thesaurus/tpl/entities.html'"></div>
     <div class="col-sm-8">
         <div class="jumbotron text-center">
-            <h2>{{ entity.name }}</h2>
+            <h2 ng-if="entity.name != null">{{ entity.name }}</h2>
+            <h2 ng-if="entity.name == null">Nouvelle entrée pour le thésaurus "{{ entity.dataType }}"</h2>
         </div>
         <div ncy-breadcrumb></div>
 
-        <div flash-alert active-class="in alert" class="fade" duration="5000">
+        <div data-ng-if="entity.dataType == 'places'" class="well">
+            <div>
+                <div class="pull-right">
+                    <small><a href="http://www.geonames.org/" target="_blank">Je préfère l'interface visuelle <i class="fa fa-external-link"></i></a></small>
+                </div>
+                <h3>Faire une recherche sur Geonames : <small>(option avancée)</small></h3>
+            </div>
+
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-12 sr-only">Nom du lieu</label>
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <input id="app-thesaurus-edit-places-geonames" placeholder="Name of the place" ng-model="geonames.keywords" class="form-control form-control-small" />
+                            <span class="input-group-btn">
+                                <button ng-click="geonames.action()" class="btn btn-default" type="button"><i data-ng-if="geonames.loading == false" class="fa fa-search"></i><i data-ng-if="geonames.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div ng-if="geonames.result != null">
+                <pre ng-bind="geonames.result | json"></pre>
+            </div>
+        </div>
+
+        <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
             <!-- Manually hide the alert with `hide()` -->
             <button type="button" class="close" ng-click="hide()">&times;</button>
-            <span class="alert-message">{{flash.message}}</span>
+            <span class="alert-message" data-ng-bind-html="flash.message"></span>
         </div>
 
         <form class="form-horizontal">

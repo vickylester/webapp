@@ -24,47 +24,35 @@ angular.module('transcript.app.user.change-password', ['ui.router'])
         })
     }])
 
-    .controller('AppUserChangePasswordCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', function($rootScope, $scope, $http, $sce, $state, userEdit) {
+    .controller('AppUserChangePasswordCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'UserService', function($rootScope, $scope, $http, $sce, $state, userEdit, UserService) {
         if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('login');}
 
         $scope.form = {
-            name: $rootScope.user.name,
-            email: $rootScope.user.email,
-            errors: []
+            current_password: "",
+            password: {
+                first: "",
+                second: ""
+            }
         };
         $scope.submit = {
-            isLoading: false
+            loading: false
         };
 
         /* Submit data */
         $scope.submit.action = function() {
-            $scope.submit.isLoading = true;
-            $scope.form.errors = [];
-            $http.patch($rootScope.api+"/users/"+$rootScope.user.id,
-                {
-                    'name': $scope.form.name,
-                    'email': $scope.form.email
-                }, { headers:  {
-                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                }
-                })
-                .then(function (response) {
-                    if(response.status === 200) {
-                        $state.go('app.user.profile', {id: userEdit.id});
-                    }
+            $scope.submit.loading = true;
+
+            submit();
+            function submit() {
+                return UserService.changePassword($scope.form.current_password, $scope.form.password.first, $scope.form.password.second).
+                then(function(data) {
+                    console.log(data);
+                    $scope.submit.loading = false;
                 }, function errorCallback(response) {
+                    $scope.submit.loading = false;
                     console.log(response);
-                    if(response.data.code === 400) {
-                        for(var field in response.data.errors.children) {
-                            for(var error in response.data.errors.children[field]) {
-                                if(error === "errors") {
-                                    $scope.form.errors.push({field: field, error: response.data.errors.children[field][error]});
-                                }
-                            }
-                        }
-                    }
-                    $scope.submit.isLoading = false;
                 });
+            }
         };
     }])
 ;

@@ -67,7 +67,7 @@ angular.module('transcript.app.user', ['ui.router'])
                 });
             },
             login: function(form, routing) {
-                $http.post($rootScope.api+"/oauth/v2/token", form)
+                return $http.post($rootScope.api+"/oauth/v2/token", form)
                 .then(function (response) {
                     console.log(response.data);
                     $rootScope.oauth = response.data;
@@ -108,7 +108,7 @@ angular.module('transcript.app.user', ['ui.router'])
                 });
             },
             askReset: function(username) {
-                $http.post($rootScope.api+"/users/resetting/send/"+username)
+                return $http.post($rootScope.api+"/users/resetting/send/"+username)
                     .then(function (response) {
                         console.log(response.data);
                         return true;
@@ -118,7 +118,20 @@ angular.module('transcript.app.user', ['ui.router'])
                     });
             },
             sendReset: function(token, first, second) {
-                $http.post($rootScope.api+"/users/resetting/reset/"+token, {'fos_user_resetting_form': {'plainPassword': {'first': first, 'second': second}}})
+                return $http.post($rootScope.api+"/users/resetting/reset/"+token, {'fos_user_resetting_form': {'plainPassword': {'first': first, 'second': second}}})
+                    .then(function (response) {
+                        console.log(response.data);
+                        return true;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                        return false;
+                    });
+            },
+            changePassword: function(current, first, second) {
+                return $http.post($rootScope.api+"/users/password/change",
+                        {'fos_user_change_password_form': {'current_password': current, 'plainPassword': {'first': first, 'second': second}}},
+                        { headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+                    )
                     .then(function (response) {
                         console.log(response.data);
                         return true;

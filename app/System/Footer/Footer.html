@@ -1,0 +1,25 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2">
+            <ul class="list-group">
+                <li class="list-group-item" data-ng-if="preferences.discover_home_content != null"><a ui-sref="app.content({id: preferences.discover_home_content})">Découvrir</a></li>
+                <li class="list-group-item" data-ng-if="preferences.help_home_content != null"><a ui-sref="app.content({id: preferences.help_home_content})">Aide</a></li>
+                <li class="list-group-item"><a ui-sref="app.blog">Actualités</a></li>
+                <li class="list-group-item"><a ui-sref="app.search">Transcrire</a></li>
+                <li class="list-group-item"><a ui-sref="app.thesaurus.home">Documenter</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-2">
+            <ul class="list-group">
+                <li class="list-group-item" data-ng-if="preferences.enable_contact == true"><a ui-sref="app.contact">Contact</a></li>
+                <li class="list-group-item" data-ng-if="preferences.aboutContent != null"><a ui-sref="app.content({id: preferences.aboutContent})">À propos</a></li>
+                <li class="list-group-item" data-ng-if="preferences.legalNoticesContent != null"><a ui-sref="app.content({id: preferences.legalNoticesContent})">Mentions légales</a></li>
+                <li class="list-group-item" data-ng-if="preferences.creditsContent != null"><a ui-sref="app.content({id: preferences.creditsContent})">Crédits</a></li>
+                <li class="list-group-item">Social networks</li>
+            </ul>
+        </div>
+        <div class="col-sm-8">
+            <h3>Logos partenaires</h3>
+        </div>
+    </div>
+</div>
