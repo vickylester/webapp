@@ -3,7 +3,7 @@
     <div class="col-sm-8">
         <div class="jumbotron text-center">
             <h2>Sélectionnez votre entrée dans la liste</h2>
-            <p><a ui-sref="app.thesaurus.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
+            <p ng-if="user.roles | contains:'ROLE_THESAURUS_EDIT'"><a ui-sref="app.thesaurus.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
         </div>
         <div ncy-breadcrumb></div>
 

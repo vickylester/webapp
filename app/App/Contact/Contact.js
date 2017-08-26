@@ -18,18 +18,6 @@ angular.module('transcript.app.contact', ['ui.router'])
         })
     }])
 
-    .service('ContactService', function($http, $rootScope, $sce) {
-        return {
-            send: function(form) {
-                return $http.post($rootScope.api+"/contact", form).then(function(response) {
-                    return response.data;
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-            }
-        };
-    })
-
     .controller('AppContactCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'ContactService', 'flash', function($rootScope, $scope, $http, $sce, $state, ContactService, flash) {
         $scope.contact = {
             name: null,

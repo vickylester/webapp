@@ -1,0 +1,35 @@
+<div ncy-breadcrumb></div>
+
+<p data-ng-if="resource.transcript.content == '' || resource.transcript.content == null" class="alert alert-info text-center">
+    Cette transcription n'est pas commencée. Cliquez sur le bouton "Commencer cette transcription" pour y contribuer.
+</p>
+
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+</div>
+
+<div class="well">
+    <div ng-include="'App/Edition/tpl/edition-header.html'"></div>
+    <div ng-include="'App/Edition/tpl/edition-info.html'"></div>
+
+    <div class="row" ng-if="user !== undefined">
+        <div class="col-sm-6 ">
+            <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftHelp-centerImage-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerHelp-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerRead-rightHelp'" data-ng-include="'App/Edition/tpl/edition-viewer.html'"></div>
+            <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftRead-centerHelp-rightImage' || user._embedded.preferences.transcription_desk_position == 'leftRead-centerImage-rightHelp' || user._embedded.preferences.transcription_desk_position == 'leftHelp-centerRead-rightImage'" data-ng-include="'App/Edition/tpl/edition-read-content.html'"></div>
+        </div>
+        <div class="col-sm-6">
+            <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftRead-centerHelp-rightImage' || user._embedded.preferences.transcription_desk_position == 'leftRead-centerImage-rightHelp' || user._embedded.preferences.transcription_desk_position == 'leftHelp-centerRead-rightImage'" data-ng-include="'App/Edition/tpl/edition-viewer.html'"></div>
+            <div data-ng-if="user._embedded.preferences.transcription_desk_position == 'leftHelp-centerImage-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerHelp-rightRead' || user._embedded.preferences.transcription_desk_position == 'leftImage-centerRead-rightHelp'" data-ng-include="'App/Edition/tpl/edition-read-content.html'"></div>
+        </div>
+    </div>
+    <div class="row" ng-if="user === undefined">
+        <div class="col-sm-6 ">
+            <div data-ng-include="'App/Transcript/tpl/edition-read-content.html'"></div>
+        </div>
+        <div class="col-sm-6">
+            <div data-ng-include="'App/Transcript/tpl/edition-viewer.html'"></div>
+        </div>
+    </div>
+</div>

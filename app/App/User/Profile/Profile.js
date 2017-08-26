@@ -19,13 +19,13 @@ angular.module('transcript.app.user.profile', ['ui.router'])
                 requireLogin: true,
                 resolve: {
                     userEdit: function(UserService, $transition$) {
-                        return UserService.getUser($transition$.params().id);
+                        return UserService.getUser($transition$.params().id, "full");
                     }
                 }
             })
     }])
 
-    .controller('AppUserProfileCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'EntityService', function($rootScope, $scope, $http, $sce, $state, userEdit, EntityService) {
+    .controller('AppUserProfileCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'EntityService', 'ImageService', function($rootScope, $scope, $http, $sce, $state, userEdit, EntityService, ImageService) {
         console.log($rootScope.user);
         console.log(userEdit);
 
@@ -38,5 +38,7 @@ angular.module('transcript.app.user.profile', ['ui.router'])
         } else if($rootScope.user.id !== $scope.iUser.id && $rootScope.user.isAdmin === true) {
             $scope.context = "admin";
         }
+
+        $scope.imageService = ImageService;
     }])
 ;

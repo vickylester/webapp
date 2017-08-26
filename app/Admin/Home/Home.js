@@ -14,11 +14,18 @@ angular.module('transcript.admin.home', ['ui.router'])
             ncyBreadcrumb: {
                 parent: 'app.home',
                 label: 'Admin'
+            },
+            resolve: {
+                accesses: function(AccessService) {
+                    return AccessService.getAccesses().then(function(data){
+                        return data;
+                    });
+                }
             }
         })
     }])
 
-    .controller('AdminHomeCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-
+    .controller('AdminHomeCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'accesses', function($rootScope, $scope, $http, $sce, $state, accesses) {
+        $scope.accesses = accesses;
     }])
 ;

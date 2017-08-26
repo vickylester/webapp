@@ -1,25 +1,18 @@
-<div class="jumbotron text-center">
-    <div class="pull-right">
-        <a class="btn btn-warning" data-ng-if="isAdmin() == true" ui-sref="admin.entity.edit({id: entity.id})">Edit <i class="fa fa-edit"></i></a>
-    </div>
-    <h2>{{ entity.will.title }}</h2>
-</div>
-
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
+<div class="well">
+    <div data-ng-include="'App/Entity/tpl/entity-header.html'"></div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <div data-ng-include="'App/Entity/tpl/entity-metadata.html'"></div>
-        <div data-ng-include="'App/Entity/tpl/entity-testator.html'"></div>
-    </div>
-    <div class="col-sm-6">
-        <div data-ng-include="'App/Entity/tpl/entity-resources.html'"></div>
-        <div data-ng-include="'App/Entity/tpl/entity-admin.html'"></div>
+    <div data-ng-include="'App/Entity/tpl/entity-info.html'"></div>
+    <div data-ng-include="'App/Entity/tpl/entity-resources.html'"></div>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div ui-view="comment"></div>
+        </div>
+        <div class="col-sm-6">
+            <div data-ng-include="'App/Entity/tpl/entity-contributors.html'"></div>
+            <div data-ng-include="'App/Entity/tpl/entity-admin.html'"></div>
+        </div>
     </div>
 </div>

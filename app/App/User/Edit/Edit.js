@@ -33,12 +33,12 @@ angular.module('transcript.app.user.edit', ['ui.router'])
             picture: $rootScope.user.picture
         };
         $scope.submit = {
-            isLoading: false
+            loading: false
         };
 
         /* Submit data */
         $scope.submit.action = function() {
-            $scope.submit.isLoading = true;
+            $scope.submit.loading = true;
             $http.patch($rootScope.api+"/users/"+$rootScope.user.id, $scope.form,
                 { headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
             )
@@ -60,7 +60,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
                     flash.error += "</ul>";
                     flash.error = $sce.trustAsHtml(flash.error);
                 }
-                $scope.submit.isLoading = false;
+                $scope.submit.loading = false;
             });
         };
     }])

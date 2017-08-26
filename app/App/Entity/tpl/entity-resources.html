@@ -1,14 +1,18 @@
-<div class="well">
-    <h2>Ressources :</h2>
-    <div class="row">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Composition du testament :</h3>
+    </div>
+    <div class="panel-body">
         <div class="alert alert-danger" data-ng-if="entity.resources.length == 0">Oups ... Cette entité ne possède pas de ressource à transcrire</div>
-        <div class="col-sm-4" data-ng-repeat="resource in entity.resources">
-            <div class="thumbnail">
-                <a ui-sref="app.transcript({ id: resource.transcript.id })"><img src="{{ api_web  }}/images/data/testament_{{ entity.will_number }}/JPEG/FRAN_Poilus_t-{{ entity.will_number }}_{{ resource.images[0] }}.jpg" class="img-responsive thumbnail-transcript" /></a>
-                <div class="caption">
-                    <div>{{ resource.type }} {{ resource.order_in_will }}</div>
-                    <div class="text-right">
-                        <label title="État de la transcription" class="label" data-ng-class="getResourceClassLabel(resource)">{{ getResourceLabel(resource) }}</label>
+        <div class="row">
+            <div class="col-sm-2" data-ng-repeat="resource in entity.resources">
+                <div class="thumbnail">
+                    <a ui-sref="app.edition({ idEntity: entity.id, idResource: resource.id })"><img src="{{ api_web  }}/images/data/testament_{{ entity.will_number }}/JPEG/FRAN_Poilus_t-{{ entity.will_number }}_{{ resource.images[0] }}.jpg" class="img-responsive thumbnail-transcript" /></a>
+                    <div class="caption">
+                        <div class="pull-right">
+                            <label title="État de la transcription" class="label" data-ng-class="getResourceClassLabel(resource)">{{ getResourceLabel(resource) }}</label>
+                        </div>
+                        <div>{{ resource.type | ucfirst }} {{ resource.order_in_will }}</div>
                     </div>
                 </div>
             </div>

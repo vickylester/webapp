@@ -1,5 +1,5 @@
 <div>
-    <div class="pull-right">
+    <div class="pull-right" ng-if="user.roles | contains:'ROLE_THESAURUS_EDIT'">
         <a class="btn btn-primary btn-sm" ui-sref="app.thesaurus.create({type: entity.dataType})"><i class="fa fa-plus"></i></a>
     </div>
     <h3>Liste des entrées</h3>

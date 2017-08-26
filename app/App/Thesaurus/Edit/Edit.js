@@ -66,7 +66,9 @@ angular.module('transcript.app.thesaurus.edit', ['ui.router'])
             })
     }])
 
-    .controller('AppThesaurusEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', 'ThesaurusService', '$transition$', 'flash', 'testators', 'places', 'regiments', 'GeonamesService', function($rootScope, $scope, $http, $sce, $state, entity, entities, ThesaurusService, $transition$, flash, testators, places, regiments, GeonamesService) {
+    .controller('AppThesaurusEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', 'ThesaurusService', '$transition$', 'flash', 'testators', 'places', 'regiments', 'GeonamesService', '$filter', function($rootScope, $scope, $http, $sce, $state, entity, entities, ThesaurusService, $transition$, flash, testators, places, regiments, GeonamesService, $filter) {
+        if($filter('contains')($rootScope.user.roles, "ROLE_THESAURUS_EDIT") === false) {$state.go('error.403');}
+
         /* -- Functions Loader ----------------------------------------------------- */
         function patchEntityLoader() {
             $scope.form = fillForm($scope.entity, $scope.entity.dataType);

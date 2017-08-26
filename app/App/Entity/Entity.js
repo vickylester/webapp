@@ -8,6 +8,10 @@ angular.module('transcript.app.entity', ['ui.router'])
                 "page" : {
                     templateUrl: 'App/Entity/Entity.html',
                     controller: 'AppEntityCtrl'
+                },
+                "comment@app.entity" : {
+                    templateUrl: 'System/Comment/tpl/Thread.html',
+                    controller: 'SystemCommentCtrl'
                 }
             },
             ncyBreadcrumb: {
@@ -18,98 +22,29 @@ angular.module('transcript.app.entity', ['ui.router'])
             resolve: {
                 entity: function(EntityService, $transition$) {
                     return EntityService.getEntity($transition$.params().id);
+                },
+                thread: function(CommentService, $transition$) {
+                    if(CommentService.getThread('entity-'+$transition$.params().id) === null) {
+                        CommentService.postThread('entity-'+$transition$.params().id);
+                        return CommentService.getThread('entity-'+$transition$.params().id);
+                    } else {
+                        return CommentService.getThread('entity-'+$transition$.params().id);
+                    }
                 }
             }
         })
     }])
 
-    .service('EntityService', function($http, $rootScope) {
-        return {
-            getEntities: function() {
-                return $http.get($rootScope.api+"/entities").then(function(response) {
-                    return response.data;
+    .controller('AppEntityCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'EntityService', 'UserService', function($rootScope, $scope, $http, $sce, $state, entity, EntityService, UserService) {
+        function getUser(username) {
+            return UserService.getUserByUsername(username).then(function(data) {
+                $scope.contributors.push({
+                    user: data,
+                    contributionsNumber: EntityService.getContributionsNumberByUser($scope.entity, data)
                 });
-            },
+            });
+        }
 
-            getEntity: function(id) {
-                return $http.get($rootScope.api+"/entities/"+id).then(function(response) {
-                    return response.data;
-                });
-            },
-
-            postEntity: function(data) {
-                return $http.post($rootScope.api+"/entities", data,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
-                    return response.data;
-                });
-            },
-
-            removeEntity: function(id) {
-                return $http.delete($rootScope.api+"/entities/"+id,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
-                    return response.data;
-                });
-            },
-
-            postWill: function(data) {
-                return $http.post($rootScope.api+"/wills", data,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
-                    return response.data;
-                });
-            },
-
-            getResource: function(id_transcript) {
-                return $http.get($rootScope.api+"/resources?transcript="+id_transcript,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
-                    return response.data;
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-            },
-
-            postResource: function(resource) {
-                return $http.post($rootScope.api+"/resources", resource,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
-                    return response.data;
-                }, function errorCallback(response) {
-                    console.log(response);
-                });
-            },
-
-            exportEntity: function(id) {
-                return $http.get($rootScope.api+"/xml?context=export&type=entity&id="+id).then(function(response) {
-                    return response.data;
-                });
-            }
-        };
-    })
-
-    .controller('AppEntityCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'EntityService', function($rootScope, $scope, $http, $sce, $state, entity, EntityService) {
         $scope.page = {
             loading: true
         };
@@ -131,8 +66,15 @@ angular.module('transcript.app.entity', ['ui.router'])
             else{return "label-danger";}
         };
 
+        /* -- Contributors management ---------------------------------------------------- */
+        $scope.contributors = [];
+        let contributors = EntityService.getContributors($scope.entity);
+        for(let id in contributors) {
+            getUser(contributors[id]);
+        }
+        /* -- Contributors management ---------------------------------------------------- */
 
-        /* -- Admin management -- */
+        /* -- Admin management ----------------------------------------------------------- */
         $scope.admin = {
             export: {
                 show: false,
@@ -172,5 +114,6 @@ angular.module('transcript.app.entity', ['ui.router'])
                 console.log(response);
             });
         };
+        /* -- Admin management ----------------------------------------------------------- */
     }])
 ;

@@ -9,6 +9,8 @@
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
+<div ng-if="user !== undefined && (user.roles | contains:'ROLE_THESAURUS_EDIT') == false" ng-include="'App/Thesaurus/tpl/ask-edit-access.html'"></div>
+
 <div class="row">
     <div class="col-sm-4">
         <div class="well">

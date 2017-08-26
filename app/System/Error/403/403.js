@@ -9,7 +9,7 @@ angular.module('transcript.system.error.403', ['ui.router'])
                     controller: 'SystemError403Ctrl'
                 }
             },
-            url: '/404'
+            url: '/403'
         })
     }])
 

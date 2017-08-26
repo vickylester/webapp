@@ -11,34 +11,34 @@
 
 <div class="row">
     <div class="col-sm-6">
-        <h2>Gestion des contenus</h2>
+        <h3>Gestion des contenus</h3>
         <ul>
             <li><a ui-sref="admin.content.new">Ajouter un contenu</a></li>
             <li><a ui-sref="admin.content.list">Liste des contenus</a></li>
         </ul>
-    </div>
-    <div class="col-sm-6">
-        <h2>Gestion des Entités</h2>
+
+        <h3>Gestion des Entités</h3>
         <ul>
             <li><a ui-sref="admin.entity.list">Liste des entités</a></li>
             <li><a ui-sref="admin.entity.import">Importer une entité</a></li>
         </ul>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <h2>Gestion des utilisateurs</h2>
-        <ul>
-            <li><a ui-sref="admin.user.list">Liste des utilisateurs</a></li>
-            <li><a>Ajouter un utilisateur</a></li>
-        </ul>
-    </div>
-    <div class="col-sm-6">
-        <h2>À propos de la plateforme</h2>
+        <h3>À propos de la plateforme</h3>
         <ul>
             <li><a ui-sref="admin.preference">Modifier les paramètres</a></li>
             <li><a>Statistiques de transcription</a></li>
         </ul>
+    </div>
+    <div class="col-sm-6">
+        <div class="well">
+            <h3><a ui-sref="admin.user.list">Utilisateurs</a></h3>
+        </div>
+        <div class="well">
+            <h3>Thésaurus</h3>
+            <ul>
+                <li><a ui-sref="admin.thesaurus.access">Demandes d'accès <span class="badge" ng-bind="(accesses|filterThesaurusAsk).length"></span></a></li>
+                <li><a ui-sref="admin.thesaurus.logs">Historique des modifications</a></li>
+            </ul>
+        </div>
     </div>
 </div>

@@ -23,89 +23,7 @@ angular.module('transcript.app.search', ['ui.router'])
         })
     }])
 
-    .service('SearchService', function($http, $rootScope, $sce, $filter) {
-        return {
-            search: function(entities, form) {
-                console.log(form);
-                // Deleting empty value in the form
-                (function filter(obj) {
-                    $.each(obj, function(key, value){
-                        if (value === "" || value === null){
-                            delete obj[key];
-                        } else if (Object.prototype.toString.call(value) === '[object Object]') {
-                            filter(value);
-                        } else if ($.isArray(value)) {
-                            $.each(value, function (k,v) { filter(v); });
-                        }
-                    });
-                })(form);
-
-                return $filter('filter') (entities, form, false);
-            },
-            dataset: function(entities, stringProperty, type) {
-                // This function looks for value in deep object
-                Object.byString = function(o, s) {
-                    s = s.replace(/\[(\w+)\]/g, '.$1'); // convert indexes to properties
-                    s = s.replace(/^\./, '');           // strip a leading dot
-                    let a = s.split('.');
-                    for (let i = 0, n = a.length; i < n; ++i) {
-                        let k = a[i];
-                        if (o[k] !== undefined) {
-                            o = o[k];
-                        } else {
-                            return;
-                        }
-                    }
-                    return o;
-                };
-
-                // Passing every entity though the function
-                let dataset = [];
-                for(let entity in entities) {
-                    let value = Object.byString(entities[entity], stringProperty)
-                    dataset.push({name: value, value: value});
-                }
-
-                // Removing not useful information for date
-                if(type === "date") {
-                    for(let obj in dataset) {
-                        dataset[obj]['name'] = dataset[obj]['name'].substring(0,4);
-                    }
-                }
-
-                // Filtering duplicates and returning data
-                return dataset.filter((dataset, index, self) => self.findIndex((t) => {return t.name === dataset.name; }) === index);
-            },
-            filter: function(entities, filters) {
-                let results = [];
-
-                // Building an array of the filters allowed
-                let filtersArray = {};
-                for(let filter in filters) {
-                    let filterArray = [];
-                    for(let property in filters[filter]) {
-                        if(filters[filter][property] === true) {
-                            filterArray.push(property);
-                        }
-                    }
-                    filtersArray[filter] = filterArray;
-                }
-
-                for(let filter in filtersArray) {
-                    for(let entity in entities) {
-                        if(filter === "status") {
-                            if($.inArray(entities[entity]['_embedded']['status'], filtersArray[filter]) !== -1) {
-                                results.push(entities[entity]);
-                            }
-                        }
-                    }
-                }
-                return results;
-            }
-        };
-    })
-
-    .controller('AppSearchCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'entities', 'EntityService', 'SearchService', function($rootScope, $scope, $http, $sce, $state, flash, entities, EntityService, SearchService) {
+    .controller('AppSearchCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'entities', 'EntityService', 'SearchService', 'ImageService', function($rootScope, $scope, $http, $sce, $state, flash, entities, EntityService, SearchService, ImageService) {
         $scope.entities = entities;
         console.log($scope.entities);
         $scope.results = [];
@@ -162,6 +80,7 @@ angular.module('transcript.app.search', ['ui.router'])
                 display: "list"
             }
         };
+        $scope.imageService = ImageService;
         /* -- End : Definition of the fields --------------------------------------------------------- */
 
         /* -- Fields watching ------------------------------------------------------------------------ */
@@ -253,6 +172,7 @@ angular.module('transcript.app.search', ['ui.router'])
             let toEntities = $scope.entities;
             let toForm = $scope.search.form;
             $scope.results = SearchService.filter(SearchService.search(toEntities, toForm), $scope.search.filters);
+            setMarkers();
         }
 
         /* -- Setting up map ----------------------------------------------------------------- */
@@ -267,18 +187,33 @@ angular.module('transcript.app.search', ['ui.router'])
                 url: "http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
             },
             markers: {
-                osloMarker: {
-                    lat: 49.9128,
-                    lng: 3.7587,
-                    message: "I want to travel here!",
-                    focus: true,
-                    draggable: false
-                }
+
             },
             defaults: {
                 scrollWheelZoom: false
             }
         });
+
+        function setMarkers() {
+            let markers = {};
+            for(let result in $scope.results) {
+                let entity = $scope.results[result];
+
+                if(entity.will.testator.place_of_death !== null && entity.will.testator.place_of_death.geographical_coordinates !== null) {
+                    let coord = entity.will.testator.place_of_death.geographical_coordinates.split('+');
+                    let id = "maker"+entity.will.testator.id;
+                    let marker = {
+                        lat: parseFloat(coord[0]),
+                        lng: parseFloat(coord[1]),
+                        message: entity.will.testator.name+' décédé à '+entity.will.testator.place_of_death.name,
+                        focus: false,
+                        draggable: false
+                    };
+                    markers[id] = marker;
+                }
+            }
+            $scope.markers = markers;
+        }
         /* -- End : Setting up map ----------------------------------------------------------- */
     }])
 ;

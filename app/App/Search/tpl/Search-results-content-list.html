@@ -1,3 +1,25 @@
-<ul>
-    <li data-ng-repeat="entity in results"><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.title }}</a></li>
-</ul>
+<div class="list-group">
+    <div class="list-group-item" data-ng-repeat="entity in results">
+        <div class="row">
+            <div class="col-sm-2">
+                <a ui-sref="app.entity({ id: entity.id })" >
+                    <img src="{{ imageService.getThumbnail(entity) }}" class="img-80" />
+                </a>
+            </div>
+            <div class="col-sm-10">
+                <div>
+                    <div class="pull-right">
+                        <span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span>
+                    </div>
+                    <strong>{{ entity.will.testator.name }}</strong>
+                </div>
+                <p>
+                    {{ entity.will.testator.death_mention }} le {{ entity.will.testator.date_of_death | classicDate }} | {{ entity.will.testator.place_of_death.name }}<span ng-if="entity.will.testator.place_of_death.country != null">, {{ entity.will.testator.place_of_death.country }}</span><br />
+                    Testament rédigé le {{ entity.will.will_writing_date | classicDate }} | {{ entity.will.will_writing_place.name }}<span ng-if="entity.will.will_writing_place.country != null">, {{ entity.will.will_writing_place.country }}</span><br />
+                    Cote aux {{ entity.will.hosting_organization | organisationName }} {{ entity.will.call_number }}, minute du {{ entity.will.minute_date | classicDate }}
+                </p>
+                <div class="text-right"><span class="label label-info" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span></div>
+            </div>
+        </div>
+    </div>
+</div>

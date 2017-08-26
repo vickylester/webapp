@@ -2,9 +2,14 @@
 <div class="row">
     <div class="col-md-3" data-ng-repeat="entity in iUser._embedded.contributions">
         <div class="thumbnail">
-            <img src="{{ webapp.resources }}images/no-images.png" class="img-responsive" />
+            <div class="text-center"><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
+            <a ui-sref="app.entity({ id: entity.id })" >
+                <img src="{{ imageService.getThumbnail(entity) }}" class="img-250" />
+            </a>
+            <div class="text-right"><span class="label label-info" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span></div>
             <div class="caption">
-                <h3><a ui-sref="app.entity({id: entity.id})">{{ entity.will.title }}</a></h3>
+                <strong>{{ entity.will.testator.name }}</strong>
+                <p>Cote {{ entity.will.call_number }}, minute du {{ entity.will.minute_date | classicDate }}</p>
             </div>
         </div>
     </div>

@@ -1,0 +1,11 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <div class="pull-right">
+            <span class="label label-info">{{ resource.type | ucfirst }} {{resource.order_in_will}}</span>
+        </div>
+        <div class="panel-title"><i class="fa fa-edit"></i> Transcription</div>
+    </div>
+    <div class="panel-body">
+        <div data-ng-bind-html="encodedContent"></div>
+    </div>
+</div>
