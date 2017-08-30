@@ -58,5 +58,9 @@ angular.module('transcript.app.thesaurus.view', ['ui.router'])
             });
             /* -- End : Setting up map ----------------------------------------------------------- */
         }
+
+        /* -- Relative items management ------------------------------------------------------ */
+
+        /* -- End : Relative items management ------------------------------------------------ */
     }])
 ;

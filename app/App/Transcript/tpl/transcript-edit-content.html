@@ -1,15 +1,20 @@
 <div id="transcript-edit" class="h100">
-    <div id="transcript-edit-editor" class="h100">
-        <div id="transcript-edit-editor-ace" class="h100">
-            <div ui-ace="{
+    <div id="transcript-edit-heading">
+        <strong class="transcript-edit-heading-title">Transcription</strong>
+    </div>
+    <div style="height: 92%;">
+        <div id="transcript-edit-editor" class="h100">
+            <div id="transcript-edit-editor-ace" class="h100">
+                <div ui-ace="{
                 mode: 'xml',
                 onLoad: aceLoaded,
                 onChange: aceChanged,
                 useWrapMode: true
-                }" id="transcript-edit-editor-ace-area" class="h100" data-ng-model="wysiwyg.area"></div>
+                }" id="transcript-edit-editor-ace-area" class="h100" data-ng-model="transcriptArea.ace.area"></div>
+            </div>
         </div>
-    </div>
-    <div id="transcript-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title">
-        <div class="modal-dialog modal-transcribe" data-ng-include="wysiwyg.modal.content"></div>
+        <div id="transcript-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title">
+            <div class="modal-dialog modal-transcribe" data-ng-include="transcriptArea.ace.modal.content"></div>
+        </div>
     </div>
 </div>

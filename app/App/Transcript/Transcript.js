@@ -14,16 +14,19 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 }
             },
             ncyBreadcrumb: {
-                parent: 'app.entity({id: resource.entity.id})',
-                label: 'Transcription de {{ resource.type }} {{resource.order_in_will}}'
+                parent: 'app.edition({idEntity: entity.id, idResource: resource.id})',
+                label: 'Transcription'
             },
-            url: '/transcript/{id}',
+            url: '/transcript/:idEntity/:idResource/:idTranscript',
             resolve: {
                 transcript: function(TranscriptService, $transition$) {
-                    return TranscriptService.getTranscript($transition$.params().id);
+                    return TranscriptService.getTranscript($transition$.params().idTranscript);
                 },
                 resource: function(ResourceService, $transition$) {
-                    return ResourceService.getResource($transition$.params().id);
+                    return ResourceService.getResource($transition$.params().idResource);
+                },
+                entity: function(EntityService, $transition$) {
+                    return EntityService.getEntity($transition$.params().idEntity);
                 },
                 thread: function(CommentService, $transition$) {
                     if(CommentService.getThread('transcript-'+$transition$.params().id) === null) {
@@ -32,39 +35,85 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     } else {
                         return CommentService.getThread('transcript-'+$transition$.params().id);
                     }
+                },
+                teiStructure: function(TranscriptService) {
+                    return TranscriptService.getTeiStructure();
+                },
+                teiHelp: function(TranscriptService) {
+                    return TranscriptService.getTeiHelp();
+                },
+                config: function() {
+                    return YAML.load('App/Transcript/toolbar.yml');
+                },
+                testators: function(ThesaurusService) {
+                    return ThesaurusService.getThesaurusEntities("testators");
+                },
+                places: function(ThesaurusService) {
+                    return ThesaurusService.getThesaurusEntities("places");
+                },
+                regiments: function(ThesaurusService) {
+                    return ThesaurusService.getThesaurusEntities("regiments");
                 }
             }
         })
     }])
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'transcript', 'resource', 'TranscriptService', 'ContentService', '$timeout', function($rootScope, $scope, $http, $sce, $state, transcript, resource, TranscriptService, ContentService, $timeout) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiStructure', 'teiHelp', 'config', 'testators', 'places', 'regiments', function($rootScope, $scope, $http, $sce, $state, $timeout, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiStructure, teiHelp, config, testators, places, regiments) {
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
         /* -------------------------------------------------------------------------------- */
-        let config = YAML.load('App/Transcript/toolbar.yml');
+        $scope.transcript = transcript;
+        $scope.resource = resource;
+        $scope.entity = entity;
+        $scope.teiStructure = teiStructure;
+        $scope.teiHelp = teiHelp;
+        $scope.config = config;
+        $scope.thesaurus = {
+            testators: testators,
+            places: places,
+            regiments: regiments
+        };
+
         $scope.page = {
-            loading: true,
-            status: "read",
             fullscreen: {
                 status: false
             }
         };
-        $scope.wysiwyg = {
-            live: {
-                status: true,
-                content: ""
-            },
+        $scope.transcriptArea = {
             interaction: {
-                title: "",
-                content: "",
-                history: []
+                status: "live",
+                live: {
+                    content: ""
+                },
+                content: {
+                    title: "",
+                    text: "",
+                    history: [],
+                },
+                thesaurus: {
+                    result: null,
+                    dataType: null,
+                    entities: null,
+                    string: null,
+                    thesaurusSelected: null
+                },
+                version: {
+                    id: null,
+                    content: null
+                }
             },
-            area: transcript.content,
-            buttons: config.tei,
-            buttonsGroups: config.buttonsGroups,
-            modal: {
-                content: "",
-                variables: {}
+            ace: {
+                currentTag: null,
+                area: $scope.transcript.content,
+                modal: {
+                    content: "",
+                    variables: {}
+                }
+            },
+            toolbar: {
+                buttons: $scope.config.tei,
+                buttonsGroups: $scope.config.buttonsGroups,
+
             }
         };
         $scope.submit = {
@@ -95,19 +144,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     loading: false
                 }
             },
-            versions: {
-                show: false
-            },
             status: {
-                show: false,
                 loading: false,
                 value: transcript.status
             }
         };
-        $scope.transcript = transcript;
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
-        $scope.resource = resource;
-        if(transcript.content === null) {$scope.wysiwyg.area = "";}
+
+        if(transcript.content === null) {$scope.transcriptArea.ace.area = "";}
         /* $scope & variables ------------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
@@ -123,42 +167,163 @@ angular.module('transcript.app.transcript', ['ui.router'])
         function encodeHTML(encodeLiveRender, button) {return TranscriptService.encodeHTML(encodeLiveRender, button);}
         /* Functions ---------------------------------------------------------------------- */
 
-        $scope.page.loading = false;
+        /* -------------------------------------------------------------------------------- */
+        /* Toolbar */
+        /* -------------------------------------------------------------------------------- */
+        /**
+         * The aim of this function is to enable and disable the buttons of the TEI toolbar
+         * according to the context, meaning the position of the caret.
+         */
+        $scope.$watch('transcriptArea.ace.currentTag', function() {
+            //console.log($scope.transcriptArea.ace.currentTag);
+            //console.log($scope.teiStructure);
+
+            // Reset every disabled buttons
+            for(let btn in $scope.transcriptArea.toolbar.buttons) {
+                $scope.transcriptArea.toolbar.buttons[btn].btn.disabled = true;
+            }
+
+            if($scope.transcriptArea.ace.currentTag === null || $scope.transcriptArea.ace.currentTag === "") {
+                // If the caret is at the root of the doc, we allow root items == true
+                for(let btn in $scope.transcriptArea.toolbar.buttons) {
+                    if($scope.transcriptArea.toolbar.buttons[btn].btn.allow_root === true) {
+                        $scope.transcriptArea.toolbar.buttons[btn].btn.disabled = false;
+                    }
+                }
+            } else {
+                // Else, we allow items according to the parent tag
+                for(let elemId in $scope.teiStructure.data[$scope.transcriptArea.ace.currentTag]) {
+                    let elem = $scope.teiStructure.data[$scope.transcriptArea.ace.currentTag][elemId];
+                    //console.log(elem);
+                    if($scope.transcriptArea.toolbar.buttons[elem] !== undefined &&
+                        ($scope.transcriptArea.toolbar.buttons[elem].type === 'tag' || $scope.transcriptArea.toolbar.buttons[elem].type === 'key') &&
+                        $scope.transcriptArea.toolbar.buttons[elem].xml.name === elem)
+                    {
+                        $scope.transcriptArea.toolbar.buttons[elem].btn.disabled = false;
+                    }
+                }
+            }
+
+        });
+        /* Toolbar ------------------------------------------------------------------------ */
 
         /* -------------------------------------------------------------------------------- */
         /* Ace Editor */
         /* -------------------------------------------------------------------------------- */
         /**
-         * On loading page
+         * On loading the Ace inteface
          * @param _editor
          */
         $scope.aceLoaded = function(_editor) {
-            $scope.aceEditor = _editor;
-            $scope.aceSession = _editor.getSession();
+            $scope.aceEditor = _editor; // Doc -> https://ace.c9.io/#nav=api&api=editor
+            $scope.aceSession = _editor.getSession(); // Doc -> https://ace.c9.io/#nav=api&api=edit_session
+            let AceRange = $scope.aceEditor.getSelectionRange().constructor; //Doc -> https://stackoverflow.com/questions/28893954/how-to-get-range-when-using-angular-ui-ace#28894262
 
+            /**
+             * Adding a specific command on Enter
+             * -> Insert a <lb /> tag
+             */
             $scope.aceEditor.commands.addCommand({
                 name: 'enterLb',
                 bindKey: {win: 'Enter',  mac: 'Enter'},
                 exec: function(editor) {
-                    let lineNumber = $scope.aceEditor.getCursorPosition().row,
+                    /*let lineNumber = $scope.aceEditor.getCursorPosition().row,
                         column = $scope.aceEditor.getCursorPosition().column;
-
-
                     console.log(editor);
                     console.log(lineNumber+"<>"+column);
+                    console.log(editor.getValue());*/
 
-                    console.log(editor.getValue());
-
-
-                    editor.insert("<lb />\n");
+                    console.log($scope.transcriptArea.toolbar.buttons.lb.btn.disabled);
+                    if($scope.transcriptArea.toolbar.buttons.lb.btn.disabled == false) {
+                        editor.insert("<lb />\n");
+                    } else {
+                        return false;
+                    }
                 }
             });
 
+            /**
+             * For every position movement, we recompute the parent tag
+             */
+            $scope.aceEditor.commands.addCommand({
+                name: 'leftAction',
+                bindKey:
+                    {
+                        win: 'Left',  mac: 'Left'
+                    },
+                exec: function() {
+                    $scope.$apply(function() {
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                    });
+                    return false;
+                }
+            });
+            $scope.aceEditor.commands.addCommand({
+                name: 'rightAction',
+                bindKey:
+                    {
+                        win: 'Right',  mac: 'Right'
+                    },
+                exec: function() {
+                    $scope.$apply(function() {
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                    });
+                    return false;
+                }
+            });
+            $scope.aceEditor.commands.addCommand({
+                name: 'upAction',
+                bindKey:
+                    {
+                        win: 'Up',  mac: 'Up'
+                    },
+                exec: function() {
+                    $scope.$apply(function() {
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                    });
+                    return false;
+                }
+            });
+            $scope.aceEditor.commands.addCommand({
+                name: 'downAction',
+                bindKey:
+                    {
+                        win: 'Down',  mac: 'Down'
+                    },
+                exec: function() {
+                    $scope.$apply(function() {
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                    });
+                    return false;
+                }
+            });
+
+            /**
+             * Event double click
+             */
             $scope.aceEditor.container.addEventListener("dblclick", function(e) {
                 e.preventDefault();
-                if(config.list.indexOf($scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange())) !== -1) {
-                    $scope.help($scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()), "modelDoc", true);
+
+                /*
+                 * If double-click on a tag, we load the interaction interface with the doc about this tag
+                 * We detect tag by looking at the previous character. We assume if the character is < or /, this is a tag.
+                 */
+                let previousCharacter = $scope.aceSession.getDocument().getTextRange(new AceRange($scope.aceEditor.getSelectionRange().start.row, $scope.aceEditor.getSelectionRange().start.column-1, $scope.aceEditor.getSelectionRange().start.row, $scope.aceEditor.getSelectionRange().start.column));
+                if(previousCharacter === '<' || previousCharacter === '/') {
+                    $scope.transcriptArea.interaction.help($scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()), "modelDoc", true);
                 }
+
+                return false;
+            }, false);
+
+            /**
+             * Event click
+             */
+            $scope.aceEditor.container.addEventListener("click", function(e) {
+                e.preventDefault();
+                $scope.$apply(function() {
+                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                });
                 return false;
             }, false);
 
@@ -171,7 +336,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Actions on addTag
          */
         $scope.addTag = function(tagName) {
-            let tag = config.tei[tagName],
+            let tag = $scope.config.tei[tagName],
                 tagInsert = "",
                 defaultAddChar = 2;
 
@@ -197,7 +362,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Actions on addAttribute
          */
         $scope.addAttribute = function(attributeName) {
-            let attribute = config.tei[attributeName],
+            let attribute = $scope.config.tei[attributeName],
                 defaultAddChar = 8;
 
             let attrInsert = "<hi " + attribute.xml.name + "=\"" + attribute.xml.value + "\">" + $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()) + "</hi>";
@@ -210,16 +375,16 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
 
         /**
-         * This function watches #live.content, encodes it and displays it
+         * This function watches the transcription (ace area), encodes it and displays it in the live
          */
-        $scope.$watch('wysiwyg.area', function() {
-            let encodeLiveRender = $scope.wysiwyg.area;
-            for(let buttonId in config.tei) {
-                encodeLiveRender = encodeHTML(encodeLiveRender, config.tei[buttonId]);
+        $scope.$watch('transcriptArea.ace.area', function() {
+            let encodeLiveRender = $scope.transcriptArea.ace.area;
+            for(let buttonId in $scope.config.tei) {
+                encodeLiveRender = encodeHTML(encodeLiveRender, $scope.config.tei[buttonId]);
             }
-            $scope.wysiwyg.live.content = $sce.trustAsHtml(encodeLiveRender);
+            $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeLiveRender);
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
         });
-
 
         /**
          * Undo management
@@ -234,6 +399,31 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
         /* Ace editor --------------------------------------------------------------------- */
 
+        /* --------------------------------------------------------------------------------
+         * XML Parser :
+         * Find the current tag in AceEditor
+         * ----------------------------------------------------------------------------- */
+        function getLeftOfCursor() {
+            let partOfCode = "";
+
+            for (let r=0; r <= $scope.aceEditor.getCursorPosition().row; r++) {
+                if (r < $scope.aceEditor.getCursorPosition().row) {
+                    partOfCode += $scope.aceSession.getLine(r);
+                } else if (r === $scope.aceEditor.getCursorPosition().row) {
+                    let line = $scope.aceSession.getLine(r);
+                    partOfCode += line.substring(0, $scope.aceEditor.getCursorPosition().column);
+                }
+            }
+
+            //console.log(partOfCode);
+            if(partOfCode !== "") {
+                return partOfCode;
+            } else {
+                return null;
+            }
+        }
+        /* End : XmlTagInterpreter --------------------------------------------------------- */
+
         /* -------------------------------------------------------------------------------- */
         /* Modal Management */
         /* -------------------------------------------------------------------------------- */
@@ -241,37 +431,37 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Modal management
          * @param id_modal
          */
-        $scope.wysiwyg.modal.load = function(id_modal) {
-            $scope.wysiwyg.modal.setContent(id_modal);
+        $scope.transcriptArea.ace.modal.load = function(id_modal) {
+            $scope.transcriptArea.ace.modal.setContent(id_modal);
             $("#transcript-edit-modal").modal();
             $(".modal-backdrop").appendTo("#transcript-edit");
             $("body").removeClass();
         };
 
-        $scope.wysiwyg.modal.setContent = function(id_modal) {
+        $scope.transcriptArea.ace.modal.setContent = function(id_modal) {
             // Reset variables :
             if(id_modal === "choice-orig") {
-                $scope.wysiwyg.modal.variables.choice_orig_modal_orig = "";
-                $scope.wysiwyg.modal.variables.choice_orig_modal_reg = "";
-                $scope.wysiwyg.modal.variables.choice_orig_modal_orig = $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange());
+                $scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig = "";
+                $scope.transcriptArea.ace.modal.variables.choice_orig_modal_reg = "";
+                $scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig = $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange());
             }
 
-            $scope.wysiwyg.modal.content = TranscriptService.loadFile("modal-"+id_modal);
+            $scope.transcriptArea.ace.modal.content = TranscriptService.loadFile("modal-"+id_modal);
         };
 
         /**
          * Modal validation
          * @param id_validation
          */
-        $scope.wysiwyg.modal.valid = function(id_validation) {
+        $scope.transcriptArea.ace.modal.valid = function(id_validation) {
             $('.modal').modal('hide');
             if(id_validation === "choice-orig") {
                 let orig_insertHTML = "",
                     reg_insertHTML = "";
 
-                if($scope.wysiwyg.modal.variables.choice_orig_modal_orig !== "") {orig_insertHTML = "<orig>"+$scope.wysiwyg.modal.variables.choice_orig_modal_orig+"</orig>";}
+                if($scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig !== "") {orig_insertHTML = "<orig>"+$scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig+"</orig>";}
                 else {orig_insertHTML = "<orig />";}
-                if($scope.wysiwyg.modal.variables.choice_orig_modal_reg !== "") {reg_insertHTML = "<reg>"+$scope.wysiwyg.modal.variables.choice_orig_modal_reg+"</reg>";}
+                if($scope.transcriptArea.ace.modal.variables.choice_orig_modal_reg !== "") {reg_insertHTML = "<reg>"+$scope.transcriptArea.ace.modal.variables.choice_orig_modal_reg+"</reg>";}
                 else {reg_insertHTML = "<reg />";}
 
                 let insertXML = "<choice>"+orig_insertHTML+reg_insertHTML+"</choice>";
@@ -282,44 +472,69 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Modal Management --------------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
+        /* Interaction Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.interaction.gotoLive = function() {
+            $scope.transcriptArea.interaction.status = 'live';
+            resetVersionZone();
+            resetInteractionZone();
+            resetThesaurusSearchZone();
+        };
+
+        function resetVersionZone() {
+            $scope.transcriptArea.interaction.version.content = null;
+            $scope.transcriptArea.interaction.version.id = null;
+        }
+
+        function resetInteractionZone() {
+            $scope.transcriptArea.interaction.content.text = '<p class="text-center" style="margin-top: 20px;"><i class="fa fa-5x fa-spin fa-circle-o-notch"></i></p>';
+        }
+
+        function resetThesaurusSearchZone() {
+            $scope.transcriptArea.interaction.thesaurus.dataType = null;
+            $scope.transcriptArea.interaction.thesaurus.result = null;
+            $scope.transcriptArea.interaction.thesaurus.string = null;
+            $scope.transcriptArea.interaction.thesaurus.entities = null;
+            $scope.transcriptArea.interaction.thesaurus.thesaurusSelected = null;
+        }
+        /* Interaction Management --------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
         /* Help Management */
         /* -------------------------------------------------------------------------------- */
-        function resetInteractionZone() {
-            $scope.wysiwyg.interaction.content = '<p class="text-center" style="margin-top: 20px;"><i class="fa fa-5x fa-spin fa-circle-o-notch"></i></p>';
-        }
         /**
          * Help management
          * @param string
          * @param context
          * @param resetBreadcrumb
          */
-        $scope.help = function(string, context, resetBreadcrumb) {
+        $scope.transcriptArea.interaction.help = function(string, context, resetBreadcrumb) {
             if(context === "helpContent") {
                 if(resetBreadcrumb === true) {
                     resetInteractionZone();
                 }
                 loadHelpData(string, resetBreadcrumb);
+                $scope.transcriptArea.interaction.status = 'content';
             } else if(context === "modelDoc") {
                 resetInteractionZone(resetBreadcrumb);
                 loadDocumentation(string, resetBreadcrumb);
             }
-            $scope.wysiwyg.live.status = false;
         };
 
         /**
          * This function loads documentation about a TEI element
          */
         function loadDocumentation(element, resetBreadcrumb) {
-            $http.get($rootScope.api+'/model?info=doc&element=' + element, { headers: {'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token }}
-            ).then(function (response) {
-                //console.log(response.data);
-                if(response.data.doc !== null) {
-                    $scope.wysiwyg.interaction.content = response.data.doc;
+            console.log(element);
+            breadcrumbManagement({title: element, id: 0}, resetBreadcrumb);
+            $scope.$apply(function() {
+                $scope.transcriptArea.interaction.content.title = element;
+                if($scope.teiHelp.data[element] !== undefined) {
+                    $scope.transcriptArea.interaction.content.text = $scope.teiHelp.data[element];
                 } else {
-                    $scope.wysiwyg.interaction.content = "Oups ... Aucune documentation n'existe pour cet élément.";
+                    $scope.transcriptArea.interaction.content.text = "Oups ... Aucune documentation n'existe pour cet élément.";
                 }
-                $scope.wysiwyg.interaction.title = element;
-                breadcrumbManagement({title: element, id: 0}, resetBreadcrumb);
+                $scope.transcriptArea.interaction.status = 'content';
             });
         }
 
@@ -332,22 +547,20 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 let doc = document.createElement('div');
                 doc.innerHTML = data.content;
 
-                //-------------------------------------------------------------
                 // -- Encoding internal links to be clickable
                 let links = doc.getElementsByTagName("a");
                 for(let oldLink of links){
                     if(oldLink.getAttribute("class").indexOf("internalHelpLink") !== -1 ){
                         let newLink = document.createElement("a");
-                        newLink.setAttribute('data-ng-click', 'help(\''+oldLink.getAttribute('href')+'\', \'helpContent\', false)');
+                        newLink.setAttribute('data-ng-click', 'transcriptArea.interaction.help(\''+oldLink.getAttribute('href')+'\', \'helpContent\', false)');
                         newLink.innerHTML = oldLink.innerHTML;
                         oldLink.parentNode.insertBefore(newLink, oldLink);
                         oldLink.parentNode.removeChild(oldLink);
                     }
                 }
-                //-------------------------------------------------------------
 
-                $scope.wysiwyg.interaction.content = doc.innerHTML;
-                $scope.wysiwyg.interaction.title = data.title;
+                $scope.transcriptArea.interaction.content.text = doc.innerHTML;
+                $scope.transcriptArea.interaction.content.title = data.title;
                 breadcrumbManagement(data, resetBreadcrumb);
             });
         }
@@ -363,20 +576,20 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 id: content.id
             };
 
-            console.log(reset);
+            //console.log(reset);
             if(reset === true) {
                 // If reset === true -> we clean the history
-                $scope.wysiwyg.interaction.history = [];
+                $scope.transcriptArea.interaction.content.history = [];
             } else {
                 // Else -> we keep the history and we remove the previous items from history which are no longer relevant
                 let toSplice = [];
-                for (let elementOfHistory of $scope.wysiwyg.interaction.history) {
+                for (let elementOfHistory of $scope.transcriptArea.interaction.content.history) {
                     if (elementOfHistory.id === elementToBreadcrumb.id) {
-                        toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
+                        toSplice.push($scope.transcriptArea.interaction.content.history.indexOf(elementOfHistory));
                     } else {
                         for (let parent of elementOfHistory.parents) {
                             if (parent === elementToBreadcrumb.id) {
-                                toSplice.push($scope.wysiwyg.interaction.history.indexOf(elementOfHistory));
+                                toSplice.push($scope.transcriptArea.interaction.content.history.indexOf(elementOfHistory));
                             }
                         }
                     }
@@ -384,20 +597,90 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 for (let id of toSplice.sort(function (a, b) {
                     return b - a
                 })) {
-                    $scope.wysiwyg.interaction.history.splice(id, 1);
+                    $scope.transcriptArea.interaction.content.history.splice(id, 1);
                 }
             }
 
             /* -- Building parents of current item -- */
             let parents = [];
-            for(let elementOfHistory of $scope.wysiwyg.interaction.history) {
+            for(let elementOfHistory of $scope.transcriptArea.interaction.content.history) {
                 parents.push(elementOfHistory.id);
             }
             elementToBreadcrumb.parents = parents;
 
-            $scope.wysiwyg.interaction.history.push(elementToBreadcrumb);
+            $scope.transcriptArea.interaction.content.history.push(elementToBreadcrumb);
         }
         /* Help Management ---------------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Versions Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.interaction.version.load = function(id) {
+            console.log(id);
+            $scope.transcriptArea.interaction.version.id = id;
+            $scope.transcriptArea.interaction.status = 'version';
+
+            for(let versionId in $scope.transcript._embedded.version) {
+                let version = $scope.transcript._embedded.version[versionId];
+                if(version.id === id) {
+                    $scope.transcriptArea.interaction.version.content = version.data.content;
+                }
+            }
+        };
+        /* Versions Management ------------------------------------------------------------ */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Thesaurus Search Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.interaction.thesaurus.action = function() {
+            resetThesaurusSearchZone();
+            $scope.transcriptArea.interaction.status = 'thesaurusSearch';
+
+            $scope.$watch('transcriptArea.interaction.thesaurus.thesaurusSelected', function() {
+                switch($scope.transcriptArea.interaction.thesaurus.thesaurusSelected) {
+                    case "testators":
+                        console.log("testators");
+                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.testators;
+                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.testators, "name", "string");
+                        $scope.transcriptArea.interaction.thesaurus.dataType = "testators";
+                        break;
+                    case "places":
+                        console.log("places");
+                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.places;
+                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.places, "name", "string");
+                        $scope.transcriptArea.interaction.thesaurus.dataType = "places";
+                        break;
+                    case "regiments":
+                        console.log("regiments");
+                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.regiments;
+                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.regiments, "name", "string");
+                        $scope.transcriptArea.interaction.thesaurus.dataType = "regiments";
+                        break;
+                    default:
+                        console.log("default");
+                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.testators;
+                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.testators, "name", "string");
+                        $scope.transcriptArea.interaction.thesaurus.dataType = "testators";
+                }
+            });
+            $scope.$watch('transcriptArea.interaction.thesaurus.string', function() {
+                if($scope.transcriptArea.interaction.thesaurus.string !== undefined) {
+                    if ($scope.transcriptArea.interaction.thesaurus.string !== null && $scope.transcriptArea.interaction.thesaurus.string !== "" && $scope.transcriptArea.interaction.thesaurus.string.originalObject !== undefined) {
+                        $scope.transcriptArea.interaction.thesaurus.string = $scope.transcriptArea.interaction.thesaurus.string.originalObject.value;
+                        console.log($scope.transcriptArea.interaction.thesaurus.string);
+                    }
+                    refresh();
+                }
+            });
+
+            function refresh() {
+                let toEntities = $scope.transcriptArea.interaction.thesaurus.entities;
+                let toForm = {name: $scope.transcriptArea.interaction.thesaurus.string};
+                $scope.transcriptArea.interaction.thesaurus.result = SearchService.search(toEntities, toForm);
+                console.log($scope.transcriptArea.interaction.thesaurus.result);
+            }
+        };
+        /* Thesaurus Search Management ---------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Viewer Management */
@@ -411,7 +694,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             tileSources: {
                 Image: {
                     xmlns:    "http://schemas.microsoft.com/deepzoom/2008",
-                    Url:      $rootScope.api_web+"/images/data/testament_"+$scope.resource.entity.will_number+"/JPEG/FRAN_Poilus_t-"+$scope.resource.entity.will_number+"_"+$scope.resource.images[0],
+                    Url:      $rootScope.api_web+"/images/data/testament_"+$scope.entity.will_number+"/JPEG/FRAN_Poilus_t-"+$scope.entity.will_number+"_"+$scope.resource.images[0],
                     Format:   "jpg",
                     Overlap:  "2",
                     TileSize: "256",
@@ -431,18 +714,18 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Submit management
          */
         $scope.submit.load = function(action) {
-            if($scope.transcript.status === "todo" && $scope.wysiwyg.area !== "") {
+            if($scope.transcript.status === "todo" && $scope.transcriptArea.ace.area !== "") {
                 // Updating status value in case of first edition
                 $scope.transcript.status = "transcription";
             }
-            if($scope.transcript.content !== $scope.wysiwyg.area) {
+            if($scope.transcript.content !== $scope.transcriptArea.ace.area) {
                 $scope.submit.loading = true;
                 if($scope.submit.form.isEnded === true) {
                     $scope.transcript.status = "validation";
                 }
                 $http.patch($rootScope.api+'/transcripts/' + $scope.transcript.id,
                     {
-                        "content": $scope.wysiwyg.area,
+                        "content": $scope.transcriptArea.ace.area,
                         "updateComment": $scope.submit.form.comment,
                         "status": $scope.transcript.status
                     },
@@ -455,7 +738,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     $scope.submit.form.comment = "";
 
                     if(action === 'load-read' || $scope.transcript.status === "validation") {
-                        $scope.page.status = 'read';
+                        $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
                     } else {
                         $scope.submit.success = true;
                         $timeout(function() { $scope.submit.success = false; }, 3000);
@@ -470,10 +753,10 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Go back management
          */
         $scope.submit.goBack = function() {
-            if($scope.transcript.content === $scope.wysiwyg.area) {
-                $scope.page.status = 'read';
+            if($scope.transcript.content === $scope.transcriptArea.ace.area) {
+                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             } else {
-                $scope.wysiwyg.modal.load('goBack');
+                $scope.transcriptArea.ace.modal.load('goBack');
             }
         };
 
@@ -481,8 +764,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Safe go back management
          */
         $scope.submit.safeGoBack = function() {
-            $scope.wysiwyg.area = $scope.transcript.content;
-            $scope.page.status = 'read';
+            $scope.transcriptArea.ace.area = $scope.transcript.content;
+            $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
         };
         /* Submit Management -------------------------------------------------------------- */
 
@@ -493,21 +776,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
          * Admin init:
          */
         function adminInit() {
-            $scope.admin.versions.show = false;
             $scope.admin.status.show = false;
         }
-
-        /**
-         * Management of versions loading
-         */
-        $scope.admin.versions.load = function() {
-            if($scope.admin.versions.show === false) {
-                adminInit();
-                $scope.admin.versions.show = true;
-            } else if($scope.admin.versions.show === true) {
-                $scope.admin.versions.show = false;
-            }
-        };
 
         /**
          * Management of status loading
@@ -536,7 +806,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 console.log(response.data);
                 $scope.transcript = response.data;
                 $scope.admin.status.loading = false;
-                $scope.page.status = 'read';
+                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             });
         };
 
@@ -547,7 +817,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.admin.validation.accept.loading = true;
             $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
                 {
-                    "content": $scope.wysiwyg.area,
+                    "content": $scope.transcriptArea.ace.area,
                     "updateComment": "Accept validation",
                     "status": "validated"
                 },
@@ -556,7 +826,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 console.log(response.data);
                 $scope.transcript = response.data;
                 $scope.admin.validation.accept.loading = false;
-                $scope.page.status = 'read';
+                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             });
         };
 
@@ -567,7 +837,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.admin.validation.refuse.loading = true;
             $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
                 {
-                    "content": $scope.wysiwyg.area,
+                    "content": $scope.transcriptArea.ace.area,
                     "updateComment": "Refuse validation",
                     "status": "transcription"
                 },
@@ -576,7 +846,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 console.log(response.data);
                 $scope.transcript = response.data;
                 $scope.admin.validation.refuse.loading = false;
-                $scope.page.status = 'read';
+                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             });
         };
         /* Admin Management --------------------------------------------------------------- */
@@ -603,8 +873,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.page.fullscreen.close = function() {
             document.exitFullscreen();
             $scope.page.fullscreen.status = false;
-        }
+        };
         /* Full screen Management --------------------------------------------------------- */
-
     }])
 ;

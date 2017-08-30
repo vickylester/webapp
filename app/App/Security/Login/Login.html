@@ -1,34 +1,35 @@
-<div class="jumbotron">
-    <h2>Page de connexion</h2>
-</div>
 <div ncy-breadcrumb></div>
 
-<div class="row">
-    <div class="col-xs-12">
-        <div flash-alert active-class="in alert" class="fade" duration="5000">
-            <!-- Manually hide the alert with `hide()` -->
-            <button type="button" class="close" ng-click="hide()">&times;</button>
-            <span class="alert-message" data-ng-bind-html="flash.message"></span>
-        </div>
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+</div>
 
-        <form class="form-horizontal">
-            <div class="form-group">
-                <label for="app_security_login_login" class="control-label col-sm-3">Email address</label>
-                <div class="col-sm-7">
-                    <input type="email" data-ng-model="form.username" class="form-control" id="app_security_login_login" name="app_security_login_login" placeholder="Email" required />
+<div class="well well-sm">
+    <h1>Page de connexion</h1>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label for="app_security_login_login" class="control-label col-sm-3">Email address</label>
+                    <div class="col-sm-7">
+                        <input type="email" data-ng-model="form.username" class="form-control" id="app_security_login_login" name="app_security_login_login" placeholder="Email" required />
+                    </div>
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="app_security_login_password" class="control-label col-sm-3">Password</label>
-                <div class="col-sm-7">
-                    <input type="password" data-ng-model="form.password" class="form-control" id="app_security_login_password" name="app_security_login_login" placeholder="Password" required />
+                <div class="form-group">
+                    <label for="app_security_login_password" class="control-label col-sm-3">Password</label>
+                    <div class="col-sm-7">
+                        <input type="password" data-ng-model="form.password" class="form-control" id="app_security_login_password" name="app_security_login_login" placeholder="Password" required />
+                    </div>
                 </div>
-            </div>
-            <div class="text-center">
-                <button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Login <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                <br />
-                <a class="text-muted" ui-sref="app.security.resetting">Mot de passe oublié</a>
-            </div>
-        </form>
+                <div class="text-center">
+                    <button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Login <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                    <br />
+                    <a class="text-muted" ui-sref="app.security.resetting">Mot de passe oublié</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>

@@ -218,6 +218,25 @@ angular.module('transcriptApp', [
             }
             return contentTypeName;
         }
+    }])
+    .filter('thesaurusName', [function() {
+        return function (thesaurusId) {
+            let thesaurusName = "";
+            switch(thesaurusId) {
+                case "testators":
+                    thesaurusName = "testateur";
+                    break;
+                case "places":
+                    thesaurusName = "lieu";
+                    break;
+                case "regiments":
+                    thesaurusName = "régiment";
+                    break;
+                default:
+                    thesaurusName = "Inconnu";
+            }
+            return thesaurusName;
+        }
     }]);
 
 function capitalizeFirstLetter(string) {

@@ -1,21 +1,21 @@
 <button data-ng-if="role == 'readOnly'" data-ng-click="page.status = 'login'" class="btn btn-default btn-sm">
     <i class="fa fa-edit"></i> Participer à la transcription
 </button>
-<a data-ng-if="(role == 'editor' || role == 'validator') && resource.transcript.status == 'todo'" ui-sref="app.transcript({id: resource.transcript.id})" class="btn btn-default btn-sm">
+<a data-ng-if="(role == 'editor' || role == 'validator') && resource.transcript.status == 'todo'" ui-sref="app.transcript({idEntity: entity.id, idResource: resource.id, idTranscript: resource.transcript.id})" class="btn btn-default btn-sm">
     <i class="fa fa-edit"></i> Commencer cette transcription
 </a>
-<a data-ng-if="(role == 'editor' || role == 'validator') && resource.transcript.status == 'transcription'" ui-sref="app.transcript({id: resource.transcript.id})" class="btn btn-default btn-sm">
+<a data-ng-if="(role == 'editor' || role == 'validator') && resource.transcript.status == 'transcription'" ui-sref="app.transcript({idEntity: entity.id, idResource: resource.id, idTranscript: resource.transcript.id})" class="btn btn-default btn-sm">
     <i class="fa fa-edit"></i> Éditer cette transcription
 </a>
 <button data-ng-if="role == 'editor' && resource.transcript.status == 'validation'" class="btn btn-warning btn-sm" disabled>
     <i class="fa fa-check-square-o"></i> En cours de validation
 </button>
-<a data-ng-if="role == 'validator' && resource.transcript.status == 'validation'" ui-sref="app.transcript({id: resource.transcript.id})" class="btn btn-warning btn-sm">
+<a data-ng-if="role == 'validator' && resource.transcript.status == 'validation'" ui-sref="app.transcript({idEntity: entity.id, idResource: resource.id, idTranscript: resource.transcript.id})" class="btn btn-warning btn-sm">
     <i class="fa fa-check-square-o"></i> En cours de validation
 </a>
 <button data-ng-if="role == 'editor' && resource.transcript.status == 'validated'" class="btn btn-success btn-sm" disabled>
     <i class="fa fa-check"></i> Cette transcription est terminée
 </button>
-<a data-ng-if="role == 'validator' && resource.transcript.status == 'validated'" ui-sref="app.transcript({id: resource.transcript.id})" class="btn btn-success btn-sm">
+<a data-ng-if="role == 'validator' && resource.transcript.status == 'validated'" ui-sref="app.transcript({idEntity: entity.id, idResource: resource.id, idTranscript: resource.transcript.id})" class="btn btn-success btn-sm">
     <i class="fa fa-check"></i> Cette transcription est terminée
 </a>

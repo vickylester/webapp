@@ -6,10 +6,11 @@
         </div>
 
         <div class="btn-group" role="group">
-            <a data-ng-click="help(preferences.help_inside_home_content, 'helpContent', true)" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-question-circle"></i></a>
+            <a data-ng-click="transcriptArea.interaction.thesaurus.action()" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-search"></i></a>
+            <a data-ng-click="transcriptArea.interaction.help(preferences.help_inside_home_content, 'helpContent', true)" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-question-circle"></i></a>
             <a data-ng-if="page.fullscreen.status == false" data-ng-click="page.fullscreen.open()" class="btn btn-sm btn-default" title="Mode plein-écran"><i class="fa fa-arrows-alt"></i></a>
             <a data-ng-if="page.fullscreen.status == true" data-ng-click="page.fullscreen.close()" class="btn btn-sm btn-default" title="Quitter le mode plein-écran"><i class="fa fa-window-minimize"></i></a>
-            <a data-ng-click="submit.goBack()" class="btn btn-sm btn-default" title="Revenir à la lecture"><i class="fa fa-times-circle"></i></a>
+            <a data-ng-click="submit.goBack()" class="btn btn-sm btn-default" title="Revenir à la lecture"><i class="fa fa-close"></i></a>
         </div>
 
         <div class="btn-group" data-ng-if="transcript.status == 'validation'">
@@ -23,29 +24,29 @@
             </button>
         </div>
     </div>
-    <div data-ng-repeat="(group, type) in wysiwyg.buttonsGroups">
+    <div data-ng-repeat="(group, type) in transcriptArea.toolbar.buttonsGroups">
         <div class="dropdown" data-ng-if="type == 'dropdown'">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="dropdown-{{ group }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                 <span class="text-capitalize">{{ group }}</span>
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdown-{{ group }}">
-                <li data-ng-repeat="button in wysiwyg.buttons" data-ng-if="button.btn.btn_group == group">
-                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="button.type == 'tag'" title="{{ button.btn.title }}">{{ button.btn.label }}</a>
-                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addAttribute(button.btn.id)" data-ng-if="button.type == 'attribute'" title="{{ button.btn.title }}">{{ button.btn.label }}</a>
+                <li data-ng-repeat="button in transcriptArea.toolbar.buttons" data-ng-if="button.btn.btn_group == group">
+                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="button.type == 'tag'" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">{{ button.btn.label }}</a>
+                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addAttribute(button.btn.id)" data-ng-if="button.type == 'attribute'" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">{{ button.btn.label }}</a>
                 </li>
             </ul>
         </div>
         <div data-ng-if="type == 'group'" class="btn-group btn-group-sm" role="group">
-            <a data-ng-repeat="button in wysiwyg.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="(button.type == 'tag' || button.type == 'key') && button.btn.btn_group == group" title="{{ button.btn.title }}">
+            <a data-ng-repeat="button in transcriptArea.toolbar.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="(button.type == 'tag' || button.type == 'key') && button.btn.btn_group == group" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">
                 <span data-ng-if="button.btn.icon != ''"><i class="{{ button.btn.icon }}"></i></span>
                 <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>
             </a>
-            <a data-ng-repeat="button in wysiwyg.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addAttribute(button.btn.id)" data-ng-if="button.type == 'attribute' && button.btn.btn_group == group" title="{{ button.btn.title }}">
+            <a data-ng-repeat="button in transcriptArea.toolbar.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addAttribute(button.btn.id)" data-ng-if="button.type == 'attribute' && button.btn.btn_group == group" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">
                 <span data-ng-if="button.btn.icon != ''"><i class="{{ button.btn.icon }}"></i></span>
                 <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>
             </a>
-            <a data-ng-repeat="button in wysiwyg.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="wysiwyg.modal.load(button.modal.id)" data-ng-if="button.type == 'choice' && button.btn.btn_group == group" title="{{ button.btn.title }}">
+            <a data-ng-repeat="button in transcriptArea.toolbar.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="transcriptArea.ace.modal.load(button.modal.id)" data-ng-if="button.type == 'choice' && button.btn.btn_group == group" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">
                 <span data-ng-if="button.btn.icon != ''"><i class="{{ button.btn.icon }}"></i></span>
                 <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>
             </a>

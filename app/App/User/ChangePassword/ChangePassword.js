@@ -27,6 +27,10 @@ angular.module('transcript.app.user.change-password', ['ui.router'])
     .controller('AppUserChangePasswordCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'UserService', function($rootScope, $scope, $http, $sce, $state, userEdit, UserService) {
         if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('login');}
 
+        /* -- Breadcrumb management -------------------------------------------------------- */
+        $scope.iUser = $rootScope.user;
+        /* -- End : breadcrumb management -------------------------------------------------- */
+
         $scope.form = {
             current_password: "",
             password: {

@@ -15,7 +15,7 @@ angular.module('transcript.app.entity', ['ui.router'])
                 }
             },
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'app.search',
                 label: '{{ entity.will.title }}'
             },
             url: '/entity/{id}',

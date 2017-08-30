@@ -6,13 +6,13 @@
         </div>
     </div>
     <div>
-        <h2>{{ iUser.name }} <a data-ng-if="context != 'self'" class="btn btn-default" title="Send a private message"><i class="fa fa-send"></i></a></h2>
+        <h1>{{ iUser.name }} <a data-ng-if="context != 'self'" class="btn btn-default" title="Send a private message"><i class="fa fa-send"></i></a></h1>
         <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
     </div>
 </div>
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <span class="alert-message" data-ng-bind-html="flash.message"></span>

@@ -1,11 +1,11 @@
-<div class="alert alert-danger">
-    <h2>Droits insuffisants</h2>
-    <p>Oups ... Il semblerait que vous ne possédez pas les droits nécessaires pour accéder à cette page.</p>
-    <div class="text-center"><a ui-sref="app.home">Retour à l'accueil</a></div>
-</div>
-
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
+</div>
+
+<div class="alert alert-danger">
+    <h1>Droits insuffisants</h1>
+    <p>Oups ... Il semblerait que vous ne possédez pas les droits nécessaires pour accéder à cette page.</p>
+    <div class="text-center"><a ui-sref="app.home">Retour à l'accueil</a></div>
 </div>

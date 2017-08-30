@@ -26,18 +26,22 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
 
     .controller('AppUserPreferencesCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userPreferences', 'flash', function($rootScope, $scope, $http, $sce, $state, userPreferences, flash) {
         if($rootScope.user === undefined) {$state.go('login');}
+        /* -- Breadcrumb management -------------------------------------------------------- */
+        $scope.iUser = $rootScope.user;
+        /* -- End : breadcrumb management -------------------------------------------------- */
+
         console.log(userPreferences);
         $scope.form = {
             transcription_desk_position: userPreferences.transcription_desk_position,
             errors: []
         };
         $scope.submit = {
-            isLoading: false
+            loading: false
         };
 
         /* Submit data */
         $scope.submit.action = function() {
-            $scope.submit.isLoading = true;
+            $scope.submit.loading = true;
             $scope.form.errors = [];
             $http.patch($rootScope.api+"/preferences/"+userPreferences.id,
                 {
@@ -61,7 +65,7 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
                             }
                         }
                     }
-                    $scope.submit.isLoading = false;
+                    $scope.submit.loading = false;
                 });
         };
     }])

@@ -7,10 +7,6 @@
     margin-bottom:-1px;
 }
 
-#transcriptContainer #transcript-toolbar #transcript-toolbar-read {
-    padding: 5px;
-}
-
 #transcriptContainer #transcript-toolbar #transcript-toolbar-edit {
     padding: 2px;
     padding-left: 7px;
@@ -20,35 +16,21 @@
     margin-right: 5px;
 }
 
-/* Loading page */
-#transcriptContainer #transcript-workarea #transcript-loading {
-    font-size: 200%;
-    border: solid 1px #CCC;
-    border-radius: 5px;
-    padding-top: 10%;
-    min-height: 400px;
-}
-
-/* Login page */
-#transcriptContainer #transcript-workarea  #transcript-login {
-    border: solid 1px #CCC;
-    border-radius: 5px;
-    min-height: 400px;
-}
-
-#transcriptContainer #transcript-workarea  #transcript-login #transcript-login-content {
-    padding: 10px;
-}
-
-/* Reading page */
-#transcriptContainer #transcript-workarea #transcript-read #transcript-read-content {
-    padding: 10px;
-}
-
 /* Editing page */
 #transcriptContainer #transcript-workarea #transcript-edit {
     /* These properties care for modal management */
     position:relative;
+}
+
+#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-heading {
+    height: 40px;
+    background-color: #993333;
+    border-bottom: solid 1px #CCC;
+    padding: 10px 10px;
+}
+
+#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-heading .transcript-edit-heading-title {
+    color: #FFF;
 }
 
 #transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-editor {
@@ -82,9 +64,15 @@
     border-bottom: solid 1px #CCC;
 }
 
-#transcriptContainer #transcript-workarea #transcript-interaction #div-interaction-help #div-interaction-help-header {
+#transcriptContainer #transcript-workarea #transcript-interaction #transcript-interaction-heading {
+    height: 40px;
+    background-color: #993333;
     border-bottom: solid 1px #CCC;
-    padding: 2px 5px;
+    padding: 10px 10px;
+}
+
+#transcriptContainer #transcript-workarea #transcript-interaction #transcript-interaction-heading .transcript-interaction-heading-title {
+    color: #FFF;
 }
 
 #transcriptContainer #transcript-workarea #transcript-interaction #div-interaction-help #div-interaction-help-content {

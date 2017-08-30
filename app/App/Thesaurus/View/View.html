@@ -1,42 +1,37 @@
+<div ncy-breadcrumb></div>
+
 <div class="row">
-    <div class="col-sm-4" data-ng-include="'App/Thesaurus/tpl/entities.html'"></div>
     <div class="col-sm-8">
-        <div class="jumbotron text-center">
-            <div class="pull-right" ng-if="user.roles | contains:'ROLE_THESAURUS_EDIT'">
-                <a class="btn btn-primary" ui-sref="app.thesaurus.edit({type: entity.dataType, id: entity.id})">Edit</a>
+        <div class="well well-sm">
+            <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+                <!-- Manually hide the alert with `hide()` -->
+                <button type="button" class="close" ng-click="hide()">&times;</button>
+                <span class="alert-message" data-ng-bind-html="flash.message"></span>
             </div>
+
+            <div ng-if="(user.roles | contains:'ROLE_THESAURUS_EDIT') == false" ng-include="'App/Thesaurus/tpl/ask-edit-access.html'"></div>
+
             <div>
-                <h2>{{ entity.name }}</h2>
-                <p data-ng-if="entity.dataType == 'places'">
-                    <strong>
-                        <span data-ng-if="entity.french_departement != null">{{ entity.french_departement }}</span><!--
-                        --><span data-ng-if="entity.french_region != null"><span data-ng-if="entity.french_departement != null">, </span>{{ entity.french_region }}</span><!--
-                        --><span data-ng-if="entity.country != null"><span data-ng-if="entity.french_departement != null || entity.french_region != null">, </span>{{ entity.country }}</span>
-                    </strong>
-                </p>
+                <div class="pull-right" ng-if="user.roles | contains:'ROLE_THESAURUS_EDIT'">
+                    <a class="btn btn-default btn-sm" ui-sref="app.thesaurus.edit({type: entity.dataType, id: entity.id})"><i class="fa fa-edit"></i> Editer</a>
+                </div>
+                <h1>{{ entity.name }}</h1>
             </div>
-        </div>
-        <div ncy-breadcrumb></div>
 
-        <div data-ng-if="entity.dataType == 'places' && entity.geographical_coordinates != null">
-            <leaflet markers="markers" tiles="tiles" lf-center="center" height="250px" width="100%"></leaflet>
-        </div>
+            <div data-ng-if="entity.dataType == 'places' && entity.geographical_coordinates != null">
+                <leaflet markers="markers" tiles="tiles" lf-center="center" height="250px" width="100%"></leaflet>
+                <br />
+            </div>
 
-        <div flash-alert active-class="in alert" class="fade" duration="10000">
-            <!-- Manually hide the alert with `hide()` -->
-            <button type="button" class="close" ng-click="hide()">&times;</button>
-            <span class="alert-message" data-ng-bind-html="flash.message"></span>
-        </div>
-
-        <div ng-if="(user.roles | contains:'ROLE_THESAURUS_EDIT') == false" ng-include="'App/Thesaurus/tpl/ask-edit-access.html'"></div>
-
-        <div>
-            <div data-ng-if="entity.dataType == 'testators'" data-ng-include="'App/Thesaurus/View/tpl/testator-metadata.html'"></div>
-            <div data-ng-if="entity.dataType == 'places'" data-ng-include="'App/Thesaurus/View/tpl/place-metadata.html'"></div>
-            <div data-ng-if="entity.dataType == 'regiments'" data-ng-include="'App/Thesaurus/View/tpl/regiment-metadata.html'"></div>
-        </div>
-        <div class="well" data-ng-if="entity.description != '' && entity.description != null">
-            {{ entity.description }}
+            <div>
+                <div data-ng-if="entity.dataType == 'testators'" data-ng-include="'App/Thesaurus/View/tpl/testator-metadata.html'"></div>
+                <div data-ng-if="entity.dataType == 'places'" data-ng-include="'App/Thesaurus/View/tpl/place-metadata.html'"></div>
+                <div data-ng-if="entity.dataType == 'regiments'" data-ng-include="'App/Thesaurus/View/tpl/regiment-metadata.html'"></div>
+            </div>
+            <div class="well" data-ng-if="entity.description != '' && entity.description != null">
+                {{ entity.description }}
+            </div>
         </div>
     </div>
+    <div class="col-sm-4" data-ng-include="'App/Thesaurus/tpl/entities.html'"></div>
 </div>

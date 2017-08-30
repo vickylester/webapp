@@ -1,0 +1,59 @@
+<form class="form-horizontal">
+    <div class="form-group">
+        <label class="col-sm-12">Nom du testateur</label>
+        <div class="col-sm-12">
+            <angucomplete id="app-home-form-testator-name"
+                          placeholder="Search by testator"
+                          pause="100"
+                          selectedobject="search.form.will.testator.name"
+                          localdata="search.values.will.testator.name"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-small"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-12">Lieu de décès</label>
+        <div class="col-sm-12">
+            <angucomplete id="app-home-form-testator-deathPlace"
+                          placeholder="Search by place of death"
+                          pause="100"
+                          selectedobject="search.form.will.testator.place_of_death.name"
+                          localdata="search.values.will.testator.place_of_death.name"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-small"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-12">Année de décès</label>
+        <div class="col-sm-12">
+            <angucomplete id="app-home-form-testator-deathDate"
+                          placeholder="Search by year of death"
+                          pause="100"
+                          selectedobject="search.form.will.testator.date_of_death"
+                          localdata="search.values.will.testator.date_of_death"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-small"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-12">Commune d'origine</label>
+        <div class="col-sm-12">
+            <angucomplete id="app-home-form-testator-birthPlace"
+                          placeholder="Search by place of birth"
+                          pause="100"
+                          selectedobject="search.form.will.testator.place_of_birth.name"
+                          localdata="search.values.will.testator.place_of_birth.name"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-small"/>
+        </div>
+    </div>
+    <div class="text-right"><a ui-sref="app.search">Plus de critères</a></div>
+</form>

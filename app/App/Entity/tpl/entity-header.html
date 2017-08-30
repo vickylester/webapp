@@ -3,7 +3,7 @@
         <a class="btn btn-default btn-sm" ui-sref="app.search"><i class="fa fa-search"></i> Autres testaments</a>
         <a class="btn btn-warning btn-sm" data-ng-if="isAdmin() == true" ui-sref="admin.entity.edit({id: entity.id})"><i class="fa fa-edit"></i> Édition</a>
     </div>
-    <h2>{{ entity.will.title }}</h2>
+    <h1>{{ entity.will.title }}</h1>
 </div>
 
 <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">

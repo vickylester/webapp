@@ -1,10 +1,4 @@
-<div class="jumbotron">
-    <h2>Hello, World!</h2>
-</div>
-
-<div ncy-breadcrumb></div>
-
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
@@ -19,25 +13,26 @@
     </div>
 </div>
 
-<div class="row">
-    <div class="col-sm-6">
-        <div class="panel panel-default" data-ng-repeat="content in staticContents">
-            <div class="panel-heading">
-                <h3 class="panel-title">{{ content.title }}</h3>
+<div class="well well-sm">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-default" data-ng-repeat="content in staticContents">
+                <div class="panel-heading">
+                    <h3 class="panel-title">{{ content.title }}</h3>
+                </div>
+                <div class="panel-body" data-ng-bind-html="content.content"></div>
             </div>
-            <div class="panel-body" data-ng-bind-html="content.content"></div>
         </div>
+        <div class="col-sm-8">
+            <div ng-include="'App/Home/tpl/home-search.html'"></div>
 
-        <div data-ng-repeat="article in contents">
-            <h3><a ui-sref="app.content({ id: article.id })" >{{ article.title }}</a></h3>
-            <div data-ng-bind-html="article.content | limitTo: 1000"></div>
-            <a ui-sref="app.content({ id: article.id })" >Lire la suite ...</a>
+            <h3><a ui-sref="app.blog">Actualités</a></h3>
+            <div data-ng-repeat="article in contents">
+                <h3><a ui-sref="app.content({ id: article.id })" >{{ article.title }}</a></h3>
+                <div data-ng-bind-html="article.content | limitTo: 1000"></div>
+                <a ui-sref="app.content({ id: article.id })" >Lire la suite ...</a>
+            </div>
+            <div class="text-center"><a ui-sref="app.blog">Accéder à plus d'articles</a></div>
         </div>
-        <div class="text-center"><a ui-sref="app.blog">Accéder à plus d'articles</a></div>
-    </div>
-    <div class="col-sm-6">
-        <ul>
-            <li data-ng-repeat="entity in entities"><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.title }}</a></li>
-        </ul>
     </div>
 </div>

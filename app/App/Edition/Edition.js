@@ -41,11 +41,13 @@ angular.module('transcript.app.edition', ['ui.router'])
 
         /* -- EncodedContent management ---------------------------------------------------- */
         let config = YAML.load('App/Transcript/toolbar.yml');
-        let encodeLiveRender = $scope.resource.transcript.content;
-        for(let buttonId in config.tei) {
-            encodeLiveRender = TranscriptService.encodeHTML(encodeLiveRender, config.tei[buttonId]);
+        if($scope.resource.transcript.content !== null) {
+            let encodeLiveRender = $scope.resource.transcript.content;
+            for (let buttonId in config.tei) {
+                encodeLiveRender = TranscriptService.encodeHTML(encodeLiveRender, config.tei[buttonId]);
+            }
+            $scope.encodedContent = $sce.trustAsHtml(encodeLiveRender);
         }
-        $scope.encodedContent = $sce.trustAsHtml(encodeLiveRender);
         /* -- EncodedContent management ---------------------------------------------------- */
 
         /* -- Contributors management ---------------------------------------------------- */

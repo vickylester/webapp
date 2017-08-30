@@ -1,0 +1,43 @@
+<div id="div-interaction-help-thesaurus">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <div class="col-sm-12">
+                <div class="pull-right">
+                    <label class="radio-inline">
+                        <input type="radio" name="app-transcript-interaction-form-thesaurus-selected" id="app-transcript-interaction-form-thesaurus-selected-1" ng-model="transcriptArea.interaction.thesaurus.thesaurusSelected" value="testators" checked > Testateurs
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="app-transcript-interaction-form-thesaurus-selected" id="app-transcript-interaction-form-thesaurus-selected-2" ng-model="transcriptArea.interaction.thesaurus.thesaurusSelected" value="places"> Lieux
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="app-transcript-interaction-form-thesaurus-selected" id="app-transcript-interaction-form-thesaurus-selected-3" ng-model="transcriptArea.interaction.thesaurus.thesaurusSelected" value="regiments"> Régiments
+                    </label>
+                </div>
+                <label>Rechercher</label>
+            </div>
+            <div class="col-sm-12">
+                <angucomplete id="app-transcript-interaction-form-thesaurus-search"
+                              placeholder="Your request"
+                              pause="100"
+                              selectedobject="transcriptArea.interaction.thesaurus.string"
+                              localdata="transcriptArea.interaction.thesaurus.values"
+                              searchfields="name"
+                              titlefield="name"
+                              minlength="1"
+                              inputclass="form-control form-control-small"/>
+            </div>
+        </div>
+    </form>
+
+    <div ng-if="transcriptArea.interaction.thesaurus.result.length > 0" class="panel panel-default">
+        <div class="panel-heading">
+            <div class="pull-right">
+                <a ui-sref="app.thesaurus.view({type: transcriptArea.interaction.thesaurus.dataType, id: transcriptArea.interaction.thesaurus.result[0].id})" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
+            </div>
+            <string class="panel-title">{{ transcriptArea.interaction.thesaurus.result[0].name }}</string>
+        </div>
+        <div class="panel-body">
+            <p>Pour citer ce {{ transcriptArea.interaction.thesaurus.dataType | thesaurusName }}, utiliser comme identifiant <code>{{ transcriptArea.interaction.thesaurus.result[0].id }}</code></p>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,3 @@
-<div class="jumbotron">
-    <h2>Demande d'accès</h2>
-</div>
 <div ncy-breadcrumb></div>
 
 <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
@@ -9,27 +6,31 @@
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
-<div class="row">
-    <div class="col-sm-12">
-        <div class="well" ng-if="context == 'ask'">
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label for="app-thesaurus-ask-request" class="control-label col-md-3">Pouvez-vous détailler vos connaissances ?</label>
-                    <div class="col-md-9">
-                        <input type="text" data-ng-model="form.thesaurusRequest" class="form-control" id="app-thesaurus-ask-request" placeholder="Pouvez-vous détailler vos connaissances ?" required />
-                    </div>
-                </div>
+<div class="">
+    <h1>Demande d'accès</h1>
 
-                <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Soumettre ma demande <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
-            </form>
-        </div>
-        <div class="panel panel-info" ng-if="context == 'sent'">
-            <div class="panel-heading">
-                <h3 class="panel-title">Requête envoyée</h3>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="well" ng-if="context == 'ask'">
+                <form class="form-horizontal">
+                    <div class="form-group">
+                        <label for="app-thesaurus-ask-request" class="control-label col-md-3">Pouvez-vous détailler vos connaissances ?</label>
+                        <div class="col-md-9">
+                            <input type="text" data-ng-model="form.thesaurusRequest" class="form-control" id="app-thesaurus-ask-request" placeholder="Pouvez-vous détailler vos connaissances ?" required />
+                        </div>
+                    </div>
+
+                    <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Soumettre ma demande <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
+                </form>
             </div>
-            <div class="panel-body">
-                <p>Merci pour votre participation !<br />Votre requête a bien été envoyée. Elle sera examinée par un administrateur dans les meilleurs délais. Vous recevrez un email à l'issue de son traiement.</p>
-                <p class="text-center"><a ui-sref="app.thesaurus.home">Retour</a></p>
+            <div class="panel panel-info" ng-if="context == 'sent'">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Requête envoyée</h3>
+                </div>
+                <div class="panel-body">
+                    <p>Merci pour votre participation !<br />Votre requête a bien été envoyée. Elle sera examinée par un administrateur dans les meilleurs délais. Vous recevrez un email à l'issue de son traiement.</p>
+                    <p class="text-center"><a ui-sref="app.thesaurus.home">Retour</a></p>
+                </div>
             </div>
         </div>
     </div>

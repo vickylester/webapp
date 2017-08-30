@@ -1,19 +1,49 @@
 <div id="transcript-interaction" class="h100">
-    <div id="div-interaction-help" data-ng-if="wysiwyg.live.status == false">
-        <div id="div-interaction-help-header">
+    <div id="transcript-interaction-heading">
+        <div data-ng-if="transcriptArea.interaction.status == 'live'">
+            <strong class="transcript-interaction-heading-title">Rendu Live</strong>
+        </div>
+        <div data-ng-if="transcriptArea.interaction.status == 'content'">
             <div class="pull-right">
-                <button class="btn btn-default" data-ng-click="wysiwyg.live.status = true" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.status = 'live'" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
             </div>
             <ol class="breadcrumb breadcrumb-interaction">
-                <li data-ng-repeat="page in wysiwyg.interaction.history">
-                    <a data-ng-if="page.title != wysiwyg.interaction.title" data-ng-click="help(page.id, 'helpContent', false)">{{ page.title }}</a>
-                    <span data-ng-if="page.title == wysiwyg.interaction.title" class="active">{{ page.title }}</span>
+                <li data-ng-repeat="page in transcriptArea.interaction.content.history">
+                    <a data-ng-if="page.title != transcriptArea.interaction.content.title" data-ng-click="transcriptArea.interaction.help(page.id, 'helpContent', false)">{{ page.title }}</a>
+                    <span data-ng-if="page.title == transcriptArea.interaction.content.title" class="active">{{ page.title }}</span>
                 </li>
             </ol>
         </div>
-        <div id="div-interaction-help-content" compile="wysiwyg.interaction.content"></div>
+        <div data-ng-if="transcriptArea.interaction.status == 'version'">
+            <div class="pull-right">
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <strong class="transcript-interaction-heading-title">Historique</strong>
+        </div>
+        <div data-ng-if="transcriptArea.interaction.status == 'thesaurusSearch'">
+            <div class="pull-right">
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <strong class="transcript-interaction-heading-title">Thésaurus</strong>
+        </div>
     </div>
-    <div id="div-interaction-live" data-ng-if="wysiwyg.live.status == true">
-        <div  id="div-container-encode" data-ng-bind-html="wysiwyg.live.content"></div>
+    <div style="height: 92%;">
+        <div id="div-interaction-live" data-ng-if="transcriptArea.interaction.status == 'live'">
+            <div  id="div-container-encode" data-ng-bind-html="transcriptArea.interaction.live.content"></div>
+        </div>
+        <div id="div-interaction-help" data-ng-if="transcriptArea.interaction.status == 'content'">
+            <div id="div-interaction-help-content" compile="transcriptArea.interaction.content.text"></div>
+        </div>
+        <div id="div-interaction-version" class="h100" data-ng-if="transcriptArea.interaction.status == 'version'">
+            <div id="div-interaction-version-ace" class="h100">
+                <div ui-ace="{
+                mode: 'xml',
+                onLoad: versionAceLoaded,
+                onChange: versionAceChanged,
+                useWrapMode: true
+                }" id="transcript-edit-interaction-version-ace-area" class="h100" data-ng-model="transcriptArea.interaction.version.content"></div>
+            </div>
+        </div>
+        <div id="div-interaction-thesaurus" data-ng-if="transcriptArea.interaction.status == 'thesaurusSearch'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-thesaurus-search.html'"></div>
     </div>
 </div>

@@ -1,0 +1,12 @@
+<table class="table table-striped">
+    <tr>
+        <th>Testateur</th>
+        <th>Avancement de la transcription</th>
+        <th>Pages</th>
+    </tr>
+    <tr data-ng-repeat="entity in results">
+        <td><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.testator.name }}</a></td>
+        <td><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></td>
+        <td>{{ entity.resources.length }}</td>
+    </tr>
+</table>

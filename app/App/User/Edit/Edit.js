@@ -27,6 +27,10 @@ angular.module('transcript.app.user.edit', ['ui.router'])
     .controller('AppUserEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'flash', function($rootScope, $scope, $http, $sce, $state, userEdit, flash) {
         if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('login');}
 
+        /* -- Breadcrumb management -------------------------------------------------------- */
+        $scope.iUser = $rootScope.user;
+        /* -- End : breadcrumb management -------------------------------------------------- */
+
         $scope.form = {
             name: $rootScope.user.name,
             biography: $rootScope.user.biography,

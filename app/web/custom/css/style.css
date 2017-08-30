@@ -1,7 +1,7 @@
 h1 {
-    display: inline;
+    /*display: inline;*/
     font-size: 1.2em;
-    margin: 0 0 0 20px;
+    /*margin: 0 0 0 20px;*/
 }
 
 h1 a, h1 a:hover, h1 a:focus {

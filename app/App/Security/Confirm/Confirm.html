@@ -1,6 +1,12 @@
-<div class="jumbotron">
+<div flash-alert data-active-class="in alert" class="fade" duration="10000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+</div>
+
+<div class="well well-sm">
     <div data-ng-if="status == 200">
-        <h2>Bienvenue sur TranscriptDesk !</h2>
+        <h1>Bienvenue sur {{ preferences.project_title }} !</h1>
         <p>Votre compte est désormais actif.</p>
         <p><a ui-sref="app.security.login">Me connecter</a></p>
     </div>
@@ -9,10 +15,4 @@
         <p>La valeur proposée est incorrecte</p>
         <p><a ui-sref="app.home">Retour à l'accueil</a></p>
     </div>
-</div>
-
-<div flash-alert active-class="in alert" class="fade" duration="5000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>

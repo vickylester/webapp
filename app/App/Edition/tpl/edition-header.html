@@ -1,11 +1,11 @@
 <div>
     <div class="pull-right">
-        <a class="btn btn-default btn-sm" ui-sref="app.search"><i class="fa fa-files-o"></i> Autres pages <i class="fa fa-sort"></i></a>
+        <button type="button" class="btn btn-default btn-sm"><i class="fa fa-files-o"></i> Autres pages <i class="fa fa-sort"></i></button>
         <span ng-include="'App/Edition/tpl/edition-header-editButton.html'"></span>
         <button type="button" class="btn btn-default btn-sm" data-ng-if="isAdmin() == true"><i class="fa fa-cog"></i> Changer l'état <i class="fa fa-sort"></i></button>
     </div>
-    <h2>{{ entity.will.title }}</h2>
-    <span class="label label-info">{{ resource.transcription.status }}</span>
+    <h1>{{ entity.will.title }}</h1>
+    <span class="label label-info">{{ resource.transcription.status | transcriptionStatusName }}</span>
 </div>
 
 <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">

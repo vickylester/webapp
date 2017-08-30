@@ -1,11 +1,11 @@
 buttonsGroups:
-    structure: "dropdown"
+    structure: "group" #dropdown
     subStructure: "group"
     physicalStructure: "group"
     layoutMarker: "group"
     subLayoutMarker: "group"
     microPhenomena: "group"
-    renderingDifficulties: "dropdown"
+    renderingDifficulties: "group"
     semantic: "group"
     notes: "group"
 tei:
@@ -14,11 +14,13 @@ tei:
         type: "tag"
         btn :
             id: "paragraph"
-            label: "paragraphe"
+            label: "Paragraphe"
             title: "Ajouter un paragraphe"
             icon: ""
             btn_class: ""
             btn_group: "structure"
+            allow_root: true
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -32,11 +34,13 @@ tei:
         type: "tag"
         btn :
             id: "list"
-            label: "liste"
+            label: "Liste"
             title: "Ajouter une liste"
             icon: ""
             btn_class: ""
             btn_group: "structure"
+            allow_root: true
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -54,11 +58,13 @@ tei:
         type: "tag"
         btn :
             id: "letterhead"
-            label: "en-tête"
+            label: "En-tête"
             title: "Ajouter un en-tête"
             icon: ""
             btn_class: ""
             btn_group: "structure"
+            allow_root: true
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -79,6 +85,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "structure"
+            allow_root: true
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -97,6 +105,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "structure"
+            allow_root: true
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -112,11 +122,13 @@ tei:
         type: "tag"
         btn :
             id: "postscript"
-            label: "post-scriptum"
+            label: "Post-scriptum"
             title: "Ajouter un post-scriptum"
             icon: ""
             btn_class: ""
             btn_group: "structure"
+            allow_root: true
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -136,6 +148,8 @@ tei:
             icon: "fa fa-circle"
             btn_class: ""
             btn_group: "subStructure"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -153,6 +167,8 @@ tei:
             icon: "fa fa-arrows-h"
             btn_class: ""
             btn_group: "subStructure"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -172,6 +188,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "subStructure"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -191,6 +209,8 @@ tei:
             icon: "fa fa-comment-o"
             btn_class: ""
             btn_group: "subStructure"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -202,15 +222,17 @@ tei:
             name: "note"
             unique: "false"
     # éléments marqueurs de la structure physique du testament :
-    br:
+    lb:
         type: "key"
         btn:
-            id: "br"
+            id: "lb"
             label: "Retour à la ligne"
             title: "Retourner à la ligne"
             icon: "fa fa-arrow-down"
             btn_class: ""
             btn_group: "physicalStructure"
+            allow_root: false
+            disabled: true
         caret:
             position: "after"
         html:
@@ -228,6 +250,8 @@ tei:
             icon: "fa fa-file-text-o"
             btn_class: ""
             btn_group: "physicalStructure"
+            allow_root: false
+            disabled: true
         caret:
             position: "after"
         html:
@@ -248,6 +272,8 @@ tei:
             icon: "fa fa-arrows-v"
             btn_class: ""
             btn_group: "layoutMarker"
+            allow_root: false
+            disabled: true
         caret:
             position: "after"
         html:
@@ -267,6 +293,8 @@ tei:
             icon: "fa fa-thumb-tack"
             btn_class: ""
             btn_group: "layoutMarker"
+            allow_root: false
+            disabled: true
         caret:
             position: "after"
         html:
@@ -287,6 +315,8 @@ tei:
             icon: "fa fa-underline"
             btn_class: ""
             btn_group: "subLayoutMarker"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -308,6 +338,8 @@ tei:
             icon: "fa fa-superscript"
             btn_class: ""
             btn_group: "subLayoutMarker"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -329,6 +361,8 @@ tei:
             icon: "fa fa-text-height"
             btn_class: ""
             btn_group: "subLayoutMarker"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -341,69 +375,6 @@ tei:
             value: "capital-letters"
             type: "inline"
             combinable: "false"
-    #align_left:
-    #    type: "attribute"
-    #    btn :
-    #        id: "align_left"
-    #        label: "Alignement gauche"
-    #        title: "Marquer le texte comme aligné à gauche"
-    #        icon: "fa fa-align-left"
-    #        btn_class: ""
-    #        btn_group: "subLayoutMarker"
-    #    caret:
-    #        position: "prepend"
-    #    html:
-#            name: "class"
-#            value: "text-left"
-#            type: "block"
-#            combinable: "true"
-#        xml:
-#            name: "rend"
-#            value: "left"
-#            type: "block"
-#            combinable: "true"
-#    align_center:
-#        type: "attribute"
-#        btn :
-#            id: "align_center"
-#            label: "Alignement au centre"
-#            title: "Marquer le texte comme aligné au centre"
-#            icon: "fa fa-align-center"
-#            btn_class: ""
-#            btn_group: "subLayoutMarker"
-#        caret:
-#            position: "prepend"
-#        html:
-#            name: "class"
-#            value: "text-center"
-#            type: "block"
-#            combinable: "true"
-#        xml:
-#            name: "rend"
-#            value: "center"
-#            type: "block"
-#            combinable: "true"
-#    align_right:
-#        type: "attribute"
-#        btn :
-#            id: "align_right"
-#            label: "Alignement droite"
-#            title: "Marquer le texte comme aligné à droite"
-#            icon: "fa fa-align-right"
-#            btn_class: ""
-#            btn_group: "subLayoutMarker"
-#        caret:
-#            position: "prepend"
-#        html:
-#            name: "class"
-#            value: "text-right"
-#            type: "block"
-#            combinable: "true"
-#        xml:
-#            name: "rend"
-#            value: "right"
-#            type: "block"
-#            combinable: "true"
     # éléments permettant de consigner des micro-phénomènes de l'écriture :
     choice:
         type: "choice"
@@ -416,6 +387,8 @@ tei:
             icon: "fa fa-refresh"
             btn_class: ""
             btn_group: "microPhenomena"
+            allow_root: false
+            disabled: true
         caret:
             position: "after"
         html:
@@ -435,6 +408,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "microPhenomena"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -454,6 +429,8 @@ tei:
             icon: "fa fa-plus"
             btn_class: ""
             btn_group: "microPhenomena"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -473,6 +450,8 @@ tei:
             icon: "fa fa-strikethrough"
             btn_class: ""
             btn_group: "microPhenomena"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -490,6 +469,8 @@ tei:
             icon: "fa fa-exchange"
             btn_class: ""
             btn_group: "microPhenomena"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -510,6 +491,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "renderingDifficulties"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -529,6 +512,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "renderingDifficulties"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -548,6 +533,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "renderingDifficulties"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -567,6 +554,8 @@ tei:
             icon: "fa fa-ellipsis-h"
             btn_class: ""
             btn_group: "renderingDifficulties"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -587,6 +576,8 @@ tei:
             icon: "fa fa-user"
             btn_class: ""
             btn_group: "semantic"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -606,6 +597,8 @@ tei:
             icon: "fa fa-map-marker"
             btn_class: ""
             btn_group: "semantic"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -625,6 +618,8 @@ tei:
             icon: "fa fa-university"
             btn_class: ""
             btn_group: "semantic"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -644,6 +639,8 @@ tei:
             icon: "fa fa-calendar-o"
             btn_class: ""
             btn_group: "semantic"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -663,6 +660,8 @@ tei:
             icon: "fa fa-terminal"
             btn_class: ""
             btn_group: "semantic"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -683,6 +682,8 @@ tei:
             icon: "fa fa-tag"
             btn_class: ""
             btn_group: "notes"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -702,6 +703,8 @@ tei:
             icon: "fa fa-comment-o"
             btn_class: ""
             btn_group: "notes"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -721,6 +724,8 @@ tei:
             icon: "fa fa-comment"
             btn_class: ""
             btn_group: "notes"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -740,6 +745,8 @@ tei:
             icon: ""
             btn_class: ""
             btn_group: "notes"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:
@@ -759,6 +766,8 @@ tei:
             icon: "fa fa-book"
             btn_class: ""
             btn_group: "notes"
+            allow_root: false
+            disabled: true
         caret:
             position: "prepend"
         html:

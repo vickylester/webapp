@@ -13,7 +13,7 @@ angular.module('transcript.app.thesaurus.edit', ['ui.router'])
                 },
                 url: '/{type}/{id}/edit',
                 ncyBreadcrumb: {
-                    parent: 'app.thesaurus.view({id: entity.edit})',
+                    parent: 'app.thesaurus.view({type: entity.dataType, id: entity.id})',
                     label: 'Edition'
                 },
                 resolve: {
