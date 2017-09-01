@@ -23,14 +23,14 @@
         <ul class="list-group">
             <li class="list-group-item">
                 <a ui-sref="app.user.edit({id: iUser.id})">
-                    <span data-ng-if="context == 'self'">Éditer mon profil</span>
-                    <span data-ng-if="context == 'admin'">Éditer le profil</span>
+                    <span data-ng-if="context == 'self'">Modifier mon profil</span>
+                    <span data-ng-if="context == 'admin'">Modifier le profil</span>
                 </a>
             </li>
             <li class="list-group-item">
                 <a ui-sref="app.user.preferences({id: iUser.id})">
-                    <span data-ng-if="context == 'self'">Éditer mes préférences</span>
-                    <span data-ng-if="context == 'admin'">Éditer les préférences</span>
+                    <span data-ng-if="context == 'self'">Modifier mes préférences</span>
+                    <span data-ng-if="context == 'admin'">Modifier les préférences</span>
                 </a>
             </li>
             <li class="list-group-item" data-ng-if="context == 'self'">

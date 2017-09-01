@@ -16,6 +16,7 @@ angular.module('transcriptApp', [
         'angucomplete',
         'leaflet-directive',
         'angular.filter',
+        'prettyXml',
         'transcript.admin',
         'transcript.admin.content',
         'transcript.admin.content.edit',
@@ -26,9 +27,9 @@ angular.module('transcriptApp', [
         'transcript.admin.entity.list',
         'transcript.admin.home',
         'transcript.admin.preference',
-        'transcript.admin.thesaurus',
-        'transcript.admin.thesaurus.access',
-        'transcript.admin.thesaurus.logs',
+        'transcript.admin.taxonomy',
+        'transcript.admin.taxonomy.access',
+        'transcript.admin.taxonomy.logs',
         'transcript.admin.transcript',
         'transcript.admin.transcript.export',
         'transcript.admin.transcript.validation',
@@ -53,12 +54,12 @@ angular.module('transcriptApp', [
         'transcript.app.security.resetting.check',
         'transcript.app.security.resetting.request',
         'transcript.app.security.resetting.reset',
-        'transcript.app.thesaurus',
-        'transcript.app.thesaurus.ask',
-        'transcript.app.thesaurus.edit',
-        'transcript.app.thesaurus.home',
-        'transcript.app.thesaurus.list',
-        'transcript.app.thesaurus.view',
+        'transcript.app.taxonomy',
+        'transcript.app.taxonomy.ask',
+        'transcript.app.taxonomy.edit',
+        'transcript.app.taxonomy.home',
+        'transcript.app.taxonomy.list',
+        'transcript.app.taxonomy.view',
         'transcript.app.training',
         'transcript.app.transcript',
         'transcript.app.user',
@@ -79,7 +80,7 @@ angular.module('transcriptApp', [
         'transcript.service.entity',
         'transcript.service.resource',
         'transcript.service.search',
-        'transcript.service.thesaurus',
+        'transcript.service.taxonomy',
         'transcript.service.transcript',
         'transcript.service.user',
         'transcript.service.will'
@@ -219,23 +220,23 @@ angular.module('transcriptApp', [
             return contentTypeName;
         }
     }])
-    .filter('thesaurusName', [function() {
-        return function (thesaurusId) {
-            let thesaurusName = "";
-            switch(thesaurusId) {
+    .filter('taxonomyName', [function() {
+        return function (taxonomyId) {
+            let taxonomyName = "";
+            switch(taxonomyId) {
                 case "testators":
-                    thesaurusName = "testateur";
+                    taxonomyName = "testateur";
                     break;
                 case "places":
-                    thesaurusName = "lieu";
+                    taxonomyName = "lieu";
                     break;
                 case "regiments":
-                    thesaurusName = "régiment";
+                    taxonomyName = "régiment";
                     break;
                 default:
-                    thesaurusName = "Inconnu";
+                    taxonomyName = "Inconnu";
             }
-            return thesaurusName;
+            return taxonomyName;
         }
     }]);
 

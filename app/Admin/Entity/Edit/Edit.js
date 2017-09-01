@@ -19,8 +19,8 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
                 entity: function(EntityService, $transition$) {
                     return EntityService.getEntity($transition$.params().id);
                 },
-                places: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities('places');
+                places: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('places');
                 }
             }
         })

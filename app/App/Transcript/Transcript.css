@@ -12,10 +12,6 @@
     padding-left: 7px;
 }
 
-#transcriptContainer #transcript-toolbar #transcript-toolbar-edit .btn-group, #transcriptContainer #transcript-toolbar #transcript-toolbar-edit .dropdown .btn {
-    margin-right: 5px;
-}
-
 /* Editing page */
 #transcriptContainer #transcript-workarea #transcript-edit {
     /* These properties care for modal management */
@@ -102,40 +98,6 @@
 
 #transcriptContainer #transcript-submit #app-transcript-edit-submit-comment-group {
     padding: 5px 0;
-}
-
-
-.modal, .modal-backdrop {
-    position: absolute !important;
-}
-
-.modal-footer {
-    padding: 5px;
-}
-
-.modal-transcribe {
-    width: 200px;
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1200px) {
-    .modal-transcribe {
-        width: 400px;
-    }
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1500px) {
-    .modal-transcribe {
-        width: 500px;
-    }
-}
-
-/* Large devices (large desktops, 1200px and up) */
-@media (min-width: 1800px) {
-    .modal-transcribe {
-        width: 600px;
-    }
 }
 
 

@@ -1,26 +1,26 @@
-<div id="div-interaction-help-thesaurus">
+<div id="div-interaction-help-taxonomy">
     <form class="form-horizontal">
         <div class="form-group">
             <div class="col-sm-12">
                 <div class="pull-right">
                     <label class="radio-inline">
-                        <input type="radio" name="app-transcript-interaction-form-thesaurus-selected" id="app-transcript-interaction-form-thesaurus-selected-1" ng-model="transcriptArea.interaction.thesaurus.thesaurusSelected" value="testators" checked > Testateurs
+                        <input type="radio" name="app-transcript-interaction-form-taxonomy-selected" id="app-transcript-interaction-form-taxonomy-selected-1" ng-model="transcriptArea.interaction.taxonomy.taxonomySelected" value="testators" checked > Testateurs
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="app-transcript-interaction-form-thesaurus-selected" id="app-transcript-interaction-form-thesaurus-selected-2" ng-model="transcriptArea.interaction.thesaurus.thesaurusSelected" value="places"> Lieux
+                        <input type="radio" name="app-transcript-interaction-form-taxonomy-selected" id="app-transcript-interaction-form-taxonomy-selected-2" ng-model="transcriptArea.interaction.taxonomy.taxonomySelected" value="places"> Lieux
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="app-transcript-interaction-form-thesaurus-selected" id="app-transcript-interaction-form-thesaurus-selected-3" ng-model="transcriptArea.interaction.thesaurus.thesaurusSelected" value="regiments"> Régiments
+                        <input type="radio" name="app-transcript-interaction-form-taxonomy-selected" id="app-transcript-interaction-form-taxonomy-selected-3" ng-model="transcriptArea.interaction.taxonomy.taxonomySelected" value="regiments"> Régiments
                     </label>
                 </div>
                 <label>Rechercher</label>
             </div>
             <div class="col-sm-12">
-                <angucomplete id="app-transcript-interaction-form-thesaurus-search"
+                <angucomplete id="app-transcript-interaction-form-taxonomy-search"
                               placeholder="Your request"
                               pause="100"
-                              selectedobject="transcriptArea.interaction.thesaurus.string"
-                              localdata="transcriptArea.interaction.thesaurus.values"
+                              selectedobject="transcriptArea.interaction.taxonomy.string"
+                              localdata="transcriptArea.interaction.taxonomy.values"
                               searchfields="name"
                               titlefield="name"
                               minlength="1"
@@ -29,15 +29,15 @@
         </div>
     </form>
 
-    <div ng-if="transcriptArea.interaction.thesaurus.result.length > 0" class="panel panel-default">
+    <div ng-if="transcriptArea.interaction.taxonomy.result.length > 0" class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <a ui-sref="app.thesaurus.view({type: transcriptArea.interaction.thesaurus.dataType, id: transcriptArea.interaction.thesaurus.result[0].id})" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
+                <a ui-sref="app.taxonomy.view({type: transcriptArea.interaction.taxonomy.dataType, id: transcriptArea.interaction.taxonomy.result[0].id})" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
             </div>
-            <string class="panel-title">{{ transcriptArea.interaction.thesaurus.result[0].name }}</string>
+            <string class="panel-title">{{ transcriptArea.interaction.taxonomy.result[0].name }}</string>
         </div>
         <div class="panel-body">
-            <p>Pour citer ce {{ transcriptArea.interaction.thesaurus.dataType | thesaurusName }}, utiliser comme identifiant <code>{{ transcriptArea.interaction.thesaurus.result[0].id }}</code></p>
+            <p>Pour citer ce {{ transcriptArea.interaction.taxonomy.dataType | taxonomyName }}, utiliser comme identifiant <code>{{ transcriptArea.interaction.taxonomy.result[0].id }}</code></p>
         </div>
     </div>
 </div>

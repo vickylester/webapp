@@ -5,15 +5,19 @@ angular.module('transcript.service.comment', ['ui.router'])
     .service('CommentService', function($http, $rootScope, $sce) {
         return {
             getThread: function(id) {
+                let CS = this;
                 return $http.get($rootScope.api+"/threads/"+id+"/comments").then(function(response) {
                     for(var comment in response.data.comments) {
                         response.data.comments[comment].comment.body = $sce.trustAsHtml(response.data.comments[comment].comment.body);
                     }
-                    //console.log(response.data);
+                    console.log(response.data);
                     return response.data;
                 }, function errorCallback(response) {
-                    if(response.status === 404) {
-                        return null;
+                    if((response.status === 404 || response.status === 400) && $rootScope.user !== undefined) {
+                        console.log(response);
+                        return CS.postThread(id).then(function (data) {
+                            return data;
+                        });
                     } else {
                         console.log(response);
                         return null;
@@ -35,6 +39,7 @@ angular.module('transcript.service.comment', ['ui.router'])
                         }
                     }).
                 then(function(response) {
+                    console.log(response);
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);

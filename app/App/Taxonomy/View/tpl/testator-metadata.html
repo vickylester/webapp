@@ -1,0 +1,42 @@
+<div class="list-group">
+    <dl class="dl-horizontal list-group-item">
+        <dt>Nom complet</dt>
+        <dd>{{ entity.name }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Nom de famille</dt>
+        <dd>{{ entity.surname }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Prénoms</dt>
+        <dd>{{ entity.firstnames }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Profession</dt>
+        <dd>{{ entity.profession }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Adresse</dt>
+        <dd>{{ entity.address }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Naissance</dt>
+        <dd>{{ entity.date_of_birth | date:'dd-MM-yyyy'}} à <a ui-sref="app.taxonomy.view({type: 'places', id: entity.place_of_birth.id})">{{ entity.place_of_birth.name }}</a></dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Décès</dt>
+        <dd>{{ entity.date_of_death | date:'dd-MM-yyyy' }} à <a ui-sref="app.taxonomy.view({type: 'places', id: entity.place_of_death.id})">{{ entity.place_of_death.name }}</a></dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Mention</dt>
+        <dd>{{ entity.death_mention }}</dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Mémoires des hommes</dt>
+        <dd><a href="{{ entity.memoire_des_hommes }}" target="_blank">Lien</a></dd>
+    </dl>
+    <dl class="dl-horizontal list-group-item">
+        <dt>Grade</dt>
+        <dd>{{ entity.rank }}, <a ui-sref="app.taxonomy.view({type: 'regiments', id: entity.regiment.id})">{{ entity.regiment.name }}</a></dd>
+    </dl>
+</div>

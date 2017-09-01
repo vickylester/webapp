@@ -16,20 +16,20 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 label: 'Importation'
             },
             resolve: {
-                testators: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities('testators');
+                testators: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('testators');
                 },
-                places: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities('places');
+                places: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('places');
                 },
-                regiments: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities('regiments');
+                regiments: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('regiments');
                 }
             }
         })
     }])
 
-    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'places', 'regiments', 'EntityService', 'ThesaurusService', 'flash', function($rootScope, $scope, $http, $sce, $state, testators, places, regiments, EntityService, ThesaurusService, flash) {
+    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'places', 'regiments', 'EntityService', 'TaxonomyService', 'flash', function($rootScope, $scope, $http, $sce, $state, testators, places, regiments, EntityService, TaxonomyService, flash) {
         $scope.form = {
             submit: {
                 loading: false
@@ -80,7 +80,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
 
             function postPlace(entity, entityName) {
                 console.log('postPlace');
-                return ThesaurusService.postThesaurusEntity('places',
+                return TaxonomyService.postTaxonomyEntity('places',
                     {
                         name: entity.name,
                         updateComment: 'Creation of '+entity.name
@@ -116,7 +116,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
 
             function postRegiment(entity, entityName) {
                 console.log('postRegiment');
-                return ThesaurusService.postThesaurusEntity('regiments',
+                return TaxonomyService.postTaxonomyEntity('regiments',
                     {
                         name: entity.name,
                         updateComment: 'Creation of '+entity.name
@@ -167,7 +167,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
             function postTestator() {
                 console.log('postTestator');
                 $scope.entity.will.testator.updateComment = "Creation of the entity";
-                return ThesaurusService.postThesaurusEntity('testators', $scope.entity.will.testator).then(function(data) {
+                return TaxonomyService.postTaxonomyEntity('testators', $scope.entity.will.testator).then(function(data) {
                     $scope.entity.will.testator = data.id;
                     postEntityStarter();
                 }, function errorCallback(response) {

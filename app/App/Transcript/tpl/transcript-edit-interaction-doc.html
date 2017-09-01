@@ -1,0 +1,28 @@
+<div class="list-group">
+    <div class="list-group-item">
+        <h3>Description générale :</h3>
+        <div ng-repeat="description in transcriptArea.interaction.doc.structure.descriptions">
+            <hr ng-if="$index > 0" />
+            {{ description.content }}
+        </div>
+        <p ng-if="transcriptArea.interaction.doc.structure.descriptions.length == 0" class="alert alert-warning text-center">
+            Cette balise ne possède pas de description.
+        </p>
+    </div>
+    <div class="list-group-item">
+        <h3>Dans le cadre de Testaments de Poilus :</h3>
+        <div ng-bind="transcriptArea.interaction.doc.structure.projectDescription"></div>
+        <p ng-if="transcriptArea.interaction.doc.structure.projectDescription == null" class="alert alert-warning text-center">
+            Cette balise ne possède pas de description.
+        </p>
+    </div>
+    <div class="list-group-item">
+        <h3>Exemples :</h3>
+        <div ng-repeat="example in transcriptArea.interaction.doc.structure.exemplum">
+            <pre ng-bind="example | prettyXml"></pre>
+        </div>
+        <p ng-if="transcriptArea.interaction.doc.structure.exemplum.length == 0" class="alert alert-warning text-center">
+            Cette balise ne possède pas d'exemple.
+        </p>
+    </div>
+</div>

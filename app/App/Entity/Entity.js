@@ -24,12 +24,7 @@ angular.module('transcript.app.entity', ['ui.router'])
                     return EntityService.getEntity($transition$.params().id);
                 },
                 thread: function(CommentService, $transition$) {
-                    if(CommentService.getThread('entity-'+$transition$.params().id) === null) {
-                        CommentService.postThread('entity-'+$transition$.params().id);
-                        return CommentService.getThread('entity-'+$transition$.params().id);
-                    } else {
-                        return CommentService.getThread('entity-'+$transition$.params().id);
-                    }
+                    return CommentService.getThread('entity-'+$transition$.params().id);
                 }
             }
         })

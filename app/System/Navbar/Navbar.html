@@ -16,7 +16,14 @@
             <li data-ng-if="preferences.help_home_content != null"><a ui-sref="app.content({id: preferences.help_home_content})">Aide</a></li>
             <li><a ui-sref="app.blog">Actualités</a></li>
             <li><a ui-sref="app.search">Transcrire</a></li>
-            <li><a ui-sref="app.thesaurus.home">Documenter</a></li>
+            <li class="dropdown">
+                <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documenter <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                    <li><a ui-sref="app.taxonomy.list({type: 'testators'})">Les hommes</a></li>
+                    <li><a ui-sref="app.taxonomy.list({type: 'places'})">Les lieux</a></li>
+                    <li><a ui-sref="app.taxonomy.list({type: 'regiments'})">Les régiments</a></li>
+                </ul>
+            </li>
         </ul>
         <ul data-ng-if="user == null" class="nav navbar-nav navbar-right">
             <li><a href="https://testaments-de-poilus.myjetbrains.com/" target="_blank" class="text-muted">BugTracker</a></li>

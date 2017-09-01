@@ -29,46 +29,38 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     return EntityService.getEntity($transition$.params().idEntity);
                 },
                 thread: function(CommentService, $transition$) {
-                    if(CommentService.getThread('transcript-'+$transition$.params().id) === null) {
-                        CommentService.postThread('transcript-'+$transition$.params().id);
-                        return CommentService.getThread('transcript-'+$transition$.params().id);
-                    } else {
-                        return CommentService.getThread('transcript-'+$transition$.params().id);
-                    }
+                    return CommentService.getThread('transcript-'+$transition$.params().id);
                 },
-                teiStructure: function(TranscriptService) {
-                    return TranscriptService.getTeiStructure();
-                },
-                teiHelp: function(TranscriptService) {
-                    return TranscriptService.getTeiHelp();
+                teiInfo: function(TranscriptService) {
+                    return TranscriptService.getTeiInfo();
                 },
                 config: function() {
                     return YAML.load('App/Transcript/toolbar.yml');
                 },
-                testators: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities("testators");
+                testators: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities("testators");
                 },
-                places: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities("places");
+                places: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities("places");
                 },
-                regiments: function(ThesaurusService) {
-                    return ThesaurusService.getThesaurusEntities("regiments");
+                regiments: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities("regiments");
                 }
             }
         })
     }])
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiStructure', 'teiHelp', 'config', 'testators', 'places', 'regiments', function($rootScope, $scope, $http, $sce, $state, $timeout, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiStructure, teiHelp, config, testators, places, regiments) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiInfo', 'config', 'testators', 'places', 'regiments', function($rootScope, $scope, $http, $sce, $state, $timeout, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiInfo, config, testators, places, regiments) {
+        if($rootScope.user === undefined) {$state.go('login');}
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
         /* -------------------------------------------------------------------------------- */
         $scope.transcript = transcript;
         $scope.resource = resource;
         $scope.entity = entity;
-        $scope.teiStructure = teiStructure;
-        $scope.teiHelp = teiHelp;
+        $scope.teiInfo = teiInfo.data;
         $scope.config = config;
-        $scope.thesaurus = {
+        $scope.taxonomy = {
             testators: testators,
             places: places,
             regiments: regiments
@@ -88,14 +80,19 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 content: {
                     title: "",
                     text: "",
-                    history: [],
+                    history: []
                 },
-                thesaurus: {
+                doc: {
+                    title: null,
+                    element: null,
+                    structure: null
+                },
+                taxonomy: {
                     result: null,
                     dataType: null,
                     entities: null,
                     string: null,
-                    thesaurusSelected: null
+                    taxonomySelected: null
                 },
                 version: {
                     id: null,
@@ -103,7 +100,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 }
             },
             ace: {
-                currentTag: null,
+                currentTag: {
+                    name: null,
+                    position: {
+                        row: null,
+                        column: null
+                    },
+                    parent: null
+                },
                 area: $scope.transcript.content,
                 modal: {
                     content: "",
@@ -111,9 +115,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 }
             },
             toolbar: {
-                buttons: $scope.config.tei,
+                tags: $scope.config.tags,
                 buttonsGroups: $scope.config.buttonsGroups,
-
+                attributes: []
             }
         };
         $scope.submit = {
@@ -170,41 +174,51 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* -------------------------------------------------------------------------------- */
         /* Toolbar */
         /* -------------------------------------------------------------------------------- */
-        /**
-         * The aim of this function is to enable and disable the buttons of the TEI toolbar
-         * according to the context, meaning the position of the caret.
-         */
-        $scope.$watch('transcriptArea.ace.currentTag', function() {
-            //console.log($scope.transcriptArea.ace.currentTag);
-            //console.log($scope.teiStructure);
-
-            // Reset every disabled buttons
-            for(let btn in $scope.transcriptArea.toolbar.buttons) {
-                $scope.transcriptArea.toolbar.buttons[btn].btn.disabled = true;
+        function updateToolbar() {
+            // Reset every enabled buttons
+            for(let btn in $scope.transcriptArea.toolbar.tags) {
+                $scope.transcriptArea.toolbar.tags[btn].btn.enabled = false;
             }
 
-            if($scope.transcriptArea.ace.currentTag === null || $scope.transcriptArea.ace.currentTag === "") {
+            if($scope.transcriptArea.ace.currentTag.name === null || $scope.transcriptArea.ace.currentTag.name === "") {
                 // If the caret is at the root of the doc, we allow root items == true
-                for(let btn in $scope.transcriptArea.toolbar.buttons) {
-                    if($scope.transcriptArea.toolbar.buttons[btn].btn.allow_root === true) {
-                        $scope.transcriptArea.toolbar.buttons[btn].btn.disabled = false;
+                for(let btn in $scope.transcriptArea.toolbar.tags) {
+                    if($scope.transcriptArea.toolbar.tags[btn].btn.allow_root === true) {
+                        $scope.transcriptArea.toolbar.tags[btn].btn.enabled = true;
                     }
                 }
             } else {
                 // Else, we allow items according to the parent tag
-                for(let elemId in $scope.teiStructure.data[$scope.transcriptArea.ace.currentTag]) {
-                    let elem = $scope.teiStructure.data[$scope.transcriptArea.ace.currentTag][elemId];
-                    //console.log(elem);
-                    if($scope.transcriptArea.toolbar.buttons[elem] !== undefined &&
-                        ($scope.transcriptArea.toolbar.buttons[elem].type === 'tag' || $scope.transcriptArea.toolbar.buttons[elem].type === 'key') &&
-                        $scope.transcriptArea.toolbar.buttons[elem].xml.name === elem)
-                    {
-                        $scope.transcriptArea.toolbar.buttons[elem].btn.disabled = false;
+                if($scope.teiInfo[$scope.transcriptArea.ace.currentTag.name] !== undefined && $scope.teiInfo[$scope.transcriptArea.ace.currentTag.name].content !== undefined) {
+                    for (let elemId in $scope.teiInfo[$scope.transcriptArea.ace.currentTag.name].content) {
+                        let elem = $scope.teiInfo[$scope.transcriptArea.ace.currentTag.name].content[elemId];
+                        //console.log(elem);
+                        if ($scope.transcriptArea.toolbar.tags[elem] !== undefined &&
+                            $scope.transcriptArea.toolbar.tags[elem].xml.name === elem) {
+                            $scope.transcriptArea.toolbar.tags[elem].btn.enabled = true;
+                        }
                     }
                 }
             }
+        }
 
-        });
+        /**
+         * This functions aims to count the number of enabled button for a group
+         * -> Used to disable or enable the dropdown
+         *
+         * @param group string
+         * @return integer
+         */
+        $scope.transcriptArea.toolbar.nbEnabledButtonsForGroup = function(group) {
+            let count = 0;
+            for(let btn in $scope.transcriptArea.toolbar.tags) {
+                if($scope.transcriptArea.toolbar.tags[btn].btn.btn_group === group && $scope.transcriptArea.toolbar.tags[btn].btn.enabled === true) {
+                    count += 1;
+                }
+            }
+
+            return count;
+        };
         /* Toolbar ------------------------------------------------------------------------ */
 
         /* -------------------------------------------------------------------------------- */
@@ -233,8 +247,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     console.log(lineNumber+"<>"+column);
                     console.log(editor.getValue());*/
 
-                    console.log($scope.transcriptArea.toolbar.buttons.lb.btn.disabled);
-                    if($scope.transcriptArea.toolbar.buttons.lb.btn.disabled == false) {
+                    console.log($scope.transcriptArea.toolbar.tags.lb.btn.enabled);
+                    if($scope.transcriptArea.toolbar.tags.lb.btn.enabled === true) {
                         editor.insert("<lb />\n");
                     } else {
                         return false;
@@ -253,7 +267,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -266,7 +280,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -279,7 +293,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -292,7 +306,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -322,7 +336,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.container.addEventListener("click", function(e) {
                 e.preventDefault();
                 $scope.$apply(function() {
-                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                 });
                 return false;
             }, false);
@@ -332,11 +346,23 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.navigateFileEnd();
         };
 
+        $scope.aceChanged = function() {
+            /**
+             * The aim of this function is to compute the value of currentTag
+             * according to the context, meaning the position of the caret.
+             */
+            $scope.$watch('transcriptArea.ace.currentTag', function() {
+                //console.log($scope.transcriptArea.ace.currentTag);
+                updateToolbar();
+                updateAttributes();
+            });
+        };
+
         /**
          * Actions on addTag
          */
         $scope.addTag = function(tagName) {
-            let tag = $scope.config.tei[tagName],
+            let tag = $scope.transcriptArea.toolbar.tags[tagName],
                 tagInsert = "",
                 defaultAddChar = 2;
 
@@ -356,22 +382,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.insert(tagInsert);
             $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
             $scope.aceEditor.focus();
-        };
-
-        /**
-         * Actions on addAttribute
-         */
-        $scope.addAttribute = function(attributeName) {
-            let attribute = $scope.config.tei[attributeName],
-                defaultAddChar = 8;
-
-            let attrInsert = "<hi " + attribute.xml.name + "=\"" + attribute.xml.value + "\">" + $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()) + "</hi>";
-
-            let lineNumber = $scope.aceEditor.getCursorPosition().row,
-                column = $scope.aceEditor.getCursorPosition().column+attribute.xml.name.length+attribute.xml.value.length+defaultAddChar;
-            $scope.aceEditor.insert(attrInsert);
-            $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
-            $scope.aceEditor.focus();
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
         };
 
         /**
@@ -379,8 +390,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
          */
         $scope.$watch('transcriptArea.ace.area', function() {
             let encodeLiveRender = $scope.transcriptArea.ace.area;
-            for(let buttonId in $scope.config.tei) {
-                encodeLiveRender = encodeHTML(encodeLiveRender, $scope.config.tei[buttonId]);
+            for(let buttonId in $scope.transcriptArea.toolbar.tags) {
+                encodeLiveRender = encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags[buttonId]);
             }
             $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeLiveRender);
             $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
@@ -422,54 +433,35 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 return null;
             }
         }
-        /* End : XmlTagInterpreter --------------------------------------------------------- */
+        /* End : XmlTagInterpreter -------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
-        /* Modal Management */
+        /* Attributes Management */
         /* -------------------------------------------------------------------------------- */
-        /**
-         * Modal management
-         * @param id_modal
-         */
-        $scope.transcriptArea.ace.modal.load = function(id_modal) {
-            $scope.transcriptArea.ace.modal.setContent(id_modal);
-            $("#transcript-edit-modal").modal();
-            $(".modal-backdrop").appendTo("#transcript-edit");
-            $("body").removeClass();
-        };
+        function updateAttributes() {
+            $scope.transcriptArea.toolbar.attributes = [];
 
-        $scope.transcriptArea.ace.modal.setContent = function(id_modal) {
-            // Reset variables :
-            if(id_modal === "choice-orig") {
-                $scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig = "";
-                $scope.transcriptArea.ace.modal.variables.choice_orig_modal_reg = "";
-                $scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig = $scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange());
+            if($scope.teiInfo[$scope.transcriptArea.ace.currentTag.name] !== undefined && $scope.teiInfo[$scope.transcriptArea.ace.currentTag.name].attributes !== undefined) {
+                //console.log($scope.teiInfo[$scope.transcriptArea.ace.currentTag.name].attributes);
+                $scope.transcriptArea.toolbar.attributes = $scope.teiInfo[$scope.transcriptArea.ace.currentTag.name].attributes;
             }
-
-            $scope.transcriptArea.ace.modal.content = TranscriptService.loadFile("modal-"+id_modal);
-        };
+        }
 
         /**
-         * Modal validation
-         * @param id_validation
+         * Actions on addAttribute
          */
-        $scope.transcriptArea.ace.modal.valid = function(id_validation) {
-            $('.modal').modal('hide');
-            if(id_validation === "choice-orig") {
-                let orig_insertHTML = "",
-                    reg_insertHTML = "";
-
-                if($scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig !== "") {orig_insertHTML = "<orig>"+$scope.transcriptArea.ace.modal.variables.choice_orig_modal_orig+"</orig>";}
-                else {orig_insertHTML = "<orig />";}
-                if($scope.transcriptArea.ace.modal.variables.choice_orig_modal_reg !== "") {reg_insertHTML = "<reg>"+$scope.transcriptArea.ace.modal.variables.choice_orig_modal_reg+"</reg>";}
-                else {reg_insertHTML = "<reg />";}
-
-                let insertXML = "<choice>"+orig_insertHTML+reg_insertHTML+"</choice>";
-                $scope.aceEditor.insert(insertXML);
+        $scope.transcriptArea.ace.addAttribute = function(attribute, value) {
+            let attributeInsert = " " + attribute.id + "=\"\"";
+            if(value !== null) {
+                attributeInsert = " " + attribute.id + "=\""+value.value+"\"";
             }
+
+            $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.position.end.row, column: $scope.transcriptArea.ace.currentTag.position.end.column}, attributeInsert);
             $scope.aceEditor.focus();
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
         };
-        /* Modal Management --------------------------------------------------------------- */
+
+        /* End : Attributes Management ---------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Interaction Management */
@@ -477,8 +469,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.transcriptArea.interaction.gotoLive = function() {
             $scope.transcriptArea.interaction.status = 'live';
             resetVersionZone();
-            resetInteractionZone();
-            resetThesaurusSearchZone();
+            resetContentZone();
+            resetTaxonomySearchZone();
+            resetDocZone();
         };
 
         function resetVersionZone() {
@@ -486,18 +479,59 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.transcriptArea.interaction.version.id = null;
         }
 
-        function resetInteractionZone() {
+        function resetContentZone() {
             $scope.transcriptArea.interaction.content.text = '<p class="text-center" style="margin-top: 20px;"><i class="fa fa-5x fa-spin fa-circle-o-notch"></i></p>';
         }
 
-        function resetThesaurusSearchZone() {
-            $scope.transcriptArea.interaction.thesaurus.dataType = null;
-            $scope.transcriptArea.interaction.thesaurus.result = null;
-            $scope.transcriptArea.interaction.thesaurus.string = null;
-            $scope.transcriptArea.interaction.thesaurus.entities = null;
-            $scope.transcriptArea.interaction.thesaurus.thesaurusSelected = null;
+        function resetTaxonomySearchZone() {
+            $scope.transcriptArea.interaction.taxonomy.dataType = null;
+            $scope.transcriptArea.interaction.taxonomy.result = null;
+            $scope.transcriptArea.interaction.taxonomy.string = null;
+            $scope.transcriptArea.interaction.taxonomy.entities = null;
+            $scope.transcriptArea.interaction.taxonomy.taxonomySelected = null;
+        }
+
+        function resetDocZone() {
+            $scope.transcriptArea.interaction.doc.structure = null;
+            $scope.transcriptArea.interaction.doc.title = null;
+            $scope.transcriptArea.interaction.doc.element = null;
         }
         /* Interaction Management --------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Documentation Management */
+        /* -------------------------------------------------------------------------------- */
+        /**
+         * This function loads documentation about a TEI element
+         */
+        function loadDocumentation(element) {
+            console.log(element);
+            $scope.$apply(function() {
+                $scope.transcriptArea.interaction.doc.title = element;
+                $scope.transcriptArea.interaction.doc.element = element;
+                if($scope.teiInfo[element] !== undefined && $scope.teiInfo[element].doc !== undefined) {
+                    if($scope.teiInfo[element].doc.gloss.length === 1) {
+                        $scope.transcriptArea.interaction.doc.title = $scope.teiInfo[element].doc.gloss[0].content;
+                    }
+
+                    $scope.transcriptArea.interaction.doc.structure = $scope.teiInfo[element].doc;
+
+                    if($scope.transcriptArea.interaction.doc.structure.exemplum !== undefined) {
+                        for (let idExample in $scope.transcriptArea.interaction.doc.structure.exemplum) {
+                            $scope.transcriptArea.interaction.doc.structure.exemplum[idExample] = $scope.transcriptArea.interaction.doc.structure.exemplum[idExample].replace('<egXML xmlns="http://www.tei-c.org/ns/Examples">', '').replace('</egXML>', '').replace(/\s+/g, " ");
+                        }
+                    } else {
+                        $scope.transcriptArea.interaction.doc.structure.exemplum = [];
+                    }
+
+                    if($scope.transcriptArea.interaction.doc.structure.descriptions === undefined) {
+                        $scope.transcriptArea.interaction.doc.structure.descriptions = [];
+                    }
+                }
+                $scope.transcriptArea.interaction.status = 'doc';
+            });
+        }
+        /* Documentation Management ------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Help Management */
@@ -511,36 +545,19 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.transcriptArea.interaction.help = function(string, context, resetBreadcrumb) {
             if(context === "helpContent") {
                 if(resetBreadcrumb === true) {
-                    resetInteractionZone();
+                    resetContentZone();
                 }
                 loadHelpData(string, resetBreadcrumb);
                 $scope.transcriptArea.interaction.status = 'content';
             } else if(context === "modelDoc") {
-                resetInteractionZone(resetBreadcrumb);
-                loadDocumentation(string, resetBreadcrumb);
+                loadDocumentation(string);
             }
         };
 
         /**
-         * This function loads documentation about a TEI element
-         */
-        function loadDocumentation(element, resetBreadcrumb) {
-            console.log(element);
-            breadcrumbManagement({title: element, id: 0}, resetBreadcrumb);
-            $scope.$apply(function() {
-                $scope.transcriptArea.interaction.content.title = element;
-                if($scope.teiHelp.data[element] !== undefined) {
-                    $scope.transcriptArea.interaction.content.text = $scope.teiHelp.data[element];
-                } else {
-                    $scope.transcriptArea.interaction.content.text = "Oups ... Aucune documentation n'existe pour cet élément.";
-                }
-                $scope.transcriptArea.interaction.status = 'content';
-            });
-        }
-
-        /**
          * Loading contents of type helpContent
          * @param file
+         * @param resetBreadcrumb boolean
          */
         function loadHelpData(file, resetBreadcrumb) {
             return ContentService.getContent(file).then(function(data) {
@@ -630,57 +647,57 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Versions Management ------------------------------------------------------------ */
 
         /* -------------------------------------------------------------------------------- */
-        /* Thesaurus Search Management */
+        /* Taxonomy Search Management */
         /* -------------------------------------------------------------------------------- */
-        $scope.transcriptArea.interaction.thesaurus.action = function() {
-            resetThesaurusSearchZone();
-            $scope.transcriptArea.interaction.status = 'thesaurusSearch';
+        $scope.transcriptArea.interaction.taxonomy.action = function() {
+            resetTaxonomySearchZone();
+            $scope.transcriptArea.interaction.status = 'taxonomySearch';
 
-            $scope.$watch('transcriptArea.interaction.thesaurus.thesaurusSelected', function() {
-                switch($scope.transcriptArea.interaction.thesaurus.thesaurusSelected) {
+            $scope.$watch('transcriptArea.interaction.taxonomy.taxonomySelected', function() {
+                switch($scope.transcriptArea.interaction.taxonomy.taxonomySelected) {
                     case "testators":
                         console.log("testators");
-                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.testators;
-                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.testators, "name", "string");
-                        $scope.transcriptArea.interaction.thesaurus.dataType = "testators";
+                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.testators;
+                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.testators, "name", "string");
+                        $scope.transcriptArea.interaction.taxonomy.dataType = "testators";
                         break;
                     case "places":
                         console.log("places");
-                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.places;
-                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.places, "name", "string");
-                        $scope.transcriptArea.interaction.thesaurus.dataType = "places";
+                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.places;
+                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.places, "name", "string");
+                        $scope.transcriptArea.interaction.taxonomy.dataType = "places";
                         break;
                     case "regiments":
                         console.log("regiments");
-                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.regiments;
-                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.regiments, "name", "string");
-                        $scope.transcriptArea.interaction.thesaurus.dataType = "regiments";
+                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.regiments;
+                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.regiments, "name", "string");
+                        $scope.transcriptArea.interaction.taxonomy.dataType = "regiments";
                         break;
                     default:
                         console.log("default");
-                        $scope.transcriptArea.interaction.thesaurus.entities = $scope.thesaurus.testators;
-                        $scope.transcriptArea.interaction.thesaurus.values = SearchService.dataset($scope.thesaurus.testators, "name", "string");
-                        $scope.transcriptArea.interaction.thesaurus.dataType = "testators";
+                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.testators;
+                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.testators, "name", "string");
+                        $scope.transcriptArea.interaction.taxonomy.dataType = "testators";
                 }
             });
-            $scope.$watch('transcriptArea.interaction.thesaurus.string', function() {
-                if($scope.transcriptArea.interaction.thesaurus.string !== undefined) {
-                    if ($scope.transcriptArea.interaction.thesaurus.string !== null && $scope.transcriptArea.interaction.thesaurus.string !== "" && $scope.transcriptArea.interaction.thesaurus.string.originalObject !== undefined) {
-                        $scope.transcriptArea.interaction.thesaurus.string = $scope.transcriptArea.interaction.thesaurus.string.originalObject.value;
-                        console.log($scope.transcriptArea.interaction.thesaurus.string);
+            $scope.$watch('transcriptArea.interaction.taxonomy.string', function() {
+                if($scope.transcriptArea.interaction.taxonomy.string !== undefined) {
+                    if ($scope.transcriptArea.interaction.taxonomy.string !== null && $scope.transcriptArea.interaction.taxonomy.string !== "" && $scope.transcriptArea.interaction.taxonomy.string.originalObject !== undefined) {
+                        $scope.transcriptArea.interaction.taxonomy.string = $scope.transcriptArea.interaction.taxonomy.string.originalObject.value;
+                        console.log($scope.transcriptArea.interaction.taxonomy.string);
                     }
                     refresh();
                 }
             });
 
             function refresh() {
-                let toEntities = $scope.transcriptArea.interaction.thesaurus.entities;
-                let toForm = {name: $scope.transcriptArea.interaction.thesaurus.string};
-                $scope.transcriptArea.interaction.thesaurus.result = SearchService.search(toEntities, toForm);
-                console.log($scope.transcriptArea.interaction.thesaurus.result);
+                let toEntities = $scope.transcriptArea.interaction.taxonomy.entities;
+                let toForm = {name: $scope.transcriptArea.interaction.taxonomy.string};
+                $scope.transcriptArea.interaction.taxonomy.result = SearchService.search(toEntities, toForm);
+                console.log($scope.transcriptArea.interaction.taxonomy.result);
             }
         };
-        /* Thesaurus Search Management ---------------------------------------------------- */
+        /* Taxonomy Search Management ---------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Viewer Management */

@@ -23,34 +23,32 @@ angular.module('transcript.app.edition', ['ui.router'])
                     return EntityService.getEntity($transition$.params().idEntity);
                 },
                 thread: function(CommentService, $transition$) {
-                    if(CommentService.getThread('transcript-'+$transition$.params().idResource) === null) {
-                        CommentService.postThread('transcript-'+$transition$.params().idResource);
-                        return CommentService.getThread('transcript-'+$transition$.params().idResource);
-                    } else {
-                        return CommentService.getThread('transcript-'+$transition$.params().idResource);
-                    }
+                    return CommentService.getThread('transcript-'+$transition$.params().idResource);
+                },
+                config: function() {
+                    return YAML.load('App/Transcript/toolbar.yml');
                 }
             }
         })
     }])
 
-    .controller('AppEditionCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$transition$', 'entity', 'ResourceService', 'UserService', 'TranscriptService', function($rootScope, $scope, $http, $sce, $state, $transition$, entity, ResourceService, UserService, TranscriptService) {
+    .controller('AppEditionCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$transition$', 'ResourceService', 'UserService', 'TranscriptService', 'entity', 'config', function($rootScope, $scope, $http, $sce, $state, $transition$, ResourceService, UserService, TranscriptService, entity, config) {
         $scope.entity = entity;
         $scope.resource = ResourceService.getResourceIntern($scope.entity, parseInt($transition$.params().idResource));
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
+        $scope.config = config;
 
         /* -- EncodedContent management ---------------------------------------------------- */
-        let config = YAML.load('App/Transcript/toolbar.yml');
         if($scope.resource.transcript.content !== null) {
             let encodeLiveRender = $scope.resource.transcript.content;
-            for (let buttonId in config.tei) {
-                encodeLiveRender = TranscriptService.encodeHTML(encodeLiveRender, config.tei[buttonId]);
+            for (let buttonId in $scope.config.tags) {
+                encodeLiveRender = TranscriptService.encodeHTML(encodeLiveRender, $scope.config.tags[buttonId]);
             }
             $scope.encodedContent = $sce.trustAsHtml(encodeLiveRender);
         }
         /* -- EncodedContent management ---------------------------------------------------- */
 
-        /* -- Contributors management ---------------------------------------------------- */
+        /* -- Contributors management ------------------------------------------------------ */
         function getUser(username) {
             return UserService.getUserByUsername(username).then(function(data) {
                 $scope.contributors.push({
@@ -65,6 +63,17 @@ angular.module('transcript.app.edition', ['ui.router'])
         for(let id in contributors) {
             getUser(contributors[id]);
         }
-        /* -- Contributors management ---------------------------------------------------- */
+        /* -- Contributors management ------------------------------------------------------ */
+
+        /* -- Modal Login management ------------------------------------------------------- */
+        $scope.goRegister = function() {
+            $('#loginModal').modal('hide');
+            $state.go('app.security.register');
+        };
+        $scope.goLogin = function() {
+            $('#loginModal').modal('hide');
+            $state.go('app.security.login');
+        };
+        /* -- Modal Login management ------------------------------------------------------- */
     }])
 ;

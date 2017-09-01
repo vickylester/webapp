@@ -24,12 +24,7 @@ angular.module('transcript.app.content', ['ui.router'])
                     return ContentService.getContent($transition$.params().id, true);
                 },
                 thread: function(CommentService, $transition$) {
-                    if(CommentService.getThread('content-'+$transition$.params().id) === null) {
-                        CommentService.postThread('content-'+$transition$.params().id);
-                        return CommentService.getThread('content-'+$transition$.params().id);
-                    } else {
-                        return CommentService.getThread('content-'+$transition$.params().id);
-                    }
+                    return CommentService.getThread('content-'+$transition$.params().id);
                 }
             }
         })

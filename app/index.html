@@ -35,8 +35,8 @@
     <link rel="stylesheet" href="Admin/Entity/List/List.css" type="text/css" />
     <link rel="stylesheet" href="Admin/AppPreference/AppPreference.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Home/Home.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Thesaurus/Access/Access.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Thesaurus/Logs/Logs.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Taxonomy/Access/Access.css" type="text/css" />
+    <link rel="stylesheet" href="Admin/Taxonomy/Logs/Logs.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Transcript/Export/Export.css" type="text/css" />
     <link rel="stylesheet" href="Admin/Transcript/Validation/Validation.css" type="text/css" />
     <link rel="stylesheet" href="Admin/User/List/List.css" type="text/css" />
@@ -53,11 +53,11 @@
     <link rel="stylesheet" href="App/Security/Login/Login.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Logout/Logout.css" type="text/css" />
     <link rel="stylesheet" href="App/Security/Register/Register.css" type="text/css" />
-    <link rel="stylesheet" href="App/Thesaurus/Ask/Ask.css" type="text/css" />
-    <link rel="stylesheet" href="App/Thesaurus/Edit/Edit.css" type="text/css" />
-    <link rel="stylesheet" href="App/Thesaurus/Home/Home.css" type="text/css" />
-    <link rel="stylesheet" href="App/Thesaurus/List/List.css" type="text/css" />
-    <link rel="stylesheet" href="App/Thesaurus/View/View.css" type="text/css" />
+    <link rel="stylesheet" href="App/Taxonomy/Ask/Ask.css" type="text/css" />
+    <link rel="stylesheet" href="App/Taxonomy/Edit/Edit.css" type="text/css" />
+    <link rel="stylesheet" href="App/Taxonomy/Home/Home.css" type="text/css" />
+    <link rel="stylesheet" href="App/Taxonomy/List/List.css" type="text/css" />
+    <link rel="stylesheet" href="App/Taxonomy/View/View.css" type="text/css" />
     <link rel="stylesheet" href="App/Training/Training.css" type="text/css" />
     <link rel="stylesheet" href="App/Transcript/Transcript.css" type="text/css" />
     <link rel="stylesheet" href="App/User/Edit/Edit.css" type="text/css" />
@@ -91,6 +91,7 @@
     <script type="text/javascript" src="web/libraries/angular/angular-breadcrumb/dist/angular-breadcrumb.min.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angucomplete/angucomplete.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angular-filter/dist/angular-filter.min.js"></script>
+    <script type="text/javascript" src="web/libraries/angular/angular-pretty-xml/src/angular-pretty-xml.js"></script>
 
     <script src="//unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
     <script type="text/javascript" src="web/libraries/angular/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
@@ -130,9 +131,9 @@
     <script type="text/javascript" src="Admin/Entity/Import/Import.js"></script>
     <script type="text/javascript" src="Admin/Entity/List/List.js"></script>
     <script type="text/javascript" src="Admin/Home/Home.js"></script>
-    <script type="text/javascript" src="Admin/Thesaurus/Thesaurus.js"></script>
-    <script type="text/javascript" src="Admin/Thesaurus/Access/Access.js"></script>
-    <script type="text/javascript" src="Admin/Thesaurus/Logs/Logs.js"></script>
+    <script type="text/javascript" src="Admin/Taxonomy/Taxonomy.js"></script>
+    <script type="text/javascript" src="Admin/Taxonomy/Access/Access.js"></script>
+    <script type="text/javascript" src="Admin/Taxonomy/Logs/Logs.js"></script>
     <script type="text/javascript" src="Admin/Transcript/Transcript.js"></script>
     <script type="text/javascript" src="Admin/Transcript/Export/Export.js"></script>
     <script type="text/javascript" src="Admin/Transcript/Validation/Validation.js"></script>
@@ -157,12 +158,12 @@
     <script type="text/javascript" src="App/Security/Resetting/Check/Check.js"></script>
     <script type="text/javascript" src="App/Security/Resetting/Request/Request.js"></script>
     <script type="text/javascript" src="App/Security/Resetting/Reset/Reset.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/Thesaurus.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/Ask/Ask.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/Edit/Edit.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/Home/Home.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/List/List.js"></script>
-    <script type="text/javascript" src="App/Thesaurus/View/View.js"></script>
+    <script type="text/javascript" src="App/Taxonomy/Taxonomy.js"></script>
+    <script type="text/javascript" src="App/Taxonomy/Ask/Ask.js"></script>
+    <script type="text/javascript" src="App/Taxonomy/Edit/Edit.js"></script>
+    <script type="text/javascript" src="App/Taxonomy/Home/Home.js"></script>
+    <script type="text/javascript" src="App/Taxonomy/List/List.js"></script>
+    <script type="text/javascript" src="App/Taxonomy/View/View.js"></script>
     <script type="text/javascript" src="App/Training/Training.js"></script>
     <script type="text/javascript" src="App/Transcript/Transcript.js"></script>
     <script type="text/javascript" src="App/User/User.js"></script>
@@ -183,7 +184,7 @@
     <script type="text/javascript" src="System/Services/EntityService.js"></script>
     <script type="text/javascript" src="System/Services/ResourceService.js"></script>
     <script type="text/javascript" src="System/Services/SearchService.js"></script>
-    <script type="text/javascript" src="System/Services/ThesaurusService.js"></script>
+    <script type="text/javascript" src="System/Services/TaxonomyService.js"></script>
     <script type="text/javascript" src="System/Services/TranscriptService.js"></script>
     <script type="text/javascript" src="System/Services/UserService.js"></script>
     <script type="text/javascript" src="System/Services/WillService.js"></script>

@@ -5,12 +5,7 @@ angular.module('transcript.service.resource', ['ui.router'])
     .service('ResourceService', function($http, $rootScope) {
         return {
             getResource: function(id_transcript) {
-                return $http.get($rootScope.api+"/resources?transcript="+id_transcript,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
+                return $http.get($rootScope.api+"/resources?transcript="+id_transcript
                 ).then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {

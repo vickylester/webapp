@@ -1,7 +1,7 @@
 <div id="transcript-interaction" class="h100">
     <div id="transcript-interaction-heading">
         <div data-ng-if="transcriptArea.interaction.status == 'live'">
-            <strong class="transcript-interaction-heading-title">Rendu Live</strong>
+            <strong class="transcript-interaction-heading-title">Rendu</strong>
         </div>
         <div data-ng-if="transcriptArea.interaction.status == 'content'">
             <div class="pull-right">
@@ -14,17 +14,23 @@
                 </li>
             </ol>
         </div>
+        <div data-ng-if="transcriptArea.interaction.status == 'doc'">
+            <div class="pull-right">
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <strong class="transcript-interaction-heading-title">Documentation : {{ transcriptArea.interaction.doc.title | ucfirst }} ({{ transcriptArea.interaction.doc.element }})</strong>
+        </div>
         <div data-ng-if="transcriptArea.interaction.status == 'version'">
             <div class="pull-right">
                 <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
             </div>
             <strong class="transcript-interaction-heading-title">Historique</strong>
         </div>
-        <div data-ng-if="transcriptArea.interaction.status == 'thesaurusSearch'">
+        <div data-ng-if="transcriptArea.interaction.status == 'taxonomySearch'">
             <div class="pull-right">
                 <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
             </div>
-            <strong class="transcript-interaction-heading-title">Thésaurus</strong>
+            <strong class="transcript-interaction-heading-title">Notices descriptives</strong>
         </div>
     </div>
     <div style="height: 92%;">
@@ -34,6 +40,7 @@
         <div id="div-interaction-help" data-ng-if="transcriptArea.interaction.status == 'content'">
             <div id="div-interaction-help-content" compile="transcriptArea.interaction.content.text"></div>
         </div>
+        <div id="div-interaction-doc" data-ng-if="transcriptArea.interaction.status == 'doc'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-doc.html'"></div>
         <div id="div-interaction-version" class="h100" data-ng-if="transcriptArea.interaction.status == 'version'">
             <div id="div-interaction-version-ace" class="h100">
                 <div ui-ace="{
@@ -44,6 +51,6 @@
                 }" id="transcript-edit-interaction-version-ace-area" class="h100" data-ng-model="transcriptArea.interaction.version.content"></div>
             </div>
         </div>
-        <div id="div-interaction-thesaurus" data-ng-if="transcriptArea.interaction.status == 'thesaurusSearch'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-thesaurus-search.html'"></div>
+        <div id="div-interaction-taxonomy" data-ng-if="transcriptArea.interaction.status == 'taxonomySearch'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-taxonomy-search.html'"></div>
     </div>
 </div>

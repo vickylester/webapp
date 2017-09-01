@@ -57,13 +57,16 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
                 }, function errorCallback(response) {
                     console.log(response);
                     if(response.data.code === 400) {
+                        flash.error = '<ul>';
                         for(var field in response.data.errors.children) {
                             for(var error in response.data.errors.children[field]) {
                                 if(error === "errors") {
-                                    $scope.form.errors.push({field: field, error: response.data.errors.children[field][error]});
+                                    flash.error += "<li>"+field+" : "+response.data.errors.children[field][error]+"</li>";
                                 }
                             }
                         }
+                        flash.error += '</ul>';
+                        flash.error = $sce.trustAsHtml(flash.error);
                     }
                     $scope.submit.loading = false;
                 });

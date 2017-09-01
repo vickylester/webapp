@@ -1,42 +1,37 @@
-<div class="jumbotron">
-    <p>Edition des préférences</p>
-</div>
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
-<div class="alert alert-danger" data-ng-if="form.errors.length > 0">
-    <ul>
-        <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
-    </ul>
+<div class="well well-sm">
+    <h1>Edition des préférences</h1>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="app_user_preference_transcriptionDeskPosition" class="control-label col-sm-3">Affichage de l'interface de transcription</label>
+            <div class="col-sm-9">
+                <select id="app_user_preference_transcriptionDeskPosition" name="app_user_preference_transcriptionDeskPosition" class="form-control" data-ng-model="form.transcription_desk_position">
+                    <option value="" disabled>Sélectionnez ...</option>
+                    <option value="leftRead-centerHelp-rightImage">Écrire à gauche - Aide au centre - Image à droite</option>
+                    <option value="leftRead-centerImage-rightHelp">Écrire à gauche - Image au centre - Aide à droite</option>
+                    <option value="leftHelp-centerRead-rightImage">Aide à gauche - Écrire au centre - Image à droite</option>
+                    <option value="leftHelp-centerImage-rightRead">Aide à gauche - Image au centre - Écrire à droite</option>
+                    <option value="leftImage-centerHelp-rightRead">Image à gauche - Aide au centre - Écrire à droite</option>
+                    <option value="leftImage-centerRead-rightHelp">Image à gauche - Écrire au centre - Aide à droite</option>
+                </select>
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="form-group">
+            <label class="control-label col-sm-3">Suppression</label>
+            <div class="col-sm-9">
+                <button class="btn btn-danger">Supprimer mon compte <i class="fa fa-remove"></i></button>
+            </div>
+            <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Edit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
+    </form>
 </div>
-
-<form class="form-horizontal">
-    <div class="form-group">
-        <label for="app_user_preference_transcriptionDeskPosition" class="control-label col-sm-3">Affichage de l'interface de transcription</label>
-        <div class="col-sm-9">
-            <select id="app_user_preference_transcriptionDeskPosition" name="app_user_preference_transcriptionDeskPosition" class="form-control" data-ng-model="form.transcription_desk_position">
-                <option value="" disabled>Sélectionnez ...</option>
-                <option value="leftRead-centerHelp-rightImage">Écrire à gauche - Aide au centre - Image à droite</option>
-                <option value="leftRead-centerImage-rightHelp">Écrire à gauche - Image au centre - Aide à droite</option>
-                <option value="leftHelp-centerRead-rightImage">Aide à gauche - Écrire au centre - Image à droite</option>
-                <option value="leftHelp-centerImage-rightRead">Aide à gauche - Image au centre - Écrire à droite</option>
-                <option value="leftImage-centerHelp-rightRead">Image à gauche - Aide au centre - Écrire à droite</option>
-                <option value="leftImage-centerRead-rightHelp">Image à gauche - Écrire au centre - Aide à droite</option>
-            </select>
-        </div>
-    </div>
-
-    <hr />
-
-    <div class="form-group">
-        <label class="control-label col-sm-3">Suppression</label>
-        <div class="col-sm-9">
-            <button class="btn btn-danger">Supprimer mon compte <i class="fa fa-remove"></i></button>
-        </div>
-    <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Edit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
-</form>

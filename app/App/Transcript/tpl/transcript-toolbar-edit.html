@@ -1,4 +1,5 @@
 <div class="btn-toolbar" role="toolbar">
+    <!-- Special buttons management -->
     <div class="pull-right">
         <div class="btn-group" role="group">
             <a data-ng-click="undo('prev')" class="btn btn-sm btn-default" title="Révenir à l'état précédant"><i class="fa fa-undo"></i></a>
@@ -6,7 +7,7 @@
         </div>
 
         <div class="btn-group" role="group">
-            <a data-ng-click="transcriptArea.interaction.thesaurus.action()" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-search"></i></a>
+            <a data-ng-click="transcriptArea.interaction.taxonomy.action()" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-search"></i></a>
             <a data-ng-click="transcriptArea.interaction.help(preferences.help_inside_home_content, 'helpContent', true)" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-question-circle"></i></a>
             <a data-ng-if="page.fullscreen.status == false" data-ng-click="page.fullscreen.open()" class="btn btn-sm btn-default" title="Mode plein-écran"><i class="fa fa-arrows-alt"></i></a>
             <a data-ng-if="page.fullscreen.status == true" data-ng-click="page.fullscreen.close()" class="btn btn-sm btn-default" title="Quitter le mode plein-écran"><i class="fa fa-window-minimize"></i></a>
@@ -15,41 +16,52 @@
 
         <div class="btn-group" data-ng-if="transcript.status == 'validation'">
             <button data-ng-click="admin.validation.accept.load()" class="btn btn-sm btn-success">
-                <span data-ng-if="admin.validation.accept.isLoading == false">Valider <i class="fa fa-check"></i></span>
-                <span data-ng-if="admin.validation.accept.isLoading == true">Valider <i class="fa fa-spin fa-circle-o-notch"></i></span>
+                <span data-ng-if="admin.validation.accept.loading == false">Valider <i class="fa fa-check"></i></span>
+                <span data-ng-if="admin.validation.accept.loading == true">Valider <i class="fa fa-spin fa-circle-o-notch"></i></span>
             </button>
             <button data-ng-click="admin.validation.refuse.load()" class="btn btn-sm btn-danger">
-                <span data-ng-if="admin.validation.refuse.isLoading == false">Refuser <i class="fa fa-remove"></i></span>
-                <span data-ng-if="admin.validation.refuse.isLoading == true">Refuser <i class="fa fa-spin fa-circle-o-notch"></i></span>
+                <span data-ng-if="admin.validation.refuse.loading == false">Refuser <i class="fa fa-remove"></i></span>
+                <span data-ng-if="admin.validation.refuse.loading == true">Refuser <i class="fa fa-spin fa-circle-o-notch"></i></span>
             </button>
         </div>
     </div>
-    <div data-ng-repeat="(group, type) in transcriptArea.toolbar.buttonsGroups">
-        <div class="dropdown" data-ng-if="type == 'dropdown'">
-            <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="dropdown-{{ group }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                <span class="text-capitalize">{{ group }}</span>
-                <span class="caret"></span>
+    <!-- Tags management -->
+    <div data-ng-repeat="group in transcriptArea.toolbar.buttonsGroups">
+        <div class="btn-group" role="group" data-ng-if="group.type == 'dropdown' && transcriptArea.toolbar.nbEnabledButtonsForGroup(group.id) > 0">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" id="dropdown-{{ group.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <i class="{{ group.icon }}"></i> {{ group.name }} <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdown-{{ group }}">
-                <li data-ng-repeat="button in transcriptArea.toolbar.buttons" data-ng-if="button.btn.btn_group == group">
-                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="button.type == 'tag'" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">{{ button.btn.label }}</a>
-                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addAttribute(button.btn.id)" data-ng-if="button.type == 'attribute'" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">{{ button.btn.label }}</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdown-{{ group.id }}">
+                <li data-ng-repeat="button in transcriptArea.toolbar.tags" data-ng-if="button.btn.btn_group == group.id">
+                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" title="{{ button.btn.title }}" ng-show="button.btn.enabled == true"><i class="{{ button.btn.icon }}"></i> {{ button.btn.label }}</a>
                 </li>
             </ul>
         </div>
-        <div data-ng-if="type == 'group'" class="btn-group btn-group-sm" role="group">
-            <a data-ng-repeat="button in transcriptArea.toolbar.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="(button.type == 'tag' || button.type == 'key') && button.btn.btn_group == group" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">
-                <span data-ng-if="button.btn.icon != ''"><i class="{{ button.btn.icon }}"></i></span>
-                <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>
-            </a>
-            <a data-ng-repeat="button in transcriptArea.toolbar.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addAttribute(button.btn.id)" data-ng-if="button.type == 'attribute' && button.btn.btn_group == group" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">
-                <span data-ng-if="button.btn.icon != ''"><i class="{{ button.btn.icon }}"></i></span>
-                <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>
-            </a>
-            <a data-ng-repeat="button in transcriptArea.toolbar.buttons" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="transcriptArea.ace.modal.load(button.modal.id)" data-ng-if="button.type == 'choice' && button.btn.btn_group == group" title="{{ button.btn.title }}" ng-show="button.btn.disabled == false">
-                <span data-ng-if="button.btn.icon != ''"><i class="{{ button.btn.icon }}"></i></span>
+        <div data-ng-if="group.type == 'group'" class="btn-group btn-group-sm" role="group">
+            <a data-ng-repeat="button in transcriptArea.toolbar.tags" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="button.btn.btn_group == group.id" title="{{ button.btn.title }}" ng-show="button.btn.enabled == true">
+                <span data-ng-if="button.btn.icon != '' && button.btn.label_forced == false"><i class="{{ button.btn.icon }}"></i></span>
+                <span data-ng-if="button.btn.icon != '' && button.btn.label_forced == true"><i class="{{ button.btn.icon }}"></i> {{ button.btn.label }}</span>
                 <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>
             </a>
         </div>
+    </div>
+    <!-- Attributes management -->
+    <div class="btn-group" role="group" style="margin-left: 5px;">
+        <div class="btn-group" role="group" data-ng-repeat="attribute in transcriptArea.toolbar.attributes" data-ng-if="attribute.values.length > 0">
+            <button id="dropdown-attr-{{ attribute.id }}" type="button" class="btn btn-warning btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{ attribute.id | ucfirst }} <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdown-attr-{{ attribute.id }}">
+                <li data-ng-repeat="value in attribute.values">
+                    <a data-ng-click="transcriptArea.ace.addAttribute(attribute, value)" ><span ng-if="value.label != '' && value.label != null">{{ value.label | ucfirst }}</span><span ng-if="value.label == '' || value.label == null">{{ value.value | ucfirst }}</span></a>
+                </li>
+            </ul>
+        </div>
+        <a data-ng-repeat="attribute in transcriptArea.toolbar.attributes" data-ng-if="attribute.values.length == 0" class="btn btn-sm btn-warning" data-ng-click="transcriptArea.ace.addAttribute(attribute, null)" title="{{ attribute.title }}" >
+            <!--<span data-ng-if="attribute.btn.icon != '' && attribute.btn.label_forced == false"><i class="{{ attribute.btn.icon }}"></i></span>
+            <span data-ng-if="attribute.btn.icon != '' && attribute.btn.label_forced == true"><i class="{{ attribute.btn.icon }}"></i> {{ attribute.btn.label }}</span>
+            <span data-ng-if="attribute.btn.icon == ''">{{ attribute.btn.label }}</span>-->
+            <span>{{ attribute.id | ucfirst }}</span>
+        </a>
     </div>
 </div>

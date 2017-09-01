@@ -1,14 +1,14 @@
-<div class="jumbotron">
-    <h1>Edition d'une entité</h1>
-</div>
 <div ncy-breadcrumb></div>
 
-<div flash-alert active-class="in alert" class="fade" duration="5000">
+<div flash-alert data-active-class="in alert" class="fade" data-duration="5000">
     <!-- Manually hide the alert with `hide()` -->
     <button type="button" class="close" ng-click="hide()">&times;</button>
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
+<div class="">
+    <h1>Modification d'une entité</h1>
+</div>
 <div class="row">
     <div class="col-sm-12">
         <form class="form-horizontal">
@@ -163,7 +163,7 @@
                             <div class="form-group">
                                 <label class="col-sm-4 control-label">Testateur</label>
                                 <div class="col-sm-8">
-                                    <p class="form-control-static"><a>{{ entity.will.testator.name }}</a> <a class="text-warning" ui-sref="app.thesaurus.edit({type: 'testators', id: entity.will.testator.id})"><i class="fa fa-edit"></i></a></p>
+                                    <p class="form-control-static"><a>{{ entity.will.testator.name }}</a> <a class="text-warning" ui-sref="app.taxonomy.edit({type: 'testators', id: entity.will.testator.id})"><i class="fa fa-edit"></i></a></p>
                                 </div>
                             </div>
                         </div>
