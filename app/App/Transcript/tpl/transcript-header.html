@@ -1,6 +1,26 @@
 <div class="pull-right">
-    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-files-o"></i> Autres pages <i class="fa fa-sort"></i></button>
-    <button type="button" class="btn btn-default btn-sm" data-ng-if="isAdmin() == true"><i class="fa fa-cog"></i> Changer l'état <i class="fa fa-sort"></i></button>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-files-o"></i> Autres pages <i class="fa fa-sort"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li ng-repeat="iResource in entity.resources">
+                <a ng-if="iResource.id != resource.id" ui-sref="transcript.app.edition({idEntity: entity.id, idResource: iResource.id})">{{ iResource.type | ucFirstStrict }} {{ iResource.order_in_will }}</a>
+                <a ng-if="iResource.id == resource.id" class="bg-primary">{{ iResource.type | ucFirstStrict }} {{ iResource.order_in_will }}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="btn-group" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-cog"></i> Changer l'état <i class="fa fa-sort" data-ng-if="admin.status.loading == false"></i><i class="fa fa-spin fa-circle-o-notch" data-ng-if="admin.status.loading == true"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a ng-click="admin.status.action('todo')" ng-class="(transcript.status == 'todo') ? 'bg-primary' : ''">À faire</a></li>
+            <li><a ng-click="admin.status.action('transcription')" ng-class="(transcript.status == 'transcription') ? 'bg-primary' : ''">En cours</a></li>
+            <li><a ng-click="admin.status.action('validation')" ng-class="(transcript.status == 'validation') ? 'bg-primary' : ''">À valider</a></li>
+            <li><a ng-click="admin.status.action('validated')" ng-class="(transcript.status == 'validated') ? 'bg-primary' : ''">Validé</a></li>
+        </ul>
+    </div>
 </div>
 <div>
     <h1><i class="fa fa-edit"></i> {{ entity.will.title }} - {{ resource.type | ucfirst }} {{resource.order_in_will}}</h1>

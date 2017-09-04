@@ -3,7 +3,7 @@
 angular.module('transcript.admin.entity.list', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.entity.list', {
+        $stateProvider.state('transcript.admin.entity.list', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Entity/List/List.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.entity.list', ['ui.router'])
             },
             url: '/list',
             ncyBreadcrumb: {
-                parent: 'admin.home',
+                parent: 'transcript.admin.home',
                 label: 'Liste des entités'
             },
             resolve: {

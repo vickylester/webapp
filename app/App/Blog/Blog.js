@@ -3,7 +3,7 @@
 angular.module('transcript.app.blog', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.blog', {
+        $stateProvider.state('transcript.app.blog', {
             views: {
                 "page" : {
                     templateUrl: 'App/Blog/Blog.html',
@@ -12,11 +12,11 @@ angular.module('transcript.app.blog', ['ui.router'])
             },
             url: '/blog',
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'transcript.app.home',
                 label: 'Actualités'
             },
             resolve: {
-                contents: function(ContentService, $transition$) {
+                contents: function(ContentService) {
                     return ContentService.getContents("blogContent", "public", "DESC", 30);
                 }
             }

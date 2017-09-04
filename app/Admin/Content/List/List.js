@@ -3,7 +3,7 @@
 angular.module('transcript.admin.content.list', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.content.list', {
+        $stateProvider.state('transcript.admin.content.list', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Content/List/List.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.content.list', ['ui.router'])
             },
             url: '/list',
             ncyBreadcrumb: {
-                parent: 'admin.home',
+                parent: 'transcript.admin.home',
                 label: 'Liste des contenus'
             },
             resolve: {

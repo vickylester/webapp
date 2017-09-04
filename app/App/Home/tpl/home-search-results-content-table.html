@@ -5,7 +5,7 @@
         <th>Pages</th>
     </tr>
     <tr data-ng-repeat="entity in results">
-        <td><a ui-sref="app.entity({ id: entity.id })" >{{ entity.will.testator.name }}</a></td>
+        <td><a ui-sref="transcript.app.entity({ id: entity.id })" >{{ entity.will.testator.name }}</a></td>
         <td><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></td>
         <td>{{ entity.resources.length }}</td>
     </tr>

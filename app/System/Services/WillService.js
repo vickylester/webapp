@@ -13,6 +13,9 @@ angular.module('transcript.service.will', ['ui.router'])
                     }
                 ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             }
         };

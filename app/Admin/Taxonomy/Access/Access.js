@@ -3,7 +3,7 @@
 angular.module('transcript.admin.taxonomy.access', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.taxonomy.access', {
+        $stateProvider.state('transcript.admin.taxonomy.access', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Taxonomy/Access/Access.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.taxonomy.access', ['ui.router'])
             },
             url: '/access',
             ncyBreadcrumb: {
-                parent: 'admin.home',
+                parent: 'transcript.admin.home',
                 label: 'Accès'
             },
             resolve: {

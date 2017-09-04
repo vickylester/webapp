@@ -3,7 +3,7 @@
 angular.module('transcript.app.taxonomy.list', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.taxonomy.list', {
+        $stateProvider.state('transcript.app.taxonomy.list', {
             views: {
                 "page" : {
                     templateUrl: 'App/Taxonomy/List/List.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
             },
             url: '/{type}',
             ncyBreadcrumb: {
-                parent: 'app.taxonomy.home',
+                parent: 'transcript.app.taxonomy.home',
                 label: 'Liste des {{ entity.dataType }}'
             },
             resolve: {

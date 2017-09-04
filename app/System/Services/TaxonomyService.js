@@ -5,14 +5,24 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
     .service('TaxonomyService', function($http, $rootScope) {
         return {
             getTaxonomyEntities: function(type) {
-                return $http.get($rootScope.api+"/"+type).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/"+type
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
             getTaxonomyEntity: function(type, id) {
-                return $http.get($rootScope.api+"/"+type+"/"+id).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/"+type+"/"+id
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
@@ -25,6 +35,9 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                     }
                 ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
@@ -37,6 +50,9 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                     }
                 ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
@@ -49,6 +65,9 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                     }
                 ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 

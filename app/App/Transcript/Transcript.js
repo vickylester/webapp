@@ -2,22 +2,28 @@
 
 angular.module('transcript.app.transcript', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.transcript', {
+        $stateProvider.state('transcript.app.transcript', {
             views: {
                 "page" : {
                     templateUrl: 'App/Transcript/Transcript.html',
                     controller: 'AppTranscriptCtrl'
                 },
-                "comment@app.transcript" : {
+                "comment@transcript.app.transcript" : {
                     templateUrl: 'System/Comment/tpl/Thread.html',
                     controller: 'SystemCommentCtrl'
                 }
             },
             ncyBreadcrumb: {
-                parent: 'app.edition({idEntity: entity.id, idResource: resource.id})',
+                parent: 'transcript.app.edition({idEntity: entity.id, idResource: resource.id})',
                 label: 'Transcription'
             },
             url: '/transcript/:idEntity/:idResource/:idTranscript',
+            data: {
+                permissions: {
+                    only: 'ROLE_USER',
+                    redirectTo: 'transcript.app.security.login'
+                }
+            },
             resolve: {
                 transcript: function(TranscriptService, $transition$) {
                     return TranscriptService.getTranscript($transition$.params().idTranscript);
@@ -51,7 +57,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
     }])
 
     .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiInfo', 'config', 'testators', 'places', 'regiments', function($rootScope, $scope, $http, $sce, $state, $timeout, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiInfo, config, testators, places, regiments) {
-        if($rootScope.user === undefined) {$state.go('login');}
+        if($rootScope.user === undefined) {$state.go('transcript.app.security.login');}
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
         /* -------------------------------------------------------------------------------- */
@@ -65,6 +71,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             places: places,
             regiments: regiments
         };
+        $scope.smartTEI = $rootScope.user._embedded.preferences.smart_t_e_i;
 
         $scope.page = {
             fullscreen: {
@@ -140,6 +147,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
             }
         };
         $scope.admin = {
+            status: {
+                loading: false
+            },
             validation: {
                 accept: {
                     loading: false
@@ -147,10 +157,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 refuse: {
                     loading: false
                 }
-            },
-            status: {
-                loading: false,
-                value: transcript.status
             }
         };
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
@@ -248,7 +254,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     console.log(editor.getValue());*/
 
                     console.log($scope.transcriptArea.toolbar.tags.lb.btn.enabled);
-                    if($scope.transcriptArea.toolbar.tags.lb.btn.enabled === true) {
+                    if($scope.transcriptArea.toolbar.tags.lb.btn.enabled === true && $scope.smartTEI == true) {
                         editor.insert("<lb />\n");
                     } else {
                         return false;
@@ -755,7 +761,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     $scope.submit.form.comment = "";
 
                     if(action === 'load-read' || $scope.transcript.status === "validation") {
-                        $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
+                        $state.go('transcript.app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
                     } else {
                         $scope.submit.success = true;
                         $timeout(function() { $scope.submit.success = false; }, 3000);
@@ -771,7 +777,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
          */
         $scope.submit.goBack = function() {
             if($scope.transcript.content === $scope.transcriptArea.ace.area) {
-                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
+                $state.go('transcript.app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             } else {
                 $scope.transcriptArea.ace.modal.load('goBack');
             }
@@ -782,48 +788,19 @@ angular.module('transcript.app.transcript', ['ui.router'])
          */
         $scope.submit.safeGoBack = function() {
             $scope.transcriptArea.ace.area = $scope.transcript.content;
-            $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
+            $state.go('transcript.app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
         };
         /* Submit Management -------------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Admin Management */
         /* -------------------------------------------------------------------------------- */
-        /**
-         * Admin init:
-         */
-        function adminInit() {
-            $scope.admin.status.show = false;
-        }
-
-        /**
-         * Management of status loading
-         */
-        $scope.admin.status.load = function() {
-            if($scope.admin.status.show === false) {
-                adminInit();
-                $scope.admin.status.show = true;
-            } else if($scope.admin.status.show === true) {
-                $scope.admin.status.show = false;
-            }
-        };
-
-        /**
-         * Status management
-         */
-        $scope.admin.status.submit = function() {
+        $scope.admin.status.action = function(state) {
             $scope.admin.status.loading = true;
-            $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
-                {
-                    "updateComment": "Edit status to "+$scope.admin.status.value,
-                    "status": $scope.admin.status.value
-                },
-                {headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
-            ).then(function (response) {
-                console.log(response.data);
-                $scope.transcript = response.data;
+
+            return TranscriptService.patchTranscript({status: state, updateComment: "Changing status to "+state}, $scope.transcript.id).then(function(data) {
+                $scope.transcript = data;
                 $scope.admin.status.loading = false;
-                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             });
         };
 
@@ -832,18 +809,17 @@ angular.module('transcript.app.transcript', ['ui.router'])
          */
         $scope.admin.validation.accept.load = function() {
             $scope.admin.validation.accept.loading = true;
-            $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
+            return TranscriptService.patchTranscript(
                 {
                     "content": $scope.transcriptArea.ace.area,
                     "updateComment": "Accept validation",
                     "status": "validated"
-                },
-                {headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+                }, $scope.transcript.id
             ).then(function (response) {
                 console.log(response.data);
                 $scope.transcript = response.data;
                 $scope.admin.validation.accept.loading = false;
-                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
+                $state.go('transcript.app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             });
         };
 
@@ -852,18 +828,17 @@ angular.module('transcript.app.transcript', ['ui.router'])
          */
         $scope.admin.validation.refuse.load = function() {
             $scope.admin.validation.refuse.loading = true;
-            $http.patch($rootScope.api+'/transcripts/'+$scope.transcript.id,
+            return TranscriptService.patchTranscript(
                 {
                     "content": $scope.transcriptArea.ace.area,
                     "updateComment": "Refuse validation",
                     "status": "transcription"
-                },
-                {headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+                }, $scope.transcript.id
             ).then(function (response) {
                 console.log(response.data);
                 $scope.transcript = response.data;
                 $scope.admin.validation.refuse.loading = false;
-                $state.go('app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
+                $state.go('transcript.app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             });
         };
         /* Admin Management --------------------------------------------------------------- */

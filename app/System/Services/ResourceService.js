@@ -2,7 +2,7 @@
 
 angular.module('transcript.service.resource', ['ui.router'])
 
-    .service('ResourceService', function($http, $rootScope) {
+    .service('ResourceService', function($http, $rootScope, $filter) {
         return {
             getResource: function(id_transcript) {
                 return $http.get($rootScope.api+"/resources?transcript="+id_transcript
@@ -10,6 +10,7 @@ angular.module('transcript.service.resource', ['ui.router'])
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);
+                    return response;
                 });
             },
 
@@ -35,6 +36,7 @@ angular.module('transcript.service.resource', ['ui.router'])
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);
+                    return response;
                 });
             },
 
@@ -54,7 +56,7 @@ angular.module('transcript.service.resource', ['ui.router'])
                 let arrayContributors = [];
                 for(let idV in resource['transcript']['_embedded']['version']) {
                     let version = resource['transcript']['_embedded']['version'][idV];
-                    if($.inArray(version['username'], arrayContributors) === -1) {
+                    if(!$filter('contains')(arrayContributors, version['username'])) {
                         arrayContributors.push(version['username']);
                     }
                 }

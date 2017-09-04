@@ -2,19 +2,19 @@
 
 angular.module('transcript.app.edition', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.edition', {
+        $stateProvider.state('transcript.app.edition', {
             views: {
                 "page" : {
                     templateUrl: 'App/Edition/Edition.html',
                     controller: 'AppEditionCtrl'
                 },
-                "comment@app.edition" : {
+                "comment@transcript.app.edition" : {
                     templateUrl: 'System/Comment/tpl/Thread.html',
                     controller: 'SystemCommentCtrl'
                 }
             },
             ncyBreadcrumb: {
-                parent: 'app.entity({id: entity.id})',
+                parent: 'transcript.app.entity({id: entity.id})',
                 label: '{{ resource.type | ucfirst }} {{resource.order_in_will}}'
             },
             url: '/edition/:idEntity/:idResource',
@@ -68,12 +68,28 @@ angular.module('transcript.app.edition', ['ui.router'])
         /* -- Modal Login management ------------------------------------------------------- */
         $scope.goRegister = function() {
             $('#loginModal').modal('hide');
-            $state.go('app.security.register');
+            $state.go('transcript.app.security.register');
         };
         $scope.goLogin = function() {
             $('#loginModal').modal('hide');
-            $state.go('app.security.login');
+            $state.go('transcript.app.security.login');
         };
         /* -- Modal Login management ------------------------------------------------------- */
+
+        /* -- Admin management ------------------------------------------------------------- */
+        $scope.admin = {
+            status: {
+                loading: false
+            }
+        };
+        $scope.admin.status.action = function(state) {
+            $scope.admin.status.loading = true;
+
+            return TranscriptService.patchTranscript({status: state, updateComment: "Changing status to "+state}, $scope.resource.transcript.id).then(function(data) {
+                $scope.resource.transcript.status = data.status;
+                $scope.admin.status.loading = false;
+            });
+        };
+        /* -- Admin management ------------------------------------------------------------- */
     }])
 ;

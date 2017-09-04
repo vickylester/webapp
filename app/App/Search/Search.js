@@ -3,7 +3,7 @@
 angular.module('transcript.app.search', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.search', {
+        $stateProvider.state('transcript.app.search', {
             views: {
                 "page" : {
                     templateUrl: 'App/Search/Search.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.search', ['ui.router'])
             },
             url: '/search',
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'transcript.app.home',
                 label: 'Recherche'
             },
             resolve: {

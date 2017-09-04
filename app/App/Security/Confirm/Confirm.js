@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.confirm', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security.confirm', {
+        $stateProvider.state('transcript.app.security.confirm', {
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Confirm/Confirm.html',

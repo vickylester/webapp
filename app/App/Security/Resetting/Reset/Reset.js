@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.resetting.reset', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security.resetting.reset', {
+        $stateProvider.state('transcript.app.security.resetting.reset', {
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Resetting/Reset/Reset.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.security.resetting.reset', ['ui.router'])
             },
             url: '/form/{token}',
             ncyBreadcrumb: {
-                parent: 'app.security.login',
+                parent: 'transcript.app.security.login',
                 label: 'Mot de passe oublié'
             },
             requireLogin: false

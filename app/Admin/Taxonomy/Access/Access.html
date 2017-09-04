@@ -20,7 +20,7 @@
             </tr>
             <tr ng-repeat="access in accesses | filterTaxonomyAsk">
                 <td>{{ $index+1 }}</td>
-                <td><a ui-sref="app.user.profile({id: access.user.id})">{{ access.user.name }}</a></td>
+                <td><a ui-sref="transcript.app.user.profile({id: access.user.id})">{{ access.user.name }}</a></td>
                 <td>{{ access.taxonomy_request }}</td>
                 <td>
                     <div class="btn-group">

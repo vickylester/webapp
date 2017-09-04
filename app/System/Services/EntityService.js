@@ -5,14 +5,24 @@ angular.module('transcript.service.entity', ['ui.router'])
     .service('EntityService', function($http, $rootScope, ResourceService) {
         return {
             getEntities: function() {
-                return $http.get($rootScope.api+"/entities").then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/entities"
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
             getEntity: function(id) {
-                return $http.get($rootScope.api+"/entities/"+id).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/entities/"+id
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
@@ -25,6 +35,9 @@ angular.module('transcript.service.entity', ['ui.router'])
                     }
                 ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
@@ -37,12 +50,20 @@ angular.module('transcript.service.entity', ['ui.router'])
                     }
                 ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 
             exportEntity: function(id) {
-                return $http.get($rootScope.api+"/xml?context=export&type=entity&id="+id).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/xml?context=export&type=entity&id="+id
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
 

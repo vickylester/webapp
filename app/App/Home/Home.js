@@ -3,7 +3,7 @@
 angular.module('transcript.app.home', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.home', {
+        $stateProvider.state('transcript.app.home', {
             views: {
                 "page" : {
                     templateUrl: 'App/Home/Home.html',

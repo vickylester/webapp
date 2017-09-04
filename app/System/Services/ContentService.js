@@ -19,17 +19,27 @@ angular.module('transcript.service.content', ['ui.router'])
                 if(onHomepage !== undefined && onHomepage !== null) {onHomepageContainer = "onhomepage="+onHomepage; arrayContainer.push(onHomepageContainer);}
                 let query = arrayContainer.join("&");
 
-                return $http.get($rootScope.api+"/contents?"+query).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/contents?"+query
+                ).then(function(response) {
                     for(let id in response.data) {
                         response.data[id].content = $sce.trustAsHtml(response.data[id].content);
                     }
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getContent: function(id, encode) {
-                return $http.get($rootScope.api+"/contents/"+id).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/contents/"+id
+                ).then(function(response) {
                     if(encode === true) {response.data.content = $sce.trustAsHtml(response.data.content);}
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             }
         };

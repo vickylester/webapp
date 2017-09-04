@@ -2,8 +2,8 @@
 <div class="well">
     <div class="row">
         <div class="col-xs-12">
-            <div class="pull-right" data-ng-if="isAdmin() == true">
-                <a class="btn btn-default" ui-sref="admin.content.edit({id: content.id})"><i class="fa fa-edit"></i> Modifier cette page</a>
+            <div class="pull-right" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+                <a class="btn btn-default" ui-sref="transcript.admin.content.edit({id: content.id})"><i class="fa fa-edit"></i> Modifier cette page</a>
             </div>
             <strong>{{ content.type | contentTypeName}}</strong>
         </div>
@@ -28,7 +28,7 @@
                 <div class="pull-right">
                     <p>Publié le <span data-ng-bind="content.create_date |  date:'MM/dd/yyyy à HH:mm'"></span></p>
                 </div>
-                <strong><a ui-sref="app.user.profile({id: content.user_name.id})">{{ content.create_user.name }}</a></strong>
+                <strong><a ui-sref="transcript.app.user.profile({id: content.user_name.id})">{{ content.create_user.name }}</a></strong>
             </div>
             <div data-ng-bind-html="content.content"></div>
             <div data-ng-if="content.type == 'blogContent'">

@@ -4,7 +4,7 @@ angular.module('transcript.app.user.profile', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('app.user.profile', {
+            .state('transcript.app.user.profile', {
                 views: {
                     "page" : {
                         templateUrl: 'App/User/Profile/Profile.html',
@@ -13,7 +13,7 @@ angular.module('transcript.app.user.profile', ['ui.router'])
                 },
                 url: '/profile/{id}',
                 ncyBreadcrumb: {
-                    parent: 'app.home',
+                    parent: 'transcript.app.home',
                     label: '{{ iUser.name }}'
                 },
                 requireLogin: true,
@@ -25,7 +25,7 @@ angular.module('transcript.app.user.profile', ['ui.router'])
             })
     }])
 
-    .controller('AppUserProfileCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'EntityService', 'ImageService', function($rootScope, $scope, $http, $sce, $state, userEdit, EntityService, ImageService) {
+    .controller('AppUserProfileCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$filter', 'userEdit', 'EntityService', 'ImageService', function($rootScope, $scope, $http, $sce, $state, $filter, userEdit, EntityService, ImageService) {
         console.log($rootScope.user);
         console.log(userEdit);
 
@@ -35,7 +35,7 @@ angular.module('transcript.app.user.profile', ['ui.router'])
             $scope.context = "view";
         } else if($rootScope.user.id === $scope.iUser.id) {
             $scope.context = "self";
-        } else if($rootScope.user.id !== $scope.iUser.id && $rootScope.user.isAdmin === true) {
+        } else if($rootScope.user.id !== $scope.iUser.id && ($filter('contains')($rootScope.user.roles, "ROLE_ADMIN") || $filter('contains')($rootScope.user.roles, "ROLE_MODO"))) {
             $scope.context = "admin";
         }
 

@@ -5,13 +5,36 @@ angular.module('transcript.service.transcript', ['ui.router'])
     .service('TranscriptService', function($http, $rootScope) {
         return {
             getTranscripts: function() {
-                return $http.get($rootScope.api+"/transcripts").then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/transcripts"
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getTranscript: function(id) {
-                return $http.get($rootScope.api+"/transcripts/"+id).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/transcripts/"+id
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
+                });
+            },
+            patchTranscript: function(form, id) {
+                return $http.patch(
+                    $rootScope.api+"/transcripts/"+id,
+                    form,
+                    { headers:  { 'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+                ).then(function(response) {
+                    console.log(response);
+                    return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getTranscriptRights: function(user) {
@@ -187,8 +210,13 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 }
             },
             getTeiInfo: function() {
-                return $http.get($rootScope.api+"/model?elements=true&info=full").then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/model?elements=true&info=full"
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             }
         };

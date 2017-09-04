@@ -8,11 +8,11 @@
     <div data-ng-if="status == 200">
         <h1>Bienvenue sur {{ preferences.project_title }} !</h1>
         <p>Votre compte est désormais actif.</p>
-        <p><a ui-sref="app.security.login">Me connecter</a></p>
+        <p><a ui-sref="transcript.app.security.login">Me connecter</a></p>
     </div>
     <div data-ng-if="status != 200">
         <h2>Valeur incorrecte</h2>
         <p>La valeur proposée est incorrecte</p>
-        <p><a ui-sref="app.home">Retour à l'accueil</a></p>
+        <p><a ui-sref="transcript.app.home">Retour à l'accueil</a></p>
     </div>
 </div>

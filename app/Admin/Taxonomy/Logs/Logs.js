@@ -3,7 +3,7 @@
 angular.module('transcript.admin.taxonomy.logs', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.taxonomy.logs', {
+        $stateProvider.state('transcript.admin.taxonomy.logs', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Taxonomy/Logs/Logs.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.taxonomy.logs', ['ui.router'])
             },
             url: '/logs',
             ncyBreadcrumb: {
-                parent: 'admin.home',
+                parent: 'transcript.admin.home',
                 label: 'Historique des modifications'
             },
             resolve: {

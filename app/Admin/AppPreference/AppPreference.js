@@ -4,7 +4,7 @@ angular.module('transcript.admin.preference', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('admin.preference', {
+            .state('transcript.admin.preference', {
                 views: {
                     "page" : {
                         templateUrl: 'Admin/AppPreference/AppPreference.html',
@@ -13,7 +13,7 @@ angular.module('transcript.admin.preference', ['ui.router'])
                 },
                 url: '/preferences',
                 ncyBreadcrumb: {
-                    parent: 'admin.home',
+                    parent: 'transcript.admin.home',
                     label: 'Préférence système'
                 }
             })
@@ -48,7 +48,7 @@ angular.module('transcript.admin.preference', ['ui.router'])
                 ).then(function(data) {
                     $rootScope.preferences = data;
                     $scope.submit.loading = false;
-                    $state.go('admin.home');
+                    $state.go('transcript.admin.home');
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {

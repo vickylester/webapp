@@ -3,7 +3,7 @@
     <div class="col-md-3" data-ng-repeat="entity in iUser._embedded.contributions">
         <div class="thumbnail">
             <div class="text-center"><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
-            <a ui-sref="app.entity({ id: entity.id })" >
+            <a ui-sref="transcript.app.entity({ id: entity.id })" >
                 <img src="{{ imageService.getThumbnail(entity) }}" class="img-250" />
             </a>
             <div class="text-right"><span class="label label-info" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span></div>

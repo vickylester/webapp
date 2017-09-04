@@ -3,7 +3,7 @@
 angular.module('transcript.app.taxonomy', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.taxonomy', {
+        $stateProvider.state('transcript.app.taxonomy', {
             abstract: true,
             views: {
                 "page" : {

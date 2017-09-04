@@ -4,7 +4,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('admin.content.new', {
+            .state('transcript.admin.content.new', {
                 views: {
                     "page" : {
                         templateUrl: 'Admin/Content/Edit/Edit.html',
@@ -13,7 +13,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 },
                 url: '/new',
                 ncyBreadcrumb: {
-                    parent: 'admin.content.list',
+                    parent: 'transcript.admin.content.list',
                     label: 'Nouveau contenu'
                 },
                 resolve: {
@@ -22,7 +22,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     }
                 }
             })
-            .state('admin.content.edit', {
+            .state('transcript.admin.content.edit', {
                 views: {
                     "page" : {
                         templateUrl: 'Admin/Content/Edit/Edit.html',
@@ -31,7 +31,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 },
                 url: '/edit/:id',
                 ncyBreadcrumb: {
-                    parent: 'app.content({id: content.id})',
+                    parent: 'transcript.app.content({id: content.id})',
                     label: 'Edition'
                 },
                 resolve: {
@@ -113,7 +113,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     flash.success = $sce.trustAsHtml(flash.success);
                     $scope.submit.loading = false;
                     $scope.submit.success = true;
-                    $state.go('app.content', {id: response.data.id});
+                    $state.go('transcript.app.content', {id: response.data.id});
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {
@@ -172,7 +172,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 flash.success = "Votre contenu a bien été supprimé";
                 flash.success = $sce.trustAsHtml(flash.success);
                 $scope.submit.loading = false;
-                $state.go('admin.content.list');
+                $state.go('transcript.admin.content.list');
             }, function errorCallback(response) {
                 $scope.validation.loading = false;
                 console.log(response);

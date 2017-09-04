@@ -3,7 +3,7 @@
 angular.module('transcript.admin.entity.edit', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.entity.edit', {
+        $stateProvider.state('transcript.admin.entity.edit', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Entity/Edit/Edit.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             },
             url: '/edit/:id',
             ncyBreadcrumb: {
-                parent: 'app.entity({id: entity.id})',
+                parent: 'transcript.app.entity({id: entity.id})',
                 label: 'Edition'
             },
             resolve: {
@@ -27,7 +27,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
     }])
 
     .controller('AdminEntityEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'flash', 'EntityService', 'places', function($rootScope, $scope, $http, $sce, $state, entity, flash, EntityService, places) {
-        if(entity === null) {$state.go('error.404');}
+        if(entity === null) {$state.go('transcript.error.404');}
         else {$scope.entity = entity;}
         console.log($scope.entity);
         $scope.places = places;
@@ -115,7 +115,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             }).then(function (response) {
                 console.log(response.data);
                 $scope.submit.loading = true;
-                $state.go('app.entity', {id: response.data.id});
+                $state.go('transcript.app.entity', {id: response.data.id});
             }, function errorCallback(response) {
                 if(response.data.code === 400) {
                     flash.error = "<ul>";
@@ -145,7 +145,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
                 return EntityService.removeEntity($scope.entity.id).
                 then(function(data) {
                     $scope.remove.loading = false;
-                    $state.go('admin.entity.list');
+                    $state.go('transcript.admin.entity.list');
                 }, function errorCallback(response) {
                     if(response.data.code === 400) {
                         flash.error = "<ul>";

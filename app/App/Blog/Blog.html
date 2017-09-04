@@ -12,9 +12,9 @@
     <div class="row">
         <div class="col-sm-8">
             <div data-ng-repeat="article in contents">
-                <h3><a ui-sref="app.content({ id: article.id })" >{{ article.title }}</a></h3>
+                <h3><a ui-sref="transcript.app.content({ id: article.id })" >{{ article.title }}</a></h3>
                 <div data-ng-bind-html="article.content | limitTo: 1000"></div>
-                <a ui-sref="app.content({ id: article.id })" >Lire la suite ...</a>
+                <a ui-sref="transcript.app.content({ id: article.id })" >Lire la suite ...</a>
             </div>
         </div>
         <div class="col-sm-4"></div>

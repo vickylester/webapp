@@ -3,7 +3,7 @@
 angular.module('transcript.admin.content', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.content', {
+        $stateProvider.state('transcript.admin.content', {
             abstract: true,
             views: {
                 "page" : {

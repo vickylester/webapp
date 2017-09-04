@@ -3,7 +3,7 @@
 angular.module('transcript.app.taxonomy.ask', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.taxonomy.ask', {
+        $stateProvider.state('transcript.app.taxonomy.ask', {
             views: {
                 "page" : {
                     templateUrl: 'App/Taxonomy/Ask/Ask.html',
@@ -12,15 +12,15 @@ angular.module('transcript.app.taxonomy.ask', ['ui.router'])
             },
             url: '/access',
             ncyBreadcrumb: {
-                parent: 'app.taxonomy.home',
+                parent: 'transcript.app.taxonomy.home',
                 label: 'Demande d\'accès'
             }
         })
     }])
 
     .controller('AppTaxonomyAskCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'AccessService', '$filter', function($rootScope, $scope, $http, $sce, $state, flash, AccessService, $filter) {
-        if($rootScope.user === undefined) {$state.go('error.403');}
-        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === true) {$state.go('app.taxonomy.home');}
+        if($rootScope.user === undefined) {$state.go('transcript.error.403');}
+        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === true) {$state.go('transcript.app.taxonomy.home');}
 
         $scope.context = 'ask';
         $scope.form = {

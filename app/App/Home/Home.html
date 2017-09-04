@@ -26,13 +26,13 @@
         <div class="col-sm-8">
             <div ng-include="'App/Home/tpl/home-search.html'"></div>
 
-            <h3><a ui-sref="app.blog">Actualités</a></h3>
+            <h3><a ui-sref="transcript.app.blog">Actualités</a></h3>
             <div data-ng-repeat="article in contents">
-                <h3><a ui-sref="app.content({ id: article.id })" >{{ article.title }}</a></h3>
+                <h3><a ui-sref="transcript.app.content({ id: article.id })" >{{ article.title }}</a></h3>
                 <div data-ng-bind-html="article.content | limitTo: 1000"></div>
-                <a ui-sref="app.content({ id: article.id })" >Lire la suite ...</a>
+                <a ui-sref="transcript.app.content({ id: article.id })" >Lire la suite ...</a>
             </div>
-            <div class="text-center"><a ui-sref="app.blog">Accéder à plus d'articles</a></div>
+            <div class="text-center"><a ui-sref="transcript.app.blog">Accéder à plus d'articles</a></div>
         </div>
     </div>
 </div>

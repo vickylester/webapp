@@ -22,8 +22,8 @@
     </tr>
     <tr data-ng-repeat="content in contents">
         <td>{{ $index+1 }}</td>
-        <td><a ui-sref="admin.content.edit({id: content.id})"><i class="fa fa-edit"></i></a></td>
-        <td><a ui-sref="app.content({id: content.id})">{{ content.title }}</a></td>
+        <td><a ui-sref="transcript.admin.content.edit({id: content.id})"><i class="fa fa-edit"></i></a></td>
+        <td><a ui-sref="transcript.app.content({id: content.id})">{{ content.title }}</a></td>
         <td>{{ content.type }}</td>
         <td>{{ content.status }}</td>
         <td>{{ content.author.name }}</td>

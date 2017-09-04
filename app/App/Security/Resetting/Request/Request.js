@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.resetting.request', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security.resetting.request', {
+        $stateProvider.state('transcript.app.security.resetting.request', {
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Resetting/Request/Request.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.security.resetting.request', ['ui.router'])
             },
             url: '/request',
             ncyBreadcrumb: {
-                parent: 'app.security.login',
+                parent: 'transcript.app.security.login',
                 label: 'Mot de passe oublié'
             }
         })
@@ -34,7 +34,7 @@ angular.module('transcript.app.security.resetting.request', ['ui.router'])
                 return UserService.askReset($scope.form.email).
                 then(function(data) {
                     if(data === true) {
-                        $state.go("app.security.resetting.check");
+                        $state.go("transcript.app.security.resetting.check");
                     }
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;

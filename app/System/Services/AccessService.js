@@ -10,16 +10,30 @@ angular.module('transcript.service.access', ['ui.router'])
                 }
                 }).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    //if()
+                    return response;
                 });
             },
             getAccessByUser: function(userId) {
-                return $http.get($rootScope.api+"/accesses?user="+userId).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/accesses?user="+userId
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getAccess: function(id) {
-                return $http.get($rootScope.api+"/accesses/"+id).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/accesses/"+id
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             patchAccess: function(form, accessId) {

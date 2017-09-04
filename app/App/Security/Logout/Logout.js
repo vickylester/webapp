@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.logout', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security.logout', {
+        $stateProvider.state('transcript.app.security.logout', {
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Logout/Logout.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.security.logout', ['ui.router'])
             },
             url: '/logout',
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'transcript.app.home',
                 label: 'Déconnexion'
             }
         })
@@ -27,9 +27,7 @@ angular.module('transcript.app.security.logout', ['ui.router'])
             $cookies.remove('transcript_security_token_access');
             $cookies.remove('transcript_security_token_type');
             $cookies.remove('transcript_security_token_refresh');
-            $state.go('app.home');
-        } else {
-            $state.go('app.home');
         }
+        $state.go('transcript.app.home');
     }])
 ;

@@ -3,7 +3,7 @@
 angular.module('transcript.admin.user.list', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.user.list', {
+        $stateProvider.state('transcript.admin.user.list', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/User/List/List.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.user.list', ['ui.router'])
             },
             url: '/list',
             ncyBreadcrumb: {
-                parent: 'admin.home',
+                parent: 'transcript.admin.home',
                 label: 'Liste des utilisateurs'
             },
             resolve: {

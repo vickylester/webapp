@@ -10,7 +10,7 @@
 
         <div class="jumbotron text-center">
             <h1>Sélectionnez votre entrée dans la liste</h1>
-            <p ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'"><a ui-sref="app.taxonomy.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
+            <p ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'"><a ui-sref="transcript.app.taxonomy.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
         </div>
     </div>
     <div class="col-sm-4" data-ng-include="'App/Taxonomy/tpl/entities.html'"></div>

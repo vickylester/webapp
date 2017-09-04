@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.check', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security.check', {
+        $stateProvider.state('transcript.app.security.check', {
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Check/Check.html',

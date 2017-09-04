@@ -4,6 +4,7 @@ angular.module('transcriptApp', [
         'ui.router',
         'ui.ace',
         'ngRoute',
+        'ngAnimate',
         'ngCookies',
         'ckeditor',
         'http-auth-interceptor',
@@ -17,6 +18,10 @@ angular.module('transcriptApp', [
         'leaflet-directive',
         'angular.filter',
         'prettyXml',
+        'permission',
+        'permission.ui',
+        'angular-loading-bar',
+        'transcript',
         'transcript.admin',
         'transcript.admin.content',
         'transcript.admin.content.edit',
@@ -71,18 +76,27 @@ angular.module('transcriptApp', [
         'transcript.system.error',
         'transcript.system.error.403',
         'transcript.system.error.404',
-        'transcript.system.footer',
-        'transcript.system.navbar',
+        'transcript.directive.compile',
+        'transcript.directive.mwConfirmClick',
+        'transcript.filter.classicDate',
+        'transcript.filter.contentTypeName',
+        'transcript.filter.organisationName',
+        'transcript.filter.taxonomyName',
+        'transcript.filter.transcriptionStatusName',
+        'transcript.filter.ucFirstStrict',
         'transcript.service.access',
+        'transcript.service.app',
         'transcript.service.comment',
         'transcript.service.contact',
         'transcript.service.content',
         'transcript.service.entity',
+        'transcript.service.image',
         'transcript.service.resource',
         'transcript.service.search',
         'transcript.service.taxonomy',
         'transcript.service.transcript',
         'transcript.service.user',
+        'transcript.service.user-preference',
         'transcript.service.will'
     ]).
     config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$injector', 'flashProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider, $injector, flashProvider) {
@@ -95,7 +109,8 @@ angular.module('transcriptApp', [
         flashProvider.successClassnames.push('alert-success');
 
     }])
-    .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', function($rootScope, $http, $injector, $location, authService, $state, $cookies) {
+    .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', '$filter', 'PermRoleStore', 'PermPermissionStore', 'UserService', function($rootScope, $http, $injector, $location, authService, $state, $cookies, $filter, PermRoleStore, PermPermissionStore, UserService) {
+        /* -- Parameters management ------------------------------------------------------ */
         let parameters = YAML.load('parameters.yml');
         $rootScope.api = parameters.api;
         $rootScope.api_web = parameters.api_web;
@@ -106,7 +121,9 @@ angular.module('transcriptApp', [
         $rootScope.siteURL = parameters.siteURL;
         $rootScope.client_id = parameters.client_id;
         $rootScope.client_secret = parameters.client_secret;
+        /* -- End : Parameters management ------------------------------------------------ */
 
+        /* -- Token management ----------------------------------------------------------- */
         if($cookies.get('transcript_security_token_access') !== undefined) {
             $rootScope.oauth = {
                 access_token: $cookies.get('transcript_security_token_access'),
@@ -114,132 +131,50 @@ angular.module('transcriptApp', [
                 token_type: $cookies.get('transcript_security_token_type')
             };
         }
+        /* -- Token management ------------------------------------------------------ */
 
-        $rootScope.isAdmin = function() {
-            if($rootScope.user === undefined) {return false;}
-
-            return ($.inArray("ROLE_ADMIN", $rootScope.user.roles) !== -1);
-        };
-    }])
-    .directive('compile', ['$compile', function ($compile) {
-        return function (scope, element, attrs) {
-            scope.$watch(
-                function (scope) {
-                    return scope.$eval(attrs.compile);
-                },
-                function (value) {
-                    element.html(value);
-                    $compile(element.contents())(scope);
-                }
-            )
-        }
-    }])
-    .directive( "mwConfirmClick", [
-        function( ) {
-            return {
-                priority: -1,
-                restrict: 'A',
-                scope: { confirmFunction: "&mwConfirmClick" },
-                link: function( scope, element, attrs ){
-                    element.bind( 'click', function( e ){
-                        // message defaults to "Are you sure?"
-                        let message = attrs.mwConfirmClickMessage ? attrs.mwConfirmClickMessage : "Are you sure?";
-                        // confirm() requires jQuery
-                        if( confirm( message ) ) {
-                            scope.confirmFunction();
-                        }
+        PermPermissionStore
+            .definePermission('adminAccess', function () {
+                if($rootScope.user !== undefined) {
+                    return ($rootScope.user !== undefined && $filter('contains')($rootScope.user.roles, 'ROLE_ADMIN'));
+                } else {
+                    return UserService.getCurrent().then(function() {
+                        console.log(!!($rootScope.user !== undefined && $filter('contains')($rootScope.user.roles, 'ROLE_ADMIN')));
+                        return ($rootScope.user !== undefined && $rootScope.user.roles !== undefined && $filter('contains')($rootScope.user.roles, 'ROLE_ADMIN'));
                     });
                 }
-            }
-        }
-    ])
-    .filter('classicDate', [function() {
-        return function (dateStr) {
-            let date = new Date(dateStr);
-            let monthNames = [ 'janvier', 'février', 'mars', 'avril', 'mai', 'juin',
-                'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre' ];
+            });
+        PermPermissionStore
+            .definePermission('transcriptAccess', function () {
+                if($rootScope.user !== undefined) {
+                    return ($rootScope.user !== undefined);
+                } else {
+                    return UserService.getCurrent().then(function() {
+                        console.log($rootScope.user);
+                        return ($rootScope.user !== undefined);
+                    });
+                }
+            });
 
+        PermRoleStore
+            .defineManyRoles({
+                'ROLE_ADMIN': ['adminAccess', 'transcriptAccess'],
+                'ROLE_USER': ['transcriptAccess']
+            });
 
-            return date.getDate() + " " + monthNames[date.getMonth()] + " " + date.getFullYear();
-        }
-    }])
-    .filter('organisationName', [function() {
-        return function (organisationAbbr) {
-            let organisationName = "";
-            switch(organisationAbbr) {
-                case "AN":
-                    organisationName = "Archives nationales";
-                    break;
-                case "AD78":
-                    organisationName = "Archives départementales des Yvelines";
-                    break;
-                default:
-                    organisationName = "Organisation inconnue";
-            }
-            return organisationName;
-        }
-    }])
-    .filter('transcriptionStatusName', [function() {
-        return function (transcriptionStatusID) {
-            let transcriptionStatusName = "";
-            switch(transcriptionStatusID) {
-                case "todo":
-                    transcriptionStatusName = "À faire";
-                    break;
-                case "transcription":
-                    transcriptionStatusName = "En cours";
-                    break;
-                case "validation":
-                    transcriptionStatusName = "En validation";
-                    break;
-                case "validated":
-                    transcriptionStatusName = "Validé";
-                    break;
-                default:
-                    transcriptionStatusName = "Inconnu";
-            }
-            return transcriptionStatusName;
-        }
-    }])
-    .filter('contentTypeName', [function() {
-        return function (contentStatusId) {
-            let contentTypeName = "";
-            switch(contentStatusId) {
-                case "blogContent":
-                    contentTypeName = "Article";
-                    break;
-                case "helpContent":
-                    contentTypeName = "Page d'aide";
-                    break;
-                case "staticContent":
-                    contentTypeName = "Page";
-                    break;
-                default:
-                    contentTypeName = "Inconnu";
-            }
-            return contentTypeName;
-        }
-    }])
-    .filter('taxonomyName', [function() {
-        return function (taxonomyId) {
-            let taxonomyName = "";
-            switch(taxonomyId) {
-                case "testators":
-                    taxonomyName = "testateur";
-                    break;
-                case "places":
-                    taxonomyName = "lieu";
-                    break;
-                case "regiments":
-                    taxonomyName = "régiment";
-                    break;
-                default:
-                    taxonomyName = "Inconnu";
-            }
-            return taxonomyName;
-        }
-    }]);
+        /* Loader */
+        /*$rootScope
+            .$on('$stateChangeStart',
+                function(event, toState, toParams, fromState, fromParams){
+                    $("#pageContainer").addClass("hidden");
+                    $("#pageLoader").removeClass("hidden");
+                });
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
+        $rootScope
+            .$on('$stateChangeSuccess',
+                function(event, toState, toParams, fromState, fromParams){
+                    $("#pageContainer").removeClass("hidden");
+                    $("#pageLoader").addClass("hidden");
+                });*/
+    }])
+;

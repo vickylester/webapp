@@ -3,7 +3,7 @@
 angular.module('transcript.admin.entity.import', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.entity.import', {
+        $stateProvider.state('transcript.admin.entity.import', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Entity/Import/Import.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
             },
             url: '/import',
             ncyBreadcrumb: {
-                parent: 'admin.entity.list',
+                parent: 'transcript.admin.entity.list',
                 label: 'Importation'
             },
             resolve: {
@@ -201,7 +201,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
 
                 return EntityService.postEntity($scope.entity).then(function(data) {
                     $scope.form.submit.loading = false;
-                    $state.go('app.entity', {id: data.id});
+                    $state.go('transcript.app.entity', {id: data.id});
                 }, function errorCallback(response) {
                     $scope.form.submit.loading = false;
                     if(response.data.code === 400) {

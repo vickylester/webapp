@@ -10,28 +10,51 @@
     <h1>Edition des préférences</h1>
 
     <form class="form-horizontal">
-        <div class="form-group">
-            <label for="app_user_preference_transcriptionDeskPosition" class="control-label col-sm-3">Affichage de l'interface de transcription</label>
-            <div class="col-sm-9">
-                <select id="app_user_preference_transcriptionDeskPosition" name="app_user_preference_transcriptionDeskPosition" class="form-control" data-ng-model="form.transcription_desk_position">
-                    <option value="" disabled>Sélectionnez ...</option>
-                    <option value="leftRead-centerHelp-rightImage">Écrire à gauche - Aide au centre - Image à droite</option>
-                    <option value="leftRead-centerImage-rightHelp">Écrire à gauche - Image au centre - Aide à droite</option>
-                    <option value="leftHelp-centerRead-rightImage">Aide à gauche - Écrire au centre - Image à droite</option>
-                    <option value="leftHelp-centerImage-rightRead">Aide à gauche - Image au centre - Écrire à droite</option>
-                    <option value="leftImage-centerHelp-rightRead">Image à gauche - Aide au centre - Écrire à droite</option>
-                    <option value="leftImage-centerRead-rightHelp">Image à gauche - Écrire au centre - Aide à droite</option>
-                </select>
-            </div>
-        </div>
+        <fieldset>
+            <label>Préférences de transcription</label>
 
-        <hr />
+            <div class="form-group">
+                <label for="app_user_preference_transcriptionDeskPosition" class="control-label col-sm-3">Affichage de l'interface de transcription</label>
+                <div class="col-sm-9">
+                    <select id="app_user_preference_transcriptionDeskPosition" name="app_user_preference_transcriptionDeskPosition" class="form-control" data-ng-model="form.transcriptionDeskPosition">
+                        <option value="" disabled>Sélectionnez ...</option>
+                        <option value="leftRead-centerHelp-rightImage">Écrire à gauche - Aide au centre - Image à droite</option>
+                        <option value="leftRead-centerImage-rightHelp">Écrire à gauche - Image au centre - Aide à droite</option>
+                        <option value="leftHelp-centerRead-rightImage">Aide à gauche - Écrire au centre - Image à droite</option>
+                        <option value="leftHelp-centerImage-rightRead">Aide à gauche - Image au centre - Écrire à droite</option>
+                        <option value="leftImage-centerHelp-rightRead">Image à gauche - Aide au centre - Écrire à droite</option>
+                        <option value="leftImage-centerRead-rightHelp">Image à gauche - Écrire au centre - Aide à droite</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-sm-3">SmartTEI</label>
+                <div class="col-sm-9">
+                    <label class="radio-inline">
+                        <input type="radio" value="true" ng-model="form.smartTEI"> Activé
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" value="false" ng-model="form.smartTEI"> Désactivé
+                    </label>
+                    <p class="help-block">SmartTEI améliore votre expérience utilisateur en automatisant certaines tâches d'encodage de vos transcriptions en TEI comme l'ajout de balise <code>&lt;lb /&gt;</code> lorsque vous faites un retour à la ligne.</p>
+                </div>
+            </div>
+        </fieldset>
+
+        <div class="text-center">
+            <button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Sauvegarder mes préférences <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+        </div>
+    </form>
+
+    <fieldset>
+        <label>Autres actions</label>
 
         <div class="form-group">
             <label class="control-label col-sm-3">Suppression</label>
             <div class="col-sm-9">
-                <button class="btn btn-danger">Supprimer mon compte <i class="fa fa-remove"></i></button>
+                <button class="btn btn-danger"><i class="fa fa-warning"></i> Supprimer mon compte <i class="fa fa-remove"></i></button>
             </div>
-            <div class="text-center"><button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Edit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button></div>
-    </form>
+        </div>
+    </fieldset>
 </div>

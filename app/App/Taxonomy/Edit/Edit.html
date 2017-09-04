@@ -50,7 +50,7 @@
             </div>
         </form>
 
-        <div class="panel panel-danger" data-ng-if="user.isAdmin == true">
+        <div class="panel panel-danger" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
             <div class="panel-heading">
                 <h3 class="panel-title">Danger area</h3>
             </div>

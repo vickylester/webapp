@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="web/custom/css/style.css" type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="web/libraries/angular/angucomplete/angucomplete.css" type="text/css" />
+    <link rel='stylesheet' href='web/libraries/angular/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
 
     <link rel="stylesheet" href="//unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
 
@@ -74,7 +75,10 @@
     <header ui-view="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style=""></header>
 
     <section class="container-fluid" style="margin-top: 70px; margin-bottom: 50px;" id="sectionContent">
-        <div ui-view="page"></div>
+        <!--<div id="pageLoader" class="text-center" style="margin-top: 10%;">
+            <i class="fa fa-spin fa-5x fa-circle-o-notch"></i>
+        </div>-->
+        <div id="pageContainer" ui-view="page"></div>
     </section>
 
     <footer ui-view="footer"></footer>
@@ -82,6 +86,7 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.min.js"></script>
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-cookies.js"></script>
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
     <script type="text/javascript" src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -92,6 +97,10 @@
     <script type="text/javascript" src="web/libraries/angular/angucomplete/angucomplete.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angular-filter/dist/angular-filter.min.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angular-pretty-xml/src/angular-pretty-xml.js"></script>
+    <script type='text/javascript' src='web/libraries/angular/angular-loading-bar/build/loading-bar.min.js'></script>
+
+    <script type="text/javascript" src="web/libraries/angular/angular-permission/dist/angular-permission.js"></script>
+    <script type="text/javascript" src="web/libraries/angular/angular-permission/dist/angular-permission-ui.js"></script>
 
     <script src="//unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
     <script type="text/javascript" src="web/libraries/angular/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
@@ -121,6 +130,7 @@
     -->
 
     <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="Transcript/Transcript.js"></script>
     <script type="text/javascript" src="Admin/Admin.js"></script>
     <script type="text/javascript" src="Admin/AppPreference/AppPreference.js"></script>
     <script type="text/javascript" src="Admin/Content/Content.js"></script>
@@ -175,18 +185,27 @@
     <script type="text/javascript" src="System/Error/Error.js"></script>
     <script type="text/javascript" src="System/Error/403/403.js"></script>
     <script type="text/javascript" src="System/Error/404/404.js"></script>
-    <script type="text/javascript" src="System/Footer/Footer.js"></script>
-    <script type="text/javascript" src="System/Navbar/Navbar.js"></script>
+    <script type="text/javascript" src="System/Directives/CompileDirective.js"></script>
+    <script type="text/javascript" src="System/Directives/MwConfirmClickDirective.js"></script>
+    <script type="text/javascript" src="System/Filters/ClassicDateFilter.js"></script>
+    <script type="text/javascript" src="System/Filters/ContentTypeNameFilter.js"></script>
+    <script type="text/javascript" src="System/Filters/OrganisationNameFilter.js"></script>
+    <script type="text/javascript" src="System/Filters/TaxonomyNameFilter.js"></script>
+    <script type="text/javascript" src="System/Filters/TranscriptionStatusNameFilter.js"></script>
+    <script type="text/javascript" src="System/Filters/UcFirstStrictFilter.js"></script>
     <script type="text/javascript" src="System/Services/AccessService.js"></script>
+    <script type="text/javascript" src="System/Services/AppService.js"></script>
     <script type="text/javascript" src="System/Services/CommentService.js"></script>
     <script type="text/javascript" src="System/Services/ContactService.js"></script>
     <script type="text/javascript" src="System/Services/ContentService.js"></script>
     <script type="text/javascript" src="System/Services/EntityService.js"></script>
+    <script type="text/javascript" src="System/Services/ImageService.js"></script>
     <script type="text/javascript" src="System/Services/ResourceService.js"></script>
     <script type="text/javascript" src="System/Services/SearchService.js"></script>
     <script type="text/javascript" src="System/Services/TaxonomyService.js"></script>
     <script type="text/javascript" src="System/Services/TranscriptService.js"></script>
     <script type="text/javascript" src="System/Services/UserService.js"></script>
+    <script type="text/javascript" src="System/Services/UserPreferenceService.js"></script>
     <script type="text/javascript" src="System/Services/WillService.js"></script>
 </body>
 </html>

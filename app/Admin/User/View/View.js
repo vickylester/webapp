@@ -3,7 +3,7 @@
 angular.module('transcript.admin.user.view', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.user.view', {
+        $stateProvider.state('transcript.admin.user.view', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/User/View/View.html',
@@ -12,7 +12,7 @@ angular.module('transcript.admin.user.view', ['ui.router'])
             },
             url: '/{id}',
             ncyBreadcrumb: {
-                parent: 'admin.user.list',
+                parent: 'transcript.admin.user.list',
                 label: 'Edition de {{ iUser.name }}'
             },
             resolve: {

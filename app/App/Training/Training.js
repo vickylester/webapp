@@ -3,7 +3,7 @@
 angular.module('transcript.app.training', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.training', {
+        $stateProvider.state('transcript.app.training', {
             views: {
                 "page" : {
                     templateUrl: 'App/Training/Training.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.training', ['ui.router'])
             },
             url: '/training',
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'transcript.app.home',
                 label: 'Découvrir'
             }
         })

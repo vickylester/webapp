@@ -3,7 +3,7 @@
 angular.module('transcript.app.contact', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.contact', {
+        $stateProvider.state('transcript.app.contact', {
             views: {
                 "page" : {
                     templateUrl: 'App/Contact/Contact.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.contact', ['ui.router'])
             },
             url: '/contact',
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'transcript.app.home',
                 label: 'Contact'
             },
         })

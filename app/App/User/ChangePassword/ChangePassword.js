@@ -3,7 +3,7 @@
 angular.module('transcript.app.user.change-password', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.user.changePassword', {
+        $stateProvider.state('transcript.app.user.changePassword', {
             views: {
                 "page" : {
                     templateUrl: 'App/User/ChangePassword/ChangePassword.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.user.change-password', ['ui.router'])
             },
             url: '/change-password/{id}',
             ncyBreadcrumb: {
-                parent: 'app.user.profile({id: user.id})',
+                parent: 'transcript.app.user.profile({id: user.id})',
                 label: 'Modification du mot de passe'
             },
             requireLogin: true,
@@ -25,7 +25,7 @@ angular.module('transcript.app.user.change-password', ['ui.router'])
     }])
 
     .controller('AppUserChangePasswordCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'UserService', function($rootScope, $scope, $http, $sce, $state, userEdit, UserService) {
-        if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('login');}
+        if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('transcript.app.security.login');}
 
         /* -- Breadcrumb management -------------------------------------------------------- */
         $scope.iUser = $rootScope.user;

@@ -3,19 +3,19 @@
 angular.module('transcript.app.entity', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.entity', {
+        $stateProvider.state('transcript.app.entity', {
             views: {
                 "page" : {
                     templateUrl: 'App/Entity/Entity.html',
                     controller: 'AppEntityCtrl'
                 },
-                "comment@app.entity" : {
+                "comment@transcript.app.entity" : {
                     templateUrl: 'System/Comment/tpl/Thread.html',
                     controller: 'SystemCommentCtrl'
                 }
             },
             ncyBreadcrumb: {
-                parent: 'app.search',
+                parent: 'transcript.app.search',
                 label: '{{ entity.will.title }}'
             },
             url: '/entity/{id}',

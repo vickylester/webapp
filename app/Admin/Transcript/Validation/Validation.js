@@ -3,7 +3,7 @@
 angular.module('transcript.admin.transcript.validation', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.transcript.validation', {
+        $stateProvider.state('transcript.admin.transcript.validation', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Transcript/Validation/Validation.html',

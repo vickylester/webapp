@@ -3,7 +3,7 @@
 angular.module('transcript.app.user.edit', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.user.edit', {
+        $stateProvider.state('transcript.app.user.edit', {
             views: {
                 "page" : {
                     templateUrl: 'App/User/Edit/Edit.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
             },
             url: '/edit/{id}',
             ncyBreadcrumb: {
-                parent: 'app.user.profile({id: user.id})',
+                parent: 'transcript.app.user.profile({id: user.id})',
                 label: 'Edition'
             },
             requireLogin: true,
@@ -25,7 +25,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
     }])
 
     .controller('AppUserEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'userEdit', 'flash', function($rootScope, $scope, $http, $sce, $state, userEdit, flash) {
-        if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('login');}
+        if($rootScope.user === undefined && $rootScope.user !== userEdit) {$state.go('transcript.app.security.login');}
 
         /* -- Breadcrumb management -------------------------------------------------------- */
         $scope.iUser = $rootScope.user;
@@ -48,7 +48,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
             )
             .then(function (response) {
                 if(response.status === 200) {
-                    $state.go('app.user.profile', {id: userEdit.id});
+                    $state.go('transcript.app.user.profile', {id: userEdit.id});
                 }
             }, function errorCallback(response) {
                 console.log(response);

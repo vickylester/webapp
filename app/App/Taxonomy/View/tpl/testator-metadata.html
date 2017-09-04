@@ -21,11 +21,11 @@
     </dl>
     <dl class="dl-horizontal list-group-item">
         <dt>Naissance</dt>
-        <dd>{{ entity.date_of_birth | date:'dd-MM-yyyy'}} à <a ui-sref="app.taxonomy.view({type: 'places', id: entity.place_of_birth.id})">{{ entity.place_of_birth.name }}</a></dd>
+        <dd>{{ entity.date_of_birth | date:'dd-MM-yyyy'}} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.place_of_birth.id})">{{ entity.place_of_birth.name }}</a></dd>
     </dl>
     <dl class="dl-horizontal list-group-item">
         <dt>Décès</dt>
-        <dd>{{ entity.date_of_death | date:'dd-MM-yyyy' }} à <a ui-sref="app.taxonomy.view({type: 'places', id: entity.place_of_death.id})">{{ entity.place_of_death.name }}</a></dd>
+        <dd>{{ entity.date_of_death | date:'dd-MM-yyyy' }} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.place_of_death.id})">{{ entity.place_of_death.name }}</a></dd>
     </dl>
     <dl class="dl-horizontal list-group-item">
         <dt>Mention</dt>
@@ -37,6 +37,6 @@
     </dl>
     <dl class="dl-horizontal list-group-item">
         <dt>Grade</dt>
-        <dd>{{ entity.rank }}, <a ui-sref="app.taxonomy.view({type: 'regiments', id: entity.regiment.id})">{{ entity.regiment.name }}</a></dd>
+        <dd>{{ entity.rank }}, <a ui-sref="transcript.app.taxonomy.view({type: 'regiments', id: entity.regiment.id})">{{ entity.regiment.name }}</a></dd>
     </dl>
 </div>

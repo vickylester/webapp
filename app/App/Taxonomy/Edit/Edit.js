@@ -4,7 +4,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
         $stateProvider
-            .state('app.taxonomy.edit', {
+            .state('transcript.app.taxonomy.edit', {
                 views: {
                     "page" : {
                         templateUrl: 'App/Taxonomy/Edit/Edit.html',
@@ -13,7 +13,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 },
                 url: '/{type}/{id}/edit',
                 ncyBreadcrumb: {
-                    parent: 'app.taxonomy.view({type: entity.dataType, id: entity.id})',
+                    parent: 'transcript.app.taxonomy.view({type: entity.dataType, id: entity.id})',
                     label: 'Edition'
                 },
                 resolve: {
@@ -67,7 +67,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
     }])
 
     .controller('AppTaxonomyEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', 'TaxonomyService', '$transition$', 'flash', 'testators', 'places', 'regiments', 'GeonamesService', '$filter', function($rootScope, $scope, $http, $sce, $state, entity, entities, TaxonomyService, $transition$, flash, testators, places, regiments, GeonamesService, $filter) {
-        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === false) {$state.go('error.403');}
+        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === false) {$state.go('transcript.error.403');}
 
         /* -- Functions Loader ----------------------------------------------------- */
         function patchEntityLoader() {
@@ -81,7 +81,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             function patchEntity() {
                 return TaxonomyService.patchTaxonomyEntity($scope.entity.dataType, $scope.entity.id, $scope.form).then(function(data) {
                     $scope.submit.loading = false;
-                    $state.go('app.taxonomy.view', {type: $scope.entity.dataType, id: data.id});
+                    $state.go('transcript.app.taxonomy.view', {type: $scope.entity.dataType, id: data.id});
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {
@@ -112,7 +112,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             function postEntity() {
                 return TaxonomyService.postTaxonomyEntity($scope.entity.dataType, $scope.form).then(function(data) {
                     $scope.submit.loading = false;
-                    $state.go('app.taxonomy.view', {type: $scope.entity.dataType, id: data.id});
+                    $state.go('transcript.app.taxonomy.view', {type: $scope.entity.dataType, id: data.id});
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {
@@ -169,7 +169,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                     let dataType = $scope.entity.dataType;
                     return TaxonomyService.removeTaxonomyEntity($scope.entity.dataType, $scope.entity.id).then(function(data) {
                         $scope.remove.loading = false;
-                        $state.go('app.taxonomy.list', {type: dataType});
+                        $state.go('transcript.app.taxonomy.list', {type: dataType});
                     }, function errorCallback(response) {
                         $scope.remove.loading = false;
                         if(response.data.code === 400) {

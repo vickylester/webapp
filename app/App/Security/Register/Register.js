@@ -3,7 +3,7 @@
 angular.module('transcript.app.security.register', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security.register', {
+        $stateProvider.state('transcript.app.security.register', {
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Register/Register.html',
@@ -12,7 +12,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
             },
             url: '/register',
             ncyBreadcrumb: {
-                parent: 'app.home',
+                parent: 'transcript.app.home',
                 label: 'Inscription'
             },
             requireLogin: false
@@ -20,7 +20,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
     }])
 
     .controller('AppSecurityRegisterCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-        if($rootScope.user !== undefined) {$state.go('app.user.profile', {id: $rootScope.user.id});}
+        if($rootScope.user !== undefined) {$state.go('transcript.app.user.profile', {id: $rootScope.user.id});}
         $scope.page = {};
         $scope.form = {
             name: null,
@@ -53,7 +53,7 @@ angular.module('transcript.app.security.register', ['ui.router'])
                     })
                     .then(function (response) {
                         if(response.status === 201) {
-                            $state.go('app.security.check');
+                            $state.go('transcript.app.security.check');
                         }
                     }, function errorCallback(response) {
                         console.log(response);

@@ -3,7 +3,7 @@
 angular.module('transcript.admin.entity', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.entity', {
+        $stateProvider.state('transcript.admin.entity', {
             abstract: true,
             views: {
                 "page" : {

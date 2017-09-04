@@ -7,43 +7,43 @@
             <span class="icon-bar"></span>
         </button>
         <div id="home-logo">
-            <strong><a ui-sref="app.home" data-ng-bind="preferences.project_title" class="navbar-brand"></a><span class="label label-danger" style="margin-left: -10px; color: #DDD;">Alpha</span></strong>
+            <strong><a ui-sref="transcript.app.home" data-ng-bind="preferences.project_title" class="navbar-brand"></a><span class="label label-danger" style="margin-left: -10px; color: #DDD;">Alpha</span></strong>
         </div>
     </div>
     <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-            <li data-ng-if="preferences.discover_home_content != null"><a ui-sref="app.content({id: preferences.discover_home_content})">Découvrir</a></li>
-            <li data-ng-if="preferences.help_home_content != null"><a ui-sref="app.content({id: preferences.help_home_content})">Aide</a></li>
-            <li><a ui-sref="app.blog">Actualités</a></li>
-            <li><a ui-sref="app.search">Transcrire</a></li>
+            <li data-ng-if="preferences.discover_home_content != null"><a ui-sref="transcript.app.content({id: preferences.discover_home_content})">Découvrir</a></li>
+            <li data-ng-if="preferences.help_home_content != null"><a ui-sref="transcript.app.content({id: preferences.help_home_content})">Aide</a></li>
+            <li><a ui-sref="transcript.app.blog">Actualités</a></li>
+            <li><a ui-sref="transcript.app.search">Transcrire</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Documenter <span class="caret"></span></a>
                 <ul class="dropdown-menu">
-                    <li><a ui-sref="app.taxonomy.list({type: 'testators'})">Les hommes</a></li>
-                    <li><a ui-sref="app.taxonomy.list({type: 'places'})">Les lieux</a></li>
-                    <li><a ui-sref="app.taxonomy.list({type: 'regiments'})">Les régiments</a></li>
+                    <li><a ui-sref="transcript.app.taxonomy.list({type: 'testators'})">Les hommes</a></li>
+                    <li><a ui-sref="transcript.app.taxonomy.list({type: 'places'})">Les lieux</a></li>
+                    <li><a ui-sref="transcript.app.taxonomy.list({type: 'regiments'})">Les régiments</a></li>
                 </ul>
             </li>
         </ul>
         <ul data-ng-if="user == null" class="nav navbar-nav navbar-right">
             <li><a href="https://testaments-de-poilus.myjetbrains.com/" target="_blank" class="text-muted">BugTracker</a></li>
-            <li><a ui-sref="app.security.login" class="text-muted">Connexion</a></li>
-            <li><a ui-sref="app.security.register" class="text-muted">Inscription</a></li>
+            <li><a ui-sref="transcript.app.security.login" class="text-muted">Connexion</a></li>
+            <li><a ui-sref="transcript.app.security.register" class="text-muted">Inscription</a></li>
         </ul>
         <ul data-ng-if="user != null" class="nav navbar-nav navbar-right">
             <li><a href="https://testaments-de-poilus.myjetbrains.com/" target="_blank" class="text-muted">BugTracker</a></li>
-            <li data-ng-if="isAdmin()"><a ui-sref="admin.home" class="text-muted">Admin</a></li>
+            <li permission permission-only="'ROLE_ADMIN'"><a ui-sref="transcript.admin.home" class="text-muted">Admin</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                     {{ user.email }} <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right">
-                    <li><a ui-sref="app.user.profile({id: user.id})" class="text-muted">Profile</a></li>
+                    <li><a ui-sref="transcript.app.user.profile({id: user.id})" class="text-muted">Profile</a></li>
                     <li><a class="text-muted">Private messages</a></li>
                     <li><a class="text-muted">Discovering TEI</a></li>
                     <li role="separator" class="divider"></li>
-                    <li><a ui-sref="app.user.preferences({id: user.id})" class="text-muted">Preferences</a></li>
-                    <li><a ui-sref="app.security.logout" class="text-muted">Logout</a></li>
+                    <li><a ui-sref="transcript.app.user.preferences({id: user.id})" class="text-muted">Preferences</a></li>
+                    <li><a ui-sref="transcript.app.security.logout" class="text-muted">Logout</a></li>
                 </ul>
             </li>
         </ul>

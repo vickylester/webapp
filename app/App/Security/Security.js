@@ -3,7 +3,7 @@
 angular.module('transcript.app.security', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('app.security', {
+        $stateProvider.state('transcript.app.security', {
             abstract: true,
             views: {
                 "page" : {

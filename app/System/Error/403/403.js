@@ -2,7 +2,7 @@
 
 angular.module('transcript.system.error.403', ['ui.router'])
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('error.403', {
+        $stateProvider.state('transcript.error.403', {
             views: {
                 "page" : {
                     templateUrl: 'System/Error/403/403.html',

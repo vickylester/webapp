@@ -3,7 +3,7 @@
 angular.module('transcript.admin.transcript.export', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('admin.transcript.export', {
+        $stateProvider.state('transcript.admin.transcript.export', {
             views: {
                 "page" : {
                     templateUrl: 'Admin/Transcript/Export/Export.html',

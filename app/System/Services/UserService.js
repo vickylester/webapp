@@ -2,7 +2,7 @@
 
 angular.module('transcript.service.user', ['ui.router'])
 
-    .service('UserService', function($http, $rootScope, $cookies, $state, $sce, flash) {
+    .service('UserService', function($http, $rootScope, $cookies, $state, $sce, $filter, flash) {
         return {
             getUsers: function(profile) {
                 return $http.get($rootScope.api+"/users?profile="+profile, { headers:  {
@@ -10,24 +10,29 @@ angular.module('transcript.service.user', ['ui.router'])
                 }
                 }).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getUserByUsername: function(username, profile) {
-                return $http.get($rootScope.api+"/users?username="+username+"&profile="+profile).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/users?username="+username+"&profile="+profile
+                ).then(function(response) {
                     return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getUser: function(id, profile) {
-                return $http.get($rootScope.api+"/users/"+id+"?profile="+profile).then(function(response) {
+                return $http.get(
+                    $rootScope.api+"/users/"+id+"?profile="+profile
+                ).then(function(response) {
                     return response.data;
-                });
-            },
-            getPreferences: function(id) {
-                return $http.get($rootScope.api+"/preferences?user="+id, { headers:  {
-                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                }
-                }).then(function(response) {
-                    return response.data;
+                }, function errorCallback(response) {
+                    console.log(response);
+                    return response;
                 });
             },
             getCurrent: function() {
@@ -40,13 +45,16 @@ angular.module('transcript.service.user', ['ui.router'])
                         refresh_token: $cookies.get('transcript_security_token_refresh')
                     };
 
-                    $http.get($rootScope.api+"/users?token="+$rootScope.oauth.access_token, { headers:  {
+                    return $http.get($rootScope.api+"/users?token="+$rootScope.oauth.access_token, { headers:  {
                         'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
                     }
                     }).then(function (response) {
                         console.log(response.data);
                         $rootScope.user = response.data;
                         return response.data;
+                    }, function errorCallback(response) {
+                        console.log(response);
+                        return response;
                     });
                 } else {
                     return null;
@@ -64,7 +72,7 @@ angular.module('transcript.service.user', ['ui.router'])
                     .then(function (response) {
                         console.log(response.data);
                         $rootScope.oauth = response.data;
-                        $rootScope.oauth.token_type = capitalizeFirstLetter($rootScope.oauth.token_type);
+                        $rootScope.oauth.token_type = $filter('ucFirstStrict')($rootScope.oauth.token_type);
                         $cookies.put('transcript_security_token_access', $rootScope.oauth.access_token);
                         $cookies.put('transcript_security_token_type', $rootScope.oauth.token_type);
                         $cookies.put('transcript_security_token_refresh', $rootScope.oauth.refresh_token);

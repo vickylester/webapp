@@ -32,7 +32,7 @@
     <div ng-if="transcriptArea.interaction.taxonomy.result.length > 0" class="panel panel-default">
         <div class="panel-heading">
             <div class="pull-right">
-                <a ui-sref="app.taxonomy.view({type: transcriptArea.interaction.taxonomy.dataType, id: transcriptArea.interaction.taxonomy.result[0].id})" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
+                <a ui-sref="transcript.app.taxonomy.view({type: transcriptArea.interaction.taxonomy.dataType, id: transcriptArea.interaction.taxonomy.result[0].id})" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
             </div>
             <string class="panel-title">{{ transcriptArea.interaction.taxonomy.result[0].name }}</string>
         </div>
