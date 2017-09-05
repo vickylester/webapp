@@ -33,12 +33,12 @@
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdown-{{ group.id }}">
                 <li data-ng-repeat="button in transcriptArea.toolbar.tags" data-ng-if="button.btn.btn_group == group.id">
-                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" title="{{ button.btn.title }}" ng-show="button.btn.enabled == true"><i class="{{ button.btn.icon }}"></i> {{ button.btn.label }}</a>
+                    <a class="capitalize {{ button.btn.btn_class}}" data-ng-click="transcriptArea.ace.addTag(button.btn.id)" title="{{ button.btn.title }}" ng-show="button.btn.enabled == true"><i class="{{ button.btn.icon }}"></i> {{ button.btn.label }}</a>
                 </li>
             </ul>
         </div>
         <div data-ng-if="group.type == 'group'" class="btn-group btn-group-sm" role="group">
-            <a data-ng-repeat="button in transcriptArea.toolbar.tags" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="addTag(button.btn.id)" data-ng-if="button.btn.btn_group == group.id" title="{{ button.btn.title }}" ng-show="button.btn.enabled == true">
+            <a data-ng-repeat="button in transcriptArea.toolbar.tags" class="btn btn-sm btn-default capitalize {{ button.btn.btn_class}}" data-ng-click="transcriptArea.ace.addTag(button.btn.id)" data-ng-if="button.btn.btn_group == group.id" title="{{ button.btn.title }}" ng-show="button.btn.enabled == true">
                 <span data-ng-if="button.btn.icon != '' && button.btn.label_forced == false"><i class="{{ button.btn.icon }}"></i></span>
                 <span data-ng-if="button.btn.icon != '' && button.btn.label_forced == true"><i class="{{ button.btn.icon }}"></i> {{ button.btn.label }}</span>
                 <span data-ng-if="button.btn.icon == ''">{{ button.btn.label }}</span>

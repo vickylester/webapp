@@ -1,0 +1,25 @@
+<div ncy-breadcrumb></div>
+
+<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+    <!-- Manually hide the alert with `hide()` -->
+    <button type="button" class="close" ng-click="hide()">&times;</button>
+    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+</div>
+
+<div class="row">
+    <div class="col-sm-8">
+        <div ui-view="comment"></div>
+    </div>
+    <div class="col-sm-4">
+        <div class="jumbotron text-center">
+            <div class="thumbnail">
+                <img data-ng-if="recipientUser.picture == null || recipientUser.picture == ''" class="img-responsive img-rounded img-250" src="{{ webapp.resources }}images/no-images.png" />
+                <img data-ng-if="recipientUser.picture != null && recipientUser.picture != ''" class="img-responsive img-rounded img-250" src="{{ recipientUser.picture }}" />
+            </div>
+            <div>
+                <h1>Conversation avec {{ recipientUser.name }}</h1>
+                <div><span data-ng-repeat="role in recipientUser.roles" class="label label-info">{{ role }}</span></div>
+            </div>
+        </div>
+    </div>
+</div>

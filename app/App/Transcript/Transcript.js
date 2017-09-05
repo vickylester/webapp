@@ -477,15 +477,15 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * Actions on addTag
          */
-        $scope.addTag = function(tagName) {
+        $scope.transcriptArea.ace.addTag = function(tagName) {
             let tag = $scope.transcriptArea.toolbar.tags[tagName],
                 tagInsert = "",
                 defaultAddChar = 2;
 
-            if(tag.xml.unique === "true") {
+            if(tag.xml.unique === true) {
                 tagInsert = "<"+tag.xml.name+" />";
                 defaultAddChar = 4;
-            } else if(tag.xml.unique === "false") {
+            } else if(tag.xml.unique === false) {
                 tagInsert = "<" + tag.xml.name + ">"+$scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange())+"</" + tag.xml.name + ">";
             }
 
