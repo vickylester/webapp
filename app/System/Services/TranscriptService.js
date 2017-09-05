@@ -57,31 +57,53 @@ angular.module('transcript.service.transcript', ['ui.router'])
              *
              * More information about the buttons, the tags and their rendering into toolbar.yml
              *
-             * @param encodeLiveRender
-             * @param button
+             * @param encodeLiveRender string
+             * @param buttons array
              * @returns string
              */
-            encodeHTML: function(encodeLiveRender, button) {
-                let regex = "",
-                    html = "";
-
+            encodeHTML: function(encodeLiveRender, buttons) {
+                let TS = this;
+                let matchList = encodeLiveRender.match(/<\/?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[\^'">\s]+))?)+\s*|\s*)\/?>/g);
+                $.each(matchList, (function(index, value) {
+                    let valueTagName = value.replace(/<([a-zA-Z]+).*>/g, '$1');
+                    if(value[1] === "/") {
+                        /* Match with end tag */
+                        /* End tags need special regex*/
+                        valueTagName = value.replace(/<\/([a-zA-Z]+).*>/g, '$1');
+                        if(buttons[valueTagName] !== undefined) {
+                            encodeLiveRender = encodeLiveRender.replace(value, TS.tagConstruction(buttons[valueTagName], "endTag"));
+                        }
+                    } else if(value[value.length-2] === "/") {
+                        /* Match with single tag */
+                        if(buttons[valueTagName] !== undefined) {
+                            console.log(valueTagName);
+                            encodeLiveRender = encodeLiveRender.replace(value, TS.tagConstruction(buttons[valueTagName], "singleTag"));
+                        }
+                    } else if(value[value.length-2] !== "/") {
+                        /* Match with start tag, escaping single tags */
+                        if(buttons[valueTagName] !== undefined) {
+                            console.log(valueTagName);
+                            encodeLiveRender = encodeLiveRender.replace(value, TS.tagConstruction(buttons[valueTagName], "startTag"));
+                        }
+                    }
+                }));
+                return encodeLiveRender;
+            },
+            tagConstruction: function(tag, type) {
                 let attributesHtml = "";
-                if(button.html.attributes !== undefined) {
-                    for(let attribute in button.html.attributes) {
-                        attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
+                if(tag.html.attributes !== undefined) {
+                    for(let attribute in tag.html.attributes) {
+                        attributesHtml += " "+attribute+"=\""+tag.html.attributes[attribute]+"\"";
                     }
                 }
 
-                if (button.xml.unique === "false") {
-                    regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
-                    html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
-                } else if (button.xml.unique === "true") {
-                    regex = new RegExp("<" + button.xml.name + " />", "g");
-                    html = "<"+button.html.name+" />";
+                if(type === "endTag") {
+                    return "</"+tag.html.name+">";
+                } else if(type === "startTag") {
+                    return "<"+tag.html.name+attributesHtml+">";
+                } else if(type === "singleTag") {
+                    return "<"+tag.html.name+attributesHtml+" />";
                 }
-                encodeLiveRender = encodeLiveRender.replace(regex, html);
-
-                return encodeLiveRender;
             },
             loadFile: function(file) {
                 return 'App/Transcript/tpl/'+file+'.html';
@@ -224,7 +246,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         content: tagContent,
                         parent: null
                     };
-                    console.log(varReturn);
+                    //console.log(varReturn);
                     return varReturn;
                 } else {
                     return {

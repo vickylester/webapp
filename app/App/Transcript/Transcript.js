@@ -469,11 +469,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 for (let r = 0; r < $scope.aceSession.getLength() ; r++) {
                     encodeLiveRender += $scope.aceSession.getLine(r);
                 }
-
-                for(let buttonId in $scope.transcriptArea.toolbar.tags) {
-                    encodeLiveRender = encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags[buttonId]);
-                }
-                $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeLiveRender);
+                $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags));
                 $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
             });
         };

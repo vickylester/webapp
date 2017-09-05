@@ -46,9 +46,9 @@ buttonsGroups:
         icon: ""
 tags:
     # éléments de structure logique du texte :
-    paragraph:
+    p:
         btn :
-            id: "paragraph"
+            id: "p"
             label: "Paragraphe"
             title: "Ajouter un paragraphe"
             label_forced: true
@@ -61,11 +61,9 @@ tags:
             position: "prepend"
         html:
             name: "p"
-            unique: "false"
-            value: "paragraphe"
         xml:
             name: "p"
-            unique: "false"
+            unique: false
     list:
         btn :
             id: "list"
@@ -81,11 +79,9 @@ tags:
             position: "prepend"
         html:
             name: "ul"
-            unique: "false"
-            value: ""
         xml:
             name: "list"
-            unique: "false"
+            unique: false
     head:
         btn :
             id: "head"
@@ -101,13 +97,11 @@ tags:
             position: "prepend"
         html:
             name: "div"
-            unique: "false"
-            value: ""
             attributes:
                 class: "tei-header"
         xml:
             name: "head"
-            unique: "false"
+            unique: false
     signed:
         btn :
             id: "signed"
@@ -123,11 +117,9 @@ tags:
             position: "prepend"
         html:
             name: "signed"
-            unique: "false"
-            value: "signature"
         xml:
             name: "signed"
-            unique: "false"
+            unique: false
     dateline:
         btn :
             id: "dateline"
@@ -143,13 +135,11 @@ tags:
             position: "prepend"
         html:
             name: "div"
-            unique: "false"
-            value: "ligne de date"
             attributes:
                 class: "dateline"
         xml:
             name: "dateline"
-            unique: "false"
+            unique: false
     postscript:
         btn :
             id: "postscript"
@@ -165,11 +155,9 @@ tags:
             position: "prepend"
         html:
             name: "postscript"
-            unique: "false"
-            value: "postscript"
         xml:
             name: "postscript"
-            unique: "false"
+            unique: false
     # éléments de structure de 2e niveau :
     item:
         btn:
@@ -186,10 +174,9 @@ tags:
             position: "prepend"
         html:
             name: "li"
-            unique: "false"
         xml:
             name: "item"
-            unique: "false"
+            unique: false
     seg:
         btn:
             id: "seg"
@@ -205,12 +192,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "segment"
         xml:
             name: "seg"
-            unique: "false"
+            unique: false
     addrLine:
         btn :
             id: "addrLine"
@@ -226,12 +212,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "addrLine"
         xml:
             name: "addrLine"
-            unique: "false"
+            unique: false
     note:
         btn :
             id: "note"
@@ -247,12 +232,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "note"
         xml:
             name: "note"
-            unique: "false"
+            unique: false
     # éléments marqueurs de la structure physique du testament :
     lb:
         btn:
@@ -269,10 +253,9 @@ tags:
             position: "after"
         html:
             name: "br"
-            unique: "true"
         xml:
             name: "lb"
-            unique: "true"
+            unique: true
     # éléments marqueurs de la mise en page du testament, ou de la mise en valeur de parties du texte :
     space:
         btn:
@@ -289,12 +272,11 @@ tags:
             position: "after"
         html:
             name: "div"
-            unique: "true"
             attributes:
                 class: "space"
         xml:
             name: "space"
-            unique: "true"
+            unique: true
     metamark:
         btn:
             id: "metamark"
@@ -310,12 +292,11 @@ tags:
             position: "after"
         html:
             name: "div"
-            unique: "true"
             attributes:
                 class: "metamark"
         xml:
             name: "metamark"
-            unique: "true"
+            unique: true
     # éléments marqueurs de 2ème niveau :
     hi:
         btn :
@@ -332,12 +313,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "hi"
         xml:
             name: "hi"
-            unique: "false"
+            unique: false
     # éléments permettant de consigner des micro-phénomènes de l'écriture :
     choice:
         btn :
@@ -354,12 +334,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "choice"
         xml:
             name: "choice"
-            unique: "false"
+            unique: false
     abbr:
         btn :
             id: "abbr"
@@ -375,12 +354,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "abbr"
         xml:
             name: "abbr"
-            unique: "false"
+            unique: false
     expan:
         btn :
             id: "expan"
@@ -396,12 +374,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
-                class: "expan"
+                class: "expan hidden"
         xml:
             name: "expan"
-            unique: "false"
+            unique: false
     sic:
         btn :
             id: "sic"
@@ -417,12 +394,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "sic"
         xml:
             name: "sic"
-            unique: "false"
+            unique: false
     corr:
         btn :
             id: "corr"
@@ -438,12 +414,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
-                class: "corr"
+                class: "corr hidden"
         xml:
             name: "corr"
-            unique: "false"
+            unique: false
     orig:
         btn :
             id: "orig"
@@ -459,12 +434,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "orig"
         xml:
             name: "orig"
-            unique: "false"
+            unique: false
     reg:
         btn :
             id: "orig"
@@ -480,12 +454,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
-                class: "reg"
+                class: "reg hidden"
         xml:
             name: "reg"
-            unique: "false"
+            unique: false
     surplus:
         btn :
             id: "surplus"
@@ -501,12 +474,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "surplus"
         xml:
             name: "surplus"
-            unique: "false"
+            unique: false
     add:
         btn :
             id: "add"
@@ -522,12 +494,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "add"
         xml:
             name: "add"
-            unique: "false"
+            unique: false
     del:
         btn :
             id: "del"
@@ -543,10 +514,9 @@ tags:
             position: "prepend"
         html:
             name: "del"
-            unique: "false"
         xml:
             name: "del"
-            unique: "false"
+            unique: false
     subst:
         btn :
             id: "subst"
@@ -562,12 +532,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "subst"
         xml:
             name: "subst"
-            unique: "false"
+            unique: false
     # éléments permettant de consigner des difficultés de lecture :
     damage:
         btn :
@@ -584,12 +553,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "damage"
         xml:
             name: "damage"
-            unique: "false"
+            unique: false
     supplied:
         btn :
             id: "supplied"
@@ -605,12 +573,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
-                class: "supplied"
+                class: "supplied hidden"
         xml:
             name: "supplied"
-            unique: "false"
+            unique: false
     unclear:
         btn :
             id: "unclear"
@@ -626,12 +593,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "unclear"
         xml:
             name: "unclear"
-            unique: "false"
+            unique: false
     gap:
         btn :
             id: "gap"
@@ -647,12 +613,12 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "true"
             attributes:
                 class: "gap"
+                style: "background-color: #000; min-width: 10px;"
         xml:
             name: "gap"
-            unique: "true"
+            unique: true
     # éléments de balisage sémantique :
     persName:
         btn :
@@ -669,12 +635,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "persName"
         xml:
             name: "persName"
-            unique: "false"
+            unique: false
     placeName:
         btn :
             id: "placeName"
@@ -690,12 +655,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "placeName"
         xml:
             name: "placeName"
-            unique: "false"
+            unique: false
     orgName:
         btn :
             id: "orgName"
@@ -711,12 +675,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "orgName"
         xml:
             name: "orgName"
-            unique: "false"
+            unique: false
     date:
         btn :
             id: "date"
@@ -732,12 +695,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "date"
         xml:
             name: "date"
-            unique: "false"
+            unique: false
     term:
         btn :
             id: "term"
@@ -753,12 +715,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "term"
         xml:
             name: "term"
-            unique: "false"
+            unique: false
     # éléments pour les notes d'apparat critique ou les notes sur le contenu du testament :
     ref:
         btn :
@@ -775,12 +736,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "ref"
         xml:
             name: "ref"
-            unique: "false"
+            unique: false
     note:
         btn :
             id: "note"
@@ -796,12 +756,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "note"
         xml:
             name: "note"
-            unique: "false"
+            unique: false
     app:
         btn :
             id: "app"
@@ -817,12 +776,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "app"
         xml:
             name: "app"
-            unique: "false"
+            unique: false
     lem:
         btn :
             id: "lem"
@@ -838,12 +796,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "lem"
         xml:
             name: "lem"
-            unique: "false"
+            unique: false
     bibl:
         btn :
             id: "bibl"
@@ -859,12 +816,11 @@ tags:
             position: "prepend"
         html:
             name: "span"
-            unique: "false"
             attributes:
                 class: "bibl"
         xml:
             name: "bibl"
-            unique: "false"
+            unique: false
 
 # The list is the list of allowed tag in the toolbar
 list: [p, list, head, signed, dateline, postscript, item, seg, addrLine, note, lb, space, metamark, hi, choice, sic, abbr, orig, surplus, add, del, subst, dammage, supplied, unclear, gap, persName, placeName, orgName, date, term, ref, app, lem, bibl]

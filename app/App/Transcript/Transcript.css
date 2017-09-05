@@ -130,8 +130,8 @@
     padding-left: 10px;
 }
 #div-container-encode div.tei-header {
-    color: red;
-    text-align: center;
+    font-size: 105%;
+    font-weight: 500;
 }
 #div-container-encode div.dateline {
     font-style: italic;
