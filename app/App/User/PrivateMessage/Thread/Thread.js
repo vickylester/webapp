@@ -3,20 +3,20 @@
 angular.module('transcript.app.user.private-message.thread', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('transcript.app.user.privateMessage.thread', {
+        $stateProvider.state('transcript.app.user.private-message.thread', {
             views: {
                 "page" : {
                     templateUrl: 'App/User/PrivateMessage/Thread/Thread.html',
                     controller: 'AppUserPrivateMessageThreadCtrl'
                 },
-                "comment@transcript.app.user.privateMessage.thread" : {
+                "comment@transcript.app.user.private-message.thread" : {
                     templateUrl: 'System/Comment/tpl/Thread.html',
                     controller: 'SystemCommentCtrl'
                 }
             },
-            url: '/{idUser}/{idRecipient}',
+            url: '/conversation/{idUser}/{idRecipient}',
             ncyBreadcrumb: {
-                parent: 'transcript.app.user.privateMessage.list({id: idUser})',
+                parent: 'transcript.app.user.private-message.list({id: iUser.id})',
                 label: '{{ recipientUser.name }}'
             },
             resolve: {

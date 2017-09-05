@@ -6,4 +6,15 @@
     <span class="alert-message" data-ng-bind-html="flash.message"></span>
 </div>
 
-<a>New</a>
+<table class="table table-bordered table-striped">
+    <tr>
+        <th>#</th>
+        <th>Correspondant</th>
+        <th>Dernier message</th>
+    </tr>
+    <tr ng-repeat="thread in threads">
+        <td>{{ $index+1 }}</td>
+        <td><a ui-sref="transcript.app.user.profile({id: thread.recipient.id})" title="Accéder au profil de {{ thread.recipient.name }}">{{ thread.recipient.name }}</a></td>
+        <td><a ui-sref="transcript.app.user.private-message.thread({idUser: iUser.id, idRecipient: thread.recipient.id})" title="Accéder au fil de discussion">{{ thread.last_comment_at | date:'dd-MM-yyyy à HH:mm' }}</a></td>
+    </tr>
+</table>

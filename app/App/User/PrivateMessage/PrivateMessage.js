@@ -3,7 +3,7 @@
 angular.module('transcript.app.user.private-message', ['ui.router'])
 
     .config(['$stateProvider', function($stateProvider) {
-        $stateProvider.state('transcript.app.user.privateMessage', {
+        $stateProvider.state('transcript.app.user.private-message', {
             abstract: true,
             views: {
                 "page" : {
