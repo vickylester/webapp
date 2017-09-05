@@ -35,7 +35,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     return EntityService.getEntity($transition$.params().idEntity);
                 },
                 thread: function(CommentService, $transition$) {
-                    return CommentService.getThread('transcript-'+$transition$.params().id);
+                    return CommentService.getThread('transcript-'+$transition$.params().idTranscript);
                 },
                 teiInfo: function(TranscriptService) {
                     return TranscriptService.getTeiInfo();
@@ -460,6 +460,22 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 updateToolbar();
                 updateAttributes();
             });
+
+            /**
+             * This function watches the transcription (ace area), encodes it and displays it in the live
+             */
+            $scope.$watch('transcriptArea.ace.area', function() {
+                let encodeLiveRender = "";
+                for (let r = 0; r < $scope.aceSession.getLength() ; r++) {
+                    encodeLiveRender += $scope.aceSession.getLine(r);
+                }
+
+                for(let buttonId in $scope.transcriptArea.toolbar.tags) {
+                    encodeLiveRender = encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags[buttonId]);
+                }
+                $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeLiveRender);
+                $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+            });
         };
 
         /**
@@ -488,18 +504,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.focus();
             $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
         };
-
-        /**
-         * This function watches the transcription (ace area), encodes it and displays it in the live
-         */
-        $scope.$watch('transcriptArea.ace.area', function() {
-            let encodeLiveRender = $scope.transcriptArea.ace.area;
-            for(let buttonId in $scope.transcriptArea.toolbar.tags) {
-                encodeLiveRender = encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags[buttonId]);
-            }
-            $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeLiveRender);
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
-        });
 
         /**
          * Undo management

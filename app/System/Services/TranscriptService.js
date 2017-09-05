@@ -65,46 +65,21 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 let regex = "",
                     html = "";
 
-                if(button.type === "tag") {
-                    /* Tags:
-                     * Tags are HTML tags such as <p>, <ul> or <section>
-                     */
-                    let attributesHtml = "";
-                    if(button.html.attributes !== undefined) {
-                        for(let attribute in button.html.attributes) {
-                            attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
-                        }
+                let attributesHtml = "";
+                if(button.html.attributes !== undefined) {
+                    for(let attribute in button.html.attributes) {
+                        attributesHtml += " "+attribute+"=\""+button.html.attributes[attribute]+"\"";
                     }
+                }
 
-                    if (button.xml.unique === "false") {
-                        regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
-                        html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
-                    } else if (button.xml.unique === "true") {
-                        regex = new RegExp("<" + button.xml.name + " />", "g");
-                        html = "<"+button.html.name+" />";
-                    }
-                    encodeLiveRender = encodeLiveRender.replace(regex, html);
-                } else if(button.type === "key") {
-                    /* Keys:
-                     * Keys are HTML tags without text inside such as <br />
-                     */
+                if (button.xml.unique === "false") {
+                    regex = new RegExp("<" + button.xml.name + ">(.*)</" + button.xml.name + ">", "g");
+                    html = "<"+button.html.name+attributesHtml+" >$1</"+button.html.name+">";
+                } else if (button.xml.unique === "true") {
                     regex = new RegExp("<" + button.xml.name + " />", "g");
                     html = "<"+button.html.name+" />";
-                    encodeLiveRender = encodeLiveRender.replace(regex, html);
-                } else if(button.type === "attribute") {
-                    /* Attributes:
-                     * Attributes are HTML attributes such as style, class, title, value.
-                     * By default, they are applying to a <span> or a <div> tag.
-                     */
-                    if (button.xml.type === "inline") {
-                        regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-                        html = "<span "+button.html.name+"=\""+button.html.value+"\" >$1</span>";
-                    } else if (button.xml.type === "block") {
-                        regex = new RegExp("<hi "+button.xml.name+"=\""+button.xml.value+"\">(.*)</hi>", "g");
-                        html = "<div "+button.html.name+"=\""+button.html.value+"\" >$1</div>";
-                    }
-                    encodeLiveRender = encodeLiveRender.replace(regex, html);
                 }
+                encodeLiveRender = encodeLiveRender.replace(regex, html);
 
                 return encodeLiveRender;
             },

@@ -86,9 +86,9 @@ tags:
         xml:
             name: "list"
             unique: "false"
-    letterhead:
+    head:
         btn :
-            id: "letterhead"
+            id: "head"
             label: "En-tête"
             title: "Ajouter un en-tête"
             label_forced: true
@@ -102,7 +102,7 @@ tags:
         html:
             name: "div"
             unique: "false"
-            value: "header"
+            value: ""
             attributes:
                 class: "tei-header"
         xml:
