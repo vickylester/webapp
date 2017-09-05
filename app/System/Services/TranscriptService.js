@@ -111,12 +111,17 @@ angular.module('transcript.service.transcript', ['ui.router'])
             loadFile: function(file) {
                 return 'App/Transcript/tpl/'+file+'.html';
             },
-            getParentTag: function(leftOfCursor, lines) {
-                let tag = "";
-                let posColS = null;
-                let posRowS = null;
-                let posColE = null;
-                let posRowE = null;
+            getParentTag: function(leftOfCursor, rightOfCursor, lines) {
+                let tag = "",
+                    posColS = null,
+                    posRowS = null,
+                    posColE = null,
+                    posRowE = null,
+                    endColS = null,
+                    endRowS = null,
+                    endColE = null,
+                    endRowE = null,
+                    tagContent = null;
 
                 /* This part computes the parent tag name : */
                 if (leftOfCursor !== null && leftOfCursor.indexOf("<") !== -1) {
@@ -177,8 +182,49 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     }
                 }
 
+                /*
+                 * This part returns end tag's information
+                 */
                 if(tag !== "") {
-                    return {
+                    let endPos = rightOfCursor.indexOf(tag);
+                    //console.log(endPos);
+                    endPos += leftOfCursor.length;
+                    for(let kLine in lines) {
+                        let line = lines[kLine];
+                        if(line.length < endPos) {
+                            endPos -= line.length;
+                        } else {
+                            endRowS = parseInt(kLine);
+                            endColS = parseInt(endPos);
+                            endRowE = parseInt(kLine);
+                            endColE = parseInt(endPos+tag.length);
+                            break;
+                        }
+                    }
+                }
+
+                /*
+                 * This part returns the content of the tag
+                 */
+                if(tag !== "") {
+                    let tagPos = leftOfCursor.lastIndexOf(tag);
+                    let endPos = rightOfCursor.indexOf(tag);
+                    let content = leftOfCursor+rightOfCursor;
+
+                     tagContent = content.substring(tagPos+(tag.length), (leftOfCursor.length)+endPos);
+                    if(tagContent.substring(0, 1) === '>') {
+                        tagContent = tagContent.substring(1, tagContent.length);
+                    }
+                    if(tagContent.substring(tagContent.length-2, tagContent.length) === '</') {
+                        tagContent = tagContent.substring(0, tagContent.length-2);
+                    }
+                }
+
+                /*
+                 * This part compiles results
+                 */
+                if(tag !== "") {
+                    let varReturn = {
                         name: tag,
                         position: {
                             start: {
@@ -190,8 +236,21 @@ angular.module('transcript.service.transcript', ['ui.router'])
                                 column: posColE
                             }
                         },
+                        end: {
+                            start: {
+                                row: endRowS,
+                                column: endColS
+                            },
+                            end: {
+                                row: endRowE,
+                                column: endColE
+                            }
+                        },
+                        content: tagContent,
                         parent: null
                     };
+                    console.log(varReturn);
+                    return varReturn;
                 } else {
                     return {
                         name: null,
@@ -205,6 +264,17 @@ angular.module('transcript.service.transcript', ['ui.router'])
                                 column: null
                             }
                         },
+                        end: {
+                            start: {
+                                row: null,
+                                column: null
+                            },
+                            end: {
+                                row: null,
+                                column: null
+                            }
+                        },
+                        content: null,
                         parent: null
                     };
                 }

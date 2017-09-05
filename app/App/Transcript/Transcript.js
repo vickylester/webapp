@@ -110,9 +110,26 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 currentTag: {
                     name: null,
                     position: {
-                        row: null,
-                        column: null
+                        start: {
+                            row: null,
+                            column: null
+                        },
+                        end: {
+                            row: null,
+                            column: null
+                        }
                     },
+                    end: {
+                        start: {
+                            row: null,
+                            column: null
+                        },
+                        end: {
+                            row: null,
+                            column: null
+                        }
+                    },
+                    content: null,
                     parent: null
                 },
                 area: $scope.transcript.content,
@@ -231,40 +248,122 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Ace Editor */
         /* -------------------------------------------------------------------------------- */
         /**
-         * On loading the Ace inteface
+         * On loading the Ace interface
+         *
          * @param _editor
          */
         $scope.aceLoaded = function(_editor) {
+            /* ------------------------------------------------------------------------------------------------------ */
+            /* Variables */
+            /* ------------------------------------------------------------------------------------------------------ */
             $scope.aceEditor = _editor; // Doc -> https://ace.c9.io/#nav=api&api=editor
             $scope.aceSession = _editor.getSession(); // Doc -> https://ace.c9.io/#nav=api&api=edit_session
             let AceRange = $scope.aceEditor.getSelectionRange().constructor; //Doc -> https://stackoverflow.com/questions/28893954/how-to-get-range-when-using-angular-ui-ace#28894262
+            $scope.aceUndoManager = $scope.aceSession.setUndoManager(new ace.UndoManager());
+            $scope.aceEditor.focus();
+            $scope.aceEditor.navigateFileEnd();
+            /* Variables -------------------------------------------------------------------------------------------- */
 
-            /**
-             * Adding a specific command on Enter
-             * -> Insert a <lb /> tag
-             */
+            /* ------------------------------------------------------------------------------------------------------ *
+             * Commands
+             * Important notes :
+             * - > "return false;" is the command to maintain the default behaviour of the command
+             * - > See default commands at https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts
+             * ------------------------------------------------------------------------------------------------------ */
             $scope.aceEditor.commands.addCommand({
-                name: 'enterLb',
+                name: 'enter',
                 bindKey: {win: 'Enter',  mac: 'Enter'},
                 exec: function(editor) {
-                    /*let lineNumber = $scope.aceEditor.getCursorPosition().row,
+                    let line = $scope.aceEditor.getCursorPosition().row,
                         column = $scope.aceEditor.getCursorPosition().column;
-                    console.log(editor);
-                    console.log(lineNumber+"<>"+column);
-                    console.log(editor.getValue());*/
 
-                    console.log($scope.transcriptArea.toolbar.tags.lb.btn.enabled);
-                    if($scope.transcriptArea.toolbar.tags.lb.btn.enabled === true && $scope.smartTEI == true) {
+                    /* *Item replacement:*
+                     * Conditions: if current tag is an "item" tag which is empty and smartTEI is available
+                     * Result: remove the "item" tag and jump to the end of the "list" tag
+                     */
+                    if($scope.transcriptArea.ace.currentTag.name === "item" && /^\s*$/.test($scope.transcriptArea.ace.currentTag.content) && $scope.smartTEI === true) {
+                        $scope.aceSession.getDocument().remove(new AceRange($scope.transcriptArea.ace.currentTag.position.start.row, $scope.transcriptArea.ace.currentTag.position.start.column-1, $scope.transcriptArea.ace.currentTag.end.end.row, $scope.transcriptArea.ace.currentTag.end.end.column+1));
+                        $scope.$apply(function() {
+                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        });
+                        $scope.aceEditor.getSelection().moveCursorTo($scope.transcriptArea.ace.currentTag.end.end.row, $scope.transcriptArea.ace.currentTag.end.end.column+1);
+                        $scope.aceEditor.focus();
+                    }
+                    /* *Line break:*
+                     * Conditions: if "lb" tag is available in the toolbar and smartTEI is available
+                     * Result: insert a "lb" tag at the end of a line and jump to a new line
+                     */
+                    else if($scope.transcriptArea.toolbar.tags.lb.btn.enabled === true && $scope.smartTEI === true) {
                         editor.insert("<lb />\n");
+                    }
+                    /* *Item insert:*
+                     * Conditions: if current tag is an "list" tag and smartTEI is available
+                     * Result: insert a "item" tag and jump into
+                     */
+                    else if($scope.transcriptArea.ace.currentTag.name === "list" && $scope.smartTEI === true) {
+                        editor.insert("\n<item></item>");
+                        $scope.aceEditor.getSelection().moveCursorTo(line+1, 6);
+                        $scope.aceEditor.focus();
                     } else {
                         return false;
                     }
+
+                    $scope.$apply(function() {
+                        /* Computing of current tag value */
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                    });
                 }
             });
+            $scope.aceEditor.commands.addCommand({
+                name: 'ctrlEnter',
+                bindKey: {win: 'Ctrl-Enter',  mac: 'Command-Enter'},
+                exec: function(editor) {
+                    $scope.$apply(function() {
+                        /* Computing of current tag value */
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                    });
 
-            /**
-             * For every position movement, we recompute the parent tag
-             */
+                    /* *Item insert:*
+                     * Conditions: if current tag is an "item" tag and smartTEI is available
+                     * Result: insert a new "item" tag after the current one and jump into
+                     */
+                    if($scope.transcriptArea.ace.currentTag.name === "item" && $scope.smartTEI === true) {
+                        let row = $scope.transcriptArea.ace.currentTag.end.end.row,
+                            column = $scope.transcriptArea.ace.currentTag.end.end.column;
+
+                        $scope.aceSession.insert(
+                            {row: row, column: column+1},
+                            "\n<item></item>");
+                        $scope.aceEditor.getSelection().moveCursorTo(row+1, 6);
+                        $scope.aceEditor.focus();
+                        $scope.$apply(function() {
+                            /* Computing of current tag value */
+                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        });
+                    }
+                    /* *Paragraph insert:*
+                     * Conditions: if current tag is a "p" tag and smartTEI is available
+                     * Result: insert a new "p" tag after the current one and jump into
+                     */
+                    else if($scope.transcriptArea.ace.currentTag.name === "p" && $scope.smartTEI === true) {
+                        let row = $scope.transcriptArea.ace.currentTag.end.end.row,
+                            column = $scope.transcriptArea.ace.currentTag.end.end.column;
+
+                        $scope.aceSession.insert(
+                            {row: row, column: column+1},
+                            "\n<p></p>");
+                        $scope.aceEditor.getSelection().moveCursorTo(row+1, 3);
+                        $scope.aceEditor.focus();
+                        $scope.$apply(function() {
+                            /* Computing of current tag value */
+                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        });
+                    } else {
+                        return false;
+                    }
+
+                }
+            });
             $scope.aceEditor.commands.addCommand({
                 name: 'leftAction',
                 bindKey:
@@ -273,7 +372,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        /* Computing of current tag value */
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -286,7 +386,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        /* Computing of current tag value */
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -299,7 +400,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        /* Computing of current tag value */
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
@@ -312,50 +414,46 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                 exec: function() {
                     $scope.$apply(function() {
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                        /* Computing of current tag value */
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                     });
                     return false;
                 }
             });
+            /* Commands --------------------------------------------------------------------------------------------- */
 
-            /**
-             * Event double click
-             */
+            /* ------------------------------------------------------------------------------------------------------ */
+            /* Click events */
+            /* ------------------------------------------------------------------------------------------------------ */
             $scope.aceEditor.container.addEventListener("dblclick", function(e) {
                 e.preventDefault();
 
-                /*
-                 * If double-click on a tag, we load the interaction interface with the doc about this tag
-                 * We detect tag by looking at the previous character. We assume if the character is < or /, this is a tag.
+                /* *Loading documentation for tags:*
+                 * Conditions: if the user double-click one a tag name
+                 * Result: load the interaction interface with the doc about this tag
+                 * To know: We detect tag by looking at the previous character. We assume if the character is < or /, this is a tag.
                  */
                 let previousCharacter = $scope.aceSession.getDocument().getTextRange(new AceRange($scope.aceEditor.getSelectionRange().start.row, $scope.aceEditor.getSelectionRange().start.column-1, $scope.aceEditor.getSelectionRange().start.row, $scope.aceEditor.getSelectionRange().start.column));
                 if(previousCharacter === '<' || previousCharacter === '/') {
                     $scope.transcriptArea.interaction.help($scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange()), "modelDoc", true);
                 }
-
                 return false;
             }, false);
-
-            /**
-             * Event click
-             */
             $scope.aceEditor.container.addEventListener("click", function(e) {
                 e.preventDefault();
                 $scope.$apply(function() {
-                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+                    /* Computing of current tag value */
+                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
                 });
                 return false;
             }, false);
-
-            $scope.aceUndoManager = $scope.aceSession.setUndoManager(new ace.UndoManager());
-            $scope.aceEditor.focus();
-            $scope.aceEditor.navigateFileEnd();
+            /* Click events ----------------------------------------------------------------------------------------- */
         };
 
         $scope.aceChanged = function() {
-            /**
-             * The aim of this function is to compute the value of currentTag
-             * according to the context, meaning the position of the caret.
+            /* *Refresh toolbar content:*
+             * Conditions: if currentTag value changes
+             * Result: Reload the toolbar content
              */
             $scope.$watch('transcriptArea.ace.currentTag', function() {
                 //console.log($scope.transcriptArea.ace.currentTag);
@@ -388,7 +486,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.insert(tagInsert);
             $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
             $scope.aceEditor.focus();
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
         };
 
         /**
@@ -400,7 +498,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 encodeLiveRender = encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags[buttonId]);
             }
             $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeLiveRender);
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor());
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1));
         });
 
         /**
@@ -429,6 +527,26 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 } else if (r === $scope.aceEditor.getCursorPosition().row) {
                     let line = $scope.aceSession.getLine(r);
                     partOfCode += line.substring(0, $scope.aceEditor.getCursorPosition().column);
+                }
+            }
+
+            //console.log(partOfCode);
+            if(partOfCode !== "") {
+                return partOfCode;
+            } else {
+                return null;
+            }
+        }
+
+        function getRightOfCursor() {
+            let partOfCode = "";
+
+            for (let r = $scope.aceEditor.getCursorPosition().row; r < $scope.aceSession.getLength() ; r++) {
+                if (r > $scope.aceEditor.getCursorPosition().row) {
+                    partOfCode += $scope.aceSession.getLine(r);
+                } else if (r === $scope.aceEditor.getCursorPosition().row) {
+                    let line = $scope.aceSession.getLine(r);
+                    partOfCode += line.substring($scope.aceEditor.getCursorPosition().column, $scope.aceSession.getLine(r).length);
                 }
             }
 

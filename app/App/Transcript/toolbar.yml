@@ -83,13 +83,9 @@ tags:
             name: "ul"
             unique: "false"
             value: ""
-            sub:
-                item: "tag"
         xml:
             name: "list"
             unique: "false"
-            sub:
-                item: "tag"
     letterhead:
         btn :
             id: "letterhead"
@@ -261,8 +257,8 @@ tags:
     lb:
         btn:
             id: "lb"
-            label: "Retour à la ligne"
-            title: "Retourner à la ligne"
+            label: "Changement de ligne"
+            title: "Changement de ligne"
             label_forced: false
             icon: "fa fa-level-down"
             btn_class: ""
