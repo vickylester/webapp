@@ -6,7 +6,7 @@
         </div>
     </div>
     <div>
-        <h1>{{ iUser.name }} <a ui-sref="transcript.app.user.privateMessage.thread({idUser: user.id, idRecipient: iUser.id})" data-ng-if="context != 'self' && user !== undefined" class="btn btn-default" title="Send a private message"><i class="fa fa-send"></i></a></h1>
+        <h1>{{ iUser.name }} <a ui-sref="transcript.app.user.private-message.thread({idUser: user.id, idRecipient: iUser.id})" data-ng-if="context != 'self' && user !== undefined" class="btn btn-default" title="Send a private message"><i class="fa fa-send"></i></a></h1>
         <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
     </div>
 </div>

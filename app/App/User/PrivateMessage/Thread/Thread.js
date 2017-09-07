@@ -37,6 +37,10 @@ angular.module('transcript.app.user.private-message.thread', ['ui.router'])
         $scope.thread = thread;
         $scope.iUser = iUser;
         $scope.recipientUser = recipientUser;
-        console.log($scope.thread);
+
+        if($scope.thread === null || $scope.thread === undefined || $scope.thread.thread === undefined || $scope.thread.thread.id === undefined) {
+            $state.reload();
+            console.log('reload');
+        }
     }])
 ;

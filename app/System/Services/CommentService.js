@@ -2,7 +2,7 @@
 
 angular.module('transcript.service.comment', ['ui.router'])
 
-    .service('CommentService', function($http, $rootScope, $sce) {
+    .service('CommentService', function($http, $rootScope, $sce, $state) {
         return {
             getThread: function(id) {
                 let CS = this;

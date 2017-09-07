@@ -17,7 +17,7 @@
                 <img data-ng-if="recipientUser.picture != null && recipientUser.picture != ''" class="img-responsive img-rounded img-250" src="{{ recipientUser.picture }}" />
             </div>
             <div>
-                <h1>Conversation avec {{ recipientUser.name }}</h1>
+                <h1>Conversation avec <a ui-sref="transcript.app.user.profile({id: recipientUser.id})">{{ recipientUser.name }}</a></h1>
                 <div><span data-ng-repeat="role in recipientUser.roles" class="label label-info">{{ role }}</span></div>
             </div>
         </div>
