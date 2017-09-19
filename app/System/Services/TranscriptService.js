@@ -108,7 +108,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
             loadFile: function(file) {
                 return 'App/Transcript/tpl/'+file+'.html';
             },
-            getParentTag: function(leftOfCursor, rightOfCursor, lines) {
+            getParentTag: function(leftOfCursor, rightOfCursor, lines, tags) {
                 let tag = "",
                     posColS = null,
                     posRowS = null,
@@ -118,7 +118,9 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     endRowS = null,
                     endColE = null,
                     endRowE = null,
-                    tagContent = null;
+                    tagContent = null,
+                    parents = [],
+                    parent = null;
 
                 /* This part computes the parent tag name : */
                 if (leftOfCursor !== null && leftOfCursor.indexOf("<") !== -1) {
@@ -221,6 +223,19 @@ angular.module('transcript.service.transcript', ['ui.router'])
                  * This part compiles results
                  */
                 if(tag !== "") {
+                    if(tags[tag] !== undefined && tags[tag].btn.allow_root === false) {
+                        let parentLeftOfCursor = leftOfCursor.substring(0, leftOfCursor.lastIndexOf(tag)-1),
+                            parentRightOfCursor = leftOfCursor.substring(leftOfCursor.lastIndexOf(tag)-1, leftOfCursor.length-leftOfCursor.lastIndexOf(tag)-1)+rightOfCursor;
+
+                        parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
+                        console.log(parent);
+                        parents = this.getParents(parent, []);
+                        parents.push(parent);
+                    } else if(tags[tag].btn.allow_root === true){
+                        parent = null;
+                        parents = [];
+                    }
+
                     let varReturn = {
                         name: tag,
                         position: {
@@ -244,9 +259,10 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             }
                         },
                         content: tagContent,
-                        parent: null
+                        parent: parent,
+                        parents: parents
                     };
-                    //console.log(varReturn);
+                    console.log(varReturn);
                     return varReturn;
                 } else {
                     return {
@@ -272,9 +288,18 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             }
                         },
                         content: null,
-                        parent: null
+                        parent: null,
+                        parents: null
                     };
                 }
+            },
+            getParents(tagStructure, parents) {
+                if(tagStructure.parent !== null) {
+                    if(tagStructure.parent.parent !== null) {parents = this.getParents(tagStructure.parent, parents);}
+                    console.log(parents);
+                    parents.push(tagStructure.parent);
+                }
+                return parents;
             },
             getTeiInfo: function() {
                 return $http.get(

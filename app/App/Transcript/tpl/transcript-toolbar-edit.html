@@ -1,3 +1,7 @@
+<div id="ariane-toolbar">
+    <span ng-repeat="parent in transcriptArea.ace.currentTag.parents"><span ng-if="$index > 0"> <i class="fa fa-chevron-right"></i></span> {{ parent.name }}</span>
+    <span ng-if="transcriptArea.ace.currentTag.parents.length > 0"><i class="fa fa-chevron-right"></i></span> <span>{{ transcriptArea.ace.currentTag.name }}</span>
+</div>
 <div class="btn-toolbar" role="toolbar">
     <!-- Special buttons management -->
     <div class="pull-right">
