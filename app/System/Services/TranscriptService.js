@@ -110,26 +110,57 @@ angular.module('transcript.service.transcript', ['ui.router'])
             },
             getParentTag: function(leftOfCursor, rightOfCursor, lines, tags) {
                 let tag = "",
-                    posColS = null,
-                    posRowS = null,
-                    posColE = null,
-                    posRowE = null,
+                    tagType = null,
+                    startColS = null,
+                    startRowS = null,
+                    startColE = null,
+                    startRowE = null,
+                    startExtraCounter = 0,
+                    startContent = null,
                     endColS = null,
                     endRowS = null,
                     endColE = null,
                     endRowE = null,
+                    endContent = null,
                     tagContent = null,
+                    tagAttributes = [],
                     parents = [],
-                    parent = null;
+                    parent = null,
+                    content = leftOfCursor+rightOfCursor,
+                    tagPos = null,
+                    endPos = null,
+                    parentLeftOfCursor = null,
+                    parentRightOfCursor = null;
 
                 /* This part computes the parent tag name : */
-                if (leftOfCursor !== null && leftOfCursor.indexOf("<") !== -1) {
+                if(leftOfCursor !== null && leftOfCursor.lastIndexOf("<") > leftOfCursor.lastIndexOf(">")) {
+                    // The caret is inside a tag > we use this tag as current tag
+                    //console.log("inside tag");
+                    //console.log(leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1));
+
+                    startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
+                    tag = startContent.replace(/<([a-zA-Z]+).*>/g, '$1');
+
+                    if(tag !== "") {
+                        if(startContent.substring(startContent.length-2, startContent.length) === "/>") {
+                            tagType = "single";
+                        } else { tagType = "standard"; }
+
+                        tagPos = leftOfCursor.lastIndexOf("<");
+                        if(tagType === "standard") {
+                            endPos = rightOfCursor.indexOf("</" + tag);
+                        }
+
+                        parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
+                        parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
+                    }
+                } else if (leftOfCursor !== null && leftOfCursor.indexOf("<") !== -1) {
+                    // The caret is outside a tag > we use the nearest tag as current tag
                     /*
                      * <\/?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[\^'">\s]+))?)+\s*|\s*)\/?>/g
                      * Regex from http://haacked.com/archive/2004/10/25/usingregularexpressionstomatchhtml.aspx/
                      */
                     let matchList = leftOfCursor.match(/<\/?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[\^'">\s]+))?)+\s*|\s*)\/?>/g);
-
                     if(matchList !== null && matchList.length > 0) {
                         matchList = matchList.reverse();
 
@@ -158,77 +189,92 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             }
                         }));
                     }
+
+                    if(tag !== "") {
+                        tagType = "standard";
+                        tagPos = leftOfCursor.lastIndexOf("<" + tag);
+                        endPos = rightOfCursor.indexOf("</" + tag);
+
+                        parentLeftOfCursor = leftOfCursor.substring(0, leftOfCursor.lastIndexOf(tag)-1);
+                        parentRightOfCursor = leftOfCursor.substring(leftOfCursor.lastIndexOf(tag)-1, leftOfCursor.length)+rightOfCursor;
+                    }
                 }
 
-                /*
-                 * This part computes the parent tag position
-                 * The position is the position of the tag name, not the full tag.
-                 * Eg, for <tag attr="val">, it will return the position of "tag"
-                 */
                 if(tag !== "") {
-                    let tagPos = leftOfCursor.lastIndexOf(tag);
+                    /*
+                     * This part computes the start tag's position
+                     */
+                    if(tagType === "standard") {
+                        startExtraCounter = 1;
+                    } else if(tagType === "single") {
+                        startExtraCounter = 2;
+                    }
+                    let tagPosStart = tagPos;
                     for(let kLine in lines) {
                         let line = lines[kLine];
-                        if(line.length < tagPos) {
-                            tagPos -= line.length;
+                        if(line.length <= tagPosStart) {
+                            tagPosStart -= line.length;
                         } else {
-                            posRowS = parseInt(kLine);
-                            posColS = parseInt(tagPos);
-                            posRowE = parseInt(kLine);
-                            posColE = parseInt(tagPos+tag.length);
+                            let afterTagPos = line.substring(tagPosStart+tag.length, line.length);
+                            let endTagFull = afterTagPos.indexOf('>');
+                            startRowS = parseInt(kLine);
+                            startColS = parseInt(tagPosStart);
+                            startRowE = parseInt(kLine);
+                            startColE = parseInt(tagPosStart+tag.length+endTagFull+startExtraCounter);
+                            startContent = line.substring(tagPosStart, tagPosStart+tag.length+endTagFull+startExtraCounter);
                             break;
                         }
                     }
-                }
 
-                /*
-                 * This part returns end tag's information
-                 */
-                if(tag !== "") {
-                    let endPos = rightOfCursor.indexOf(tag);
-                    //console.log(endPos);
-                    endPos += leftOfCursor.length;
-                    for(let kLine in lines) {
-                        let line = lines[kLine];
-                        if(line.length < endPos) {
-                            endPos -= line.length;
-                        } else {
-                            endRowS = parseInt(kLine);
-                            endColS = parseInt(endPos);
-                            endRowE = parseInt(kLine);
-                            endColE = parseInt(endPos+tag.length);
-                            break;
+                    /*
+                     * This part returns end tag's information
+                     */
+                    if(tagType === "standard") {
+                        let endPosStart = endPos;
+                        endPosStart += leftOfCursor.length;
+                        for(let kLine in lines) {
+                            let line = lines[kLine];
+                            if(line.length <= endPosStart) {
+                                endPosStart -= line.length;
+                            } else {
+                                endRowS = parseInt(kLine);
+                                endColS = parseInt(endPosStart);
+                                endRowE = parseInt(kLine);
+                                endColE = parseInt(endPosStart+tag.length+3);
+                                endContent = line.substring(endPosStart, endPosStart+tag.length+3);
+                                break;
+                            }
                         }
                     }
-                }
 
-                /*
-                 * This part returns the content of the tag
-                 */
-                if(tag !== "") {
-                    let tagPos = leftOfCursor.lastIndexOf(tag);
-                    let endPos = rightOfCursor.indexOf(tag);
-                    let content = leftOfCursor+rightOfCursor;
-
-                     tagContent = content.substring(tagPos+(tag.length), (leftOfCursor.length)+endPos);
-                    if(tagContent.substring(0, 1) === '>') {
-                        tagContent = tagContent.substring(1, tagContent.length);
+                    /*
+                     * This part returns the content of the tag
+                     */
+                    if(tagType === "standard") {
+                        let afterTagPosContent = content.substring(tagPos + tag.length, content.length);
+                        let tagPosFullContent = afterTagPosContent.indexOf('>');
+                        tagContent = content.substring(tagPos + tag.length + tagPosFullContent + 1, (leftOfCursor.length - (tagPos + tag.length + tagPosFullContent)) + tagPos + tag.length + tagPosFullContent + endPos);
                     }
-                    if(tagContent.substring(tagContent.length-2, tagContent.length) === '</') {
-                        tagContent = tagContent.substring(0, tagContent.length-2);
+                    /*
+                     * This part computes the tag's attributes
+                     */
+                    let attributesList = startContent.match(/(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g);
+                    //console.log(attributesList);
+                    for(let kAttribute in attributesList) {
+                        let attributeFull = attributesList[kAttribute];
+                        let attribute = attributeFull.replace(/(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g, '$1');
+                        let value = attributeFull.replace(/(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g, '$2');
+                        tagAttributes.push({attribute: attribute, value: value});
+                        //console.log(attribute);
+                        //console.log(value);
                     }
-                }
 
-                /*
-                 * This part compiles results
-                 */
-                if(tag !== "") {
+                    /*
+                     * This part compiles parents of the tag
+                     */
+                    // If tag can have parents, we compute the parents
                     if(tags[tag] !== undefined && tags[tag].btn.allow_root === false) {
-                        let parentLeftOfCursor = leftOfCursor.substring(0, leftOfCursor.lastIndexOf(tag)-1),
-                            parentRightOfCursor = leftOfCursor.substring(leftOfCursor.lastIndexOf(tag)-1, leftOfCursor.length-leftOfCursor.lastIndexOf(tag)-1)+rightOfCursor;
-
                         parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
-                        console.log(parent);
                         parents = this.getParents(parent, []);
                         parents.push(parent);
                     } else if(tags[tag].btn.allow_root === true){
@@ -236,19 +282,25 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         parents = [];
                     }
 
+                    /*
+                     * Creation of the returned object
+                     */
                     let varReturn = {
                         name: tag,
-                        position: {
+                        type: tagType,
+                        attributes: tagAttributes,
+                        startTag: {
                             start: {
-                                row: posRowS,
-                                column: posColS
+                                row: startRowS,
+                                column: startColS
                             },
                             end: {
-                                row: posRowE,
-                                column: posColE
-                            }
+                                row: startRowE,
+                                column: startColE
+                            },
+                            content: startContent
                         },
-                        end: {
+                        endTag: {
                             start: {
                                 row: endRowS,
                                 column: endColS
@@ -256,7 +308,8 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             end: {
                                 row: endRowE,
                                 column: endColE
-                            }
+                            },
+                            content: endContent
                         },
                         content: tagContent,
                         parent: parent,
@@ -267,7 +320,9 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 } else {
                     return {
                         name: null,
-                        position: {
+                        type: null,
+                        attributes: null,
+                        startTag: {
                             start: {
                                 row: null,
                                 column: null
@@ -275,9 +330,10 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             end: {
                                 row: null,
                                 column: null
-                            }
+                            },
+                            content: null
                         },
-                        end: {
+                        endTag: {
                             start: {
                                 row: null,
                                 column: null
@@ -285,7 +341,8 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             end: {
                                 row: null,
                                 column: null
-                            }
+                            },
+                            content: null
                         },
                         content: null,
                         parent: null,
@@ -296,7 +353,6 @@ angular.module('transcript.service.transcript', ['ui.router'])
             getParents(tagStructure, parents) {
                 if(tagStructure.parent !== null) {
                     if(tagStructure.parent.parent !== null) {parents = this.getParents(tagStructure.parent, parents);}
-                    console.log(parents);
                     parents.push(tagStructure.parent);
                 }
                 return parents;

@@ -109,7 +109,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
             ace: {
                 currentTag: {
                     name: null,
-                    position: {
+                    type: null,
+                    attributes: [],
+                    startTag: {
                         start: {
                             row: null,
                             column: null
@@ -117,9 +119,10 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         end: {
                             row: null,
                             column: null
-                        }
+                        },
+                        content: null
                     },
-                    end: {
+                    endTag: {
                         start: {
                             row: null,
                             column: null
@@ -127,7 +130,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         end: {
                             row: null,
                             column: null
-                        }
+                        },
+                        content: null
                     },
                     content: null,
                     parents: [],
@@ -283,11 +287,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
                      * Result: remove the "item" tag and jump to the end of the "list" tag
                      */
                     if($scope.transcriptArea.ace.currentTag.name === "item" && /^\s*$/.test($scope.transcriptArea.ace.currentTag.content) && $scope.smartTEI === true) {
-                        $scope.aceSession.getDocument().remove(new AceRange($scope.transcriptArea.ace.currentTag.position.start.row, $scope.transcriptArea.ace.currentTag.position.start.column-1, $scope.transcriptArea.ace.currentTag.end.end.row, $scope.transcriptArea.ace.currentTag.end.end.column+1));
+                        $scope.aceSession.getDocument().remove(new AceRange($scope.transcriptArea.ace.currentTag.startTag.start.row, $scope.transcriptArea.ace.currentTag.startTag.start.column-1, $scope.transcriptArea.ace.currentTag.endTag.end.row, $scope.transcriptArea.ace.currentTag.endTag.end.column+1));
                         $scope.$apply(function() {
                             $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
                         });
-                        $scope.aceEditor.getSelection().moveCursorTo($scope.transcriptArea.ace.currentTag.end.end.row, $scope.transcriptArea.ace.currentTag.end.end.column+1);
+                        $scope.aceEditor.getSelection().moveCursorTo($scope.transcriptArea.ace.currentTag.endTag.end.row, $scope.transcriptArea.ace.currentTag.endTag.end.column+1);
                         $scope.aceEditor.focus();
                     }
                     /* *Line break:*
@@ -329,8 +333,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                      * Result: insert a new "item" tag after the current one and jump into
                      */
                     if($scope.transcriptArea.ace.currentTag.name === "item" && $scope.smartTEI === true) {
-                        let row = $scope.transcriptArea.ace.currentTag.end.end.row,
-                            column = $scope.transcriptArea.ace.currentTag.end.end.column;
+                        let row = $scope.transcriptArea.ace.currentTag.endTag.end.row,
+                            column = $scope.transcriptArea.ace.currentTag.endTag.end.column;
 
                         $scope.aceSession.insert(
                             {row: row, column: column+1},
@@ -347,8 +351,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                      * Result: insert a new "p" tag after the current one and jump into
                      */
                     else if($scope.transcriptArea.ace.currentTag.name === "p" && $scope.smartTEI === true) {
-                        let row = $scope.transcriptArea.ace.currentTag.end.end.row,
-                            column = $scope.transcriptArea.ace.currentTag.end.end.column;
+                        let row = $scope.transcriptArea.ace.currentTag.endTag.end.row,
+                            column = $scope.transcriptArea.ace.currentTag.endTag.end.column;
 
                         $scope.aceSession.insert(
                             {row: row, column: column+1},
@@ -581,7 +585,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 attributeInsert = " " + attribute.id + "=\""+value.value+"\"";
             }
 
-            $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.position.end.row, column: $scope.transcriptArea.ace.currentTag.position.end.column}, attributeInsert);
+            $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.startTag.end.row, column: $scope.transcriptArea.ace.currentTag.startTag.end.column}, attributeInsert);
             $scope.aceEditor.focus();
             $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
         };
@@ -986,5 +990,15 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.page.fullscreen.status = false;
         };
         /* Full screen Management --------------------------------------------------------- */
+
+
+        $scope.parentSpec = function(index) {
+            console.log($scope.transcriptArea.ace.currentTag.parents[index]);
+
+            $scope.aceEditor.getSelection().moveCursorToPosition({row: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.row, column: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.column});
+            $scope.aceEditor.clearSelection();
+            $scope.aceEditor.focus();
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+        };
     }])
 ;
