@@ -64,6 +64,7 @@ tags:
         xml:
             name: "p"
             unique: false
+        complex_entry: false
     list:
         btn :
             id: "list"
@@ -82,6 +83,7 @@ tags:
         xml:
             name: "list"
             unique: false
+        complex_entry: false
     head:
         btn :
             id: "head"
@@ -102,6 +104,7 @@ tags:
         xml:
             name: "head"
             unique: false
+        complex_entry: false
     signed:
         btn :
             id: "signed"
@@ -120,6 +123,7 @@ tags:
         xml:
             name: "signed"
             unique: false
+        complex_entry: false
     dateline:
         btn :
             id: "dateline"
@@ -140,6 +144,7 @@ tags:
         xml:
             name: "dateline"
             unique: false
+        complex_entry: false
     postscript:
         btn :
             id: "postscript"
@@ -158,6 +163,7 @@ tags:
         xml:
             name: "postscript"
             unique: false
+        complex_entry: false
     # éléments de structure de 2e niveau :
     item:
         btn:
@@ -177,6 +183,7 @@ tags:
         xml:
             name: "item"
             unique: false
+        complex_entry: false
     seg:
         btn:
             id: "seg"
@@ -197,6 +204,7 @@ tags:
         xml:
             name: "seg"
             unique: false
+        complex_entry: false
     addrLine:
         btn :
             id: "addrLine"
@@ -217,6 +225,7 @@ tags:
         xml:
             name: "addrLine"
             unique: false
+        complex_entry: false
     note:
         btn :
             id: "note"
@@ -237,6 +246,7 @@ tags:
         xml:
             name: "note"
             unique: false
+        complex_entry: false
     # éléments marqueurs de la structure physique du testament :
     lb:
         btn:
@@ -256,6 +266,7 @@ tags:
         xml:
             name: "lb"
             unique: true
+        complex_entry: false
     # éléments marqueurs de la mise en page du testament, ou de la mise en valeur de parties du texte :
     space:
         btn:
@@ -266,7 +277,7 @@ tags:
             icon: "fa fa-arrows-v"
             btn_class: ""
             btn_group: "layoutMarker"
-            allow_root: false
+            allow_root: true
             enabled: false
         caret:
             position: "after"
@@ -277,6 +288,7 @@ tags:
         xml:
             name: "space"
             unique: true
+        complex_entry: false
     metamark:
         btn:
             id: "metamark"
@@ -286,7 +298,7 @@ tags:
             icon: "fa fa-paw"
             btn_class: ""
             btn_group: "layoutMarker"
-            allow_root: false
+            allow_root: true
             enabled: false
         caret:
             position: "after"
@@ -297,6 +309,7 @@ tags:
         xml:
             name: "metamark"
             unique: true
+        complex_entry: false
     # éléments marqueurs de 2ème niveau :
     hi:
         btn :
@@ -318,6 +331,7 @@ tags:
         xml:
             name: "hi"
             unique: false
+        complex_entry: false
     # éléments permettant de consigner des micro-phénomènes de l'écriture :
     choice:
         btn :
@@ -339,6 +353,7 @@ tags:
         xml:
             name: "choice"
             unique: false
+        complex_entry: false
     abbr:
         btn :
             id: "abbr"
@@ -359,6 +374,7 @@ tags:
         xml:
             name: "abbr"
             unique: false
+        complex_entry: false
     expan:
         btn :
             id: "expan"
@@ -379,6 +395,7 @@ tags:
         xml:
             name: "expan"
             unique: false
+        complex_entry: false
     sic:
         btn :
             id: "sic"
@@ -399,6 +416,7 @@ tags:
         xml:
             name: "sic"
             unique: false
+        complex_entry: false
     corr:
         btn :
             id: "corr"
@@ -419,6 +437,7 @@ tags:
         xml:
             name: "corr"
             unique: false
+        complex_entry: false
     orig:
         btn :
             id: "orig"
@@ -439,6 +458,7 @@ tags:
         xml:
             name: "orig"
             unique: false
+        complex_entry: false
     reg:
         btn :
             id: "orig"
@@ -459,6 +479,7 @@ tags:
         xml:
             name: "reg"
             unique: false
+        complex_entry: false
     surplus:
         btn :
             id: "surplus"
@@ -479,6 +500,7 @@ tags:
         xml:
             name: "surplus"
             unique: false
+        complex_entry: false
     add:
         btn :
             id: "add"
@@ -499,6 +521,7 @@ tags:
         xml:
             name: "add"
             unique: false
+        complex_entry: false
     del:
         btn :
             id: "del"
@@ -517,6 +540,7 @@ tags:
         xml:
             name: "del"
             unique: false
+        complex_entry: false
     subst:
         btn :
             id: "subst"
@@ -537,6 +561,7 @@ tags:
         xml:
             name: "subst"
             unique: false
+        complex_entry: false
     # éléments permettant de consigner des difficultés de lecture :
     damage:
         btn :
@@ -558,6 +583,7 @@ tags:
         xml:
             name: "damage"
             unique: false
+        complex_entry: false
     supplied:
         btn :
             id: "supplied"
@@ -578,6 +604,7 @@ tags:
         xml:
             name: "supplied"
             unique: false
+        complex_entry: false
     unclear:
         btn :
             id: "unclear"
@@ -598,6 +625,7 @@ tags:
         xml:
             name: "unclear"
             unique: false
+        complex_entry: false
     gap:
         btn :
             id: "gap"
@@ -619,6 +647,7 @@ tags:
         xml:
             name: "gap"
             unique: true
+        complex_entry: false
     # éléments de balisage sémantique :
     persName:
         btn :
@@ -640,6 +669,7 @@ tags:
         xml:
             name: "persName"
             unique: false
+        complex_entry: false
     placeName:
         btn :
             id: "placeName"
@@ -660,6 +690,7 @@ tags:
         xml:
             name: "placeName"
             unique: false
+        complex_entry: false
     orgName:
         btn :
             id: "orgName"
@@ -680,6 +711,7 @@ tags:
         xml:
             name: "orgName"
             unique: false
+        complex_entry: false
     date:
         btn :
             id: "date"
@@ -700,6 +732,7 @@ tags:
         xml:
             name: "date"
             unique: false
+        complex_entry: false
     term:
         btn :
             id: "term"
@@ -720,6 +753,7 @@ tags:
         xml:
             name: "term"
             unique: false
+        complex_entry: false
     # éléments pour les notes d'apparat critique ou les notes sur le contenu du testament :
     ref:
         btn :
@@ -741,6 +775,7 @@ tags:
         xml:
             name: "ref"
             unique: false
+        complex_entry: false
     note:
         btn :
             id: "note"
@@ -761,6 +796,7 @@ tags:
         xml:
             name: "note"
             unique: false
+        complex_entry: false
     app:
         btn :
             id: "app"
@@ -781,6 +817,7 @@ tags:
         xml:
             name: "app"
             unique: false
+        complex_entry: false
     lem:
         btn :
             id: "lem"
@@ -801,6 +838,7 @@ tags:
         xml:
             name: "lem"
             unique: false
+        complex_entry: false
     bibl:
         btn :
             id: "bibl"
@@ -821,6 +859,7 @@ tags:
         xml:
             name: "bibl"
             unique: false
+        complex_entry: false
 
 # The list is the list of allowed tag in the toolbar
 list: [p, list, head, signed, dateline, postscript, item, seg, addrLine, note, lb, space, metamark, hi, choice, sic, abbr, orig, surplus, add, del, subst, dammage, supplied, unclear, gap, persName, placeName, orgName, date, term, ref, app, lem, bibl]

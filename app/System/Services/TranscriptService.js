@@ -132,23 +132,52 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     parentLeftOfCursor = null,
                     parentRightOfCursor = null;
 
+                /* GLOBAL INFORMATION:
+                 * Positions shouldn't depend on the caret position. It should be absolute values, not relative.
+                 */
+
                 /* This part computes the parent tag name : */
+                function computeEndOfTag(tag, startPosition, startContent, leftOfCursor, rightOfCursor, carriedCounter, leftCredit) {
+                    let iContent = leftOfCursor+rightOfCursor,
+                        iEndPos = content.substring(startPosition, content.length).indexOf("</" + tag),
+                        iPortion = iContent.substring(startPosition+startContent.length, leftOfCursor.length+iEndPos),
+                        iFirstOccu = iPortion.indexOf("<"+tag);
+
+                    if(iFirstOccu !== -1) {
+                        // In this case, the tag contains at least on similar subtag. I.e.: <span><span></span></span>
+                        let iLeftOfCursor = leftOfCursor+rightOfCursor.substring(0, iFirstOccu),
+                            iRightOfCursor = rightOfCursor.substring(iFirstOccu, rightOfCursor.length),
+                            iStartContent = iLeftOfCursor.substring(iLeftOfCursor.lastIndexOf("</"), iLeftOfCursor.length)+iRightOfCursor.substring(0, iRightOfCursor.indexOf(">")+1);
+                        return computeEndOfTag(tag, iFirstOccu+startPosition, iStartContent, iLeftOfCursor, iRightOfCursor, carriedCounter+1, leftCredit+iFirstOccu);
+                    } else {
+                        // The tag doesn't contain similar tag
+                        if(carriedCounter !== 0 && iEndPos !== null) {
+                            // If we are computing the value for a parent:
+                            let previous = 0;
+                            for(let i = 0; i <= carriedCounter; i++) {
+                                previous = rightOfCursor.indexOf("</" + tag);
+                                rightOfCursor = rightOfCursor.substring(previous+2+tag.length+1, rightOfCursor.length);
+                                iEndPos += rightOfCursor.indexOf("</" + tag)+2+tag.length+1;
+                            }
+                            iEndPos += leftCredit+1-(2+tag.length+1);
+                        }
+                        return iEndPos;
+                    }
+                }
                 function computeFromEndTag(startContent) {
-                    console.log("computeFromEndTag");
                     tag = startContent.replace(/<\/([a-zA-Z]+)>/g, '$1');
 
                     if(tag !== "") {
                         tagType = "standard"; // -> This is an end tag, can't be a single tag
 
                         tagPos = leftOfCursor.lastIndexOf("<"+tag);
-                        endPos = content.substring(tagPos, content.length).indexOf("</" + tag);
+                        endPos = content.substring(tagPos, content.length).indexOf(startContent);
 
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
                         parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
                     }
                 }
                 function computeFromStartTag(startContent) {
-                    console.log("computeFromStartTag");
                     tag = startContent.replace(/<([a-zA-Z]+).*>/g, '$1');
 
                     if(tag !== "") {
@@ -158,7 +187,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                         tagPos = leftOfCursor.lastIndexOf("<");
                         if(tagType === "standard") {
-                            endPos = rightOfCursor.indexOf("</" + tag);
+                            endPos = computeEndOfTag(tag, tagPos, startContent, leftOfCursor, rightOfCursor, 0, 0);
                         }
 
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
@@ -168,21 +197,16 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                 if(leftOfCursor !== null && leftOfCursor.lastIndexOf("</") > leftOfCursor.lastIndexOf(">")) {
                     // The caret is inside an end tag > we use this tag as current tag
-                    //console.log("inside endtag");
-                    //console.log(leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1));
                     startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
                     computeFromEndTag(startContent);
                 } else if(leftOfCursor !== null && leftOfCursor.lastIndexOf("<") > leftOfCursor.lastIndexOf(">")) {
                     // The caret is inside a tag > we use this tag as current tag
-                    //console.log("inside tag");
-                    //console.log(leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1));
-
                     startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
                     if(startContent[1] === "/") { computeFromEndTag(startContent); }
                     else { computeFromStartTag(startContent); }
 
                 } else if (leftOfCursor !== null && leftOfCursor.indexOf("<") !== -1) {
-                    // The caret is outside a tag > we use the nearest tag as current tag
+                    // The caret is outside a tag -> we use the nearest tag as current tag
                     /*
                      * <\/?\w+((\s+\w+(\s*=\s*(?:".*?"|'.*?'|[\^'">\s]+))?)+\s*|\s*)\/?>/g
                      * Regex from http://haacked.com/archive/2004/10/25/usingregularexpressionstomatchhtml.aspx/
@@ -219,8 +243,8 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                     if(tag !== "") {
                         tagType = "standard";
-                        tagPos = leftOfCursor.lastIndexOf("<" + tag);
-                        endPos = rightOfCursor.indexOf("</" + tag);
+                        tagPos = leftOfCursor.lastIndexOf("<"+tag);
+                        endPos = content.substring(tagPos, content.length).indexOf("</"+tag);
 
                         parentLeftOfCursor = leftOfCursor.substring(0, leftOfCursor.lastIndexOf(tag)-1);
                         parentRightOfCursor = leftOfCursor.substring(leftOfCursor.lastIndexOf(tag)-1, leftOfCursor.length)+rightOfCursor;
@@ -257,8 +281,9 @@ angular.module('transcript.service.transcript', ['ui.router'])
                      * This part returns end tag's information
                      */
                     if(tagType === "standard") {
-                        let endPosStart = endPos;
-                        endPosStart += leftOfCursor.length;
+                        console.log(endPos);
+
+                        let endPosStart = endPos + tagPos;
                         for(let kLine in lines) {
                             let line = lines[kLine];
                             if(line.length <= endPosStart) {
@@ -280,7 +305,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     if(tagType === "standard") {
                         let afterTagPosContent = content.substring(tagPos + tag.length, content.length);
                         let tagPosFullContent = afterTagPosContent.indexOf('>');
-                        tagContent = content.substring(tagPos + tag.length + tagPosFullContent + 1, (leftOfCursor.length - (tagPos + tag.length + tagPosFullContent)) + tagPos + tag.length + tagPosFullContent + endPos);
+                        tagContent = content.substring(tagPos + tag.length + tagPosFullContent + 1, (tagPos + tag.length + tagPosFullContent + 1) + endPos - (2+tag.length));
                     }
                     /*
                      * This part computes the tag's attributes
