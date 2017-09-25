@@ -109,7 +109,7 @@ angular.module('transcript.service.user', ['ui.router'])
                     });
             },
             askReset: function(username) {
-                return $http.post($rootScope.api+"/users/resetting/send/"+username)
+                return $http.get($rootScope.api+"/users/resetting/send/"+username)
                     .then(function (response) {
                         console.log(response.data);
                         return true;

@@ -133,12 +133,22 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     parentRightOfCursor = null;
 
                 /* This part computes the parent tag name : */
-                if(leftOfCursor !== null && leftOfCursor.lastIndexOf("<") > leftOfCursor.lastIndexOf(">")) {
-                    // The caret is inside a tag > we use this tag as current tag
-                    //console.log("inside tag");
-                    //console.log(leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1));
+                function computeFromEndTag(startContent) {
+                    console.log("computeFromEndTag");
+                    tag = startContent.replace(/<\/([a-zA-Z]+)>/g, '$1');
 
-                    startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
+                    if(tag !== "") {
+                        tagType = "standard"; // -> This is an end tag, can't be a single tag
+
+                        tagPos = leftOfCursor.lastIndexOf("<"+tag);
+                        endPos = content.substring(tagPos, content.length).indexOf("</" + tag);
+
+                        parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
+                        parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
+                    }
+                }
+                function computeFromStartTag(startContent) {
+                    console.log("computeFromStartTag");
                     tag = startContent.replace(/<([a-zA-Z]+).*>/g, '$1');
 
                     if(tag !== "") {
@@ -154,6 +164,23 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
                         parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
                     }
+                }
+
+                if(leftOfCursor !== null && leftOfCursor.lastIndexOf("</") > leftOfCursor.lastIndexOf(">")) {
+                    // The caret is inside an end tag > we use this tag as current tag
+                    //console.log("inside endtag");
+                    //console.log(leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1));
+                    startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
+                    computeFromEndTag(startContent);
+                } else if(leftOfCursor !== null && leftOfCursor.lastIndexOf("<") > leftOfCursor.lastIndexOf(">")) {
+                    // The caret is inside a tag > we use this tag as current tag
+                    //console.log("inside tag");
+                    //console.log(leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1));
+
+                    startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("<"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
+                    if(startContent[1] === "/") { computeFromEndTag(startContent); }
+                    else { computeFromStartTag(startContent); }
+
                 } else if (leftOfCursor !== null && leftOfCursor.indexOf("<") !== -1) {
                     // The caret is outside a tag > we use the nearest tag as current tag
                     /*
@@ -277,7 +304,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
                         parents = this.getParents(parent, []);
                         parents.push(parent);
-                    } else if(tags[tag].btn.allow_root === true){
+                    } else if(tags[tag] !== undefined && tags[tag].btn.allow_root === true){
                         parent = null;
                         parents = [];
                     }

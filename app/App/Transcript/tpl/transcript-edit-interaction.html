@@ -20,6 +20,12 @@
             </div>
             <strong class="transcript-interaction-heading-title">Documentation : {{ transcriptArea.interaction.doc.title | ucfirst }} ({{ transcriptArea.interaction.doc.element }})</strong>
         </div>
+        <div data-ng-if="transcriptArea.interaction.status == 'info'">
+            <div class="pull-right">
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <strong class="transcript-interaction-heading-title">Information : {{ transcriptArea.ace.currentTag.name }}</strong>
+        </div>
         <div data-ng-if="transcriptArea.interaction.status == 'version'">
             <div class="pull-right">
                 <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
@@ -32,6 +38,12 @@
             </div>
             <strong class="transcript-interaction-heading-title">Notices descriptives</strong>
         </div>
+        <div data-ng-if="transcriptArea.interaction.status == 'bibliography'">
+            <div class="pull-right">
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <strong class="transcript-interaction-heading-title">Bibliographie</strong>
+        </div>
     </div>
     <div style="height: 92%;">
         <div id="div-interaction-live" data-ng-if="transcriptArea.interaction.status == 'live'">
@@ -41,6 +53,8 @@
             <div id="div-interaction-help-content" compile="transcriptArea.interaction.content.text"></div>
         </div>
         <div id="div-interaction-doc" data-ng-if="transcriptArea.interaction.status == 'doc'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-doc.html'"></div>
+        <div id="div-interaction-info" data-ng-if="transcriptArea.interaction.status == 'info'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-info.html'"></div>
+        <div id="div-interaction-biblio" data-ng-if="transcriptArea.interaction.status == 'bibliography'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-biblio.html'"></div>
         <div id="div-interaction-version" class="h100" data-ng-if="transcriptArea.interaction.status == 'version'">
             <div id="div-interaction-version-ace" class="h100">
                 <div ui-ace="{

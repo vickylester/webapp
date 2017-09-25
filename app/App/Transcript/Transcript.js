@@ -94,6 +94,13 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     element: null,
                     structure: null
                 },
+                info: {
+                    title: null,
+                    element: null,
+                    structure: null
+                },
+                bibliography: {
+                },
                 taxonomy: {
                     result: null,
                     dataType: null,
@@ -141,7 +148,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 modal: {
                     content: "",
                     variables: {}
-                }
+                },
+                rightMenu: {}
             },
             toolbar: {
                 tags: $scope.config.tags,
@@ -446,11 +454,26 @@ angular.module('transcript.app.transcript', ['ui.router'])
             }, false);
             $scope.aceEditor.container.addEventListener("click", function(e) {
                 e.preventDefault();
+
+                // -- Right click management:
+                // If the clicked element is not the menu
+                if (!$(e.target).parents("#transcript-edit-editor-ace-area-rmenu").length > 0) {
+                    // Hide it
+                    $("#transcript-edit-editor-ace-area-rmenu").hide(100);
+                }
+
                 $scope.$apply(function() {
                     /* Computing of current tag value */
                     $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
                 });
                 return false;
+            }, false);
+            $scope.aceEditor.container.addEventListener("contextmenu", function(e) {
+                e.preventDefault();
+
+                // -- Right click management:
+                $("#transcript-edit-editor-ace-area-rmenu").finish().toggle(100).css({top: e.pageY + "px", left: e.pageX + "px"});
+
             }, false);
             /* Click events ----------------------------------------------------------------------------------------- */
         };
@@ -460,10 +483,17 @@ angular.module('transcript.app.transcript', ['ui.router'])
              * Conditions: if currentTag value changes
              * Result: Reload the toolbar content
              */
+            let AceRange = $scope.aceEditor.getSelectionRange().constructor; //Doc -> https://stackoverflow.com/questions/28893954/how-to-get-range-when-using-angular-ui-ace#28894262
+
             $scope.$watch('transcriptArea.ace.currentTag', function() {
                 //console.log($scope.transcriptArea.ace.currentTag);
                 updateToolbar();
                 updateAttributes();
+                /*let range = new AceRange($scope.transcriptArea.ace.currentTag.startTag.start.row, $scope.transcriptArea.ace.currentTag.startTag.start.column, $scope.transcriptArea.ace.currentTag.startTag.end.row, $scope.transcriptArea.ace.currentTag.startTag.end.column);
+                console.log(range);
+                let marker = $scope.aceSession.addMarker(range, "red", "text", true);
+                console.log(marker);
+                console.log($scope.aceSession.getMarkers());*/
             });
 
             /**
@@ -477,33 +507,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags));
                 $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
             });
-        };
-
-        /**
-         * Actions on addTag
-         */
-        $scope.transcriptArea.ace.addTag = function(tagName) {
-            let tag = $scope.transcriptArea.toolbar.tags[tagName],
-                tagInsert = "",
-                defaultAddChar = 2;
-
-            if(tag.xml.unique === true) {
-                tagInsert = "<"+tag.xml.name+" />";
-                defaultAddChar = 4;
-            } else if(tag.xml.unique === false) {
-                tagInsert = "<" + tag.xml.name + ">"+$scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange())+"</" + tag.xml.name + ">";
-            }
-
-
-            //console.log($scope.aceEditor.getCursorPosition());
-            let lineNumber = $scope.aceEditor.getCursorPosition().row,
-                column = $scope.aceEditor.getCursorPosition().column+tag.xml.name.length+defaultAddChar;
-            //console.log(lineNumber+"<>"+column);
-
-            $scope.aceEditor.insert(tagInsert);
-            $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
-            $scope.aceEditor.focus();
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
         };
 
         /**
@@ -565,6 +568,47 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* End : XmlTagInterpreter -------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
+        /* XML TEI breadcrumb Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.ace.goToParent = function(index) {
+            console.log($scope.transcriptArea.ace.currentTag.parents[index]);
+
+            $scope.aceEditor.getSelection().moveCursorToPosition({row: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.row, column: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.column});
+            $scope.aceEditor.clearSelection();
+            $scope.aceEditor.focus();
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+        };
+        /* XML TEI breadcrumb Management --------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Tags Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.ace.addTag = function(tagName) {
+            let tag = $scope.transcriptArea.toolbar.tags[tagName],
+                tagInsert = "",
+                defaultAddChar = 2;
+
+            if(tag.xml.unique === true) {
+                tagInsert = "<"+tag.xml.name+" />";
+                defaultAddChar = 4;
+            } else if(tag.xml.unique === false) {
+                tagInsert = "<" + tag.xml.name + ">"+$scope.aceSession.getTextRange($scope.aceEditor.getSelectionRange())+"</" + tag.xml.name + ">";
+            }
+
+
+            //console.log($scope.aceEditor.getCursorPosition());
+            let lineNumber = $scope.aceEditor.getCursorPosition().row,
+                column = $scope.aceEditor.getCursorPosition().column+tag.xml.name.length+defaultAddChar;
+            //console.log(lineNumber+"<>"+column);
+
+            $scope.aceEditor.insert(tagInsert);
+            $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
+            $scope.aceEditor.focus();
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+        };
+        /* Tags Management --------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
         /* Attributes Management */
         /* -------------------------------------------------------------------------------- */
         function updateAttributes() {
@@ -585,7 +629,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 attributeInsert = " " + attribute.id + "=\""+value.value+"\"";
             }
 
-            $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.startTag.end.row, column: $scope.transcriptArea.ace.currentTag.startTag.end.column}, attributeInsert);
+            $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.startTag.end.row, column: $scope.transcriptArea.ace.currentTag.startTag.end.column-1}, attributeInsert);
             $scope.aceEditor.focus();
             $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
         };
@@ -601,6 +645,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             resetContentZone();
             resetTaxonomySearchZone();
             resetDocZone();
+            resetInfoZone();
         };
 
         function resetVersionZone() {
@@ -625,6 +670,12 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.transcriptArea.interaction.doc.title = null;
             $scope.transcriptArea.interaction.doc.element = null;
         }
+
+        function resetInfoZone() {
+            $scope.transcriptArea.interaction.info.structure = null;
+            $scope.transcriptArea.interaction.info.title = null;
+            $scope.transcriptArea.interaction.info.element = null;
+        }
         /* Interaction Management --------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
@@ -633,9 +684,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * This function loads documentation about a TEI element
          */
-        function loadDocumentation(element) {
+        $scope.transcriptArea.interaction.doc.load = function(element) {
             console.log(element);
-            $scope.$apply(function() {
                 $scope.transcriptArea.interaction.doc.title = element;
                 $scope.transcriptArea.interaction.doc.element = element;
                 if($scope.teiInfo[element] !== undefined && $scope.teiInfo[element].doc !== undefined) {
@@ -658,28 +708,42 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     }
                 }
                 $scope.transcriptArea.interaction.status = 'doc';
-            });
-        }
+
+        };
         /* Documentation Management ------------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Information Management */
+        /* -------------------------------------------------------------------------------- */
+        /**
+         * This function loads information about a TEI element
+         */
+        $scope.transcriptArea.interaction.info.load = function(element) {
+            console.log(element);
+            $scope.transcriptArea.interaction.status = 'info';
+        };
+        /* Information Management ------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Help Management */
         /* -------------------------------------------------------------------------------- */
         /**
          * Help management
-         * @param string
+         * @param element string|object
          * @param context
          * @param resetBreadcrumb
          */
-        $scope.transcriptArea.interaction.help = function(string, context, resetBreadcrumb) {
+        $scope.transcriptArea.interaction.help = function(element, context, resetBreadcrumb) {
             if(context === "helpContent") {
                 if(resetBreadcrumb === true) {
                     resetContentZone();
                 }
-                loadHelpData(string, resetBreadcrumb);
+                loadHelpData(element, resetBreadcrumb);
                 $scope.transcriptArea.interaction.status = 'content';
             } else if(context === "modelDoc") {
-                loadDocumentation(string);
+                $scope.transcriptArea.interaction.doc.load(element);
+            } else if(context === "modelInfo") {
+                $scope.transcriptArea.interaction.info.load(element);
             }
         };
 
@@ -774,6 +838,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
             }
         };
         /* Versions Management ------------------------------------------------------------ */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Bibliography Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.interaction.bibliography.action = function() {
+            $scope.transcriptArea.interaction.status = 'bibliography';
+        };
+        /* Bibliography Management ------------------------------------------------------------ */
 
         /* -------------------------------------------------------------------------------- */
         /* Taxonomy Search Management */
@@ -991,14 +1063,22 @@ angular.module('transcript.app.transcript', ['ui.router'])
         };
         /* Full screen Management --------------------------------------------------------- */
 
-
-        $scope.parentSpec = function(index) {
-            console.log($scope.transcriptArea.ace.currentTag.parents[index]);
-
-            $scope.aceEditor.getSelection().moveCursorToPosition({row: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.row, column: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.column});
-            $scope.aceEditor.clearSelection();
-            $scope.aceEditor.focus();
+        /* -------------------------------------------------------------------------------- */
+        /* Right menu Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.transcriptArea.ace.rightMenu.loadDocumentation = function() {
             $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+            $scope.transcriptArea.interaction.help($scope.transcriptArea.ace.currentTag.name, "modelDoc", true);
+
+            $("#transcript-edit-editor-ace-area-rmenu").hide(100);
         };
+
+        $scope.transcriptArea.ace.rightMenu.loadInformation = function() {
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+            $scope.transcriptArea.interaction.help($scope.transcriptArea.ace.currentTag, "modelInfo", true);
+
+            $("#transcript-edit-editor-ace-area-rmenu").hide(100);
+        };
+        /* Right menu Management --------------------------------------------------------- */
     }])
 ;

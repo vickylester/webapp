@@ -1,5 +1,5 @@
 <div id="ariane-toolbar">
-    <span ng-repeat="parent in transcriptArea.ace.currentTag.parents"><span ng-if="$index > 0"> <i class="fa fa-chevron-right"></i></span> <a ng-click="parentSpec($index)">{{ parent.name }}</a></span>
+    <span ng-repeat="parent in transcriptArea.ace.currentTag.parents"><span ng-if="$index > 0"> <i class="fa fa-chevron-right"></i></span> <a ng-click="transcriptArea.ace.goToParent($index)">{{ parent.name }}</a></span>
     <span ng-if="transcriptArea.ace.currentTag.parents.length > 0"><i class="fa fa-chevron-right"></i></span> <span>{{ transcriptArea.ace.currentTag.name }}</span>
 </div>
 <div class="btn-toolbar" role="toolbar">
@@ -11,7 +11,8 @@
         </div>
 
         <div class="btn-group" role="group">
-            <a data-ng-click="transcriptArea.interaction.taxonomy.action()" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-search"></i></a>
+            <a data-ng-click="transcriptArea.interaction.bibliography.action()" class="btn btn-sm btn-default" title="Accéder à la la bibliographie du testament"><i class="fa fa-book"></i></a>
+            <a data-ng-click="transcriptArea.interaction.taxonomy.action()" class="btn btn-sm btn-default" title="Faire une recherche dans les notices descriptives"><i class="fa fa-search"></i></a>
             <a data-ng-click="transcriptArea.interaction.help(preferences.help_inside_home_content, 'helpContent', true)" class="btn btn-sm btn-default" title="Obtenir des informations sur l'interface"><i class="fa fa-question-circle"></i></a>
             <a data-ng-if="page.fullscreen.status == false" data-ng-click="page.fullscreen.open()" class="btn btn-sm btn-default" title="Mode plein-écran"><i class="fa fa-arrows-alt"></i></a>
             <a data-ng-if="page.fullscreen.status == true" data-ng-click="page.fullscreen.close()" class="btn btn-sm btn-default" title="Quitter le mode plein-écran"><i class="fa fa-window-minimize"></i></a>

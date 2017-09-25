@@ -18,7 +18,7 @@ angular.module('transcript.app.security.resetting.request', ['ui.router'])
         })
     }])
 
-    .controller('AppSecurityResettingRequestCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
+    .controller('AppSecurityResettingRequestCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'UserService', function($rootScope, $scope, $http, $sce, $state, UserService) {
         $scope.form = {
             email: null
         };
@@ -33,6 +33,7 @@ angular.module('transcript.app.security.resetting.request', ['ui.router'])
             function reset() {
                 return UserService.askReset($scope.form.email).
                 then(function(data) {
+                    $scope.submit.loading = false;
                     if(data === true) {
                         $state.go("transcript.app.security.resetting.check");
                     }
