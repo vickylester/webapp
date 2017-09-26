@@ -164,6 +164,13 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         return iEndPos;
                     }
                 }
+                function computeStartOfTag(tag, endPos, leftOfCursor, rightOfCursor) {
+                    let iContent = leftOfCursor+rightOfCursor,
+                        iTagPos = content.substring(0, endPos).lastIndexOf("<" + tag),
+                        iPortion = iContent.substring(iTagPos, endPos);
+                        console.log(iTagPos);
+                        console.log(iPortion);
+                }
                 function computeFromEndTag(startContent) {
                     tag = startContent.replace(/<\/([a-zA-Z]+)>/g, '$1');
 
@@ -172,6 +179,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                         tagPos = leftOfCursor.lastIndexOf("<"+tag);
                         endPos = content.substring(tagPos, content.length).indexOf(startContent);
+                        computeStartOfTag(tag, leftOfCursor.lastIndexOf("</"), leftOfCursor, rightOfCursor);
 
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
                         parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
@@ -303,9 +311,9 @@ angular.module('transcript.service.transcript', ['ui.router'])
                      * This part returns the content of the tag
                      */
                     if(tagType === "standard") {
-                        let afterTagPosContent = content.substring(tagPos + tag.length, content.length);
+                        let afterTagPosContent = content.substring(tagPos + 1 + tag.length, content.length);
                         let tagPosFullContent = afterTagPosContent.indexOf('>');
-                        tagContent = content.substring(tagPos + tag.length + tagPosFullContent + 1, (tagPos + tag.length + tagPosFullContent + 1) + endPos - (2+tag.length));
+                        tagContent = content.substring(tagPos + 1 + tag.length + tagPosFullContent + 1, (tagPos + 1 + tag.length + 1) + endPos - (2+tag.length));
                     }
                     /*
                      * This part computes the tag's attributes
@@ -325,11 +333,11 @@ angular.module('transcript.service.transcript', ['ui.router'])
                      * This part compiles parents of the tag
                      */
                     // If tag can have parents, we compute the parents
-                    if(tags[tag] !== undefined && tags[tag].btn.allow_root === false) {
+                    if(tags[tag] !== undefined && tags[tag].btn.restrict_to_root === false) {
                         parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
                         parents = this.getParents(parent, []);
                         parents.push(parent);
-                    } else if(tags[tag] !== undefined && tags[tag].btn.allow_root === true){
+                    } else if(tags[tag] !== undefined && tags[tag].btn.restrict_to_root === true){
                         parent = null;
                         parents = [];
                     }
