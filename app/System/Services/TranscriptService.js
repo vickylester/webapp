@@ -109,6 +109,11 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 return 'App/Transcript/tpl/'+file+'.html';
             },
             getParentTag: function(leftOfCursor, rightOfCursor, lines, tags) {
+                /* GLOBAL INFORMATION:
+                 * - Positions shouldn't depend on the caret position. It should be absolute values, not relative.
+                 * - endPos should be an absolute value, not relative to tagPos
+                 */
+
                 let tag = "",
                     tagType = null,
                     startColS = null,
@@ -126,17 +131,20 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     tagAttributes = [],
                     parents = [],
                     parent = null,
+                    children = [],
                     content = leftOfCursor+rightOfCursor,
                     tagPos = null,
                     endPos = null,
                     parentLeftOfCursor = null,
                     parentRightOfCursor = null;
 
-                /* GLOBAL INFORMATION:
-                 * Positions shouldn't depend on the caret position. It should be absolute values, not relative.
-                 */
+                function registerChild(content, type) {
+                    children.push({content: content, type: type});
+                }
 
-                /* This part computes the parent tag name : */
+                /* -------------------------------------------------------------------------------------------------- */
+                /* -- Functions used to compute start and end position of tags -- */
+                /* -------------------------------------------------------------------------------------------------- */
                 function computeEndOfTag(tag, startPosition, startContent, leftOfCursor, rightOfCursor, carriedCounter, leftCredit) {
                     let iContent = leftOfCursor+rightOfCursor,
                         iEndPos = content.substring(startPosition, content.length).indexOf("</" + tag),
@@ -164,12 +172,60 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         return iEndPos;
                     }
                 }
-                function computeStartOfTag(tag, endPos, leftOfCursor, rightOfCursor) {
+                function computeEndOfTag2(tag, tagPos, leftOfCursor, rightOfCursor, carriedCounter) {
+                    let iEndPos = tagPos+content.substring(tagPos, content.length).indexOf("</" + tag),
+                        iPortion = content.substring(tagPos+1+tag.length, iEndPos);
+
+                    /*console.log(content.substring(tagPos+1+tag.length, content.length));
+                    console.log(content.substring(tagPos+1+tag.length, content.length).indexOf("</" + tag));
+                    console.log(tagPos);
+                    console.log(iEndPos);
+                    console.log(iPortion);*/
+
+                    if(iPortion.indexOf("<"+tag) !== -1) {
+                        //console.log("while");
+                        // Meaning there is another similar tag as child
+                        let list = iPortion.match(new RegExp("<"+tag,'g'));
+                        //console.log(list);
+                        return computeEndOfTag2(tag, iEndPos, leftOfCursor, rightOfCursor, carriedCounter+list.length-1);
+                    } else if(carriedCounter > 0) {
+                        //console.log("carried");
+                        // If the carried list is not empty
+                        return computeEndOfTag2(tag, iEndPos, leftOfCursor, rightOfCursor, carriedCounter-1);
+                    } else {
+                        if(carriedCounter > 0 && iEndPos !== null) {
+                            // If we are computing the value for a parent:
+                            let previous = 0;
+                            for(let i = 0; i <= carriedCounter; i++) {
+                                previous = rightOfCursor.indexOf("</" + tag);
+                                rightOfCursor = rightOfCursor.substring(previous+2+tag.length+1, rightOfCursor.length);
+                                iEndPos += rightOfCursor.indexOf("</" + tag)+2+tag.length+1;
+                            }
+                            iEndPos += leftCredit+1-(2+tag.length+1);
+                        }
+
+                        //console.log("return");
+                        // Else, we return the tag pos
+                        //console.log(iEndPos);
+                        return iEndPos;
+                    }
+                }
+                function computeStartOfTag(tag, endPos, leftOfCursor, rightOfCursor, carriedCounter) {
                     let iContent = leftOfCursor+rightOfCursor,
                         iTagPos = content.substring(0, endPos).lastIndexOf("<" + tag),
                         iPortion = iContent.substring(iTagPos, endPos);
-                        console.log(iTagPos);
-                        console.log(iPortion);
+
+                    if(iPortion.indexOf("</"+tag+">") !== -1) {
+                        // Meaning there is another similar tag as child
+                        let list = iPortion.match(new RegExp("</"+tag+">",'g'));
+                        return computeStartOfTag(tag, iTagPos, leftOfCursor, rightOfCursor, carriedCounter+list.length-1);
+                    } else if(carriedCounter > 0) {
+                        // If the carried list is not empty
+                        return computeStartOfTag(tag, iTagPos, leftOfCursor, rightOfCursor, carriedCounter-1);
+                    } else {
+                        // Else, we return the tag pos
+                        return iTagPos;
+                    }
                 }
                 function computeFromEndTag(startContent) {
                     tag = startContent.replace(/<\/([a-zA-Z]+)>/g, '$1');
@@ -177,9 +233,11 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     if(tag !== "") {
                         tagType = "standard"; // -> This is an end tag, can't be a single tag
 
-                        tagPos = leftOfCursor.lastIndexOf("<"+tag);
-                        endPos = content.substring(tagPos, content.length).indexOf(startContent);
-                        computeStartOfTag(tag, leftOfCursor.lastIndexOf("</"), leftOfCursor, rightOfCursor);
+                        //tagPos = leftOfCursor.lastIndexOf("<"+tag);
+                        //endPos = content.substring(tagPos, content.length).indexOf(startContent);
+
+                        endPos = leftOfCursor.lastIndexOf("<");
+                        tagPos = computeStartOfTag(tag, endPos, leftOfCursor, rightOfCursor, 0);
 
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
                         parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
@@ -195,14 +253,18 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                         tagPos = leftOfCursor.lastIndexOf("<");
                         if(tagType === "standard") {
-                            endPos = computeEndOfTag(tag, tagPos, startContent, leftOfCursor, rightOfCursor, 0, 0);
+                            endPos = computeEndOfTag2(tag, tagPos, leftOfCursor, rightOfCursor, 0);
                         }
 
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
                         parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
                     }
                 }
+                /* -------------------------------------------------------------------------------------------------- */
 
+                /* -------------------------------------------------------------------------------------------------- */
+                /* -- This part computes the parent tag name: -- */
+                /* -------------------------------------------------------------------------------------------------- */
                 if(leftOfCursor !== null && leftOfCursor.lastIndexOf("</") > leftOfCursor.lastIndexOf(">")) {
                     // The caret is inside an end tag > we use this tag as current tag
                     startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
@@ -251,18 +313,25 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                     if(tag !== "") {
                         tagType = "standard";
+
                         tagPos = leftOfCursor.lastIndexOf("<"+tag);
-                        endPos = content.substring(tagPos, content.length).indexOf("</"+tag);
+                        let startContentFull = content.substring(tagPos, content.length);
+                        startContent = startContentFull.substring(0, startContentFull.indexOf(">")+1);
+                        computeFromStartTag(startContent);
 
                         parentLeftOfCursor = leftOfCursor.substring(0, leftOfCursor.lastIndexOf(tag)-1);
                         parentRightOfCursor = leftOfCursor.substring(leftOfCursor.lastIndexOf(tag)-1, leftOfCursor.length)+rightOfCursor;
                     }
                 }
+                /* -------------------------------------------------------------------------------------------------- */
 
+                /* -------------------------------------------------------------------------------------------------- */
+                /* -- If a tag has been identified, we compute the relative information -- */
+                /* -------------------------------------------------------------------------------------------------- */
                 if(tag !== "") {
-                    /*
+                    /* -------------------------------------------------------------------------------------------------
                      * This part computes the start tag's position
-                     */
+                     ------------------------------------------------------------------------------------------------ */
                     if(tagType === "standard") {
                         startExtraCounter = 1;
                     } else if(tagType === "single") {
@@ -284,14 +353,15 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             break;
                         }
                     }
+                    /* ---------------------------------------------------------------------------------------------- */
 
-                    /*
+                    /* -------------------------------------------------------------------------------------------------
                      * This part returns end tag's information
-                     */
+                     ------------------------------------------------------------------------------------------------ */
                     if(tagType === "standard") {
                         console.log(endPos);
 
-                        let endPosStart = endPos + tagPos;
+                        let endPosStart = endPos;
                         for(let kLine in lines) {
                             let line = lines[kLine];
                             if(line.length <= endPosStart) {
@@ -306,32 +376,33 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             }
                         }
                     }
+                    /* ---------------------------------------------------------------------------------------------- */
 
-                    /*
+                    /* -------------------------------------------------------------------------------------------------
                      * This part returns the content of the tag
-                     */
+                     ------------------------------------------------------------------------------------------------ */
                     if(tagType === "standard") {
                         let afterTagPosContent = content.substring(tagPos + 1 + tag.length, content.length);
                         let tagPosFullContent = afterTagPosContent.indexOf('>');
-                        tagContent = content.substring(tagPos + 1 + tag.length + tagPosFullContent + 1, (tagPos + 1 + tag.length + 1) + endPos - (2+tag.length));
+                        tagContent = content.substring(tagPos + 1 + tag.length + tagPosFullContent + 1, endPos);
                     }
-                    /*
+                    /* ---------------------------------------------------------------------------------------------- */
+
+                    /* -------------------------------------------------------------------------------------------------
                      * This part computes the tag's attributes
-                     */
+                     ------------------------------------------------------------------------------------------------ */
                     let attributesList = startContent.match(/(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g);
-                    //console.log(attributesList);
                     for(let kAttribute in attributesList) {
                         let attributeFull = attributesList[kAttribute];
                         let attribute = attributeFull.replace(/(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g, '$1');
                         let value = attributeFull.replace(/(\S+)=["']?((?:.(?!["']?\s+(?:\S+)=|[>"']))+.)["']?/g, '$2');
                         tagAttributes.push({attribute: attribute, value: value});
-                        //console.log(attribute);
-                        //console.log(value);
                     }
+                    /* ---------------------------------------------------------------------------------------------- */
 
-                    /*
-                     * This part compiles parents of the tag
-                     */
+                    /* -------------------------------------------------------------------------------------------------
+                     * This part compiles the parents of the tag
+                     ------------------------------------------------------------------------------------------------ */
                     // If tag can have parents, we compute the parents
                     if(tags[tag] !== undefined && tags[tag].btn.restrict_to_root === false) {
                         parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
@@ -341,10 +412,148 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         parent = null;
                         parents = [];
                     }
+                    /* ---------------------------------------------------------------------------------------------- */
 
-                    /*
+                    /* -------------------------------------------------------------------------------------------------
+                     * This part compiles the children of the tag
+                     ------------------------------------------------------------------------------------------------ */
+                    if(tagContent !== null) {
+                        console.log(tagContent);
+
+                        //startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
+                        //tag = startContent.replace(/<([a-zA-Z]+).*>/g, '$1');
+
+                        if(tagContent.indexOf("<") !== -1) {
+                            // First step: we create a list of the tags and the string in the tagContent
+
+                            // There is at least one tag in the tag content
+                            let currentContent = "";
+                            let currentContentType = null;
+                            /* Methodology:
+                             * We loop each character and when we detect changes (by < and > characters), we register the entry
+                             */
+                            for(let key in tagContent) {
+                                key = parseInt(key);
+                                let character           = tagContent[key]; //console.log(character);
+                                let nextCharacter       = tagContent[key+1];
+                                let previousCharacter   = tagContent[key-1];
+
+                                if(character === "<" && nextCharacter !== " ") {
+                                    // This is the start of a tag
+
+                                    if(currentContent !== "") {
+                                        // We register the previous children
+                                        registerChild(currentContent, "string");
+                                    }
+
+                                    currentContent = character;
+                                    currentContentType = "tag";
+                                } else if(character === ">" && currentContentType === "tag") {
+                                    // This is the end of a tag
+                                    currentContent += character;
+                                    registerChild(currentContent, "tag");
+
+                                    // Reset values:
+                                    currentContent = "";
+                                    currentContentType = null;
+                                } else if(currentContentType === null) {
+                                    // Case where we start a new string
+                                    currentContentType = "string";
+                                    currentContent += character;
+                                } else if(nextCharacter === undefined && character !== ">" && currentContent !== "") {
+                                    // This is the last character and this is not the end of a tag
+                                    registerChild(currentContent, "string");
+                                } else {
+                                    currentContent += character;
+                                }
+
+                            }
+
+                            // Second step: we recompute the tag values and string values:
+                            for(let iChild in children) {
+                                iChild = parseInt(iChild);
+                                let child           = children[iChild]; //console.log(character);
+                                let nextChild       = children[iChild+1];
+                                let previousChild   = children[iChild-1];
+
+                                if(child.type === "tag" && child.content[(child.content.length-2)] === "/" && child.content[(child.content.length-1)] === ">") {
+                                    // This is an single tag
+                                    child.subType = "singleTag";
+                                    child.tag = child.content.replace(/<([a-zA-Z]+).*>/g, '$1');
+                                } else if(child.type === "tag" && child.content[1] === "/") {
+                                    // This is an end tag
+                                    child.subType = "endTag";
+                                    child.tag = child.content.replace(/<\/([a-zA-Z]+).*>/g, '$1');
+                                } else if(child.type === "tag" && child.content[1] !== "/") {
+                                    // This is a start tag
+                                    child.subType = "startTag";
+                                    child.tag = child.content.replace(/<([a-zA-Z]+).*>/g, '$1');
+                                }
+                            }
+
+                            // Third step: we merge the tag and the string:
+                            let newChildren3 = [];
+                            let skipList3 = [];
+                            for(let iChild in children) {
+                                iChild = parseInt(iChild);
+                                let child           = children[iChild]; //console.log(character);
+                                let nextChild       = children[iChild+1];
+                                let previousChild   = children[iChild-1];
+
+                                if(skipList3.indexOf(iChild) !== -1) {
+                                    continue;
+                                } else if(child.type === "string" &&
+                                previousChild !== undefined && previousChild.type === "tag" && previousChild.subType === "startTag" &&
+                                nextChild !== undefined && nextChild.type === "tag" && nextChild.subType === "endTag" &&
+                                previousChild.tag === nextChild.tag) {
+                                    newChildren3.splice(newChildren3.length-1, 1);
+                                    skipList3.push(iChild+1);
+                                    newChildren3.push({
+                                        content: previousChild.content+child.content+nextChild.content,
+                                        type: "tag"
+                                    });
+                                } else {
+                                    newChildren3.push(child);
+                                }
+                            }
+                            children = newChildren3;
+
+                            // Fourth step: we merge the tags:
+                            let newChildren4 = [];
+                            let mergeContent4 = "";
+                            let mergeContentTag4 = "";
+                            for(let iChild in children) {
+                                iChild = parseInt(iChild);
+                                let child           = children[iChild]; //console.log(character);
+
+                                if(child.subType === "startTag") {
+                                    mergeContent4 = child.content;
+                                    mergeContentTag4 = child.tag;
+                                } else if((child.type === "tag" && child.subType === undefined) || child.subType !== "endTag" || (child.subType === "endTag" && child.tag !== mergeContentTag4) && mergeContent4 !== "") {
+                                    mergeContent4 += child.content;
+                                } else if(child.type === "tag" && child.subType === "endTag" && child.tag === mergeContentTag4 && mergeContent4 !== "") {
+                                    mergeContent4 += child.content;
+                                    newChildren4.push({
+                                        content: mergeContent4,
+                                        type: "tag"
+                                    });
+                                    mergeContent4 = "";
+                                    mergeContentTag4 = "";
+                                } else if(child.type !== "tag") {
+                                    newChildren4.push(child);
+                                }
+                            }
+                            children = newChildren4;
+                        } else {
+                            // Tag content is string
+                            registerChild(tagContent, "string");
+                        }
+                    }
+                    /* ---------------------------------------------------------------------------------------------- */
+
+                    /* -------------------------------------------------------------------------------------------------
                      * Creation of the returned object
-                     */
+                     ------------------------------------------------------------------------------------------------ */
                     let varReturn = {
                         name: tag,
                         type: tagType,
@@ -373,10 +582,12 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         },
                         content: tagContent,
                         parent: parent,
-                        parents: parents
+                        parents: parents,
+                        children: children
                     };
                     console.log(varReturn);
                     return varReturn;
+                    /* ---------------------------------------------------------------------------------------------- */
                 } else {
                     return {
                         name: null,
@@ -406,9 +617,11 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         },
                         content: null,
                         parent: null,
-                        parents: null
+                        parents: null,
+                        children: null
                     };
                 }
+                /* -------------------------------------------------------------------------------------------------- */
             },
             getParents(tagStructure, parents) {
                 if(tagStructure.parent !== null) {

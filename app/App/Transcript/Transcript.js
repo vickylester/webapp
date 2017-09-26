@@ -142,7 +142,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     },
                     content: null,
                     parents: [],
-                    parent: null
+                    parent: null,
+                    children: []
                 },
                 area: $scope.transcript.content,
                 modal: {
