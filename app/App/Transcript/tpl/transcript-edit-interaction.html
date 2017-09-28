@@ -44,6 +44,12 @@
             </div>
             <strong class="transcript-interaction-heading-title">Bibliographie</strong>
         </div>
+        <div data-ng-if="transcriptArea.interaction.status == 'complexEntry'">
+            <div class="pull-right">
+                <button class="btn btn-default btn-sm" data-ng-click="transcriptArea.interaction.gotoLive()" title="Retour au rendu de la transcription"><i class="fa fa-fire"></i></button>
+            </div>
+            <strong class="transcript-interaction-heading-title">Saisie complexe</strong>
+        </div>
     </div>
     <div style="height: 92%;">
         <div id="div-interaction-live" data-ng-if="transcriptArea.interaction.status == 'live'">
@@ -66,5 +72,18 @@
             </div>
         </div>
         <div id="div-interaction-taxonomy" data-ng-if="transcriptArea.interaction.status == 'taxonomySearch'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-taxonomy-search.html'"></div>
+        <div id="div-interaction-complexEntry" data-ng-if="transcriptArea.interaction.status == 'complexEntry'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-complexEntry.html'"></div>
+
+        <div class="panel panel-warning" ng-if="transcriptArea.interaction.alertZone.alerts.length > 0 && transcriptArea.interaction.alertZone.show == true">
+            <div class="panel-heading">
+                <div class="pull-right">
+                    <button class="btn btn-default btn-sm"><i class="fa fa-close"></i></button>
+                </div>
+                <h3 class="panel-title">Point de vigilance</h3>
+            </div>
+            <div class="panel-body">
+                <div ng-bind="transcriptArea.interaction.alertZone.alerts[0].content"></div>
+            </div>
+        </div>
     </div>
 </div>

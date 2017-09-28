@@ -3,7 +3,7 @@
         <p><strong>Attention, vous êtes sur le point de quitter l'interface de transcription sans avoir sauvergardé votre travail.</strong></p>
         <div class="text-center">
             <div class="btn-group">
-                <button data-ng-click="submit.load('load-read')" class="btn btn-primary">
+                <button data-ng-click="submit.action('load-read')" class="btn btn-primary">
                     <span data-ng-if="submit.loading == false">Sauvegarder mon travail</span>
                     <span data-ng-if="submit.loading == true">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
                 </button>

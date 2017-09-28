@@ -76,13 +76,13 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     } else if(value[value.length-2] === "/") {
                         /* Match with single tag */
                         if(buttons[valueTagName] !== undefined) {
-                            console.log(valueTagName);
+                            // console.log(valueTagName);
                             encodeLiveRender = encodeLiveRender.replace(value, TS.tagConstruction(buttons[valueTagName], "singleTag"));
                         }
                     } else if(value[value.length-2] !== "/") {
                         /* Match with start tag, escaping single tags */
                         if(buttons[valueTagName] !== undefined) {
-                            console.log(valueTagName);
+                            // console.log(valueTagName);
                             encodeLiveRender = encodeLiveRender.replace(value, TS.tagConstruction(buttons[valueTagName], "startTag"));
                         }
                     }

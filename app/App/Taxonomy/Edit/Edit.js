@@ -154,7 +154,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             // Edition of entity
             $scope.entity = entity;
             $scope.entity.dataType = $transition$.params().type;
-            $scope.entity.update_comment = "";
+            $scope.entity.updateComment = "";
             $scope.context = "edit";
 
             $scope.remove = {

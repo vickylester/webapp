@@ -52,7 +52,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
         $scope.form.addResource = function(resourceNumber) {
             $scope.entity.resources.push({
                 type: '',
-                order_in_will: resourceNumber+1,
+                orderInWill: resourceNumber+1,
                 images: '',
                 notes: ''
             });
@@ -69,20 +69,24 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
         $scope.submit.action = function() {
             $scope.submit.loading = true;
             let formEntity = {
-                    willNumber: $scope.entity.will_number,
+                    willNumber: $scope.entity.willNumber,
                     will: {
-                        title: "Testament "+$scope.entity.will.call_number,
-                        callNumber: $scope.entity.will.call_number,
-                        minuteLink: $scope.entity.will.minute_link,
-                        minuteDate: new Date($scope.entity.will.minute_date),
-                        willWritingDate: new Date($scope.entity.will.will_writing_date),
-                        willWritingPlace: $scope.entity.will.will_writing_place.id,
-                        physDescSupport: $scope.entity.will.phys_desc_support,
-                        physDescHeight: $scope.entity.will.phys_desc_height,
-                        physDescWidth: $scope.entity.will.phys_desc_width,
-                        physDescHand: $scope.entity.will.phys_desc_hand,
-                        hostingOrganization: $scope.entity.will.hosting_organization,
-                        identificationUser: $scope.entity.will.identification_user,
+                        title: "Testament "+$scope.entity.will.callNumber,
+                        callNumber: $scope.entity.will.callNumber,
+                        minuteLink: $scope.entity.will.minuteLink,
+                        minuteDate: $scope.entity.will.minuteDate,
+                        willWritingDate: $scope.entity.will.willWritingDate,
+                        willWritingPlace: $scope.entity.will.willWritingPlace.id,
+                        placePhysDescSupport: $scope.entity.will.placePhysDescSupport,
+                        placePhysDescHeight: $scope.entity.will.placePhysDescHeight,
+                        placePhysDescWidth: $scope.entity.will.placePhysDescWidth,
+                        placePhysDescHand: $scope.entity.will.placePhysDescHand,
+                        envelopPhysDescSupport: $scope.entity.will.envelopPhysDescSupport,
+                        envelopPhysDescHeight: $scope.entity.will.envelopPhysDescHeight,
+                        envelopPhysDescWidth: $scope.entity.will.envelopPhysDescWidth,
+                        envelopPhysDescHand: $scope.entity.will.envelopPhysDescHand,
+                        hostingOrganization: $scope.entity.will.hostingOrganization,
+                        identificationUser: $scope.entity.will.identificationUser,
                     },
                     resources: []
                 };
@@ -93,7 +97,7 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
                 }
                 let content = {
                     type: resource.type,
-                    orderInWill: resource.order_in_will,
+                    orderInWill: resource.orderInWill,
                     notes: resource.notes,
                     images: resource.images
                 };

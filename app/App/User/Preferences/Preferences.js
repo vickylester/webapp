@@ -33,8 +33,8 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
         console.log(userPreferences);
         $scope.userPreferences = userPreferences;
         $scope.form = {
-            transcriptionDeskPosition: $scope.userPreferences.transcription_desk_position,
-            smartTEI: $scope.userPreferences.smart_t_e_i.toString()
+            transcriptionDeskPosition: $scope.userPreferences.transcriptionDeskPosition,
+            smartTEI: $scope.userPreferences.smartTEI.toString()
         };
         $scope.submit = {
             loading: false

@@ -15,7 +15,7 @@ angular.module('transcript.app.edition', ['ui.router'])
             },
             ncyBreadcrumb: {
                 parent: 'transcript.app.entity({id: entity.id})',
-                label: '{{ resource.type | ucfirst }} {{resource.order_in_will}}'
+                label: '{{ resource.type | ucfirst }} {{resource.orderInWill}}'
             },
             url: '/edition/:idEntity/:idResource',
             resolve: {

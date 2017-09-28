@@ -42,11 +42,11 @@ angular.module('transcript.app.home', ['ui.router'])
                 will: {
                     testator: {
                         name: null,
-                        place_of_death: {
+                        placeOfDeath: {
                             name: null
                         },
-                        date_of_death: null,
-                        place_of_birth: {
+                        dateOfDeath: null,
+                        placeOfBirth: {
                             name: null
                         }
                     }
@@ -56,12 +56,12 @@ angular.module('transcript.app.home', ['ui.router'])
                 will: {
                     testator: {
                         name: SearchService.dataset($scope.entities, "will.testator.name", "string"),
-                        place_of_death: {
-                            name: SearchService.dataset($scope.entities, "will.testator.place_of_death.name", "string")
+                        placeOfDeath: {
+                            name: SearchService.dataset($scope.entities, "will.testator.placeOfDeath.name", "string")
                         },
-                        date_of_death: SearchService.dataset($scope.entities, "will.testator.date_of_death", "date"),
-                        place_of_birth: {
-                            name: SearchService.dataset($scope.entities, "will.testator.place_of_birth.name", "string")
+                        dateOfDeath: SearchService.dataset($scope.entities, "will.testator.dateOfDeath", "date"),
+                        placeOfBirth: {
+                            name: SearchService.dataset($scope.entities, "will.testator.placeOfBirth.name", "string")
                         }
                     }
                 }
@@ -80,31 +80,31 @@ angular.module('transcript.app.home', ['ui.router'])
             }
         });
 
-        $scope.$watch('search.form.will.testator.place_of_death.name', function() {
-            if($scope.search.form.will.testator.place_of_death.name !== undefined) {
-                if ($scope.search.form.will.testator.place_of_death.name !== null && $scope.search.form.will.testator.place_of_death.name !== "" && $scope.search.form.will.testator.place_of_death.name.originalObject !== undefined) {
-                    $scope.search.form.will.testator.place_of_death.name = $scope.search.form.will.testator.place_of_death.name.originalObject.value;
-                    console.log($scope.search.form.will.testator.place_of_death.name);
+        $scope.$watch('search.form.will.testator.placeOfDeath.name', function() {
+            if($scope.search.form.will.testator.placeOfDeath.name !== undefined) {
+                if ($scope.search.form.will.testator.placeOfDeath.name !== null && $scope.search.form.will.testator.placeOfDeath.name !== "" && $scope.search.form.will.testator.placeOfDeath.name.originalObject !== undefined) {
+                    $scope.search.form.will.testator.placeOfDeath.name = $scope.search.form.will.testator.placeOfDeath.name.originalObject.value;
+                    console.log($scope.search.form.will.testator.placeOfDeath.name);
                 }
                 refresh();
             }
         });
 
-        $scope.$watch('search.form.will.testator.date_of_death', function() {
-            if($scope.search.form.will.testator.date_of_death !== undefined) {
-                if ($scope.search.form.will.testator.date_of_death !== null && $scope.search.form.will.testator.date_of_death !== "" && $scope.search.form.will.testator.date_of_death.originalObject !== undefined) {
-                    $scope.search.form.will.testator.date_of_death = $scope.search.form.will.testator.date_of_death.originalObject.value;
-                    console.log($scope.search.form.will.testator.date_of_death);
+        $scope.$watch('search.form.will.testator.dateOfDeath', function() {
+            if($scope.search.form.will.testator.dateOfDeath !== undefined) {
+                if ($scope.search.form.will.testator.dateOfDeath !== null && $scope.search.form.will.testator.dateOfDeath !== "" && $scope.search.form.will.testator.dateOfDeath.originalObject !== undefined) {
+                    $scope.search.form.will.testator.dateOfDeath = $scope.search.form.will.testator.dateOfDeath.originalObject.value;
+                    console.log($scope.search.form.will.testator.dateOfDeath);
                 }
                 refresh();
             }
         });
 
-        $scope.$watch('search.form.will.testator.place_of_birth.name', function() {
-            if($scope.search.form.will.testator.place_of_birth.name !== undefined) {
-                if ($scope.search.form.will.testator.place_of_birth.name !== null && $scope.search.form.will.testator.place_of_birth.name !== "" && $scope.search.form.will.testator.place_of_birth.name.originalObject !== undefined) {
-                    $scope.search.form.will.testator.place_of_birth.name = $scope.search.form.will.testator.place_of_birth.name.originalObject.value;
-                    console.log($scope.search.form.will.testator.place_of_birth.name);
+        $scope.$watch('search.form.will.testator.placeOfBirth.name', function() {
+            if($scope.search.form.will.testator.placeOfBirth.name !== undefined) {
+                if ($scope.search.form.will.testator.placeOfBirth.name !== null && $scope.search.form.will.testator.placeOfBirth.name !== "" && $scope.search.form.will.testator.placeOfBirth.name.originalObject !== undefined) {
+                    $scope.search.form.will.testator.placeOfBirth.name = $scope.search.form.will.testator.placeOfBirth.name.originalObject.value;
+                    console.log($scope.search.form.will.testator.placeOfBirth.name);
                 }
                 refresh();
             }
@@ -142,13 +142,13 @@ angular.module('transcript.app.home', ['ui.router'])
             for(let result in $scope.results) {
                 let entity = $scope.results[result];
 
-                if(entity.will.testator.place_of_death !== null && entity.will.testator.place_of_death.geographical_coordinates !== null) {
-                    let coord = entity.will.testator.place_of_death.geographical_coordinates.split('+');
+                if(entity.will.testator.placeOfDeath !== null && entity.will.testator.placeOfDeath.geographicalCoordinates !== null) {
+                    let coord = entity.will.testator.placeOfDeath.geographicalCoordinates.split('+');
                     let id = "maker"+entity.will.testator.id;
                     let marker = {
                         lat: parseFloat(coord[0]),
                         lng: parseFloat(coord[1]),
-                        message: entity.will.testator.name+' décédé à '+entity.will.testator.place_of_death.name,
+                        message: entity.will.testator.name+' décédé à '+entity.will.testator.placeOfDeath.name,
                         focus: false,
                         draggable: false
                     };

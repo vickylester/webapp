@@ -1,0 +1,25 @@
+<div>
+    <p><strong ng-bind="transcriptArea.ace.currentTag.name"></strong></p>
+
+    <div ng-bind="transcriptArea.interaction.doc.structure.projectDescription"></div>
+    <p ng-if="transcriptArea.interaction.doc.structure.projectDescription == null" class="alert alert-warning text-center">
+        Cette balise ne possède pas de description.
+    </p>
+</div>
+
+<div ng-if="transcriptArea.interaction.complexEntry.name == 'choice'">
+    <div>
+        <p><strong>Une balise choice doit contenir une des trois configurations suivantes :</strong></p>
+        <ul>
+            <li>Une abbréviation et sa version intégrale via les balises <code>&lt;abbr&gt;</code> et <code>&lt;expan&gt;</code></li>
+            <li>Une faute et sa correction via les balises <code>&lt;sic&gt;</code> et <code>&lt;corr&gt;</code></li>
+            <li>Une forme ancienne et sa forme correcte via les balises <code>&lt;orig&gt;</code> et <code>&lt;reg&gt;</code></li>
+        </ul>
+    </div>
+
+    <div>
+        <p><strong>Situation actuelle :</strong></p>
+        <p>Votre balise contient les éléments <code>&lt;orig&gt;</code> et <code>&lt;reg&gt;</code>. <span class="text-success">Tout est en ordre.</span></p>
+    </div>
+</div>
+

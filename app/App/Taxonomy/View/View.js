@@ -31,10 +31,10 @@ angular.module('transcript.app.taxonomy.view', ['ui.router'])
         $scope.entities = entities;
         $scope.entity.dataType = $transition$.params().type;
 
-        if($scope.entity.dataType === 'places' && $scope.entity.geographical_coordinates !== null) {
+        if($scope.entity.dataType === 'places' && $scope.entity.geographicalCoordinates !== null) {
             /* -- Setting up map ----------------------------------------------------------------- */
             // Doc is here: http://tombatossals.github.io/angular-leaflet-directive/#!/examples/center
-            let coord = $scope.entity.geographical_coordinates.split('+');
+            let coord = $scope.entity.geographicalCoordinates.split('+');
             angular.extend($scope, {
                 center: {
                     lat: parseFloat(coord[0]),

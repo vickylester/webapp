@@ -71,7 +71,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             places: places,
             regiments: regiments
         };
-        $scope.smartTEI = $rootScope.user._embedded.preferences.smart_t_e_i;
+        $scope.smartTEI = $rootScope.user._embedded.preferences.smartTEI;
 
         $scope.page = {
             fullscreen: {
@@ -111,6 +111,13 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 version: {
                     id: null,
                     content: null
+                },
+                complexEntry: {
+                    name: null
+                },
+                alertZone: {
+                    show: true,
+                    alerts: []
                 }
             },
             ace: {
@@ -146,6 +153,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     children: []
                 },
                 area: $scope.transcript.content,
+                lines: [],
                 modal: {
                     content: "",
                     variables: {}
@@ -276,6 +284,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceUndoManager = $scope.aceSession.setUndoManager(new ace.UndoManager());
             $scope.aceEditor.focus();
             $scope.aceEditor.navigateFileEnd();
+            $scope.transcriptArea.ace.lines = $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1);
             /* Variables -------------------------------------------------------------------------------------------- */
 
             /* ------------------------------------------------------------------------------------------------------ *
@@ -490,11 +499,10 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 //console.log($scope.transcriptArea.ace.currentTag);
                 updateToolbar();
                 updateAttributes();
-                /*let range = new AceRange($scope.transcriptArea.ace.currentTag.startTag.start.row, $scope.transcriptArea.ace.currentTag.startTag.start.column, $scope.transcriptArea.ace.currentTag.startTag.end.row, $scope.transcriptArea.ace.currentTag.startTag.end.column);
-                console.log(range);
-                let marker = $scope.aceSession.addMarker(range, "red", "text", true);
-                console.log(marker);
-                console.log($scope.aceSession.getMarkers());*/
+
+                if($scope.transcriptArea.ace.currentTag.name !== null && $scope.transcriptArea.toolbar.tags[$scope.transcriptArea.ace.currentTag.name].complex_entry === true) {
+                    $scope.transcriptArea.interaction.complexEntry.action();
+                }
             });
 
             /**
@@ -507,6 +515,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 }
                 $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags));
                 $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                $scope.transcriptArea.ace.lines = $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1);
+                updateAlerts();
             });
         };
 
@@ -680,36 +690,61 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Interaction Management --------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
-        /* Documentation Management */
+        /* Complex Entry Management */
         /* -------------------------------------------------------------------------------- */
         /**
          * This function loads documentation about a TEI element
          */
-        $scope.transcriptArea.interaction.doc.load = function(element) {
-            console.log(element);
-                $scope.transcriptArea.interaction.doc.title = element;
-                $scope.transcriptArea.interaction.doc.element = element;
-                if($scope.teiInfo[element] !== undefined && $scope.teiInfo[element].doc !== undefined) {
-                    if($scope.teiInfo[element].doc.gloss.length === 1) {
-                        $scope.transcriptArea.interaction.doc.title = $scope.teiInfo[element].doc.gloss[0].content;
-                    }
+        $scope.transcriptArea.interaction.complexEntry.action = function() {
+            // console.log("complexEntry");
+            function findChoice(tag) {
+                return tag.name === 'choice';
+            }
 
-                    $scope.transcriptArea.interaction.doc.structure = $scope.teiInfo[element].doc;
+            defineDocumentation($scope.transcriptArea.ace.currentTag.name);
+            if($scope.transcriptArea.ace.currentTag.name === "choice" || $scope.transcriptArea.ace.currentTag.parents.find(findChoice) !== undefined) {
+                $scope.transcriptArea.interaction.complexEntry.name = "choice";
+            }
 
-                    if($scope.transcriptArea.interaction.doc.structure.exemplum !== undefined) {
-                        for (let idExample in $scope.transcriptArea.interaction.doc.structure.exemplum) {
-                            $scope.transcriptArea.interaction.doc.structure.exemplum[idExample] = $scope.transcriptArea.interaction.doc.structure.exemplum[idExample].replace('<egXML xmlns="http://www.tei-c.org/ns/Examples">', '').replace('</egXML>', '').replace(/\s+/g, " ");
-                        }
-                    } else {
-                        $scope.transcriptArea.interaction.doc.structure.exemplum = [];
-                    }
+            $scope.transcriptArea.interaction.status = 'complexEntry';
+        };
+        /* Complex Entry Management ------------------------------------------------------- */
 
-                    if($scope.transcriptArea.interaction.doc.structure.descriptions === undefined) {
-                        $scope.transcriptArea.interaction.doc.structure.descriptions = [];
-                    }
+
+        /* -------------------------------------------------------------------------------- */
+        /* Documentation Management */
+        /* -------------------------------------------------------------------------------- */
+        function defineDocumentation(element) {
+            $scope.transcriptArea.interaction.doc.title = element;
+            $scope.transcriptArea.interaction.doc.element = element;
+            if($scope.teiInfo[element] !== undefined && $scope.teiInfo[element].doc !== undefined) {
+                if($scope.teiInfo[element].doc.gloss.length === 1) {
+                    $scope.transcriptArea.interaction.doc.title = $scope.teiInfo[element].doc.gloss[0].content;
                 }
-                $scope.transcriptArea.interaction.status = 'doc';
 
+                $scope.transcriptArea.interaction.doc.structure = $scope.teiInfo[element].doc;
+
+                if($scope.transcriptArea.interaction.doc.structure.exemplum !== undefined) {
+                    for (let idExample in $scope.transcriptArea.interaction.doc.structure.exemplum) {
+                        $scope.transcriptArea.interaction.doc.structure.exemplum[idExample] = $scope.transcriptArea.interaction.doc.structure.exemplum[idExample].replace('<egXML xmlns="http://www.tei-c.org/ns/Examples">', '').replace('</egXML>', '').replace(/\s+/g, " ");
+                    }
+                } else {
+                    $scope.transcriptArea.interaction.doc.structure.exemplum = [];
+                }
+
+                if($scope.transcriptArea.interaction.doc.structure.descriptions === undefined) {
+                    $scope.transcriptArea.interaction.doc.structure.descriptions = [];
+                }
+            }
+        }
+
+        /**
+         * This function loads documentation about a TEI element
+         */
+        $scope.transcriptArea.interaction.doc.action = function(element) {
+            // console.log(element);
+            defineDocumentation(element);
+            $scope.transcriptArea.interaction.status = 'doc';
         };
         /* Documentation Management ------------------------------------------------------- */
 
@@ -719,11 +754,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * This function loads information about a TEI element
          */
-        $scope.transcriptArea.interaction.info.load = function(element) {
+        $scope.transcriptArea.interaction.info.action = function(element) {
             console.log(element);
             $scope.transcriptArea.interaction.status = 'info';
         };
-        /* Information Management ------------------------------------------------------- */
+        /* Information Management --------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Help Management */
@@ -742,9 +777,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 loadHelpData(element, resetBreadcrumb);
                 $scope.transcriptArea.interaction.status = 'content';
             } else if(context === "modelDoc") {
-                $scope.transcriptArea.interaction.doc.load(element);
+                $scope.transcriptArea.interaction.doc.action(element);
             } else if(context === "modelInfo") {
-                $scope.transcriptArea.interaction.info.load(element);
+                $scope.transcriptArea.interaction.info.action(element);
             }
         };
 
@@ -826,7 +861,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* -------------------------------------------------------------------------------- */
         /* Versions Management */
         /* -------------------------------------------------------------------------------- */
-        $scope.transcriptArea.interaction.version.load = function(id) {
+        $scope.transcriptArea.interaction.version.action = function(id) {
             console.log(id);
             $scope.transcriptArea.interaction.version.id = id;
             $scope.transcriptArea.interaction.status = 'version';
@@ -846,7 +881,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.transcriptArea.interaction.bibliography.action = function() {
             $scope.transcriptArea.interaction.status = 'bibliography';
         };
-        /* Bibliography Management ------------------------------------------------------------ */
+        /* Bibliography Management -------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Taxonomy Search Management */
@@ -899,7 +934,25 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 console.log($scope.transcriptArea.interaction.taxonomy.result);
             }
         };
-        /* Taxonomy Search Management ---------------------------------------------------- */
+        /* Taxonomy Search Management ----------------------------------------------------- */
+
+        /* -------------------------------------------------------------------------------- */
+        /* Alert Zone Management */
+        /* -------------------------------------------------------------------------------- */
+        $scope.$watch('transcriptArea.interaction.alertZone.alerts', function() {
+            console.log($scope.transcriptArea.interaction.alertZone.alerts);
+        });
+
+        function updateAlerts() {
+            for(let kLine in $scope.transcriptArea.ace.lines) {
+                kLine = parseInt(kLine);
+                let line = $scope.transcriptArea.ace.lines[kLine];
+                if(line.length > 20) {
+                    $scope.transcriptArea.interaction.alertZone.alerts.push({content: $sce.trustAsHtml("La ligne "+(kLine+1)+" semble longue. N'auriez-vous pas oublié un saut de ligne ?")});
+                }
+            }
+        }
+        /* Alert Zone Management ---------------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
         /* Viewer Management */
@@ -932,7 +985,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * Submit management
          */
-        $scope.submit.load = function(action) {
+        $scope.submit.action = function(action) {
             if($scope.transcript.status === "todo" && $scope.transcriptArea.ace.area !== "") {
                 // Updating status value in case of first edition
                 $scope.transcript.status = "transcription";
@@ -975,7 +1028,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             if($scope.transcript.content === $scope.transcriptArea.ace.area) {
                 $state.go('transcript.app.edition', {idEntity: $scope.entity.id, idResource: $scope.resource.id});
             } else {
-                $scope.transcriptArea.ace.modal.load('goBack');
+                $scope.transcriptArea.ace.modal.action('goBack');
             }
         };
 
@@ -1003,7 +1056,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * Validation accept management
          */
-        $scope.admin.validation.accept.load = function() {
+        $scope.admin.validation.accept.action = function() {
             $scope.admin.validation.accept.loading = true;
             return TranscriptService.patchTranscript(
                 {
@@ -1022,7 +1075,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /**
          * Validation refuse management
          */
-        $scope.admin.validation.refuse.load = function() {
+        $scope.admin.validation.refuse.action = function() {
             $scope.admin.validation.refuse.loading = true;
             return TranscriptService.patchTranscript(
                 {

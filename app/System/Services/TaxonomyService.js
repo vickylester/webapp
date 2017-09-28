@@ -81,35 +81,35 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                             firstnames: entity.firstnames,
                             profession: entity.profession,
                             address: entity.address,
-                            dateOfBirth: new Date(entity.date_of_birth),
-                            placeOfBirth: entity.place_of_birth.id,
-                            dateOfDeath: new Date(entity.date_of_death),
-                            placeOfDeath: entity.place_of_death.id,
-                            deathMention: entity.death_mention,
-                            memoireDesHommes: entity.memoire_des_hommes,
+                            dateOfBirth: entity.dateOfBirth,
+                            placeOfBirth: entity.placeOfBirth.id,
+                            dateOfDeath: entity.dateOfDeath,
+                            placeOfDeath: entity.placeOfDeath.id,
+                            deathMention: entity.deathMention,
+                            memoireDesHommes: entity.memoireDesHommes,
                             regiment: entity.regiment.id,
                             rank: entity.rank,
                             description: entity.description,
-                            updateComment: entity.update_comment
+                            updateComment: entity.updateComment
                         };
                         break;
                     case 'regiments':
                         form = {
                             name: entity.name,
                             description: entity.description,
-                            updateComment: entity.update_comment
+                            updateComment: entity.updateComment
                         };
                         break;
                     case 'places':
                         form = {
                             name: entity.name,
-                            frenchDepartement: entity.french_departement,
-                            frenchRegion: entity.french_region,
+                            frenchDepartement: entity.frenchDepartement,
+                            frenchRegion: entity.frenchRegion,
                             country: entity.country,
-                            geonamesId: entity.geonames_id,
-                            geographicalCoordinates: entity.geographical_coordinates,
+                            geonamesId: entity.geonamesId,
+                            geographicalCoordinates: entity.geographicalCoordinates,
                             description: entity.description,
-                            updateComment: entity.update_comment
+                            updateComment: entity.updateComment
                         };
                         break;
                     default:

@@ -70,7 +70,7 @@ angular.module('transcript.admin.taxonomy.access', ['ui.router'])
             let accessArray = [];
 
             for(let i in accesses) {
-                if(accesses[i].taxonomy_request !== null) {
+                if(accesses[i].taxonomyRequest !== null) {
                     accessArray.push(accesses[i]);
                 }
             }

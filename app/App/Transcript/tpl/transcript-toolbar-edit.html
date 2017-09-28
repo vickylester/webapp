@@ -20,11 +20,11 @@
         </div>
 
         <div class="btn-group" data-ng-if="transcript.status == 'validation'">
-            <button data-ng-click="admin.validation.accept.load()" class="btn btn-sm btn-success">
+            <button data-ng-click="admin.validation.accept.action()" class="btn btn-sm btn-success">
                 <span data-ng-if="admin.validation.accept.loading == false">Valider <i class="fa fa-check"></i></span>
                 <span data-ng-if="admin.validation.accept.loading == true">Valider <i class="fa fa-spin fa-circle-o-notch"></i></span>
             </button>
-            <button data-ng-click="admin.validation.refuse.load()" class="btn btn-sm btn-danger">
+            <button data-ng-click="admin.validation.refuse.action()" class="btn btn-sm btn-danger">
                 <span data-ng-if="admin.validation.refuse.loading == false">Refuser <i class="fa fa-remove"></i></span>
                 <span data-ng-if="admin.validation.refuse.loading == true">Refuser <i class="fa fa-spin fa-circle-o-notch"></i></span>
             </button>

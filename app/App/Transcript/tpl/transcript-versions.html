@@ -15,7 +15,7 @@
             <td>{{ iVersion.username }}</td>
             <td>
                 <span ng-if="$index == 0"><i class="fa fa-eye-slash"></i></span>
-                <a ng-if="$index != 0" ng-click="transcriptArea.interaction.version.load(iVersion.id)"><i class="fa fa-file-o"></i></a>
+                <a ng-if="$index != 0" ng-click="transcriptArea.interaction.version.action(iVersion.id)"><i class="fa fa-file-o"></i></a>
             </td>
         </tr>
     </table>

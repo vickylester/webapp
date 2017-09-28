@@ -47,8 +47,6 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             console.log(content);
             $scope.content = content;
             $scope.content.updateComment = "";
-
-            $scope.content.onHomepage = content.on_homepage;
             if($scope.content.onHomepage === true) { $scope.content.onHomepage = 1; }
             if($scope.content.onHomepage === false) { $scope.content.onHomepage = 0; }
 

@@ -368,7 +368,7 @@ tags:
         xml:
             name: "choice"
             unique: false
-        complex_entry: false
+        complex_entry: true
     abbr:
         btn :
             id: "abbr"
@@ -390,7 +390,7 @@ tags:
         xml:
             name: "abbr"
             unique: false
-        complex_entry: false
+        complex_entry: true
     expan:
         btn :
             id: "expan"
@@ -412,7 +412,7 @@ tags:
         xml:
             name: "expan"
             unique: false
-        complex_entry: false
+        complex_entry: true
     sic:
         btn :
             id: "sic"
@@ -434,7 +434,7 @@ tags:
         xml:
             name: "sic"
             unique: false
-        complex_entry: false
+        complex_entry: true
     corr:
         btn :
             id: "corr"
@@ -456,7 +456,7 @@ tags:
         xml:
             name: "corr"
             unique: false
-        complex_entry: false
+        complex_entry: true
     orig:
         btn :
             id: "orig"
@@ -478,7 +478,7 @@ tags:
         xml:
             name: "orig"
             unique: false
-        complex_entry: false
+        complex_entry: true
     reg:
         btn :
             id: "orig"
@@ -500,7 +500,7 @@ tags:
         xml:
             name: "reg"
             unique: false
-        complex_entry: false
+        complex_entry: true
     surplus:
         btn :
             id: "surplus"
