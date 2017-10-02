@@ -8,7 +8,7 @@ angular.module('transcript', ['ui.router'])
             views: {
                 "navbar" : {
                     templateUrl: 'System/Navbar/Navbar.html',
-                    controller: 'TranscriptCtrl'
+                    //controller: 'TranscriptCtrl'
                 },
                 "page" : {
                     templateUrl: 'Transcript/Transcript.html',
@@ -16,7 +16,7 @@ angular.module('transcript', ['ui.router'])
                 },
                 "footer" : {
                     templateUrl: 'System/Footer/Footer.html',
-                    controller: 'TranscriptCtrl'
+                    //controller: 'TranscriptCtrl'
                 }
             },
             url: '',
@@ -31,7 +31,7 @@ angular.module('transcript', ['ui.router'])
         })
     }])
 
-    .controller('TranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', 'appPreference', function($rootScope, $scope, $http, $sce, $state, user, appPreference) {
+    .controller('TranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', 'appPreference', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, user, appPreference, tfMetaTags) {
         if (user !== null) {
             if($rootScope.user === undefined) {
                 $rootScope.user = user;
@@ -39,19 +39,6 @@ angular.module('transcript', ['ui.router'])
             console.log($rootScope.user);
         }
         $rootScope.preferences = appPreference;
-
-        /* -- Loading management ------------------------------------------------------------------------------ */
-        /*$scope.showSpinner = false;
-        $scope.$on('$stateChangeStart', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.resolve) {
-                $scope.showSpinner = true;
-            }
-        });
-        $scope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams) {
-            if (toState.resolve) {
-                $scope.showSpinner = false;
-            }
-        });*/
-        /* -- Loading management ------------------------------------------------------------------------------ */
+        tfMetaTags.setTitleSuffix(' | '+$rootScope.preferences.projectTitle+tfMetaTags.getTitleSuffix());
     }])
 ;

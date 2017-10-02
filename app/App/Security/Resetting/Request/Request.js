@@ -14,6 +14,9 @@ angular.module('transcript.app.security.resetting.request', ['ui.router'])
             ncyBreadcrumb: {
                 parent: 'transcript.app.security.login',
                 label: 'Mot de passe oublié'
+            },
+            tfMetaTags: {
+                title: 'Demande',
             }
         })
     }])

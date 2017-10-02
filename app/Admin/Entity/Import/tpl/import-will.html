@@ -1,99 +1,98 @@
-<label>À propos du testament</label>
-
-<div class="form-group">
-    <label for="admin-entity-edit-will-callNumber" class="control-label col-sm-6">Cote :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-callNumber" class="form-control" data-ng-model="entity.will.callNumber" />
+<label class="big">À propos du testament</label>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-callNumber" class="col-md-4 col-form-label text-md-right">Cote</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-callNumber" class="form-control form-control-sm" data-ng-model="entity.will.callNumber" />
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-minuteLink" class="control-label col-sm-6">Lien vers la minute :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-minuteLink" type="url" class="form-control" data-ng-model="entity.will.minuteLink" />
+<div class="form-group row">
+    <label for="admin-entity-edit-will-minuteLink" class="col-md-4 col-form-label text-md-right">Lien vers la minute</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-minuteLink" type="url" class="form-control form-control-sm" data-ng-model="entity.will.minuteLink" />
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-minuteDate" class="control-label col-sm-6">Date de la minute :</label>
-    <div class="col-sm-6">
+<div class="form-group row">
+    <label for="admin-entity-edit-will-minuteDate" class="col-md-4 col-form-label text-md-right">Date de la minute</label>
+    <div class="col-md-8">
         <div class="input-group">
-            <input id="admin-entity-edit-will-minuteDate" class="form-control datepicker" data-ng-model="entity.will.minuteDate" />
+            <input id="admin-entity-edit-will-minuteDate" class="form-control form-control-sm datepicker" data-ng-model="entity.will.minuteDate" />
             <span class="input-group-addon">
                 <span class="fa fa-calendar"></span>
             </span>
         </div>
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-willWritingDate" class="control-label col-sm-6">Date d'écriture du testament :</label>
-    <div class="col-sm-6">
+<div class="form-group row">
+    <label for="admin-entity-edit-will-willWritingDate" class="col-md-4 col-form-label text-md-right">Date d'écriture du testament</label>
+    <div class="col-md-8">
         <div class="input-group">
-            <input id="admin-entity-edit-will-willWritingDate" class="form-control datepicker" data-ng-model="entity.will.willWritingDate" />
+            <input id="admin-entity-edit-will-willWritingDate" class="form-control form-control-sm datepicker" data-ng-model="entity.will.willWritingDate" />
             <span class="input-group-addon">
                 <span class="fa fa-calendar"></span>
             </span>
         </div>
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-willWritingPlace" class="control-label col-sm-6">Lieu d'écriture du testament :</label>
-    <div class="col-sm-6">
-        <uib-tabset active="activeWillWritingPlace" justified="true">
-            <uib-tab index="0" heading="List">
-                <div class="well">
-                    <select class="form-control" id="admin-entity-edit-will-willWritingPlace" data-ng-model="entity.will.willWritingPlace" name="admin-entity-edit-will-willWritingPlace" data-ng-options="place.id as place.name for place in places"></select>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-willWritingPlace" class="col-md-4 col-form-label text-md-right">Lieu d'écriture du testament</label>
+    <div class="col-md-8">
+        <uib-tabset active="activeWillWritingPlace" class="nav-fill nav-pills" justified="true">
+            <uib-tab  index="0" heading="List">
+                <div class="form-group row">
+                    <div class="col-md-6">
+                        <select class="custom-select col-md-6" id="admin-entity-edit-will-willWritingPlace" data-ng-model="entity.will.willWritingPlace" name="admin-entity-edit-will-willWritingPlace" data-ng-options="place.id as place.name for place in places"></select>
+                    </div>
                 </div>
             </uib-tab>
             <uib-tab index="1" heading="New">
-                <div class="well">
-                    <div class="form-group">
-                        <label for="admin-entity-edit-will-willWritingPlace-name" class="control-label col-sm-3">Nom :</label>
-                        <div class="col-sm-9">
-                            <input id="admin-entity-edit-will-willWritingPlace-name" class="form-control" data-ng-model="entity.will.willWritingPlace.name" />
-                        </div>
+                <div class="form-group row">
+                    <label for="admin-entity-edit-will-willWritingPlace-name" class="col-md-7 col-form-label text-md-right">Nom</label>
+                    <div class="col-md-5">
+                        <input id="admin-entity-edit-will-willWritingPlace-name" class="form-control form-control-sm" data-ng-model="entity.will.willWritingPlace.name" />
                     </div>
                 </div>
             </uib-tab>
         </uib-tabset>
     </div>
 </div>
-<div class="form-group" data-ng-include="'Admin/Entity/Import/tpl/import-will-testator.html'"></div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-physDescSupport" class="control-label col-sm-6">Support physique :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-physDescSupport" class="form-control" data-ng-model="entity.will.physDescSupport" />
+<div class="form-group row" data-ng-include="'Admin/Entity/Import/tpl/import-will-testator.html'"></div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-physDescSupport" class="col-md-4 col-form-label text-md-right">Support physique</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-physDescSupport" class="form-control form-control-sm" data-ng-model="entity.will.physDescSupport" />
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-physDescHeight" class="control-label col-sm-6">Hauteur :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-physDescHeight" class="form-control" data-ng-model="entity.will.physDescHeight" />
+<div class="form-group row">
+    <label for="admin-entity-edit-will-physDescHeight" class="col-md-4 col-form-label text-md-right">Hauteur</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-physDescHeight" class="form-control form-control-sm" data-ng-model="entity.will.physDescHeight" />
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-physDescWidth" class="control-label col-sm-6">Largeur :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-physDescWidth" class="form-control" data-ng-model="entity.will.physDescWidth" />
+<div class="form-group row">
+    <label for="admin-entity-edit-will-physDescWidth" class="col-md-4 col-form-label text-md-right">Largeur</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-physDescWidth" class="form-control form-control-sm" data-ng-model="entity.will.physDescWidth" />
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-physDescHand" class="control-label col-sm-6">Type d'écriture :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-physDescHand" class="form-control" data-ng-model="entity.will.physDescHand" />
+<div class="form-group row">
+    <label for="admin-entity-edit-will-physDescHand" class="col-md-4 col-form-label text-md-right">Type d'écriture</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-physDescHand" class="form-control form-control-sm" data-ng-model="entity.will.physDescHand" />
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-hostingOrganization" class="control-label col-sm-6">Organisation (AN ou AD78) :</label>
-    <div class="col-sm-6">
-        <select id="admin-entity-edit-will-hostingOrganization" name="admin-entity-edit-will-hostingOrganization" class="form-control" data-ng-model="entity.will.hostingOrganization">
+<div class="form-group row">
+    <label for="admin-entity-edit-will-hostingOrganization" class="col-md-4 col-form-label text-md-right">Organisation (AN ou AD78)</label>
+    <div class="col-md-8">
+        <select id="admin-entity-edit-will-hostingOrganization" name="admin-entity-edit-will-hostingOrganization" class="custom-select" data-ng-model="entity.will.hostingOrganization">
             <option value="" disabled>Sélectionnez ...</option>
             <option value="AN">Archives nationales</option>
             <option value="AD78">Archives départementales des Yvelines</option>
         </select>
     </div>
 </div>
-<div class="form-group">
-    <label for="admin-entity-edit-will-identificationUser" class="control-label col-sm-6">Personne ayant identifié le document :</label>
-    <div class="col-sm-6">
-        <input id="admin-entity-edit-will-identificationUser" class="form-control" data-ng-model="entity.will.identificationUser" />
+<div class="form-group row">
+    <label for="admin-entity-edit-will-identificationUser" class="col-md-4 col-form-label text-md-right">Personne ayant identifié le document</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-identificationUser" class="form-control form-control-sm" data-ng-model="entity.will.identificationUser" />
     </div>
 </div>

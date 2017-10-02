@@ -16,6 +16,9 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                     parent: 'transcript.admin.content.list',
                     label: 'Nouveau contenu'
                 },
+                tfMetaTags: {
+                    title: 'Nouveau',
+                },
                 resolve: {
                     content: function() {
                         return null;
@@ -32,7 +35,10 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 url: '/edit/:id',
                 ncyBreadcrumb: {
                     parent: 'transcript.app.content({id: content.id})',
-                    label: 'Edition'
+                    label: 'Modification'
+                },
+                tfMetaTags: {
+                    title: '{{ content.title }} - Modification',
                 },
                 resolve: {
                     content: function(ContentService, $transition$) {

@@ -14,7 +14,10 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 url: '/{type}/{id}/edit',
                 ncyBreadcrumb: {
                     parent: 'transcript.app.taxonomy.view({type: entity.dataType, id: entity.id})',
-                    label: 'Edition'
+                    label: 'Modification'
+                },
+                tfMetaTags: {
+                    title: 'Modification de {{ entity.name }}',
                 },
                 resolve: {
                     entity: function(TaxonomyService, $transition$) {

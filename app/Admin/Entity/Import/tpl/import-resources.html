@@ -1,12 +1,11 @@
-<label>À propos des ressources</label>
-
+<label class="big">À propos des ressources</label>
 <div class="row">
-    <div class="col-sm-12">
-        <div class="alert alert-info">
-            <p>L'entité compte actuellement {{ entity.resources.length }} ressources. <a data-ng-click="form.addResource(entity.resources.length)">Cliquez pour ajouter une ressource</a></p>
-        </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="alert alert-info">L'entité compte actuellement <span class="badge badge-info">{{ entity.resources.length }}</span> ressources.</div>
+        <div class="text-right"><a class="btn btn-light" data-ng-click="form.addResource(entity.resources.length)">Ajouter une ressource</a></div>
     </div>
 </div>
-<div class="row" data-ng-repeat="resource in entity.resources">
+<div class="row mb-3" data-ng-repeat="resource in entity.resources">
     <div class="col-sm-12" data-ng-include="'Admin/Entity/Import/tpl/import-resources-resource.html'"></div>
 </div>

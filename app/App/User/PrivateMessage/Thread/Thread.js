@@ -19,6 +19,9 @@ angular.module('transcript.app.user.private-message.thread', ['ui.router'])
                 parent: 'transcript.app.user.private-message.list({id: iUser.id})',
                 label: '{{ recipientUser.name }}'
             },
+            tfMetaTags: {
+                title: 'Discussion avec {{ recipientUser.name }}',
+            },
             resolve: {
                 thread: function(CommentService, $transition$) {
                     return CommentService.getThreadSharedByUsers($transition$.params().idUser, $transition$.params().idRecipient);

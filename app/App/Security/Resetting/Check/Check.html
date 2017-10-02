@@ -1,11 +1,28 @@
-<div class="jumbotron">
-    <p>Votre demande de réinitialisation a bien été enregistrée.
-        Vous allez recevoir dans quelques instants un mail de confirmation contenant un lien de réinitialisation.
-    Merci de cliquer sur ce lien.</p>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
-
-<div flash-alert active-class="in alert" class="fade" duration="5000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
+<main class="container" role="main">
+    <h1 class="page-heading">Réinitialisation du mot de passe</h1>
+    <div class="row">
+        <div class="col-xl-10 col-12">
+            <form class="mt-2 mb-2">
+                <div class="form-group row">
+                    <label for="app-security-resetting-email" class="col-md-4 col-form-label text-md-right">Votre email</label>
+                    <div class="col-md-8 ">
+                        <input type="email" placeholder="Votre email" id="app-security-resetting-email" name="app-security-resetting-email" data-ng-model="form.email" required="required" class="form-control form-control-sm"  />
+                    </div>
+                </div>
+                <div class="row text-right">
+                    <div class="col-12">
+                        <button class="btn btn-sm btn-primary" data-ng-click="submit.action()">Soumettre <i class="fa fa-spin fa-circle-o-notch" data-ng-if="submit.loading == true"></i></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

@@ -1,26 +1,26 @@
-<div class="jumbotron">
-    <h1>Importation des Entités</h1>
-</div>
-<div ncy-breadcrumb></div>
-
-<div flash-alert active-class="in alert" class="fade" duration="5000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <div class="alert alert-info">
-        <p>Déposez le dossier contenant les images de votre testament (dont le nom doit correspondre au numéro de numérisation du testament) dans le dossier web/toImport de l'API.</p>
-        </div>
-        <form class="form-horizontal">
-            <fieldset data-ng-include="'Admin/Entity/Import/tpl/import-entity.html'"></fieldset>
-            <fieldset data-ng-include="'Admin/Entity/Import/tpl/import-will.html'"></fieldset>
-            <fieldset data-ng-include="'Admin/Entity/Import/tpl/import-resources.html'"></fieldset>
-            <div class="text-center">
-                <button data-ng-click="form.submit.action()" class="btn btn-lg btn-primary">Soumettre <i data-ng-if="form.submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-            </div>
-        </form>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
+    <div class="alert alert-info">
+        <p>Déposez le dossier contenant les images de votre testament <br/>(dont le nom doit correspondre au numéro de numérisation du testament) dans le dossier <strong>web/toImport</strong> de l'API.</p>
     </div>
 </div>
+<main class="container" role="main">
+    <h1 class="page-heading">Importation des Entités</h1>
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="col-12">
+                <fieldset data-ng-include="'Admin/Entity/Import/tpl/import-entity.html'"></fieldset>
+                <fieldset data-ng-include="'Admin/Entity/Import/tpl/import-will.html'"></fieldset>
+                <fieldset data-ng-include="'Admin/Entity/Import/tpl/import-resources.html'"></fieldset>
+                <div class="text-center mt-5">
+                    <button data-ng-click="form.submit.action()" class="btn btn-primary">Soumettre <i data-ng-if="form.submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>

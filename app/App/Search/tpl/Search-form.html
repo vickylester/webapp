@@ -1,118 +1,125 @@
-<div class="well">
-    <h1><i class="fa fa-search"></i> Rechercher plus de testaments</h1>
+<h1 class="page-heading"><i class="fa fa-search" aria-hidden="true"></i>Rechercher des testaments</h1>
+<form id="search-form">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Nom du testateur</label>
+            <angucomplete id="app-search-form-testator-name"
+                          placeholder="Chercher un nom"
+                          pause="100"
+                          selectedobject="search.form.will.testator.name"
+                          localdata="search.values.will.testator.name"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-sm"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Lieu de décès</label>
+            <angucomplete id="app-search-form-testator-deathPlace"
+                          placeholder="Chercher un lieu"
+                          pause="100"
+                          selectedobject="search.form.will.testator.placeOfDeath.name"
+                          localdata="search.values.will.testator.placeOfDeath.name"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-sm"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Année de décès</label>
+            <angucomplete id="app-search-form-testator-deathDate"
+                          placeholder="Chercher une année"
+                          pause="100"
+                          selectedobject="search.form.will.testator.dateOfDeath"
+                          localdata="search.values.will.testator.dateOfDeath"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-sm"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Commune d'origine</label>
+            <angucomplete id="app-search-form-testator-birthPlace"
+                          placeholder="Chercher un lieu"
+                          pause="100"
+                          selectedobject="search.form.will.testator.placeOfBirth.name"
+                          localdata="search.values.will.testator.placeOfBirth.name"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-sm"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Institution de conservation</label>
+            <angucomplete id="app-search-form-institution"
+                          placeholder="Chercher une institution"
+                          pause="100"
+                          selectedobject="search.form.will.hostingOrganization"
+                          localdata="search.values.will.hostingOrganization"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-sm"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Cote du testament</label>
+            <input id="app-search-form-will-callNumber"
+                   placeholder="Chercher une côte"
+                   ng-model="search.form.will.callNumber"
+                   class="form-control form-control-sm" />
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Date d'écriture du testament</label>
+            <angucomplete id="app-search-form-will-date"
+                          placeholder="Chercher une année"
+                          pause="100"
+                          selectedobject="search.form.will.willWritingDate"
+                          localdata="search.values.will.willWritingDate"
+                          searchfields="name"
+                          titlefield="name"
+                          minlength="1"
+                          inputclass="form-control form-control-sm"/>
+        </div>
+        <div class="form-group col-md-6">
+            <label class="form-control-label">Statut de la transcription</label>
+            <div class="row">
+                <div class="col-xl-6 pr-0">
+                    <label class="custom-control custom-checkbox text-danger">
+                        <input class="custom-control-input" id="app-search-form-transcription-status" ng-model="search.filters.status.todo"  type="checkbox" value="todo"/>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">à faire</span>
+                    </label>
+                </div>
+                <div class="col-xl-6">
+                    <label class="custom-control custom-checkbox text-warning">
+                        <input class="custom-control-input" id="app-search-form-transcription-status" ng-model="search.filters.status.transcription"  type="checkbox" value="transcription"/>
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">en cours</span>
+                    </label>
+                </div>
+                <div class="col-xl-6 pr-0">
+                    <label class="custom-control custom-checkbox text-secondary">
+                        <input class="custom-control-input" id="app-search-form-transcription-status" ng-model="search.filters.status.validation"  type="checkbox" value="validation" />
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description"> en validation</span>
+                    </label>
+                </div>
+                <div class="col-xl-6">
+                    <label class="custom-control custom-checkbox text-success">
+                        <input class="custom-control-input" id="app-search-form-transcription-status" ng-model="search.filters.status.validated"  type="checkbox" value="validated" />
+                        <span class="custom-control-indicator"></span>
+                        <span class="custom-control-description">validé</span>
+                    </label>
+                </div>
+            </div>
 
-    <form class="form-horizontal">
-        <div class="form-group">
-            <label class="col-sm-12">Nom du testateur</label>
-            <div class="col-sm-12">
-                <angucomplete id="app-search-form-testator-name"
-                              placeholder="Search by testator"
-                              pause="100"
-                              selectedobject="search.form.will.testator.name"
-                              localdata="search.values.will.testator.name"
-                              searchfields="name"
-                              titlefield="name"
-                              minlength="1"
-                              inputclass="form-control form-control-small"/>
-            </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-12">Lieu de décès</label>
-            <div class="col-sm-12">
-                <angucomplete id="app-search-form-testator-deathPlace"
-                              placeholder="Search by place of death"
-                              pause="100"
-                              selectedobject="search.form.will.testator.place_of_death.name"
-                              localdata="search.values.will.testator.place_of_death.name"
-                              searchfields="name"
-                              titlefield="name"
-                              minlength="1"
-                              inputclass="form-control form-control-small"/>
-            </div>
+    </div>
+    <div class="row">
+        <div class="col text-right">
+            <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="fa fa-close" aria-hidden="true"></i> Effacer</a>
+            <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true"><i class="fa fa-check" aria-hidden="true"></i> Valider</a>
         </div>
-        <div class="form-group">
-            <label class="col-sm-12">Année de décès</label>
-            <div class="col-sm-12">
-                <angucomplete id="app-search-form-testator-deathDate"
-                              placeholder="Search by year of death"
-                              pause="100"
-                              selectedobject="search.form.will.testator.date_of_death"
-                              localdata="search.values.will.testator.date_of_death"
-                              searchfields="name"
-                              titlefield="name"
-                              minlength="1"
-                              inputclass="form-control form-control-small"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-12">Commune d'origine</label>
-            <div class="col-sm-12">
-                <angucomplete id="app-search-form-testator-birthPlace"
-                              placeholder="Search by place of birth"
-                              pause="100"
-                              selectedobject="search.form.will.testator.place_of_birth.name"
-                              localdata="search.values.will.testator.place_of_birth.name"
-                              searchfields="name"
-                              titlefield="name"
-                              minlength="1"
-                              inputclass="form-control form-control-small"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-12">Institution de conservation</label>
-            <div class="col-sm-12">
-                <angucomplete id="app-search-form-institution"
-                              placeholder="Search institution"
-                              pause="100"
-                              selectedobject="search.form.will.hosting_organization"
-                              localdata="search.values.will.hosting_organization"
-                              searchfields="name"
-                              titlefield="name"
-                              minlength="1"
-                              inputclass="form-control form-control-small"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-12">Cote du testament</label>
-            <div class="col-sm-12">
-                <input id="app-search-form-will-callNumber"
-                       placeholder="Search by call number of the will"
-                       ng-model="search.form.will.call_number"
-                       class="form-control form-control-small" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-12">Date d'écriture du testament</label>
-            <div class="col-sm-12">
-                <angucomplete id="app-search-form-will-date"
-                              placeholder="Search by will writing date"
-                              pause="100"
-                              selectedobject="search.form.will.will_writing_date"
-                              localdata="search.values.will.will_writing_date"
-                              searchfields="name"
-                              titlefield="name"
-                              minlength="1"
-                              inputclass="form-control form-control-small"/>
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-12">Statut de transcription</label>
-            <div class="col-sm-12">
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.todo" value="todo"> À faire
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.transcription" value="transcription"> En cours
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.validation" value="validation"> En validation
-                </label>
-                <label class="checkbox-inline">
-                    <input type="checkbox" id="app-search-form-transcription-status" ng-model="search.filters.status.validated" value="validated"> Validé
-                </label>
-            </div>
-        </div>
-    </form>
-
-    <leaflet id="searchInterfaceMap" markers="markers" tiles="tiles" lf-center="center" data-height="400px" data-width="100%"></leaflet>
-</div>
+    </div>
+</form>
+<div class="mt-4"><leaflet id="searchInterfaceMap" markers="markers" tiles="tiles" lf-center="center" data-height="400px" data-width="100%"></leaflet></div>

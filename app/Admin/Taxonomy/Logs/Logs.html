@@ -1,36 +1,37 @@
-<div class="jumbotron">
-    <h1>Gestion des accès</h1>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
-<div ncy-breadcrumb></div>
+<main class="container" role="main">
+    <h1 class="page-heading">Gestion des accès</h1>
 
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
-
-<div class="row">
-    <div class="col-sm-12">
-        <table class="table table-bordered table-striped">
-            <tr>
+    <div class="row">
+        <div class="col-sm-12">
+            <table class="table table-bordered">
+                <thead>
                 <th>#</th>
                 <th>User</th>
                 <th>Action</th>
-            </tr>
-            <tr ng-repeat="entity in mixed">
-                <td>{{ $index+1 }}</td>
-                <td><a ui-sref="transcript.app.user.profile({id: access.user.id})">{{ access.user.name }}</a></td>
-                <td>{{ access.taxonomy_request }}</td>
-                <td>
-                    <div class="btn-group">
-                        <button class="btn btn-success" ng-click="submit.valid.action(access)"><i ng-if="submit.valid.loading == false" class="fa fa-check"></i><i ng-if="submit.valid.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                        <button class="btn btn-danger" ng-click="submit.reject.action(access)"><i ng-if="submit.reject.loading == false" class="fa fa-remove"></i><i ng-if="submit.reject.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                    </div>
-                </td>
-            </tr>
-            <tr ng-if="(accesses | filterTaxonomyAsk).length == 0">
-                <td colspan="4">Pas de demande en attente.</td>
-            </tr>
-        </table>
+                </thead>
+                <tr ng-repeat="entity in mixed">
+                    <td>{{ $index+1 }}</td>
+                    <td><a ui-sref="transcript.app.user.profile({id: access.user.id})">{{ access.user.name }}</a></td>
+                    <td>{{ access.taxonomyRequest }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-success" ng-click="submit.valid.action(access)"><i ng-if="submit.valid.loading == false" class="fa fa-check"></i><i ng-if="submit.valid.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                            <button class="btn btn-danger" ng-click="submit.reject.action(access)"><i ng-if="submit.reject.loading == false" class="fa fa-remove"></i><i ng-if="submit.reject.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="(accesses | filterTaxonomyAsk).length == 0">
+                    <td colspan="4">Pas de demande en attente.</td>
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
+</main>

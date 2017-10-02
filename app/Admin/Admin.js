@@ -7,7 +7,8 @@ angular.module('transcript.admin', ['ui.router'])
             abstract: true,
             views: {
                 "page" : {
-                    template: '<div ui-view="page"></div>'
+                    template: '<div ui-view="page"></div>',
+                    controller: 'AdminCtrl'
                 }
             },
             url: '/admin',
@@ -20,5 +21,9 @@ angular.module('transcript.admin', ['ui.router'])
                 }
             }
         })
+    }])
+
+    .controller('AdminCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', 'appPreference', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, user, appPreference, tfMetaTags) {
+        tfMetaTags.setTitleSuffix(' | Administration '+tfMetaTags.getTitleSuffix());
     }])
 ;

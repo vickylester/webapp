@@ -10,7 +10,10 @@ angular.module('transcript.app.security.resetting.check', ['ui.router'])
                         controller: 'AppSecurityResettingCheckCtrl'
                 }
             },
-            url: '/check'
+            url: '/check',
+            tfMetaTags: {
+                title: 'Vérification',
+            }
         })
     }])
 

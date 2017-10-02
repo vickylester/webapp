@@ -1,44 +1,38 @@
-<div class="jumbotron">
-    <h1>Administration</h1>
-</div>
-<div ncy-breadcrumb></div>
-
-<div flash-alert active-class="in alert" class="fade" duration="5000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
-
-<div class="row">
-    <div class="col-sm-6">
-        <h3>Gestion des contenus</h3>
-        <ul>
-            <li><a ui-sref="transcript.admin.content.new">Ajouter un contenu</a></li>
-            <li><a ui-sref="transcript.admin.content.list">Liste des contenus</a></li>
-        </ul>
-
-        <h3>Gestion des Entités</h3>
-        <ul>
-            <li><a ui-sref="transcript.admin.entity.list">Liste des entités</a></li>
-            <li><a ui-sref="transcript.admin.entity.import">Importer une entité</a></li>
-        </ul>
-
-        <h3>À propos de la plateforme</h3>
-        <ul>
-            <li><a ui-sref="transcript.admin.preference">Modifier les paramètres</a></li>
-            <li><a>Statistiques de transcription</a></li>
-        </ul>
-    </div>
-    <div class="col-sm-6">
-        <div class="well">
-            <h3><a ui-sref="transcript.admin.user.list">Utilisateurs</a></h3>
-        </div>
-        <div class="well">
-            <h3>Notices descriptives</h3>
-            <ul>
-                <li><a ui-sref="transcript.admin.taxonomy.access">Demandes d'accès <span class="badge" ng-bind="(accesses|filterTaxonomyAsk).length"></span></a></li>
-                <li><a ui-sref="transcript.admin.taxonomy.logs">Historique des modifications</a></li>
-            </ul>
-        </div>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
 </div>
+<main class="container" role="main">
+    <h1 class="page-heading">Gestion des accès</h1>
+
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                <th>#</th>
+                <th>User</th>
+                <th>Request</th>
+                <th>Action</th>
+                </thead>
+                <tr ng-repeat="access in accesses | filterTaxonomyAsk">
+                    <td>{{ $index+1 }}</td>
+                    <td><a ui-sref="transcript.app.user.profile({id: access.user.id})">{{ access.user.name }}</a></td>
+                    <td>{{ access.taxonomyRequest }}</td>
+                    <td>
+                        <div class="btn-group">
+                            <button class="btn btn-success" ng-click="submit.valid.action(access)"><i ng-if="submit.valid.loading == false" class="fa fa-check"></i><i ng-if="submit.valid.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                            <button class="btn btn-danger" ng-click="submit.reject.action(access)"><i ng-if="submit.reject.loading == false" class="fa fa-remove"></i><i ng-if="submit.reject.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                        </div>
+                    </td>
+                </tr>
+                <tr ng-if="(accesses | filterTaxonomyAsk).length == 0">
+                    <td colspan="4">Pas de demande en attente.</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</main>

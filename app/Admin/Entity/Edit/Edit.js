@@ -13,7 +13,10 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             url: '/edit/:id',
             ncyBreadcrumb: {
                 parent: 'transcript.app.entity({id: entity.id})',
-                label: 'Edition'
+                label: 'Modification'
+            },
+            tfMetaTags: {
+                title: 'Modification',
             },
             resolve: {
                 entity: function(EntityService, $transition$) {

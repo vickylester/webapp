@@ -19,6 +19,9 @@ angular.module('transcript.app.content', ['ui.router'])
                 parent: 'transcript.app.blog',
                 label: '{{ content.title }}'
             },
+            tfMetaTags: {
+                title: '{{ content.title }}',
+            },
             resolve: {
                 content: function(ContentService, $transition$) {
                     return ContentService.getContent($transition$.params().id, true);

@@ -14,6 +14,9 @@ angular.module('transcript.app.training', ['ui.router'])
             ncyBreadcrumb: {
                 parent: 'transcript.app.home',
                 label: 'Découvrir'
+            },
+            tfMetaTags: {
+                title: 'Découvrir',
             }
         })
     }])

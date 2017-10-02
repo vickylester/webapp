@@ -1,20 +1,11 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">Contributeurs</h3>
-    </div>
-    <div class="panel-body">
-        <div class="row">
-            <div class="col-sm-4" ng-repeat="contributor in contributors">
-                <div class="row">
-                    <div class="col-xs-2 text-center">
-                        <i class="fa fa-2x fa-user-circle-o"></i>
-                    </div>
-                    <div class="col-xs-10">
-                        <div><strong><a ui-sref="transcript.app.user.profile({id: contributor.user.id})">{{ contributor.user.name }}</a></strong></div>
-                        <div>{{ contributor.contributionsNumber }} contributions</div>
-                    </div>
-                </div>
-            </div>
+<div class="card bg-body" >
+    <h3 class="card-header bg-light"><i class="fa fa-user" aria-hidden="true"></i> Contributeurs</h3>
+    <div class="card-body">
+        <div class="row contributeurs">
+            <li class="col-lg-4 col-12" ng-repeat="contributor in contributors">
+                <a href="#" ui-sref="transcript.app.user.profile({id: contributor.user.id})"><i class="fa fa-user fa-lg" aria-hidden="true"></i>{{ contributor.user.name }}</a>
+                {{ contributor.contributionsNumber }} contributions
+            </li>
         </div>
     </div>
 </div>

@@ -1,0 +1,109 @@
+Version 2.0.0:
+ - Merge pull request #14 from thiagofesta/development
+ - Update node to 7.5.0
+ - Added support for ui-router 1.0.0
+
+Version 1.0.1:
+ - Merge pull request #10 from thiagofesta/development
+ - Updated phantomjs to latest
+ - Added support to webpack
+
+Version 1.0.0:
+
+
+Version 0.4.4:
+ - Merge pull request #8 from thiagofesta/development
+ - new phantomjs version and correct angular mocks
+ - Updated travis
+ - Use specific package versions
+ - Allow integers
+
+Version 0.4.3:
+ - Merge pull request #6 from thiagofesta/development
+ - Fix injector
+
+Version 0.4.2:
+ - Added version 0.4.2 to bower and package; Generated new release files
+ - Merge pull request #5 from thiagofesta/development
+ - Added built files
+ - Added docs
+ - Added interpolation and invoke, able to use resolve responses
+
+Version 0.4.1:
+ - Added version 0.4.1 to bower and package
+ - Merge pull request #4 from thiagofesta/development
+ - Fixed issue with the build taks, it was ngAnnotating the src files intead of the released files
+ - Added new features: * now you are able to use functions; * now you are able to use falsy values to remove them from tfMetaTags object.
+
+Version 0.4.0:
+ - Releasing
+ - Merge pull request #3 from thiagofesta/development
+ - Added new docs
+ - Added karma unit tests for the released code, just to make sure the minification worked as expected
+ - Added precommit tests
+ - Following johnpapa/angular-styleguide, added jshint and jscs
+ - Moved from Service to Provider, this way you can config from the config phase instead of run phase
+
+Version 0.3.2:
+ - Releasing v0.3.2; previous version 0.3.1 the release folder was not built
+ - Added badge for codeclimate
+ - added excludes for code climate
+
+Version 0.3.1:
+ - clean up bad bump
+ - Added version 0.3.1
+ - Version bump to 0.3.1
+ - Added docs
+ - Version bump to 0.3.0 (fix CHANGES)
+ - Merge branch 'master' of github.com:thiagofesta/tf-metatags
+ - Merge pull request #2 from thiagofesta/0.3.0
+ - Added version 0.3.0
+ - Updated state property from metaTags to tfMetaTags; updated service from MetaTags to tfMetaTags; updated sample app
+ - renamed from tf-metatags to tf.metatags to follow angular name convention
+
+Version 0.3.0:
+ - Merge branch 'master' of github.com:thiagofesta/tf-metatags
+ - Version bump to 0.3.0
+ - Merge pull request #2 from thiagofesta/0.3.0
+ - Added version 0.3.0
+ - Updated state property from metaTags to tfMetaTags; updated service from MetaTags to tfMetaTags; updated sample app
+ - renamed from tf-metatags to tf.metatags to follow angular name convention
+ - Added repository info
+ - Added shield
+ - Added coveralls to travis
+ - Added coveralls
+ - Added badge for travis
+ - Add travis support
+ - Added npm badge
+ - Added more data to the package.json and bower.json
+
+Version 0.2.1:
+
+
+Version 0.2.0:
+ - adding execute permissions
+ - Merge pull request #1 from thiagofesta/dev
+ - Added bumpversion.sh
+ - Merge remote-tracking branch 'origin/master' into dev
+ - Rewrote using TDD
+
+Version 0.1.0
+ - shield.io
+ - No more travis
+ - Reports
+ - Fix travis
+ - More tests
+ - Trying coveralls
+ - Removed protractor from travis; fixed the badge
+ - Fixed jshint; better e2e tests; added build badge
+ - adding extension
+ - test commit
+ - Added travis
+ - Docs
+ - Docs
+ - ignore some files
+ - Improving the code
+ - Fixing typo
+ - Added beta version
+ - first commit
+

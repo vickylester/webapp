@@ -11,6 +11,9 @@ angular.module('transcript.app.security.confirm', ['ui.router'])
                 }
             },
             url: '/confirm/{token}',
+            tfMetaTags: {
+                title: 'Confirmation d\'inscription',
+            },
             resolve: {
                 confirmation: function(UserService, $transition$) {
                     return UserService.confirm($transition$.params().token);

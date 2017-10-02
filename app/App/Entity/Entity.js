@@ -18,6 +18,9 @@ angular.module('transcript.app.entity', ['ui.router'])
                 parent: 'transcript.app.search',
                 label: '{{ entity.will.title }}'
             },
+            tfMetaTags: {
+                title: '{{ entity.will.title }}',
+            },
             url: '/entity/{id}',
             resolve: {
                 entity: function(EntityService, $transition$) {

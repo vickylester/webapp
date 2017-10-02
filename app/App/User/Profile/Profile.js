@@ -16,7 +16,9 @@ angular.module('transcript.app.user.profile', ['ui.router'])
                     parent: 'transcript.app.home',
                     label: '{{ iUser.name }}'
                 },
-                requireLogin: true,
+                tfMetaTags: {
+                    title: 'Profil de {{ iUser.name }}',
+                },
                 resolve: {
                     userEdit: function(UserService, $transition$) {
                         return UserService.getUser($transition$.params().id, "full");

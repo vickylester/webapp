@@ -14,6 +14,9 @@ angular.module('transcript.app.taxonomy.ask', ['ui.router'])
             ncyBreadcrumb: {
                 parent: 'transcript.app.taxonomy.home',
                 label: 'Demande d\'accès'
+            },
+            tfMetaTags: {
+                title: 'Demande d\'accès',
             }
         })
     }])

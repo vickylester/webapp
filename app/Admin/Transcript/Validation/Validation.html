@@ -1,10 +1,11 @@
-<div class="jumbotron">
-    <h1>Validation</h1>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
-<div ncy-breadcrumb></div>
-
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
+<main class="container" role="main">
+    <h1 class="page-heading">Validation</h1>
+</main>

@@ -1,12 +1,10 @@
-<table class="table table-striped">
-    <tr>
-        <th>Testateur</th>
-        <th>Avancement de la transcription</th>
-        <th>Pages</th>
-    </tr>
-    <tr data-ng-repeat="entity in results">
-        <td><a ui-sref="transcript.app.entity({ id: entity.id })" >{{ entity.will.testator.name }}</a></td>
-        <td><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></td>
-        <td>{{ entity.resources.length }}</td>
-    </tr>
-</table>
+<div class="row">
+    <div class="col-sm-4 col-4">Testateur</div>
+    <div class="col-sm-7 col-5 text-sm-center">Avancement de la transcription</div>
+    <div class="col-sm-1 col-3 text-center">Pages</div>
+</div>
+<div data-ng-repeat="entity in results" class="row align-items-center">
+    <div class="col-sm-4 col-4"><a ui-sref="transcript.app.entity({ id: entity.id })" >{{ entity.will.testator.name }}</a></div>
+    <div class="col-sm-7 col-5"><span class="badge badge-status" data-ng-class="getResourceClassLabel(resource)">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
+    <div class="col-sm-1 col-3 text-center">{{ entity.resources.length }}</div>
+</div>

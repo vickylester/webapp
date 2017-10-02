@@ -1,43 +1,11 @@
-#comment-thread {
-    border: solid 1px #CCC;
-}
-
-#comment-thread #comment-thread-header {
-    border-bottom: solid 1px #CCC;
-    background-color: #EEE;
-    padding: 10px;
-}
-
-#comment-thread #comment-thread-header h3 {
-    margin-top: 10px;
-}
-
-#comment-thread #comment-thread-contribute {
-    border-bottom: solid 1px #CCC;
-}
-
-#comment-thread #comment-thread-contribute #comment-thread-contribute-form {
-    border-bottom: solid 1px #CCC;
-}
-
 #comment-thread #comment-thread-contribute #comment-thread-contribute-form #comment-thread-contribute-form-footer {
-    background-color: #eee;
     text-align: right;
+    margin-bottom: 2rem;
 }
 
-#comment-thread #comment-thread-content {
-
+.cke_top{
+    background: #dadada!important;
 }
-
-#comment-thread #comment-thread-content .comment-comment {
-    border-bottom: solid 1px #CCC;
-    padding: 10px;
-}
-
-.comment-post-form {
-    margin-bottom: 0;
-}
-
-.comment-post-form-group {
-    margin-bottom: 0;
+.cke_reset{
+    border: none!important;
 }

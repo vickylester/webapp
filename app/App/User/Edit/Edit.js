@@ -13,9 +13,11 @@ angular.module('transcript.app.user.edit', ['ui.router'])
             url: '/edit/{id}',
             ncyBreadcrumb: {
                 parent: 'transcript.app.user.profile({id: user.id})',
-                label: 'Edition'
+                label: 'Modification du profil'
             },
-            requireLogin: true,
+            tfMetaTags: {
+                title: 'Modification du profil',
+            },
             resolve: {
                 userEdit: function(UserService, $transition$) {
                     return UserService.getUser($transition$.params().id);

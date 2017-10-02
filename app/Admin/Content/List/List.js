@@ -15,6 +15,9 @@ angular.module('transcript.admin.content.list', ['ui.router'])
                 parent: 'transcript.admin.home',
                 label: 'Liste des contenus'
             },
+            tfMetaTags: {
+                title: 'Liste',
+            },
             resolve: {
                 contents: function(ContentService) {
                     return ContentService.getContents(null, null, "DESC", 100);

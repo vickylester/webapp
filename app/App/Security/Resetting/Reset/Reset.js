@@ -15,7 +15,9 @@ angular.module('transcript.app.security.resetting.reset', ['ui.router'])
                 parent: 'transcript.app.security.login',
                 label: 'Mot de passe oublié'
             },
-            requireLogin: false
+            tfMetaTags: {
+                title: 'Réinitialisation',
+            }
         })
     }])
 

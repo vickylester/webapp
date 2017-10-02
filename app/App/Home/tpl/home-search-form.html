@@ -1,59 +1,51 @@
 <form class="form-horizontal">
     <div class="form-group">
-        <label class="col-sm-12">Nom du testateur</label>
-        <div class="col-sm-12">
-            <angucomplete id="app-home-form-testator-name"
-                          placeholder="Search by testator"
-                          pause="100"
-                          selectedobject="search.form.will.testator.name"
-                          localdata="search.values.will.testator.name"
-                          searchfields="name"
-                          titlefield="name"
-                          minlength="1"
-                          inputclass="form-control form-control-small"/>
-        </div>
+        <label class="form-control-label">Nom du testateur</label>
+        <angucomplete id="app-home-form-testator-name"
+                      placeholder="Search by testator"
+                      pause="100"
+                      selectedobject="search.form.will.testator.name"
+                      localdata="search.values.will.testator.name"
+                      searchfields="name"
+                      titlefield="name"
+                      minlength="1"
+                      inputclass="form-control form-control-sm"/>
     </div>
     <div class="form-group">
-        <label class="col-sm-12">Lieu de décès</label>
-        <div class="col-sm-12">
-            <angucomplete id="app-home-form-testator-deathPlace"
-                          placeholder="Search by place of death"
-                          pause="100"
-                          selectedobject="search.form.will.testator.place_of_death.name"
-                          localdata="search.values.will.testator.place_of_death.name"
-                          searchfields="name"
-                          titlefield="name"
-                          minlength="1"
-                          inputclass="form-control form-control-small"/>
-        </div>
+        <label class="form-control-label">Lieu de décès</label>
+        <angucomplete id="app-home-form-testator-deathPlace"
+                      placeholder="Search by place of death"
+                      pause="100"
+                      selectedobject="search.form.will.testator.placeOfDeath.name"
+                      localdata="search.values.will.testator.placeOfDeath.name"
+                      searchfields="name"
+                      titlefield="name"
+                      minlength="1"
+                      inputclass="form-control form-control-sm"/>
     </div>
     <div class="form-group">
-        <label class="col-sm-12">Année de décès</label>
-        <div class="col-sm-12">
-            <angucomplete id="app-home-form-testator-deathDate"
-                          placeholder="Search by year of death"
-                          pause="100"
-                          selectedobject="search.form.will.testator.date_of_death"
-                          localdata="search.values.will.testator.date_of_death"
-                          searchfields="name"
-                          titlefield="name"
-                          minlength="1"
-                          inputclass="form-control form-control-small"/>
-        </div>
+        <label class="form-control-label">Année de décès</label>
+        <angucomplete id="app-home-form-testator-deathDate"
+                      placeholder="Search by year of death"
+                      pause="100"
+                      selectedobject="search.form.will.testator.dateOfDeath"
+                      localdata="search.values.will.testator.dateOfDeath"
+                      searchfields="name"
+                      titlefield="name"
+                      minlength="1"
+                      inputclass="form-control form-control-sm"/>
     </div>
     <div class="form-group">
-        <label class="col-sm-12">Commune d'origine</label>
-        <div class="col-sm-12">
-            <angucomplete id="app-home-form-testator-birthPlace"
-                          placeholder="Search by place of birth"
-                          pause="100"
-                          selectedobject="search.form.will.testator.place_of_birth.name"
-                          localdata="search.values.will.testator.place_of_birth.name"
-                          searchfields="name"
-                          titlefield="name"
-                          minlength="1"
-                          inputclass="form-control form-control-small"/>
-        </div>
+        <label class="form-control-label">Commune d'origine</label>
+        <angucomplete id="app-home-form-testator-birthPlace"
+                      placeholder="Search by place of birth"
+                      pause="100"
+                      selectedobject="search.form.will.testator.placeOfBirth.name"
+                      localdata="search.values.will.testator.placeOfBirth.name"
+                      searchfields="name"
+                      titlefield="name"
+                      minlength="1"
+                      inputclass="form-control form-control-sm"/>
     </div>
-    <div class="text-right"><a ui-sref="transcript.app.search">Plus de critères</a></div>
 </form>
+<div class="text-right mb-3"><a ui-sref="transcript.app.search" class="btn btn-sm btn-primary">Plus de critères</a></div>

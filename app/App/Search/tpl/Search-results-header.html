@@ -1,31 +1,19 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <span class="navbar-brand">Search results</span>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <p class="navbar-text">{{ results.length }} résultats</p>
-            <div class="btn-group navbar-right">
-                <button type="button" class="btn btn-default navbar-btn" data-ng-click="search.result.display = 'tile'"><i class="fa fa-th-large"></i></button>
-                <button type="button" class="btn btn-default navbar-btn" data-ng-click="search.result.display = 'list'"><i class="fa fa-th-list"></i></button>
-            </div>
-            <form class="navbar-form navbar-right">
-                <div class="form-group">
-                    <select class="form-control">
-                        <option>Par date de testament</option>
-                        <option>Par statut de transcription</option>
-                    </select>
-                </div>
-            </form>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
+<nav class="navbar">
+    <form>
+        <select class="custom-select">
+            <option>Par date de testament</option>
+            <option>Par statut de transcription</option>
+        </select>
+    </form>
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <!--ajouter la classe "active" sur l'élément <a> si actif : <a class="nav-link active" -->
+            <a class="nav-link" role="button"   data-ng-click="search.result.display = 'list'" title="Liste"><i class="fa fa-list fa-lg" aria-hidden="true"></i></a>
+        </li>
+        <li class="nav-item">
+            <!--ajouter la classe "active" sur l'élément <a> si actif : <a class="nav-link active" -->
+            <a class="nav-link" role="button"  data-ng-click="search.result.display = 'tile'" title="Grille"><i class="fa fa-th fa-lg" aria-hidden="true"></i></a>
+        </li>
+    </ul>
 </nav>
+<div class="mb-4 nbResults">{{ results.length }} testaments trouvés</div>

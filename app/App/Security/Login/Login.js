@@ -7,10 +7,13 @@ angular.module('transcript.app.security.login', ['ui.router'])
             views: {
                 "page" : {
                     templateUrl: 'App/Security/Login/Login.html',
-                        controller: 'AppSecurityLoginCtrl'
+                    controller: 'AppSecurityLoginCtrl'
                 }
             },
             url: '/login',
+            tfMetaTags: {
+                title: 'Connexion',
+            },
             ncyBreadcrumb: {
                 parent: 'transcript.app.home',
                 label: 'Connexion'
@@ -25,9 +28,9 @@ angular.module('transcript.app.security.login', ['ui.router'])
         $scope.form = {
             username: null,
             password: null,
-            grant_type: "password",
-            client_id: $rootScope.client_id,
-            client_secret: $rootScope.client_secret
+            //grant_type: "password",
+            //client_id: $rootScope.client_id,
+            //client_secret: $rootScope.client_secret
         };
         $scope.errors = [];
         $scope.submit = {

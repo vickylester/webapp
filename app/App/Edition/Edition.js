@@ -17,6 +17,9 @@ angular.module('transcript.app.edition', ['ui.router'])
                 parent: 'transcript.app.entity({id: entity.id})',
                 label: '{{ resource.type | ucfirst }} {{resource.orderInWill}}'
             },
+            tfMetaTags: {
+                title: '{{ resource.type | ucfirst }} {{resource.orderInWill}} de {{ entity.will.title }}',
+            },
             url: '/edition/:idEntity/:idResource',
             resolve: {
                 entity: function(EntityService, $transition$) {

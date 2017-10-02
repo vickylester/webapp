@@ -7,11 +7,16 @@ angular.module('transcript.app.user', ['ui.router'])
             abstract: true,
             views: {
                 "page" : {
-                    template: '<div ui-view="page"></div>'
+                    template: '<div ui-view="page"></div>',
+                    controller: 'AppUserCtrl'
                 }
             },
             url: '/user'
         })
+    }])
+
+    .controller('AppTaxonomyCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, tfMetaTags) {
+        tfMetaTags.setTitleSuffix(' | Profil utilisateur '+tfMetaTags.getTitleSuffix());
     }])
 
 ;

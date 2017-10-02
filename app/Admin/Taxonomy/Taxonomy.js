@@ -15,6 +15,7 @@ angular.module('transcript.admin.taxonomy', ['ui.router'])
         })
     }])
 
-    .controller('AdminTaxonomyCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
+    .controller('AdminTaxonomyCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, tfMetaTags) {
+        tfMetaTags.setTitleSuffix(' - Notices d\'autorité '+tfMetaTags.getTitleSuffix());
     }])
 ;

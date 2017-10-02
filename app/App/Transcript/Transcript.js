@@ -17,6 +17,9 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 parent: 'transcript.app.edition({idEntity: entity.id, idResource: resource.id})',
                 label: 'Transcription'
             },
+            tfMetaTags: {
+                title: 'Transcription',
+            },
             url: '/transcript/:idEntity/:idResource/:idTranscript',
             data: {
                 permissions: {

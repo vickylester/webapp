@@ -11,7 +11,10 @@ angular.module('transcript.app.home', ['ui.router'])
                 }
             },
             ncyBreadcrumb: {
-                label: 'Home'
+                label: 'Accueil'
+            },
+            tfMetaTags: {
+                title: 'Accueil',
             },
             url: '/',
             resolve: {

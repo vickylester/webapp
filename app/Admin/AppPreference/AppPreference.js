@@ -14,7 +14,10 @@ angular.module('transcript.admin.preference', ['ui.router'])
                 url: '/preferences',
                 ncyBreadcrumb: {
                     parent: 'transcript.admin.home',
-                    label: 'Préférence système'
+                    label: 'Préférences système'
+                },
+                tfMetaTags: {
+                    title: 'Préférence système',
                 }
             })
     }])

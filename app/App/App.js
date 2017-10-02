@@ -14,7 +14,7 @@ angular.module('transcript.app', ['ui.router'])
         })
     }])
 
-    .controller('AppCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', 'appPreference', function($rootScope, $scope, $http, $sce, $state, user, appPreference) {
+    .controller('AppCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', 'appPreference', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, user, appPreference, tfMetaTags) {
 
     }])
 ;

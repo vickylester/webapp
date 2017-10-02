@@ -15,6 +15,9 @@ angular.module('transcript.app.search', ['ui.router'])
                 parent: 'transcript.app.home',
                 label: 'Recherche'
             },
+            tfMetaTags: {
+                title: 'Recherche',
+            },
             resolve: {
                 entities: function(EntityService) {
                     return EntityService.getEntities();

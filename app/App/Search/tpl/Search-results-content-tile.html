@@ -1,15 +1,11 @@
-<div class="row">
-    <div class="col-sm-4" data-ng-repeat="entity in results">
-        <div class="thumbnail">
-            <div class="text-center"><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
-            <a ui-sref="transcript.app.entity({ id: entity.id })" >
-                <img src="{{ imageService.getThumbnail(entity) }}" class="img-250" />
-            </a>
-            <div class="text-right"><span class="label label-info" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span></div>
-            <div class="caption">
-                <strong>{{ entity.will.testator.name }}</strong>
-                <p>Cote {{ entity.will.call_number }}, minute du {{ entity.will.minute_date | classicDate }}</p>
-            </div>
+<ul id="listResults" class="grid row">
+    <li class="col-md-4 col-6" data-ng-repeat="entity in results">
+        <span class="badge badge-status" data-ng-class="getResourceClassLabel(resource)">{{ entity._embedded.status | transcriptionStatusName }}</span>
+        <a ui-sref="transcript.app.entity({ id: entity.id })"><img class="img-fluid" src="{{ imageService.getThumbnail(entity) }}"/></a>
+        <span class="badge badge-secondary" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span>
+        <div class="caption">
+            <a  ui-sref="transcript.app.entity({ id: entity.id })" class="nomTestataire">{{ entity.will.testator.name }}</a>
+            Cote {{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate | classicDate }}
         </div>
-    </div>
-</div>
+    </li>
+</ul>

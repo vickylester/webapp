@@ -15,6 +15,9 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 parent: 'transcript.admin.entity.list',
                 label: 'Importation'
             },
+            tfMetaTags: {
+                title: 'Importation',
+            },
             resolve: {
                 testators: function(TaxonomyService) {
                     return TaxonomyService.getTaxonomyEntities('testators');

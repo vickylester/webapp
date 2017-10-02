@@ -14,6 +14,9 @@ angular.module('transcript.app.taxonomy.home', ['ui.router'])
             ncyBreadcrumb: {
                 parent: 'transcript.app.home',
                 label: 'Documenter'
+            },
+            tfMetaTags: {
+                title: 'Documenter',
             }
         })
     }])

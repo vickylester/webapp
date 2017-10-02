@@ -15,7 +15,7 @@ angular.module('transcript.admin.user', ['ui.router'])
         })
     }])
 
-    .controller('AdminUserCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-
+    .controller('AdminUserCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, tfMetaTags) {
+        tfMetaTags.setTitleSuffix(' - Utilisateurs '+tfMetaTags.getTitleSuffix());
     }])
 ;

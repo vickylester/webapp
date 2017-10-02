@@ -1,8 +1,8 @@
-<div class="row">
-    <div class="col-md-3" data-ng-repeat="testator in entity._embedded.testators">
-        <div class="thumbnail">
+<div class="row mb-4">
+    <div class="col-md-3 col-6" data-ng-repeat="testator in entity._embedded.testators">
+        <div class="img-thumbnail">
             <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" >
-                <img src="./web/images/no-images.png" class="img-250" />
+                <img src="./web/images/default-testator.png" class="img-fluid" />
             </a>
             <div class="caption">
                 <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" ><strong>{{ testator.name }}</strong></a>

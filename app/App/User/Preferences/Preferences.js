@@ -13,9 +13,11 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
             url: '/preferences/{id}',
             ncyBreadcrumb: {
                 parent: 'transcript.app.user.profile({id: user.id})',
-                label: 'Préférences'
+                label: 'Modification des préférences'
             },
-            requireLogin: true,
+            tfMetaTags: {
+                title: 'Modification des préférences',
+            },
             resolve: {
                 userPreferences: function(UserPreferenceService, $transition$) {
                     return UserPreferenceService.getPreferences($transition$.params().id);

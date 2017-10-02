@@ -15,6 +15,9 @@ angular.module('transcript.app.user.private-message.list', ['ui.router'])
                 parent: 'transcript.app.user.profile({id: user.id})',
                 label: 'Messages privés'
             },
+            tfMetaTags: {
+                title: 'Messages privés',
+            },
             resolve: {
                 threads: function(CommentService) {
                     return CommentService.getThreadsBySelfUser();

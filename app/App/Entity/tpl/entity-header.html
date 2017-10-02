@@ -1,13 +1,15 @@
-<div>
-    <div class="pull-right">
-        <a class="btn btn-default btn-sm" ui-sref="transcript.app.search"><i class="fa fa-search"></i> Autres testaments</a>
-        <a class="btn btn-warning btn-sm" data-ng-if="user.roles | contains:'ROLE_ADMIN'" ui-sref="transcript.admin.entity.edit({id: entity.id})"><i class="fa fa-edit"></i> Modifier</a>
+<div class="row mb-5">
+    <div class="col-auto mr-auto">
+        <h1 class="page-heading mb-0"><i class="fa fa-folder-open" aria-hidden="true"></i> {{ entity.will.title }}</h1>
     </div>
-    <h1>{{ entity.will.title }}</h1>
-</div>
-
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    <div class="col-auto justify-content-end">
+        <nav class="mt-4">
+            <ul class="nav nav-pills">
+                <li class="nav-item"><a class="nav-link" ui-sref="transcript.app.search"><i class="fa fa-search fa-lg" aria-hidden="true"></i> Autres testaments</a></li>
+                <li class="nav-item" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+                    <a class="btn btn-light" ui-sref="transcript.admin.entity.edit({id: entity.id})"><i class="fa fa-edit fa-lg"></i> Modifier</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 </div>

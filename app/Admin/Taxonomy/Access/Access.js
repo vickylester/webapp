@@ -15,6 +15,9 @@ angular.module('transcript.admin.taxonomy.access', ['ui.router'])
                 parent: 'transcript.admin.home',
                 label: 'Accès'
             },
+            tfMetaTags: {
+                title: 'Accès',
+            },
             resolve: {
                 accesses: function(AccessService) {
                     return AccessService.getAccesses().then(function(data){

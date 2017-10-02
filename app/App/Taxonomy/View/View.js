@@ -15,6 +15,9 @@ angular.module('transcript.app.taxonomy.view', ['ui.router'])
                 parent: 'transcript.app.taxonomy.home',
                 label: '{{ entity.name }}'
             },
+            tfMetaTags: {
+                title: '{{ entity.name }}',
+            },
             resolve: {
                 entity: function(TaxonomyService, $transition$) {
                     return TaxonomyService.getTaxonomyEntity($transition$.params().type, $transition$.params().id);

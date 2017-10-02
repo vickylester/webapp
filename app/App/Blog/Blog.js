@@ -15,6 +15,9 @@ angular.module('transcript.app.blog', ['ui.router'])
                 parent: 'transcript.app.home',
                 label: 'Actualités'
             },
+            tfMetaTags: {
+                title: 'Actualités',
+            },
             resolve: {
                 contents: function(ContentService) {
                     return ContentService.getContents("blogContent", "public", "DESC", 30);

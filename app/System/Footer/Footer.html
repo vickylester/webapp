@@ -1,25 +1,74 @@
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-2">
-            <ul class="list-group">
-                <li class="list-group-item" data-ng-if="preferences.discover_home_content != null"><a ui-sref="transcript.app.content({id: preferences.discover_home_content})">Découvrir</a></li>
-                <li class="list-group-item" data-ng-if="preferences.help_home_content != null"><a ui-sref="transcript.app.content({id: preferences.help_home_content})">Aide</a></li>
-                <li class="list-group-item"><a ui-sref="transcript.app.blog">Actualités</a></li>
-                <li class="list-group-item"><a ui-sref="transcript.app.search">Transcrire</a></li>
-                <li class="list-group-item"><a ui-sref="transcript.app.taxonomy.home">Documenter</a></li>
-            </ul>
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-lg-2 col-sm-6 p-0">
+            <nav class="nav flex-column bg-danger">
+                <a class="nav-link" ui-sref="app.content({id: preferences.discoverHomeContent})">Découvrir</a>
+                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.helpHomeContent})">Guides</a>
+                <a class="nav-link" ui-sref="app.blog">Actualités</a>
+                <a class="nav-link" ui-sref="app.search">Transcrire</a>
+                <a class="nav-link" ui-sref="app.taxonomy.home">Documenter</a>
+            </nav>
         </div>
-        <div class="col-sm-2">
-            <ul class="list-group">
-                <li class="list-group-item" data-ng-if="preferences.enable_contact == true"><a ui-sref="transcript.app.contact">Contact</a></li>
-                <li class="list-group-item" data-ng-if="preferences.aboutContent != null"><a ui-sref="transcript.app.content({id: preferences.aboutContent})">À propos</a></li>
-                <li class="list-group-item" data-ng-if="preferences.legalNoticesContent != null"><a ui-sref="transcript.app.content({id: preferences.legalNoticesContent})">Mentions légales</a></li>
-                <li class="list-group-item" data-ng-if="preferences.creditsContent != null"><a ui-sref="transcript.app.content({id: preferences.creditsContent})">Crédits</a></li>
-                <li class="list-group-item">Social networks</li>
-            </ul>
+        <div class="col-lg-2 col-sm-6 p-0">
+            <nav class="nav flex-column bg-secondary">
+                <a class="nav-link" ui-sref="transcript.app.contact">Contact</a>
+                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.aboutContent})">À propos</a>
+                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.legalNoticesContent})">Mentions légales</a>
+                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.creditsContent})">Crédits</a>
+                <div class="nav-link bg-white">
+                    <a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-google-plus fa-lg" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-instagram fa-lg" aria-hidden="true"></i></a>
+                </div>
+            </nav>
         </div>
-        <div class="col-sm-8">
-            <h3>Logos partenaires</h3>
+        <div class="col-lg-8 col-md-12" id="partenaires">
+            <div class="row align-items-center">
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/fondation-sciences-patrimoine.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/centenaire.jpg"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/cergy.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+            </div>
         </div>
     </div>
 </div>
+<!--<div class="container">
+    <div class="row align-items-center">
+        <div class="col-lg-2 col-sm-6 p-0">
+            <nav class="nav flex-column bg-danger">
+                <a class="nav-link" data-ng-if="preferences.discover_home_content != null" ui-sref="app.content({id: preferences.discover_home_content})">Découvrir</a>
+                <a class="nav-link" data-ng-if="preferences.help_home_content != null" ui-sref="transcript.app.content({id: preferences.help_home_content})">Aide</a>
+                <a class="nav-link" ui-sref="app.blog">Actualités</a>
+                <a class="nav-link" ui-sref="app.search">Transcrire</a>
+                <a class="nav-link" ui-sref="app.taxonomy.home">Documenter</a>
+            </nav>
+        </div>
+        <div class="col-lg-2 col-sm-6 p-0">
+            <nav class="nav flex-column bg-secondary">
+                <a class="nav-link" data-ng-if="preferences.enable_contact == true" ui-sref="transcript.app.contact">Contact</a>
+                <a class="nav-link" data-ng-if="preferences.aboutContent != null" ui-sref="transcript.app.content({id: preferences.aboutContent})">À propos</a>
+                <a class="nav-link" data-ng-if="preferences.legalNoticesContent != null" ui-sref="transcript.app.content({id: preferences.legalNoticesContent})">Mentions légales</a>
+                <a class="nav-link" data-ng-if="preferences.creditsContent != null" ui-sref="transcript.app.content({id: preferences.creditsContent})">Crédits</a>
+                <div class="nav-link bg-white">
+                    <a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-google-plus fa-lg" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-instagram fa-lg" aria-hidden="true"></i></a>
+                </div>
+            </nav>
+        </div>
+        <div class="col-lg-8 col-md-12" id="partenaires">
+            <div class="row align-items-center">
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/fondation-sciences-patrimoine.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/centenaire.jpg"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/cergy.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+            </div>
+        </div>
+    </div>
+</div>-->

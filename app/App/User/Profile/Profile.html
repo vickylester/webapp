@@ -1,47 +1,51 @@
-<div class="jumbotron">
-    <div class="pull-right">
-        <div class="thumbnail">
-            <img data-ng-if="iUser.picture == null || iUser.picture == ''" class="img-responsive img-100" src="{{ webapp.resources }}images/no-images.png" />
-            <img data-ng-if="iUser.picture != null && iUser.picture != ''" class="img-responsive img-100" src="{{ iUser.picture }}" />
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
+</div>
+<main class="container" role="main">
+    <div class="row mb-2">
+        <div class="col-md-5">
+            <h1 class="page-heading mb-3">{{ iUser.name }}</h1>
+            <h3  class=""><i class="fa fa-user-circle-o" aria-hidden="true"></i>  { iUser.name }}</h3>
+            <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
+        </div>
+        <div class="col-md-2 mt-3 text-center">
+            <i data-ng-if="iUser.picture == null || iUser.picture == ''" class="fa fa-user-circle fa-5x text-light" aria-hidden="true"></i>
+            <img data-ng-if="iUser.picture != null && iUser.picture != ''" class="img-fluid rounded-circle" src="{{ iUser.picture }}" />
+        </div>
+        <div class="col-md-5 mt-3 text-right">
+            <a ui-sref="transcript.app.user.private-message.thread({idUser: user.id, idRecipient: iUser.id})" data-ng-if="context != 'self' && user !== undefined" class="btn btn-default" title="Envoyer un message privé"><i class="fa fa-send"></i> Envoyer un message privé</a>
         </div>
     </div>
-    <div>
-        <h1>{{ iUser.name }} <a ui-sref="transcript.app.user.private-message.thread({idUser: user.id, idRecipient: iUser.id})" data-ng-if="context != 'self' && user !== undefined" class="btn btn-default" title="Send a private message"><i class="fa fa-send"></i></a></h1>
-        <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
+    <div class="row" data-ng-if="context == 'self' || context == 'admin'">
+        <div class="col-md-3">
+            <ul class="list-group">
+                <li class="list-group-item">
+                    <a ui-sref="transcript.app.user.edit({id: iUser.id})">
+                        <span data-ng-if="context == 'self'">Modifier mon profil</span>
+                        <span data-ng-if="context == 'admin'">Modifier le profil</span>
+                    </a>
+                </li>
+                <li class="list-group-item">
+                    <a ui-sref="transcript.app.user.preferences({id: iUser.id})">
+                        <span data-ng-if="context == 'self'">Modifier mes préférences</span>
+                        <span data-ng-if="context == 'admin'">Modifier les préférences</span>
+                    </a>
+                </li>
+                <li class="list-group-item" data-ng-if="context == 'self'">
+                    <a>
+                        Mes messages <span class="badge badge-info">0</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-9 col-md-9" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
     </div>
-</div>
-<div ncy-breadcrumb></div>
-
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
-</div>
-
-<div class="row" data-ng-if="context == 'self' || context == 'admin'">
-    <div class="col-sm-3">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <a ui-sref="transcript.app.user.edit({id: iUser.id})">
-                    <span data-ng-if="context == 'self'">Modifier mon profil</span>
-                    <span data-ng-if="context == 'admin'">Modifier le profil</span>
-                </a>
-            </li>
-            <li class="list-group-item">
-                <a ui-sref="transcript.app.user.preferences({id: iUser.id})">
-                    <span data-ng-if="context == 'self'">Modifier mes préférences</span>
-                    <span data-ng-if="context == 'admin'">Modifier les préférences</span>
-                </a>
-            </li>
-            <li class="list-group-item" data-ng-if="context == 'self'">
-                <a>
-                    Mes messages <span class="label label-info">0</span>
-                </a>
-            </li>
-        </ul>
+    <div class="row">
+        <div class="col-sm-12" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
     </div>
-    <div class="col-sm-9" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
-</div>
-<div class="row" data-ng-if="context == 'view'">
-    <div class="col-sm-12" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
-</div>
+</main>

@@ -1,17 +1,20 @@
-<div class="row">
-    <div class="col-sm-8">
-        <div ncy-breadcrumb></div>
-
-        <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-            <!-- Manually hide the alert with `hide()` -->
-            <button type="button" class="close" ng-click="hide()">&times;</button>
-            <span class="alert-message" data-ng-bind-html="flash.message"></span>
-        </div>
-
-        <div class="jumbotron text-center">
-            <h1>Sélectionnez votre entrée dans la liste</h1>
-            <p ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'"><a ui-sref="transcript.app.taxonomy.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
-        </div>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
-    <div class="col-sm-4" data-ng-include="'App/Taxonomy/tpl/entities.html'"></div>
 </div>
+
+<main class="container" role="main">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="jumbotron text-center">
+                <h2>Sélectionnez votre entrée dans la liste</h2>
+                <p ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'"><a ui-sref="transcript.app.taxonomy.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
+            </div>
+        </div>
+        <div class="col-md-4 pl-0 pr-0 bg-white"  data-ng-include="'App/Taxonomy/tpl/entities.html'"></div>
+    </div>
+</main>

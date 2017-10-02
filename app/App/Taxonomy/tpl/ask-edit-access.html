@@ -1,15 +1,11 @@
-<div class="panel panel-info" ng-if="user._embedded.accesses.taxonomy_request == null">
-    <div class="panel-heading">
-        <h3 class="panel-title">Partagez vos connaissances sur la Première Guerre mondiale</h3>
-    </div>
-    <div class="panel-body">
-        <p>
-            Si vous possédez des connaissances suffisantes sur la Première Guerre mondiale et que vous souhaitez
+<div class="card text-center bg-white"  ng-if="user._embedded.accesses.taxonomyRequest == null">
+    <div class="card-header bg-secondary">Partagez vos connaissances sur la Première Guerre mondiale</div>
+    <div class="card-body">
+        <p class="card-text">Si vous possédez des connaissances suffisantes sur la Première Guerre mondiale et que vous souhaitez
             contribuer à l'enrichissement de nos notices d'autorité (soldats, lieux et régiments de la guerre),
-            <a ui-sref="transcript.app.taxonomy.ask">cliquez sur ce lien pour faire une demande d'accès</a>.
-        </p>
+            <a ui-sref="transcript.app.taxonomy.ask">cliquez sur ce lien pour faire une demande d'accès</a>.</p>
     </div>
 </div>
-<p class="alert alert-info" ng-if="user._embedded.accesses.taxonomy_request != null">
-    Votre demande d'accès à la contribution aux notices descriptives est en cours de validation.
-</p>
+<div class="alert alert-info" ng-if="user._embedded.accesses.taxonomyRequest != null">
+    <p>Votre demande d'accès à la contribution aux notices descriptives est en cours de validation.</p>
+</div>

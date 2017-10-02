@@ -15,7 +15,9 @@ angular.module('transcript.app.user.change-password', ['ui.router'])
                 parent: 'transcript.app.user.profile({id: user.id})',
                 label: 'Modification du mot de passe'
             },
-            requireLogin: true,
+            tfMetaTags: {
+                title: 'Modification du mot de passe',
+            },
             resolve: {
                 userEdit: function(UserService, $transition$) {
                     return UserService.getUser($transition$.params().id);

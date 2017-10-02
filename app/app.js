@@ -7,6 +7,7 @@ angular.module('transcriptApp', [
         'ngAnimate',
         'ngCookies',
         'ckeditor',
+        'angular-oauth2',
         'http-auth-interceptor',
         'angular-flash.service',
         'angular-flash.flash-alert-directive',
@@ -21,6 +22,7 @@ angular.module('transcriptApp', [
         'permission',
         'permission.ui',
         'angular-loading-bar',
+        'tf.metatags',
         'transcript',
         'transcript.admin',
         'transcript.admin.content',
@@ -93,6 +95,7 @@ angular.module('transcriptApp', [
         'transcript.service.contact',
         'transcript.service.content',
         'transcript.service.entity',
+        'transcript.service.geonames',
         'transcript.service.image',
         'transcript.service.resource',
         'transcript.service.search',
@@ -102,17 +105,33 @@ angular.module('transcriptApp', [
         'transcript.service.user-preference',
         'transcript.service.will'
     ]).
-    config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$injector', 'flashProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider, $injector, flashProvider) {
+    config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$injector', 'flashProvider', 'tfMetaTagsProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider, $injector, flashProvider, tfMetaTagsProvider) {
         $urlRouterProvider.otherwise('/');
         $qProvider.errorOnUnhandledRejections(false);
 
+        /* ------------------------------------------------------ */
+        /* Flash management */
+        /* ------------------------------------------------------ */
         flashProvider.errorClassnames.push('alert-danger');
         flashProvider.warnClassnames.push('alert-warning');
         flashProvider.infoClassnames.push('alert-info');
         flashProvider.successClassnames.push('alert-success');
+        /* ------------------------------------------------------ */
 
+        /* ------------------------------------------------------ */
+        /* Meta tag management */
+        /* ------------------------------------------------------ */
+        tfMetaTagsProvider.setDefaults({
+            title: 'Testaments de Poilus',
+            properties: {
+                keywords: 'keyword1, keyword2'
+            }
+        });
+        tfMetaTagsProvider.setTitleSuffix('');
+        tfMetaTagsProvider.setTitlePrefix('');
+        /* ------------------------------------------------------ */
     }])
-    .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', '$filter', 'PermRoleStore', 'PermPermissionStore', 'UserService', function($rootScope, $http, $injector, $location, authService, $state, $cookies, $filter, PermRoleStore, PermPermissionStore, UserService) {
+    .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', '$filter', '$window', 'PermRoleStore', 'PermPermissionStore', 'UserService', 'OAuth', function($rootScope, $http, $injector, $location, authService, $state, $cookies, $filter, $window, PermRoleStore, PermPermissionStore, UserService, OAuth) {
         /* -- Parameters management ------------------------------------------------------ */
         let parameters = YAML.load('parameters.yml');
         $rootScope.api = parameters.api;
@@ -126,16 +145,41 @@ angular.module('transcriptApp', [
         $rootScope.client_secret = parameters.client_secret;
         /* -- End : Parameters management ------------------------------------------------ */
 
+        /* -- OAuth management ----------------------------------------------------------- */
+        OAuth.configure({
+            baseUrl: $rootScope.webapp.strict,
+            clientId: $rootScope.client_id,
+            clientSecret: $rootScope.client_secret
+        });
+
+        $rootScope.$on('oauth:error', function(event, rejection) {
+            // Ignore `invalid_grant` error - should be catched on `LoginController`.
+            if ('invalid_grant' === rejection.data.error) {
+                return;
+            }
+
+            // Refresh token when a `invalid_token` error occurs.
+            if ('invalid_token' === rejection.data.error) {
+                return OAuth.getRefreshToken();
+            }
+
+            // Redirect to `/login` with the `error_reason`.
+            return $state.go('transcrip.app.security.login'); // Need to handle error : rejection.data.error
+        });
+        /* -- End : OAuth management ----------------------------------------------------- */
+
         /* -- Token management ----------------------------------------------------------- */
-        if($cookies.get('transcript_security_token_access') !== undefined) {
+        // TO REMOVE IF OAUTHJS WORKS
+        /*if($cookies.get('transcript_security_token_access') !== undefined) {
             $rootScope.oauth = {
                 access_token: $cookies.get('transcript_security_token_access'),
                 refresh_token: $cookies.get('transcript_security_token_refresh'),
                 token_type: $cookies.get('transcript_security_token_type')
             };
-        }
-        /* -- Token management ------------------------------------------------------ */
+        }*/
+        /* -- End : Token management ----------------------------------------------------- */
 
+        /* -- Permission management ------------------------------------------------------ */
         PermPermissionStore
             .definePermission('adminAccess', function () {
                 if($rootScope.user !== undefined) {
@@ -163,21 +207,7 @@ angular.module('transcriptApp', [
             .defineManyRoles({
                 'ROLE_ADMIN': ['adminAccess', 'transcriptAccess'],
                 'ROLE_USER': ['transcriptAccess']
-            });
-
-        /* Loader */
-        /*$rootScope
-            .$on('$stateChangeStart',
-                function(event, toState, toParams, fromState, fromParams){
-                    $("#pageContainer").addClass("hidden");
-                    $("#pageLoader").removeClass("hidden");
-                });
-
-        $rootScope
-            .$on('$stateChangeSuccess',
-                function(event, toState, toParams, fromState, fromParams){
-                    $("#pageContainer").removeClass("hidden");
-                    $("#pageLoader").addClass("hidden");
-                });*/
+            })
+        /* -- End : Permission management ------------------------------------------------ */
     }])
 ;

@@ -1,15 +1,22 @@
-<ul class="nav nav-pills nav-justified">
-    <li role="presentation" class="active"><a href="#">Les hommes</a></li>
-    <li role="presentation"><a href="#">Les lieux</a></li>
-    <li role="presentation"><a href="#">Les régiments</a></li>
-    <li role="presentation" ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'"><a ui-sref="transcript.app.taxonomy.create({type: entity.dataType})"><i class="fa fa-plus"></i></a></li>
-</ul>
+<nav class="nav nav-pills nav-justified" id="Tab">
+    <a role="presentation" class="nav-item nav-link active"  href="#">Les hommes</a>
+    <a role="presentation" class="nav-item nav-link" href="#">Les lieux</a>
+    <a role="presentation" class="nav-item nav-link" href="#">Les régiments</a>
+</nav>
+
 <div class="alert alert-warning" data-ng-if="entities.length == 0">
     <p><i class="fa fa-warning"></i> Cette liste de notices descriptives ne compte aucune entrée pour le moment.</p>
 </div>
-<ul data-ng-if="entities.length > 0" class="list-unstyled">
-    <li data-ng-repeat="iEntity in entities">
-        <a data-ng-if="iEntity.id != entity.id" ui-sref="transcript.app.taxonomy.view({type: entity.dataType, id: iEntity.id})">{{ iEntity.name }}</a>
-        <span data-ng-if="iEntity.id == entity.id">{{ iEntity.name }}</span>
-    </li>
-</ul>
+
+<div class="m-4" ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'">
+    <div class="text-right"><a class="btn btn-light" href="#" ui-sref="transcript.app.taxonomy.create({type: entity.dataType})" title="Ajouter une notice"><i class="fa fa-plus"></i> Ajouter une notice</a></div>
+</div>
+
+<div class="tab-content">
+    <ul  class="tab-content" data-ng-if="entities.length > 0">
+        <li data-ng-repeat="iEntity in entities">
+            <a data-ng-if="iEntity.id != entity.id" ui-sref="transcript.app.taxonomy.view({type: entity.dataType, id: iEntity.id})">{{ iEntity.name }}</a>
+            <span data-ng-if="iEntity.id == entity.id">{{ iEntity.name }}</span>
+        </li>
+    </ul>
+</div>

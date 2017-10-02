@@ -15,6 +15,9 @@ angular.module('transcript.admin.home', ['ui.router'])
                 parent: 'transcript.app.home',
                 label: 'Admin'
             },
+            tfMetaTags: {
+                title: 'Accueil',
+            },
             resolve: {
                 accesses: function(AccessService) {
                     return AccessService.getAccesses().then(function(data){

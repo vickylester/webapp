@@ -1,18 +1,14 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <div class="pull-right">
-            <a class="text-muted" data-ng-click="admin.export.load()">Export <i data-ng-if="admin.export.show == false" class="fa fa-caret-down"></i><i data-ng-if="admin.export.show == true" class="fa fa-caret-up"></i></a>
-        </div>
-        <h3 class="panel-title">Admin toolbar</h3>
-    </div>
-    <div class="panel-body">
+<div class="card bg-body">
+    <h3 class="card-header bg-light"><i class="fa fa-user" aria-hidden="true"></i> Admin toolbar</h3>
+    <h4 class="card-header bg-lighter align-right"><span class="text-right"><a class="text-muted" data-ng-click="admin.export.load()">Export <i data-ng-if="admin.export.show == false" class="fa fa-caret-down"></i><i data-ng-if="admin.export.show == true" class="fa fa-caret-up"></i></a></span></h4>
+    <div class="card-body">
         <div data-ng-if="admin.export.show == true">
-            <strong>Exporter le document transcrit :</strong>
-            <button data-ng-if="admin.export.submit.result == false" type="button" data-ng-click="admin.export.submit.action()" class="btn btn-primary">
+            <h3>Exporter le document transcrit :</h3>
+            <button data-ng-if="admin.export.submit.result == false" type="button" data-ng-click="admin.export.submit.action()" class="btn btn-sm btn-primary">
                 <span data-ng-if="admin.export.submit.loading == false">Générer la transcription</span>
                 <span data-ng-if="admin.export.submit.loading == true">Chargement <i class="fa fa-spin fa-circle-o-notch"></i></span>
             </button>
-            <a href="{{ admin.export.submit.content }}" target="_blank" data-ng-if="admin.export.submit.result == true">Télécharger la transcription</a>
+            <a  class="btn btn-sm btn-primary" href="{{ admin.export.submit.content }}" target="_blank" data-ng-if="admin.export.submit.result == true"><i class="fa fa-download"></i> Télécharger la transcription</a>
         </div>
     </div>
 </div>

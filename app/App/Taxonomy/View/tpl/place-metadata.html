@@ -1,35 +1,30 @@
-<div class="list-group">
-    <dl class="dl-horizontal list-group-item">
-        <dt>Localisation</dt>
-        <dd>
-            <span data-ng-if="entity.french_departement != null">{{ entity.french_departement }}</span><!--
-                        --><span data-ng-if="entity.french_region != null"><span data-ng-if="entity.french_departement != null">, </span>{{ entity.french_region }}</span><!--
-                        --><span data-ng-if="entity.country != null"><span data-ng-if="entity.french_departement != null || entity.french_region != null">, </span>{{ entity.country }}</span>
-        </dd>
-    </dl>
-    <dl class="dl-horizontal list-group-item">
-        <dt>Identifiant Geonames</dt>
-        <dd>
-            <a ng-if="entity.geonames_id != null" href="http://sws.geonames.org/{{ entity.geonames_id }}" target="_blank">{{ entity.geonames_id }}</a>
-            <span ng-if="entity.geonames_id == null"><em>No data</em></span>
-        </dd>
-    </dl>
-    <dl class="dl-horizontal list-group-item">
-        <dt>Coordonnées géographiques</dt>
-        <dd>
-            <a ng-if="entity.geographical_coordinates != null" href="https://www.openstreetmap.org/#map=12/{{ entity.geographical_coordinates.replace('+', '/') }}" target="_blank">
-                {{ entity.geographical_coordinates }}
-            </a>
-            <span ng-if="entity.geographical_coordinates == null"><em>No data</em></span>
-        </dd>
-    </dl>
-</div>
+<dl class="row pr-3 ml-1">
+    <dt class="col-sm-4">Localisation</dt>
+    <dd class="col-sm-8">
+        <span data-ng-if="entity.frenchDepartement != null">{{ entity.frenchDepartement }}</span>
+        <span data-ng-if="entity.frenchRegion != null"><span data-ng-if="entity.frenchDepartement != null">, </span>{{ entity.frenchRegion }}</span>
+        <span data-ng-if="entity.country != null"><span data-ng-if="entity.frenchDepartement != null || entity.frenchRegion != null">, </span>{{ entity.country }}</span>
+    </dd>
 
-<div class="row">
-    <div class="col-md-3" data-ng-repeat="testator in entity._embedded.testators">
-        <div class="thumbnail">
+    <dt class="col-sm-4">Identifiant Geonames</dt>
+    <dd class="col-sm-8">
+        <a ng-if="entity.geonamesId != null" href="http://sws.geonames.org/{{ entity.geonamesId }}" target="_blank">{{ entity.geonamesId }}</a>
+        <span ng-if="entity.geonamesId == null"><em>No data</em></span>
+    </dd>
+
+    <dt class="col-sm-4">Coordonnées géographiques</dt>
+    <dd class="col-sm-8">
+        <a ng-if="entity.geographicalCoordinates != null" href="https://www.openstreetmap.org/#map=12/{{ entity.geographicalCoordinates.replace('+', '/') }}" target="_blank">
+            {{ entity.geographicalCoordinates }}
+        </a>
+        <span ng-if="entity.geographicalCoordinates == null"><em>No data</em></span>
+    </dd>
+</dl>
+<div class="row mb-4">
+    <div class="col-md-3 col-6">
+        <div class="img-thumbnail">
             <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" >
-                <img src="./web/images/no-images.png" class="img-250" />
+                <img src="./web/images/default-testator.png" class="img-fluid" />
             </a>
             <div class="caption">
                 <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" ><strong>{{ testator.name }}</strong></a>

@@ -8,80 +8,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>TranscribeToTEI</title>
+    <title ng-bind="tfMetaTags.title"></title>
+    <meta ng-repeat="(key, value) in tfMetaTags.properties" name="{{key}}" content="{{value}}" >
 
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+    <!--    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <link rel="stylesheet" href="web/libraries/css/font-awesome/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-2.5.0-csp.css"  type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/bootstrap-fileinput/css/fileinput.min.css"  type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/viewerjs/dist/viewer.css"  type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans:400,400i,500,500i,700,700i|PT+Sans:400,700" rel="stylesheet" />
     <link rel="stylesheet" href="web/custom/css/style.css" type="text/css" />
     <link rel="stylesheet" href="web/libraries/js/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css">
     <link rel="stylesheet" href="web/libraries/angular/angucomplete/angucomplete.css" type="text/css" />
     <link rel='stylesheet' href='web/libraries/angular/angular-loading-bar/build/loading-bar.min.css' type='text/css' media='all' />
-
     <link rel="stylesheet" href="//unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin=""/>
-
 
     <!--
     <link rel="stylesheet" href="web/libraries/js/jQuery-File-Upload/css/jquery.fileupload.css" />
     <link rel="stylesheet" href="web/libraries/js/jQuery-File-Upload/css/jquery.fileupload-ui.css" />
     -->
 
-    <link rel="stylesheet" href="Admin/Content/Edit/Edit.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Content/List/List.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Entity/Edit/Edit.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Entity/Import/Import.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Entity/List/List.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/AppPreference/AppPreference.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Home/Home.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Taxonomy/Access/Access.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Taxonomy/Logs/Logs.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Transcript/Export/Export.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/Transcript/Validation/Validation.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/User/List/List.css" type="text/css" />
-    <link rel="stylesheet" href="Admin/User/View/View.css" type="text/css" />
-    <link rel="stylesheet" href="App/Home/Home.css" type="text/css" />
-    <link rel="stylesheet" href="App/Blog/Blog.css" type="text/css" />
-    <link rel="stylesheet" href="App/Contact/Contact.css" type="text/css" />
-    <link rel="stylesheet" href="App/Content/Content.css" type="text/css" />
-    <link rel="stylesheet" href="App/Edition/Edition.css" type="text/css" />
-    <link rel="stylesheet" href="App/Entity/Entity.css" type="text/css" />
-    <link rel="stylesheet" href="App/Search/Search.css" type="text/css" />
-    <link rel="stylesheet" href="App/Security/Check/Check.css" type="text/css" />
-    <link rel="stylesheet" href="App/Security/Confirm/Confirm.css" type="text/css" />
-    <link rel="stylesheet" href="App/Security/Login/Login.css" type="text/css" />
-    <link rel="stylesheet" href="App/Security/Logout/Logout.css" type="text/css" />
-    <link rel="stylesheet" href="App/Security/Register/Register.css" type="text/css" />
-    <link rel="stylesheet" href="App/Taxonomy/Ask/Ask.css" type="text/css" />
-    <link rel="stylesheet" href="App/Taxonomy/Edit/Edit.css" type="text/css" />
-    <link rel="stylesheet" href="App/Taxonomy/Home/Home.css" type="text/css" />
-    <link rel="stylesheet" href="App/Taxonomy/List/List.css" type="text/css" />
-    <link rel="stylesheet" href="App/Taxonomy/View/View.css" type="text/css" />
-    <link rel="stylesheet" href="App/Training/Training.css" type="text/css" />
     <link rel="stylesheet" href="App/Transcript/Transcript.css" type="text/css" />
-    <link rel="stylesheet" href="App/User/Edit/Edit.css" type="text/css" />
-    <link rel="stylesheet" href="App/User/Preferences/Preferences.css" type="text/css" />
-    <link rel="stylesheet" href="App/User/PrivateMessage/List/List.css" type="text/css" />
-    <link rel="stylesheet" href="App/User/PrivateMessage/Thread/Thread.css" type="text/css" />
-    <link rel="stylesheet" href="App/User/Profile/Profile.css" type="text/css" />
     <link rel="stylesheet" href="System/Comment/Comment.css" type="text/css" />
-    <link rel="stylesheet" href="System/Error/403/403.css" type="text/css" />
-    <link rel="stylesheet" href="System/Error/404/404.css" type="text/css" />
-    <link rel="stylesheet" href="System/Footer/Footer.css" type="text/css" />
-    <link rel="stylesheet" href="System/Navbar/Navbar.css" type="text/css" />
 </head>
 
 <body>
-    <header ui-view="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation" style=""></header>
+    <header ui-view="navbar" class="container" role="navigation"></header>
 
-    <section class="container-fluid" style="margin-top: 70px; margin-bottom: 50px;" id="sectionContent">
-        <!--<div id="pageLoader" class="text-center" style="margin-top: 10%;">
-            <i class="fa fa-spin fa-5x fa-circle-o-notch"></i>
-        </div>-->
-        <div id="pageContainer" ui-view="page"></div>
-    </section>
+    <div ui-view="page" id="pageContainer" ></div>
 
     <footer ui-view="footer"></footer>
 
@@ -91,7 +47,8 @@
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-animate.js"></script>
     <script type="text/javascript" src="//unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
     <script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
     <script type="text/javascript" src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-2.5.0.min.js"></script>
     <script type="text/javascript" src="web/libraries/angular/bootstrap-gh-pages/ui-bootstrap-tpls-2.5.0.min.js"></script>
     <script type="text/javascript" src="web/libraries/angular/yaml-js/dist/yaml.min.js"></script>
@@ -100,11 +57,16 @@
     <script type="text/javascript" src="web/libraries/angular/angular-filter/dist/angular-filter.min.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angular-pretty-xml/src/angular-pretty-xml.js"></script>
     <script type='text/javascript' src='web/libraries/angular/angular-loading-bar/build/loading-bar.min.js'></script>
-
+    <script type='text/javascript' src='web/libraries/angular/tf-metatags/release/tf-metatags.min.js'></script>
+    <script type='text/javascript' src="web/libraries/angular/angular-http-auth/dist/http-auth-interceptor.js"></script>
+    <script type='text/javascript' src="web/libraries/angular/angular-flash/dist/angular-flash.min.js"></script>
+    <script type='text/javascript' src="../bower_components/query-string/query-string.js"></script>
+    <script type='text/javascript' src="../bower_components/angular-oauth2/dist/angular-oauth2.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angular-permission/dist/angular-permission.js"></script>
     <script type="text/javascript" src="web/libraries/angular/angular-permission/dist/angular-permission-ui.js"></script>
 
-    <script src="//unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
+
+    <script type='text/javascript' src="//unpkg.com/leaflet@1.2.0/dist/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin=""></script>
     <script type="text/javascript" src="web/libraries/angular/angular-leaflet-directive/dist/angular-leaflet-directive.min.js"></script>
 
     <script type="text/javascript" src="web/libraries/js/moment/min/moment.min.js"></script>
@@ -117,9 +79,6 @@
 
     <script src="//cdn.ckeditor.com/4.7.1/full/ckeditor.js"></script>
     <script src="web/libraries/angular/angular-ckeditor/angular-ckeditor.js"></script>
-    <script src="web/libraries/angular/angular-http-auth/dist/http-auth-interceptor.js"></script>
-    <script src="web/libraries/angular/angular-flash/dist/angular-flash.min.js"></script>
-
     <!--<script src="web/libraries/js/viewerjs/dist/viewer.js"></script>-->
     <script src="web/libraries/js/openseadragon/openseadragon.min.js"></script>
     <script src="web/libraries/angular/angular-openseadragon/src/angular-openseadragon.js"></script>
@@ -203,6 +162,7 @@
     <script type="text/javascript" src="System/Services/CommentService.js"></script>
     <script type="text/javascript" src="System/Services/ContactService.js"></script>
     <script type="text/javascript" src="System/Services/ContentService.js"></script>
+    <script type="text/javascript" src="System/Services/GeonamesService.js"></script>
     <script type="text/javascript" src="System/Services/EntityService.js"></script>
     <script type="text/javascript" src="System/Services/ImageService.js"></script>
     <script type="text/javascript" src="System/Services/ResourceService.js"></script>

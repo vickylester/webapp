@@ -1,56 +1,58 @@
-<div class="form-group">
-    <label for="app-entity-edit-name" class="control-label col-sm-3">Nom de la localité :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-name" class="form-control" data-ng-model="entity.name" />
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="app-entity-edit-name" class="form-control-label">Nom de la localité</label>
+        <input id="app-entity-edit-name" class="form-control form-control-sm" data-ng-model="entity.name" />
+    </div>
+    <div class="form-group col-md-6">
+        <label for="app-entity-edit-frenchDepartement" class="form-control-label">Département</label>
+        <input id="app-entity-edit-frenchDepartement" class="form-control form-control-sm" data-ng-model="entity.frenchDepartement" />
+        <small class="text-muted">Pour les localités françaises seulement</small>
     </div>
 </div>
-<div class="form-group">
-    <label for="app-entity-edit-frenchDepartement" class="control-label col-sm-3">Département :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-frenchDepartement" class="form-control" data-ng-model="entity.french_departement" />
-        <p class="help-block">Pour les localités françaises seulement</p>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
+        <label for="app-entity-edit-frenchRegion" class="form-control-label">Région</label>
+        <input id="app-entity-edit-frenchRegion" class="form-control form-control-sm" data-ng-model="entity.frenchRegion" />
+        <small class="text-muted">Pour les localités françaises seulement</small>
+    </div>
+    <div class="form-group col-md-6">
+        <label for="app-entity-edit-country" class="form-control-label">Pays</label>
+        <input id="app-entity-edit-country" class="form-control form-control-sm" data-ng-model="entity.country" />
     </div>
 </div>
-<div class="form-group">
-    <label for="app-entity-edit-frenchRegion" class="control-label col-sm-3">Région :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-frenchRegion" class="form-control" data-ng-model="entity.french_region" />
-        <p class="help-block">Pour les localités françaises seulement</p>
+
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label for="app-entity-edit-description" class="form-control-label">Description</label>
+        <textarea id="app-entity-edit-description" class="form-control form-control-sm" data-ng-model="entity.description"></textarea>
     </div>
 </div>
-<div class="form-group">
-    <label for="app-entity-edit-country" class="control-label col-sm-3">Pays :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-country" class="form-control" data-ng-model="entity.country" />
+
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label for="app-entity-edit-geonameId" class="form-control-label">Identifiant Géonames</label>
+        <input id="app-entity-edit-geonameId" class="form-control form-control-sm" data-ng-model="entity.geonamesId" />
+        <small class="text-muted">Inscrire uniquement l'identifiant et non toute l'URL (ex <code>2988784</code>)</small>
     </div>
 </div>
-<div class="form-group">
-    <label for="app-entity-edit-description" class="control-label col-sm-3">Description :</label>
-    <div class="col-sm-9">
-        <textarea id="app-entity-edit-description" class="form-control" data-ng-model="entity.description"></textarea>
+
+<div class="form-row">
+    <div class="form-group col-md-12">
+        <label for="app-entity-edit-geographicalCoordinates" class="form-control-label">Coordonnées géographiques</label>
+        <input id="app-entity-edit-geographicalCoordinates" class="form-control form-control-sm" data-ng-model="entity.geographicalCoordinates" />
+        <small class="text-muted">À formater de la manière suivante latitude+longitude (ex <code>49.42535+3.69726</code>)</small>
     </div>
 </div>
-<div class="form-group">
-    <label for="app-entity-edit-geonameId" class="control-label col-sm-3">Identifiant Géonames :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-geonameId" class="form-control" data-ng-model="entity.geonames_id" />
-        <p class="help-block">Inscrire uniquement l'identifiant et non toute l'URL (ex: <code>2988784</code>)</p>
+
+<div class="form-row" data-ng-if="context == 'edit'">
+    <div class="form-group col-md-12">
+        <label for="app-entity-edit-updateComment" class="form-control-label">Commentaire de modification</label>
+        <input id="app-entity-edit-updateComment" class="form-control form-control-sm" data-ng-model="entity.updateComment" />
     </div>
 </div>
-<div class="form-group">
-    <label for="app-entity-edit-geographicalCoordinates" class="control-label col-sm-3">Coordonnées géographiques :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-geographicalCoordinates" class="form-control" data-ng-model="entity.geographical_coordinates" />
-        <p class="help-block">À formater de la manière suivante : latitude+longitude (ex: <code>49.42535+3.69726</code>)</p>
-    </div>
-</div>
-<div class="form-group" data-ng-if="context == 'edit'">
-    <br />
-    <label for="app-entity-edit-updateComment" class="control-label col-sm-3">Commentaire de modification :</label>
-    <div class="col-sm-9">
-        <input id="app-entity-edit-updateComment" class="form-control" data-ng-model="entity.update_comment" />
-    </div>
-</div>
-<div class="text-center">
-    <button data-ng-click="submit.action()" class="btn btn-primary">Submit <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-</div>
+
+
+<button data-ng-click="submit.action()" type="submit" class="btn btn-sm btn-primary">Soumettre <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+
+<div class="clearfix"></div>

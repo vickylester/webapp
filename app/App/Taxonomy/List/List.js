@@ -15,6 +15,9 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
                 parent: 'transcript.app.taxonomy.home',
                 label: 'Liste des {{ entity.dataType }}'
             },
+            tfMetaTags: {
+                title: 'Liste des {{ entity.dataType }}',
+            },
             resolve: {
                 entities: function(TaxonomyService, $transition$) {
                     return TaxonomyService.getTaxonomyEntities($transition$.params().type);

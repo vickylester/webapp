@@ -15,6 +15,9 @@ angular.module('transcript.app.contact', ['ui.router'])
                 parent: 'transcript.app.home',
                 label: 'Contact'
             },
+            tfMetaTags: {
+                title: 'Contact',
+            },
         })
     }])
 

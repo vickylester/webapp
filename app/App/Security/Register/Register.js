@@ -15,6 +15,9 @@ angular.module('transcript.app.security.register', ['ui.router'])
                 parent: 'transcript.app.home',
                 label: 'Inscription'
             },
+            tfMetaTags: {
+                title: 'Inscription',
+            },
             requireLogin: false
         })
     }])

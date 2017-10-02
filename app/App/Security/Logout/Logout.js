@@ -11,6 +11,9 @@ angular.module('transcript.app.security.logout', ['ui.router'])
                 }
             },
             url: '/logout',
+            tfMetaTags: {
+                title: 'Déconnexion',
+            },
             ncyBreadcrumb: {
                 parent: 'transcript.app.home',
                 label: 'Déconnexion'

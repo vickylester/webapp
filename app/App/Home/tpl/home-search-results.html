@@ -1,9 +1,11 @@
-<div class="panel panel-warning" data-ng-if="results.length == 0">
-    <div class="panel-heading">
-        <h4 class="panel-title">Aucun résultat retourné</h4>
+<div id="search-results" class="row">
+    <div class="col" data-ng-if="results.length == 0">
+        <div class="card alert-warning">
+            <div class="card-body">
+                <h4 class="card-title">Aucun résultat retourné</h4>
+                <p>Aucun résultat ne correspond à votre recherche. Modifiez les paramètres de recherche pour accéder à de nouveaux résultats.</p>
+            </div>
+        </div>
     </div>
-    <div class="panel-body">
-        <p>Aucun résultat ne correspond à votre recherche. Modifiez les paramètres de recherche pour accéder à de nouveaux résultats.</p>
-    </div>
+    <div class="col-md-12" data-ng-if="results.length > 0" data-ng-include="'App/Home/tpl/home-search-results-content-table.html'"></div>
 </div>
-<div data-ng-if="results.length > 0" data-ng-include="'App/Home/tpl/home-search-results-content-table.html'"></div>

@@ -7,20 +7,16 @@ angular.module('transcript.app.taxonomy', ['ui.router'])
             abstract: true,
             views: {
                 "page" : {
-                    template: '<div ui-view="page"></div>'
+                    template: '<div ui-view="page"></div>',
+                    controller: 'AppTaxonomyCtrl'
                 }
             },
             url: '/taxonomy'
         })
     }])
 
-    .service('GeonamesService', function($http, $rootScope) {
-        return {
-            search: function(keywords) {
-                return $http.get("http://api.geonames.org/searchJSON?formatted=true&username=testamentsdepoilus&maxRows=3&continentCode=EU&lang=fr&searchlang=fr&inclBbox=false&q="+keywords).then(function(response) {
-                    return response.data;
-                });
-            }
-        };
-    })
+    .controller('AppTaxonomyCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, tfMetaTags) {
+        tfMetaTags.setTitleSuffix(' | Notices d\'autorité '+tfMetaTags.getTitleSuffix());
+    }])
 ;
+

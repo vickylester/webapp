@@ -10,7 +10,10 @@ angular.module('transcript.app.security.check', ['ui.router'])
                         controller: 'AppSecurityCheckCtrl'
                 }
             },
-            url: '/check'
+            url: '/check',
+            tfMetaTags: {
+                title: 'Vérification d\'inscription',
+            }
         })
     }])
 

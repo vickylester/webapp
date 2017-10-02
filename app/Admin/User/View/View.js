@@ -13,7 +13,10 @@ angular.module('transcript.admin.user.view', ['ui.router'])
             url: '/{id}',
             ncyBreadcrumb: {
                 parent: 'transcript.admin.user.list',
-                label: 'Edition de {{ iUser.name }}'
+                label: 'Modification de {{ iUser.name }}'
+            },
+            tfMetaTags: {
+                title: 'Modification de {{ iUser.name }}',
             },
             resolve: {
                 user: function(UserService, $transition$) {

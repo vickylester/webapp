@@ -1,10 +1,13 @@
 <div class="comment-comment" data-ng-repeat="commentContainer in threadContainer.comments">
     <div class="comment-comment-header">
-        Écrit le <span data-ng-bind="commentContainer.comment.created_at | date:'MM/dd/yyyy'"></span> à <span data-ng-bind="commentContainer.comment.created_at | date:'H:mm'"></span>, par <a data-ng-if="commentContainer.comment.author != null" ui-sref="transcript.app.user.profile({id: commentContainer.comment.author.id})" data-ng-bind="commentContainer.comment.author.name"></a><span data-ng-if="commentContainer.comment.author == null" >Anonyme</span>
-        <span data-ng-if="user.roles | contains:'ROLE_ADMIN'">| <a>Edit</a> - <a data-ng-click="admin.remove(commentContainer.comment.id)">Remove</a></span>
+        <i class="fa fa-user fa-lg" aria-hidden="true"></i>&nbsp;<a data-ng-if="commentContainer.comment.author != null" ui-sref="transcript.app.user.profile({id: commentContainer.comment.author.id})" data-ng-bind="commentContainer.comment.author.name"></a> <span data-ng-if="commentContainer.comment.author == null" >Anonyme</span>&nbsp;
+        <span data-ng-if="user.roles | contains:'ROLE_ADMIN'">&nbsp;<a class="badge badge-pill badge-primary">Edit</a>&nbsp;<a class="badge badge-pill badge-danger data-ng-click="admin.remove(commentContainer.comment.id)">Remove</a></span>
+        <div class="date">Écrit le <span data-ng-bind="commentContainer.comment.createdAt | date:'MM/dd/yyyy'"></span> à <span data-ng-bind="commentContainer.comment.createdAt | date:'H:mm'"></span></div>
     </div>
     <blockquote data-ng-bind-html="commentContainer.comment.body"></blockquote>
 </div>
-<div data-ng-if="threadContainer.comments.length == 0" class="alert alert-info alert-in-block">
+<div data-ng-if="threadContainer.comments.length == 0" class="alert alert-info">
     <p>Soyez-le premier à commencer la discussion !</p>
 </div>
+
+

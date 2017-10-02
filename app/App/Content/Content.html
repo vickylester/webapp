@@ -1,43 +1,58 @@
-<div ncy-breadcrumb></div>
-<div class="well">
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="pull-right" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
-                <a class="btn btn-default" ui-sref="transcript.admin.content.edit({id: content.id})"><i class="fa fa-edit"></i> Modifier cette page</a>
-            </div>
-            <strong>{{ content.type | contentTypeName}}</strong>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <img src="{{ content.illustration }}" class="img-responsive" alt="Illustration de {{ content.title }}" title="{{ content.title }}" data-ng-if="content.illustration != '' && content.illustration != null" />
-
-            <div data-ng-if="content.tags.length > 0">
-                <span class="label label-info" data-ng-repeat="tag in content.tags">{{ tag }}</span>
-            </div>
-        </div>
-        <div class="col-sm-9">
-            <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-                <!-- Manually hide the alert with `hide()` -->
-                <button type="button" class="close" ng-click="hide()">&times;</button>
-                <span class="alert-message" data-ng-bind-html="flash.message"></span>
-            </div>
-
-            <h1>{{ content.title }}</h1>
-            <div class="well well-sm">
-                <div class="pull-right">
-                    <p>Publié le <span data-ng-bind="content.create_date |  date:'MM/dd/yyyy à HH:mm'"></span></p>
-                </div>
-                <strong><a ui-sref="transcript.app.user.profile({id: content.user_name.id})">{{ content.create_user.name }}</a></strong>
-            </div>
-            <div data-ng-bind-html="content.content"></div>
-            <div data-ng-if="content.type == 'blogContent'">
-                <hr />
-                <div ui-view="comment"></div>
-            </div>
-        </div>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
 </div>
-
-
-
+<main class="container content pb-3" role="container">
+    <h2 class="card-header bg-dark">{{ content.type | contentTypeName}}</h2>
+    <nav data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+        <ul class="nav nav-pills justify-content-end">
+            <li class="nav-item"><a class="nav-link"  ui-sref="transcript.admin.content.edit({id: content.id})"><i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i> Modifier cette page</a></li>
+        </ul>
+    </nav>
+    <div class="row mt-4">
+        <div class="col-md-8  order-md-2">
+            <h1 class="mb-3">{{ content.title }}</h1>
+            <div class="row bg-body post-meta">
+                <div class="col-auto mr-auto"><strong><a ui-sref="transcript.app.user.profile({id: content.userName.id})">{{ content.createUser.name }}</a></strong></div>
+                <div class="col-auto">Publié le <span data-ng-bind="content.createDate |  date:'MM/dd/yyyy à HH:mm'"></span></span></div>
+            </div>
+            <div class="text-justify mt-2 pr-md-3" data-ng-bind-html="content.content"></div>
+            <!--   Exemple avec image dans le texte et paragraphe "lead" :
+                <div class="text-justify mt-2 pr-md-3">
+                    <p class="lead">Chers contributeurs, nous vous convions le 03 février prochain à une séance d’identification des testaments aux <a href="#">Archives Nationales</a>.</p>
+                    <p>Nulpa nus ant quam quate dolorat usantib usantiore volorro volupta pa dolupta speres dolore volest, namendebis quiaesequi beatior ehenia sincia volor sapis dis aliquat umquam quas volupictatem fugiant faccatem aut faceperum, ut volenihil istius poribusam eat of c tectem dunto et, ius sum, nis utem iliquate nit fugit ipiscia sincitati blabor accuptatur mos ut aut am, cori dolupta sserciis dolum voluptaquam quidendebis dunto versperumet aliquunto illab iliquam, num ut fuga. Occus num voluptatur molorib usapidi tatemperum cullabore, sunt idipsa natur atur simpore opta verecto culpa nonserferum eum ent, consequia cus quoditam.</p>
+                    <p>At dolorum et ex eaquia dolestium venimet volorem as autas est alit, quiscil idendeliquam utet modi cus, tem quid erum fugitatemod mod maxim aut odi ut explat ut loressum expeditasi cum sitasinctam explabore lis et, cuptios utet alis quias arum etum venis eaquoudae volor aut latectiis aria con cus saperspel il ipsaoreicassus et am quia ped quo tem fugia voleste num volent labo. Nam, sus ant ant aut repedi odipic te eaqui corae nis etur, of cabo. Itatiis eaque simus quas mod qui autem.</p>
+                    <p>
+                    <figure>
+                        <img class="img-fluid" src=""/>
+                        <figcaption class="figure-caption">A caption for the above image.</figcaption>
+                    </figure>
+                    Nulpa nus ant quam quate dolorat usantib usantiore volorro volupta pa dolupta dolorum et ex eaquia dolestium venimet volorem as autas est alit, quiscil idendeliquam utet modi cus, tem quid erum fugitatemod mod maxim aut odi ut explat ut loressum .
+                    </p>
+                 </div>-->
+            <div  data-ng-if="content.type == 'blogContent'" ui-view="comment"></div>
+        </div>
+        <div class="col-md-4  order-md-1">
+            <img src="{{ content.illustration }}" class="img-fluid" alt="Illustration de {{ content.title }}" title="{{ content.title }}" data-ng-if="content.illustration != '' && content.illustration != null" />
+            <div class="card">
+                <!-- à vérifier ("data-ng-repea"t copié-collé depuis le fichier blog.html)-->
+                <ul class="list-group list-group-flush mb-5 mt-5">
+                    <li class="list-group-item" data-ng-repeat="article in contents"> <!--ajouter la classe active pour l'article sur lequel on est : class="list-group-item active"-->
+                        <a ui-sref="transcript.app.content({ id: article.id })">{{ article.title }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card bg-body tags mt-5" data-ng-if="content.tags.length > 0">
+                <div class="card-body">
+                    <ul>
+                        <li data-ng-repeat="tag in content.tags">{{ tag }}</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

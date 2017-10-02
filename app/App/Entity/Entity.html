@@ -1,11 +1,15 @@
-<div ncy-breadcrumb></div>
-
-<div class="well">
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
+</div>
+<main class="container" role="main">
     <div data-ng-include="'App/Entity/tpl/entity-header.html'"></div>
-
     <div data-ng-include="'App/Entity/tpl/entity-info.html'"></div>
     <div data-ng-include="'App/Entity/tpl/entity-resources.html'"></div>
-
     <div class="row">
         <div class="col-sm-6">
             <div ui-view="comment"></div>
@@ -15,4 +19,4 @@
             <div ng-if="user.roles | contains:'ROLE_ADMIN'" data-ng-include="'App/Entity/tpl/entity-admin.html'"></div>
         </div>
     </div>
-</div>
+</main>

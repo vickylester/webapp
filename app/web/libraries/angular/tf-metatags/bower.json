@@ -1,0 +1,43 @@
+{
+  "name": "tf-metatags",
+  "version": "2.0.0",
+  "homepage": "https://github.com/thiagofesta/tf-metatags",
+  "description": "Angular module for providing MetaTags support based on routes.",
+  "keywords": [
+    "metatags",
+    "seo",
+    "angular",
+    "ui-router",
+    "router",
+    "meta"
+  ],
+  "authors": [
+    "Thiago Festa <thiagofesta@gmail.com> (http://thiagofesta.com)"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thiagofesta/tf-metatags.git"
+  },
+  "main": "release/tf-metatags.js",
+  "dependencies": {
+    "angular": ">= 1.0.8",
+    "angular-ui-router": ">= 1.0.0"
+  },
+  "devDependencies": {
+    "angular-mocks": ">= 1.0.8"
+  },
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "sample",
+    "src",
+    "Gruntfile.js",
+    "package.json",
+    "README.md",
+    "bumpversion.sh"
+  ]
+}

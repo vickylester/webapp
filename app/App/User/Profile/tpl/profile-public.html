@@ -1,16 +1,21 @@
-<h3>Dernières contributions</h3>
-<div class="row">
-    <div class="col-md-3" data-ng-repeat="entity in iUser._embedded.contributions">
-        <div class="thumbnail">
-            <div class="text-center"><span class="label label-info">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
-            <a ui-sref="transcript.app.entity({ id: entity.id })" >
-                <img src="{{ imageService.getThumbnail(entity) }}" class="img-250" />
-            </a>
-            <div class="text-right"><span class="label label-info" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span></div>
-            <div class="caption">
-                <strong>{{ entity.will.testator.name }}</strong>
-                <p>Cote {{ entity.will.call_number }}, minute du {{ entity.will.minute_date | classicDate }}</p>
-            </div>
+<div class="mt-3">
+    <div class="card bg-body">
+        <h3 class="card-header bg-light"><i class="fa fa-folder-open" aria-hidden="true"></i> Dernières contributions</h3>
+        <div class="card-body">
+
+            <ul class="listPages list-unstyled row no-gutters justify-content-center text-center">
+                <li class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3" data-ng-repeat="entity in iUser._embedded.contributions">
+                    <div class="nbPage">{{ entity.resources.length }}</div>
+                    <span title="État de la transcription" class="badge badge-status d-table" data-ng-class="getResourceClassLabel(resource)">{{ entity._embedded.status | transcriptionStatusName }}</span>
+                    <a ui-sref="transcript.app.edition({ idEntity: entity.id, idResource: resource.id })">
+                        <img class="img-fluid" src="{{ imageService.getThumbnail(entity) }}"/>
+                    </a>
+                    <div class="caption">
+                        <strong>{{ entity.will.testator.name }}</strong>
+                        <p>Cote {{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate | classicDate }}</p>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

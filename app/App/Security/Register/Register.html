@@ -1,52 +1,52 @@
-<div ncy-breadcrumb></div>
-
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
-
-<div class="well well-sm">
-    <h2>Page d'inscription</h2>
-
+<main class="container" role="main">
+    <h1 class="page-heading">Page d'inscription</h1>
+    <section class="alert alert-danger" data-ng-if="errors.length > 0">
+        <ul class="list-unstyled text-left mb-0">
+            <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
+        </ul>
+    </section>
     <div class="row">
-        <div class="col-xs-12">
-            <section class="alert alert-danger" data-ng-if="errors.length > 0">
-                <ul>
-                    <li data-ng-repeat="error in form.errors"><strong>{{ error.field }}:</strong> <span data-ng-repeat="content in error.error"><span data-ng-if="$first == false">, </span>{{ content }}</span></li>
-                </ul>
-            </section>
-
-            <form class="form-horizontal">
-                <div class="form-group">
-                    <label for="app_security_register_name" class="control-label col-sm-3">Name</label>
-                    <div class="col-sm-9">
-                        <input type="text" data-ng-model="form.name" class="form-control" id="app_security_register_name" name="app_security_register_name" placeholder="Your name" required />
+        <div class="col-xl-10 col-12">
+            <form class="mt-2 mb-2">
+                <div class="form-group row">
+                    <label for="app-security-register-name" class="col-md-4 col-form-label text-md-right">Nom</label>
+                    <div class="col-md-8">
+                        <input type="text" data-ng-model="form.name" class="form-control form-control-sm" id="app-security-register-name" name="app-security-register-name" placeholder="Saissisez votre nom" required />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="app_security_register_email" class="control-label col-sm-3">Email address</label>
-                    <div class="col-sm-9">
-                        <input type="email" data-ng-model="form.email" class="form-control" id="app_security_register_email" name="app_security_register_email" placeholder="Email" required />
+                <div class="form-group row">
+                    <label for="app-security-register-email" class="col-md-4 col-form-label text-md-right">Email</label>
+                    <div class="col-md-8">
+                        <input type="email" data-ng-model="form.email" class="form-control form-control-sm" id="app-security-register-email" name="app-security-register-email" placeholder="Saissisez votre adresse email" required />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="app_security_register_password_plain" class="control-label col-sm-3">Password</label>
-                    <div class="col-sm-9">
-                        <input type="password" data-ng-model="form.password.plain" class="form-control" id="app_security_register_password_plain" name="app_security_register_password_plain" placeholder="Password" required />
+                <div class="form-group row">
+                    <label for="app-security-register-password-plain" class="col-md-4 col-form-label text-md-right">Mot de passe</label>
+                    <div class="col-md-8">
+                        <input type="password" data-ng-model="form.password.plain" class="form-control form-control-sm" id="app-security-register-password-plain" name="app-security-register-password-plain" placeholder="Saissisez votre mot de passe" required />
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="app_security_register_password_confirmation" class="control-label col-sm-3">Confirmation</label>
-                    <div class="col-sm-9">
-                        <input type="password" data-ng-model="form.password.confirmation" class="form-control" id="app_security_register_password_confirmation" name="app_security_register_password_confirmation" placeholder="Confirm your password" required />
+                <div class="form-group row">
+                    <label for="app-security-register-password-confirmation" class="col-md-4 col-form-label text-md-right">Confirmation</label>
+                    <div class="col-md-8">
+                        <input type="password" data-ng-model="form.password.confirmation" class="form-control form-control-sm" id="app-security-register-password-confirmation" name="app-security-register-password-confirmation" placeholder="Confirmez votre mot de passe" required />
                     </div>
                 </div>
-                <div class="text-center">
-                    <button type="submit" data-ng-click="submit.action()" class="btn btn-primary">Register <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                    <p><a ui-sref="transcript.app.security.login" class="text-muted">J'ai déjà un compte</a></p>
+                <div class="row text-right">
+                    <div class="col-12">
+                        <button type="submit" data-ng-click="submit.action()" class="btn btn-sm btn-primary">Créer un compte <i data-ng-if="submit.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                        <small class="form-text"><a ui-sref="transcript.app.security.login" class="text-muted">J'ai déjà un compte</a></small>
+                    </div>
                 </div>
             </form>
         </div>
     </div>
-</div>
+</main>

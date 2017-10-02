@@ -15,6 +15,9 @@ angular.module('transcript.admin.taxonomy.logs', ['ui.router'])
                 parent: 'transcript.admin.home',
                 label: 'Historique des modifications'
             },
+            tfMetaTags: {
+                title: 'Historique des modifications',
+            },
             resolve: {
                 places: function(TaxonomyService) {
                     return TaxonomyService.getTaxonomyEntities('places').then(function(data){
