@@ -7,32 +7,41 @@
     </div>
 </div>
 <main class="container" role="main">
-    <h1 class="page-heading">Gestion des accès</h1>
-
-    <div class="row">
-        <div class="col-12">
-            <table class="table table-bordered">
-                <thead>
-                <th>#</th>
-                <th>User</th>
-                <th>Request</th>
-                <th>Action</th>
-                </thead>
-                <tr ng-repeat="access in accesses | filterTaxonomyAsk">
-                    <td>{{ $index+1 }}</td>
-                    <td><a ui-sref="transcript.app.user.profile({id: access.user.id})">{{ access.user.name }}</a></td>
-                    <td>{{ access.taxonomyRequest }}</td>
-                    <td>
-                        <div class="btn-group">
-                            <button class="btn btn-success" ng-click="submit.valid.action(access)"><i ng-if="submit.valid.loading == false" class="fa fa-check"></i><i ng-if="submit.valid.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                            <button class="btn btn-danger" ng-click="submit.reject.action(access)"><i ng-if="submit.reject.loading == false" class="fa fa-remove"></i><i ng-if="submit.reject.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                        </div>
-                    </td>
-                </tr>
-                <tr ng-if="(accesses | filterTaxonomyAsk).length == 0">
-                    <td colspan="4">Pas de demande en attente.</td>
-                </tr>
-            </table>
+    <h1 class="page-heading">Administration</h1>
+    <div class="row m-2">
+        <div class="col-sm-4 mb-5">
+            <h2>Gestion des contenus </h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a ui-sref="transcript.admin.content.new">Ajouter un contenu</a></li>
+                <li class="list-group-item"><a ui-sref="transcript.admin.content.list">Liste des contenus</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 mb-5">
+            <h2 >Gestion des entités </h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a ui-sref="transcript.admin.entity.list">Liste des entités</a></li>
+                <li class="list-group-item"><a ui-sref="transcript.admin.entity.import">Importer une entité</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 mb-5">
+            <h2>À propos de la plateforme</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a ui-sref="transcript.admin.preference">Modifier les paramètres</a></li>
+                <li class="list-group-item"><a>Statistiques de transcription</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 mb-5">
+            <h2 >Utilisateurs</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a ui-sref="transcript.admin.user.list">Liste des utilisateurs</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 mb-5">
+            <h2 >Notices descriptives</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a ui-sref="transcript.admin.taxonomy.access">Demandes d'accès <span class="badge bg-info" ng-bind="(accesses|filterTaxonomyAsk).length"></span></a></li>
+                <li class="list-group-item"><a ui-sref="transcript.admin.taxonomy.logs">Historique des modifications</a></li>
+            </ul>
         </div>
     </div>
 </main>

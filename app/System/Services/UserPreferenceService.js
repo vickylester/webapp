@@ -18,8 +18,7 @@ angular.module('transcript.service.user-preference', ['ui.router'])
             patchPreferences: function(form, id) {
                 return $http.patch(
                     $rootScope.api+"/preferences/"+id,
-                    form,
-                    { headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+                    form
                 ).then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {

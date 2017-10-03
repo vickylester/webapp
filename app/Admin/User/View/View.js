@@ -40,9 +40,8 @@ angular.module('transcript.admin.user.view', ['ui.router'])
                 roles: $scope.iUser.roles
             };
 
-            $http.patch($rootScope.api+'/users/'+$scope.iUser.id, form, {
-                headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
-            }).then(function (response) {
+            $http.patch($rootScope.api+'/users/'+$scope.iUser.id, form).
+            then(function (response) {
                 console.log(response.data);
                 flash.success = "Les rôles ont bien été mis à jour";
                 flash.success = $sce.trustAsHtml(flash.success);

@@ -7,16 +7,9 @@
 </div>
 
 <main class="container" role="main">
-    <div class="card">
-        <div  class="card-body" data-ng-if="status == 200">
-            <h1>Bienvenue sur {{ preferences.projectTitle }} !</h1>
-            <p>Votre compte est désormais actif.</p>
-            <p><a ui-sref="transcript.app.security.login">Me connecter</a></p>
-        </div>
-        <div  class="card-body" data-ng-if="status != 200">
-            <h2>Valeur incorrecte</h2>
-            <p>La valeur proposée est incorrecte</p>
-            <p><a ui-sref="transcript.app.home">Retour à l'accueil</a></p>
-        </div>
+    <div class="jumbotron">
+        <p>Votre inscription a bien été enregistrée.<br/>
+            Vous allez recevoir dans quelques instants un mail de confirmation contenant un lien d'activation.
+            Merci de cliquer sur ce lien.</p>
     </div>
 </main>

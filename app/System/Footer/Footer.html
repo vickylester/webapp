@@ -2,8 +2,8 @@
     <div class="row align-items-center">
         <div class="col-lg-2 col-sm-6 p-0">
             <nav class="nav flex-column bg-danger">
-                <a class="nav-link" ui-sref="app.content({id: preferences.discoverHomeContent})">Découvrir</a>
-                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.helpHomeContent})">Guides</a>
+                <a class="nav-link" ng-if="preferences.discoverHomeContent != null" ui-sref="app.content({id: preferences.discoverHomeContent})">Découvrir</a>
+                <a class="nav-link" ng-if="preferences.helpHomeContent != null" ui-sref="transcript.app.content({id: preferences.helpHomeContent})">Guides</a>
                 <a class="nav-link" ui-sref="app.blog">Actualités</a>
                 <a class="nav-link" ui-sref="app.search">Transcrire</a>
                 <a class="nav-link" ui-sref="app.taxonomy.home">Documenter</a>
@@ -11,10 +11,10 @@
         </div>
         <div class="col-lg-2 col-sm-6 p-0">
             <nav class="nav flex-column bg-secondary">
-                <a class="nav-link" ui-sref="transcript.app.contact">Contact</a>
-                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.aboutContent})">À propos</a>
-                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.legalNoticesContent})">Mentions légales</a>
-                <a class="nav-link" ui-sref="transcript.app.content({id: preferences.creditsContent})">Crédits</a>
+                <a class="nav-link" ng-if="preferences.enableContact == true" ui-sref="transcript.app.contact">Contact</a>
+                <a class="nav-link" ng-if="preferences.aboutContent != null" ui-sref="transcript.app.content({id: preferences.aboutContent})">À propos</a>
+                <a class="nav-link" ng-if="preferences.legalNoticesContent != null" ui-sref="transcript.app.content({id: preferences.legalNoticesContent})">Mentions légales</a>
+                <a class="nav-link" ng-if="preferences.creditsContent != null" ui-sref="transcript.app.content({id: preferences.creditsContent})">Crédits</a>
                 <div class="nav-link bg-white">
                     <a href="#"><i class="fa fa-facebook-official fa-lg" aria-hidden="true"></i></a>
                     <a href="#"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a>
@@ -28,8 +28,8 @@
                 <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/fondation-sciences-patrimoine.png"/></a>
                 <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/centenaire.jpg"/></a>
                 <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/cergy.png"/></a>
-                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
-                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/AD78.jpg"/></a>
+                <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/enc.png"/></a>
                 <a class="col-md-2" href=""><img class="img-fluid" src="web/images/logos/archives-nationales.png"/></a>
             </div>
         </div>

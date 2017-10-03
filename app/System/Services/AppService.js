@@ -15,10 +15,8 @@ angular.module('transcript.service.app', ['ui.router'])
                 });
             },
             patchPreference: function(id,data) {
-                return $http.patch($rootScope.api+"/app-preference/"+id, data, { headers:  {
-                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                }
-                }).then(function(response) {
+                return $http.patch($rootScope.api+"/app-preference/"+id, data).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);

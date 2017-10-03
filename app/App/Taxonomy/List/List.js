@@ -13,10 +13,10 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
             url: '/{type}',
             ncyBreadcrumb: {
                 parent: 'transcript.app.taxonomy.home',
-                label: 'Liste des {{ entity.dataType }}'
+                label: 'Liste des {{ pluralType }}'
             },
             tfMetaTags: {
-                title: 'Liste des {{ entity.dataType }}',
+                title: 'Liste des {{ pluralType }}'
             },
             resolve: {
                 entities: function(TaxonomyService, $transition$) {
@@ -26,12 +26,14 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
         })
     }])
 
-    .controller('AppTaxonomyListCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entities', '$transition$', function($rootScope, $scope, $http, $sce, $state, entities, $transition$) {
+    .controller('AppTaxonomyListCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entities', '$transition$', '$filter', function($rootScope, $scope, $http, $sce, $state, entities, $transition$, $filter) {
         $scope.entity = {
             id: null,
             dataType: $transition$.params().type
         };
         $scope.entities = entities;
         console.log($scope.entities);
+
+        $scope.pluralType = $filter('taxonomyName')($scope.entity.dataType, 'plural');
     }])
 ;

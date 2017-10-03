@@ -37,7 +37,7 @@
             <string class="panel-title">{{ transcriptArea.interaction.taxonomy.result[0].name }}</string>
         </div>
         <div class="panel-body">
-            <p>Pour citer ce {{ transcriptArea.interaction.taxonomy.dataType | taxonomyName }}, utiliser comme identifiant <code>{{ transcriptArea.interaction.taxonomy.result[0].id }}</code></p>
+            <p>Pour citer ce {{ transcriptArea.interaction.taxonomy.dataType | taxonomyName('singular') }}, utiliser comme identifiant <code>{{ transcriptArea.interaction.taxonomy.result[0].id }}</code></p>
         </div>
     </div>
 </div>

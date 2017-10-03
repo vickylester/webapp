@@ -115,11 +115,8 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
             }
 
             // Entity update :
-            $http.patch($rootScope.api+'/entities/'+$scope.entity.id, formEntity, {
-                headers:  {
-                    'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                }
-            }).then(function (response) {
+            $http.patch($rootScope.api+'/entities/'+$scope.entity.id, formEntity).
+            then(function (response) {
                 console.log(response.data);
                 $scope.submit.loading = true;
                 $state.go('transcript.app.entity', {id: response.data.id});

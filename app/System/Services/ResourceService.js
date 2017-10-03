@@ -26,13 +26,8 @@ angular.module('transcript.service.resource', ['ui.router'])
             },
 
             postResource: function(resource) {
-                return $http.post($rootScope.api+"/resources", resource,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
+                return $http.post($rootScope.api+"/resources", resource).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);

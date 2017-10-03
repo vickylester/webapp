@@ -194,6 +194,11 @@ angular.module('transcript.app.search', ['ui.router'])
             },
             defaults: {
                 scrollWheelZoom: false
+            },
+            legend: {
+                position: 'bottomleft',
+                colors: [ '#000000' ],
+                labels: [ 'Lieux de décès' ]
             }
         });
 

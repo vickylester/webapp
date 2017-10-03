@@ -10,8 +10,8 @@
     <div class="row mb-2">
         <div class="col-md-5">
             <h1 class="page-heading mb-3">{{ iUser.name }}</h1>
-            <h3  class=""><i class="fa fa-user-circle-o" aria-hidden="true"></i>  { iUser.name }}</h3>
             <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
+            <p ng-if="iUser.biography != null" ng-bind="iUser.biography"></p>
         </div>
         <div class="col-md-2 mt-3 text-center">
             <i data-ng-if="iUser.picture == null || iUser.picture == ''" class="fa fa-user-circle fa-5x text-light" aria-hidden="true"></i>

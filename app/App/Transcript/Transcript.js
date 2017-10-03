@@ -1003,8 +1003,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         "content": $scope.transcriptArea.ace.area,
                         "updateComment": $scope.submit.form.comment,
                         "status": $scope.transcript.status
-                    },
-                    {headers: {'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token}}
+                    }
                 ).then(function (response) {
                     console.log(response.data);
                     $scope.transcript = response.data;

@@ -1,84 +1,141 @@
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-name" class="form-control-label">Nom complet</label>
-        <input id="app-entity-edit-name" class="form-control form-control-sm" data-ng-model="entity.name" />
+<fieldset>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-name" class="form-control-label">Nom complet</label>
+            <input id="app-entity-edit-name" class="form-control form-control-sm" data-ng-model="entity.name" />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-surname" class="form-control-label">Nom de famille</label>
+            <input id="app-entity-edit-surname" class="form-control form-control-sm" data-ng-model="entity.surname" />
+        </div>
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-surname" class="form-control-label">Nom de famille</label>
-        <input id="app-entity-edit-surname" class="form-control form-control-sm" data-ng-model="entity.surname" />
-    </div>
-</div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-firstnames" class="form-control-label">Prénoms</label>
+            <input id="app-entity-edit-firstnames" class="form-control form-control-sm" data-ng-model="entity.firstnames" placeholder="Séparés par des virgules" />
+        </div>
 
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-firstnames" class="form-control-label">Prénoms</label>
-        <input id="app-entity-edit-firstnames" class="form-control form-control-sm" data-ng-model="entity.firstnames" />
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-profession" class="form-control-label">Profession</label>
+            <input id="app-entity-edit-profession" class="form-control form-control-sm" data-ng-model="entity.profession" />
+        </div>
     </div>
+</fieldset>
 
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-profession" class="form-control-label">Profession</label>
-        <input id="app-entity-edit-profession" class="form-control form-control-sm" data-ng-model="entity.profession" />
-    </div>
-</div>
+<fieldset>
+    <label>Adresse</label>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-address-number" class="form-control-label">Numéro</label>
+            <input id="app-entity-edit-address-number" class="form-control form-control-sm" data-ng-model="entity.addressNumber" />
+        </div>
 
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-address" class="form-control-label">Adresse</label>
-        <input id="app-entity-edit-address" class="form-control form-control-sm" data-ng-model="entity.address" />
-    </div>
-
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-dateOfBirth" class="form-control-label">Date de naissance</label>
-        <input id="app-entity-edit-dateOfBirth" class="form-control form-control-sm" data-ng-model="entity.dateOfBirth" />
-    </div>
-</div>
-
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-placeOfBirth" class="form-control-label">Lieu de naissance</label>
-        <select class="custom-select form-control form-control-sm" id="app-entity-edit-placeOfBirth" data-ng-model="entity.placeOfBirth.id" name="app-entity-edit-placeOfBirth" data-ng-options="place.id as place.name for place in places"></select>
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-address-street" class="form-control-label">Rue</label>
+            <input id="app-entity-edit-address-street" class="form-control form-control-sm" data-ng-model="entity.addressStreet" />
+        </div>
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-dateOfDeath" class="form-control-label">Date de décès</label>
-        <input id="app-entity-edit-dateOfDeath" class="form-control form-control-sm" data-ng-model="entity.dateOfDeath" />
-    </div>
-</div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-address-district" class="form-control-label">Quartier</label>
+            <input id="app-entity-edit-address-district" class="form-control form-control-sm" data-ng-model="entity.addressDistrict" />
+        </div>
 
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-placeOfDeath" class="form-control-label">Lieu de décès</label>
-        <select class="custom-select form-control form-control-sm" id="app-entity-edit-placeOfDeath" data-ng-model="entity.placeOfDeath.id" name="app-entity-edit-placeOfDeath" data-ng-options="place.id as place.name for place in places"></select>
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-address-city" class="form-control-label">Ville</label>
+            <input id="app-entity-edit-address-city" class="form-control form-control-sm" data-ng-model="entity.addressCity" />
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-dateOfBirth" class="form-control-label">Date de naissance</label>
+            <input id="app-entity-edit-dateOfBirth" class="form-control form-control-sm" data-ng-model="entity.dateOfBirth" />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-yearOfBirth" class="form-control-label">Année de naissance</label>
+            <input id="app-entity-edit-yearOfBirth" class="form-control form-control-sm" data-ng-model="entity.yearOfBirth" />
+        </div>
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-deathMention" class="form-control-label">Mention de mort</label>
-        <input id="app-entity-edit-deathMention" class="form-control form-control-sm" data-ng-model="entity.deathMention" />
-    </div>
-</div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-dateOfDeath" class="form-control-label">Date de décès</label>
+            <input id="app-entity-edit-dateOfDeath" class="form-control form-control-sm" data-ng-model="entity.dateOfDeath" />
+        </div>
 
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-memoireDesHommes" class="form-control-label">Lien vers Mémoire des Hommes</label>
-        <input id="app-entity-edit-memoireDesHommes" class="form-control form-control-sm" data-ng-model="entity.memoireDesHommes" />
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-yearOfDeath" class="form-control-label">Année de décès</label>
+            <input id="app-entity-edit-yearOfDeath" class="form-control form-control-sm" data-ng-model="entity.yearOfDeath" />
+        </div>
+    </div>
+</fieldset>
+
+<fieldset>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-placeOfBirth" class="form-control-label">Lieu de naissance</label>
+            <select class="custom-select form-control form-control-sm" id="app-entity-edit-placeOfBirth" data-ng-model="entity.placeOfBirth.id" name="app-entity-edit-placeOfBirth" data-ng-options="place.id as place.name for place in places"></select>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-placeOfDeath" class="form-control-label">Lieu de décès</label>
+            <select class="custom-select form-control form-control-sm" id="app-entity-edit-placeOfDeath" data-ng-model="entity.placeOfDeath.id" name="app-entity-edit-placeOfDeath" data-ng-options="place.id as place.name for place in places"></select>
+        </div>
     </div>
 
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-regiment" class="form-control-label">Régiment</label>
-        <select class="custom-select form-control form-control-sm" id="app-entity-edit-regiment" data-ng-model="entity.regiment.id" name="app-entity-edit-regiment" data-ng-options="regiment.id as regiment.name for regiment in regiments"></select>
+    <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#addPlace-Collapse" aria-expanded="false" aria-controls="addPlace-Collapse">Ajouter un nouveau lieu</button>
+    <div class="collapse" id="addPlace-Collapse">
+        <div class="card bg-body">
+            <h3 class="card-header bg-light"><i class="fa fa-plus-circle" aria-hidden="true"></i> Nouveau lieu</h3>
+            <div class="card-body">
+                <div class="form-group col-md-12">
+                    <label for="app-entity-edit-addPlace" class="form-control-label">Nom de votre lieu</label>
+                    <input id="app-entity-edit-addPlace" class="form-control form-control-sm" data-ng-model="addPlace.name" />
+                </div>
+                <button data-ng-click="addPlace.action()" class="btn btn-sm btn-primary">Soumettre <i data-ng-if="addPlace.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            </div>
+        </div>
     </div>
-</div>
+</fieldset>
 
-<div class="form-row">
-    <div class="form-group col-md-6">
-        <label for="app-entity-edit-rank" class="form-control-label">Rang</label>
-        <input id="app-entity-edit-rank" class="form-control form-control-sm" data-ng-model="entity.rank" />
+<fieldset>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-deathMention" class="form-control-label">Mention de mort</label>
+            <input id="app-entity-edit-deathMention" class="form-control form-control-sm" data-ng-model="entity.deathMention" />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-memoireDesHommes" class="form-control-label">Liens vers Mémoire des Hommes</label>
+            <input id="app-entity-edit-memoireDesHommes" class="form-control form-control-sm" data-ng-model="entity.memoireDesHommes" placeholder="Si plusieurs liens, les séparer par des virgules" />
+        </div>
     </div>
-</div>
-<div class="form-row">
+</fieldset>
+
+<fieldset>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-regiment" class="form-control-label">Régiment</label>
+            <select class="custom-select form-control form-control-sm" id="app-entity-edit-regiment" data-ng-model="entity.regiment.id" name="app-entity-edit-regiment" data-ng-options="regiment.id as regiment.name for regiment in regiments"></select>
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="app-entity-edit-rank" class="form-control-label">Rang</label>
+            <input id="app-entity-edit-rank" class="form-control form-control-sm" data-ng-model="entity.rank" />
+        </div>
+    </div>
+</fieldset>
+
+<div class="form-row" data-ng-if="context == 'edit'">
     <div class="form-group col-md-12">
-        <label for="app-entity-edit-description" class="form-control-label">Description</label>
+        <label for="app-entity-edit-description" class="form-control-label">Description de vos modifications</label>
         <textarea id="app-entity-edit-description" class="form-control form-control-sm" data-ng-model="entity.description"></textarea>
     </div>
 </div>

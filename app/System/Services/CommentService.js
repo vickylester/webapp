@@ -81,11 +81,6 @@ angular.module('transcript.service.comment', ['ui.router'])
                                 "id": id,
                                 "permalink": $rootScope.siteURL+'/thread/'+id
                             }
-                    },
-                    {
-                        headers:  {
-                            'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                        }
                     }).
                 then(function(response) {
                     console.log(response);
@@ -101,11 +96,6 @@ angular.module('transcript.service.comment', ['ui.router'])
                             {
                                 "body": content
                             }
-                    },
-                    {
-                        headers:  {
-                            'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                        }
                     }).
                 then(function(response) {
                     return response.data;

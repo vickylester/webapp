@@ -1,8 +1,21 @@
 <label class="big">À propos du testament</label>
+
 <div class="form-group row">
     <label for="admin-entity-edit-will-callNumber" class="col-md-4 col-form-label text-md-right">Cote</label>
     <div class="col-md-8">
         <input id="admin-entity-edit-will-callNumber" class="form-control form-control-sm" data-ng-model="entity.will.callNumber" />
+    </div>
+</div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-minuteDate" class="col-md-4 col-form-label text-md-right">Date de la minute</label>
+    <div class="col-md-8 row">
+        <div class="col-md-5">
+            <input id="admin-entity-edit-will-minuteDate" class="form-control form-control-sm" data-ng-model="entity.will.minuteDate" placeholder="Ex: 23 juillet 1915" />
+        </div>
+        <label for="admin-entity-edit-will-minuteYear" class="col-md-3 col-form-label text-md-right">Précisez l'année</label>
+        <div class="col-md-4">
+            <input id="admin-entity-edit-will-minuteYear" class="form-control form-control-sm" placeholder="de début s'il s'agit d'une plage" data-ng-model="entity.will.minuteYear" />
+        </div>
     </div>
 </div>
 <div class="form-group row">
@@ -11,25 +24,16 @@
         <input id="admin-entity-edit-will-minuteLink" type="url" class="form-control form-control-sm" data-ng-model="entity.will.minuteLink" />
     </div>
 </div>
-<div class="form-group row">
-    <label for="admin-entity-edit-will-minuteDate" class="col-md-4 col-form-label text-md-right">Date de la minute</label>
-    <div class="col-md-8">
-        <div class="input-group">
-            <input id="admin-entity-edit-will-minuteDate" class="form-control form-control-sm datepicker" data-ng-model="entity.will.minuteDate" />
-            <span class="input-group-addon">
-                <span class="fa fa-calendar"></span>
-            </span>
-        </div>
-    </div>
-</div>
+
 <div class="form-group row">
     <label for="admin-entity-edit-will-willWritingDate" class="col-md-4 col-form-label text-md-right">Date d'écriture du testament</label>
-    <div class="col-md-8">
-        <div class="input-group">
-            <input id="admin-entity-edit-will-willWritingDate" class="form-control form-control-sm datepicker" data-ng-model="entity.will.willWritingDate" />
-            <span class="input-group-addon">
-                <span class="fa fa-calendar"></span>
-            </span>
+    <div class="col-md-8 row">
+        <div class="col-md-5">
+            <input id="admin-entity-edit-will-willWritingDate" class="form-control form-control-sm" data-ng-model="entity.will.willWritingDate" placeholder="Ex: 23 juillet 1915" />
+        </div>
+        <label for="admin-entity-edit-will-willWritingYear" class="col-md-3 col-form-label text-md-right">Précisez l'année</label>
+        <div class="col-md-4">
+            <input id="admin-entity-edit-will-willWritingYear" class="form-control form-control-sm" placeholder="de début s'il s'agit d'une plage" data-ng-model="entity.will.willWritingYear" />
         </div>
     </div>
 </div>
@@ -56,32 +60,9 @@
     </div>
 </div>
 <div class="form-group row" data-ng-include="'Admin/Entity/Import/tpl/import-will-testator.html'"></div>
+
 <div class="form-group row">
-    <label for="admin-entity-edit-will-physDescSupport" class="col-md-4 col-form-label text-md-right">Support physique</label>
-    <div class="col-md-8">
-        <input id="admin-entity-edit-will-physDescSupport" class="form-control form-control-sm" data-ng-model="entity.will.physDescSupport" />
-    </div>
-</div>
-<div class="form-group row">
-    <label for="admin-entity-edit-will-physDescHeight" class="col-md-4 col-form-label text-md-right">Hauteur</label>
-    <div class="col-md-8">
-        <input id="admin-entity-edit-will-physDescHeight" class="form-control form-control-sm" data-ng-model="entity.will.physDescHeight" />
-    </div>
-</div>
-<div class="form-group row">
-    <label for="admin-entity-edit-will-physDescWidth" class="col-md-4 col-form-label text-md-right">Largeur</label>
-    <div class="col-md-8">
-        <input id="admin-entity-edit-will-physDescWidth" class="form-control form-control-sm" data-ng-model="entity.will.physDescWidth" />
-    </div>
-</div>
-<div class="form-group row">
-    <label for="admin-entity-edit-will-physDescHand" class="col-md-4 col-form-label text-md-right">Type d'écriture</label>
-    <div class="col-md-8">
-        <input id="admin-entity-edit-will-physDescHand" class="form-control form-control-sm" data-ng-model="entity.will.physDescHand" />
-    </div>
-</div>
-<div class="form-group row">
-    <label for="admin-entity-edit-will-hostingOrganization" class="col-md-4 col-form-label text-md-right">Organisation (AN ou AD78)</label>
+    <label for="admin-entity-edit-will-hostingOrganization" class="col-md-4 col-form-label text-md-right">Institution de conservation</label>
     <div class="col-md-8">
         <select id="admin-entity-edit-will-hostingOrganization" name="admin-entity-edit-will-hostingOrganization" class="custom-select" data-ng-model="entity.will.hostingOrganization">
             <option value="" disabled>Sélectionnez ...</option>
@@ -94,5 +75,63 @@
     <label for="admin-entity-edit-will-identificationUser" class="col-md-4 col-form-label text-md-right">Personne ayant identifié le document</label>
     <div class="col-md-8">
         <input id="admin-entity-edit-will-identificationUser" class="form-control form-control-sm" data-ng-model="entity.will.identificationUser" />
+    </div>
+</div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-willNumber" class="col-md-4 col-form-label text-md-right">Numéro de numérisation</label>
+    <div class="col-md-8">
+        <input type="number" id="admin-entity-edit-will-willNumber" class="form-control form-control-sm" data-ng-model="entity.willNumber" placeholder="Permettant d'identifier les images du testament" />
+    </div>
+</div>
+
+<label class="big">À propos de la structure physique des pages</label>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-page-physDescSupport" class="col-md-4 col-form-label text-md-right">Support physique des pages</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-page-physDescSupport" class="form-control form-control-sm" data-ng-model="entity.will.pagePhysDescSupport" />
+    </div>
+</div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-page-physDescHand" class="col-md-4 col-form-label text-md-right">Type d'écriture des pages</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-page-physDescHand" class="form-control form-control-sm" data-ng-model="entity.will.pagePhysDescHand" />
+    </div>
+</div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-page-physDescHeight" class="col-md-4 col-form-label text-md-right">Hauteur des pages</label>
+    <div class="col-md-8 row">
+        <div class="col-md-5">
+            <input id="admin-entity-edit-will-page-physDescHeight" class="form-control form-control-sm" data-ng-model="entity.will.pagePhysDescHeight" placeholder="en cm" />
+        </div>
+        <label for="admin-entity-edit-will-page-physDescWidth" class="col-md-3 col-form-label text-md-right">Largeur</label>
+        <div class="col-md-4">
+            <input id="admin-entity-edit-will-page-physDescWidth" class="form-control form-control-sm" data-ng-model="entity.will.pagePhysDescWidth" placeholder="en cm" />
+        </div>
+    </div>
+</div>
+
+<label class="big">À propos de la structure physique de l'enveloppe</label>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-envelope-physDescSupport" class="col-md-4 col-form-label text-md-right">Support physique de l'enveloppe</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-envelope-physDescSupport" class="form-control form-control-sm" data-ng-model="entity.will.envelopePhysDescSupport" />
+    </div>
+</div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-envelope-physDescHand" class="col-md-4 col-form-label text-md-right">Type d'écriture de l'enveloppe</label>
+    <div class="col-md-8">
+        <input id="admin-entity-edit-will-envelope-physDescHand" class="form-control form-control-sm" data-ng-model="entity.will.envelopePhysDescHand" />
+    </div>
+</div>
+<div class="form-group row">
+    <label for="admin-entity-edit-will-envelope-physDescHeight" class="col-md-4 col-form-label text-md-right">Hauteur de l'enveloppe</label>
+    <div class="col-md-8 row">
+        <div class="col-md-5">
+            <input id="admin-entity-edit-will-envelope-physDescHeight" class="form-control form-control-sm" data-ng-model="entity.will.envelopePhysDescHeight" placeholder="en cm" />
+        </div>
+        <label for="admin-entity-edit-will-envelope-physDescWidth" class="col-md-3 col-form-label text-md-right">Largeur</label>
+        <div class="col-md-4">
+            <input id="admin-entity-edit-will-envelope-physDescWidth" class="form-control form-control-sm" data-ng-model="entity.will.envelopePhysDescWidth" placeholder="en cm" />
+        </div>
     </div>
 </div>

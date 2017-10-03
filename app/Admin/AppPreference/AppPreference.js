@@ -26,29 +26,20 @@ angular.module('transcript.admin.preference', ['ui.router'])
         $scope.submit = {
             loading: false
         };
+        let id = $rootScope.preferences.id;
+        $scope.preferences = $rootScope.preferences;
+        delete $scope.preferences.id;
+        delete $scope.preferences._links;
 
         $scope.submit.action = function() {
             $scope.submit.loading = true;
             patchPreference();
 
             function patchPreference() {
-                return AppService.patchPreference(
-                    $rootScope.preferences.id,
-                    {
-                        projectTitle : $rootScope.preferences.projectTitle,
-                        enableContact : $rootScope.preferences.enableContact,
-                        contactEmail : $rootScope.preferences.contactEmail,
-                        systemEmail : $rootScope.preferences.systemEmail,
-                        helpHomeContent : $rootScope.preferences.helpHomeContent,
-                        helpInsideHomeContent : $rootScope.preferences.helpInsideHomeContent,
-                        discoverHomeContent : $rootScope.preferences.discoverHomeContent,
-                        aboutContent : $rootScope.preferences.aboutContent,
-                        legalNoticesContent : $rootScope.preferences.legalNoticesContent,
-                        creditsContent : $rootScope.preferences.creditsContent,
-                        facebookPageId : $rootScope.preferences.facebookPageId,
-                        twitterId : $rootScope.preferences.twitterId,
-                    }
-                ).then(function(data) {
+                if($scope.preferences.enableContact === null) {$scope.preferences.enableContact = false;}
+
+                return AppService.patchPreference(id, $scope.preferences).
+                then(function(data) {
                     $rootScope.preferences = data;
                     $scope.submit.loading = false;
                     $state.go('transcript.admin.home');

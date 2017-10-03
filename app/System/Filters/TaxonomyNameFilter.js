@@ -3,17 +3,29 @@
 angular.module('transcript.filter.taxonomyName', ['ui.router'])
 
     .filter('taxonomyName', [function() {
-        return function (taxonomyId) {
+        return function (taxonomyId, qualification) {
             let taxonomyName = "";
             switch(taxonomyId) {
                 case "testators":
-                    taxonomyName = "testateur";
+                    if(qualification === "plural") {
+                        taxonomyName = "testateurs";
+                    } else {
+                        taxonomyName = "testateur";
+                    }
                     break;
                 case "places":
-                    taxonomyName = "lieu";
+                    if(qualification === "plural") {
+                        taxonomyName = "lieux";
+                    } else {
+                        taxonomyName = "lieu";
+                    }
                     break;
-                case "regiments":
-                    taxonomyName = "régiment";
+                case "military-units":
+                    if(qualification === "plural") {
+                        taxonomyName = "unités militaires";
+                    } else {
+                        taxonomyName = "unité militaire";
+                    }
                     break;
                 default:
                     taxonomyName = "Inconnu";

@@ -11,43 +11,43 @@
         <div class="col-sm-8">
             <div>
                 <h1 class="page-heading" ng-if="entity.name != null">{{ entity.name }}</h1>
-                <h1 class="page-heading" ng-if="entity.name == null">Nouvelle entrée pour les notices "{{ entity.dataType }}"</h1>
+                <h1 class="page-heading" ng-if="entity.name == null">Nouvelle entrée pour les notices "{{ entity.dataType | taxonomyName:"singular" }}"</h1>
             </div>
-            <div data-ng-if="entity.dataType == 'places'">
-                <form>
-                    <div class="form-group">
-                        <div class="float-right">
-                            <small><a href="http://www.geonames.org/" target="_blank">Je préfère l'interface visuelle <i class="fa fa-external-link"></i></a></small>
-                        </div>
-                        <h3>Faire une recherche sur Geonames : <small>(option avancée)</small></h3>
+            <div class="card bg-body" data-ng-if="entity.dataType == 'places'">
+                <h3 class="card-header bg-light">Faire une recherche sur Geonames : <small>(option avancée)</small></h3>
+                <div class="card-body">
+                    <div class="text-right">
+                        <small><a href="http://www.geonames.org/" target="_blank">Je préfère l'interface visuelle <i class="fa fa-external-link"></i></a></small>
                     </div>
-                    <div class="form-group">
-                        <label class="sr-only">Nom du lieu</label>
-                        <div>
-                            <div class="input-group">
-                                <input id="app-taxonomy-edit-places-geonames" placeholder="Saisissez un lieu" ng-model="geonames.keywords" class="form-control form-control-sm" />
-                                <span class="input-group-btn">
-                                    <button ng-click="geonames.action()" class="btn btn-sm btn-primary" type="button"><i data-ng-if="geonames.loading == false" class="fa fa-search"></i><i data-ng-if="geonames.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-                                </span>
+                    <form>
+                        <div class="form-group">
+                            <label class="sr-only">Nom du lieu</label>
+                            <div>
+                                <div class="input-group">
+                                    <input id="app-taxonomy-edit-places-geonames" placeholder="Saisissez un lieu" ng-model="geonames.keywords" class="form-control form-control-sm" />
+                                    <span class="input-group-btn">
+                                        <button ng-click="geonames.action()" class="btn btn-sm btn-primary" type="button"><i data-ng-if="geonames.loading == false" class="fa fa-search"></i><i data-ng-if="geonames.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                                    </span>
+                                </div>
                             </div>
                         </div>
+                    </form>
+                    <div ng-if="geonames.result != null">
+                        <div class="float-right">
+                            <button ng-click="geonames.result = null; geonames.keywords = ''" class="btn btn-sm btn-primary" type="button"><i class="fa fa-close"></i></button>
+                        </div>
+                        <pre ng-bind="geonames.result | json"></pre>
                     </div>
-                </form>
-                <div ng-if="geonames.result != null">
-                    <div class="float-right">
-                        <button ng-click="geonames.result = null; geonames.keywords = ''" class="btn btn-sm btn-primary" type="button"><i class="fa fa-close"></i></button>
-                    </div>
-                    <pre ng-bind="geonames.result | json"></pre>
                 </div>
             </div>
             <form>
                 <div>
                     <div data-ng-if="entity.dataType == 'testators'" data-ng-include="'App/Taxonomy/tpl/form-testator.html'"></div>
                     <div data-ng-if="entity.dataType == 'places'" data-ng-include="'App/Taxonomy/tpl/form-place.html'"></div>
-                    <div data-ng-if="entity.dataType == 'regiments'" data-ng-include="'App/Taxonomy/tpl/form-regiment.html'"></div>
+                    <div data-ng-if="entity.dataType == 'military-units'" data-ng-include="'App/Taxonomy/tpl/form-military-unit.html'"></div>
                 </div>
             </form>
-            <div class="card text-white bg-danger mb-3 mt-4">
+            <div class="card text-white bg-danger mb-3 mt-4" ng-if="entity.id != null">
                 <h2 class="card-header bg-dark text-white">Zone dangereuse</h2>
                 <div class="card-body">
                     <p>En cliquant ci-dessous, vous supprimerez définitivement cette notice.</p>

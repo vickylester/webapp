@@ -5,6 +5,7 @@
         <button type="button" class="close" ng-click="hide()">&times;</button>
         <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
+    <div ng-if="user !== undefined && (user.roles | contains:'ROLE_TAXONOMY_EDIT') == false" ng-include="'App/Taxonomy/tpl/ask-edit-access.html'"></div>
 </div>
 
 <main class="container" role="main">

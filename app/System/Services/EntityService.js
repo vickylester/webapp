@@ -27,13 +27,8 @@ angular.module('transcript.service.entity', ['ui.router'])
             },
 
             postEntity: function(data) {
-                return $http.post($rootScope.api+"/entities", data,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
+                return $http.post($rootScope.api+"/entities", data).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);
@@ -42,13 +37,8 @@ angular.module('transcript.service.entity', ['ui.router'])
             },
 
             removeEntity: function(id) {
-                return $http.delete($rootScope.api+"/entities/"+id,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
+                return $http.delete($rootScope.api+"/entities/"+id).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);

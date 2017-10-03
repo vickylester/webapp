@@ -27,8 +27,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
             patchTranscript: function(form, id) {
                 return $http.patch(
                     $rootScope.api+"/transcripts/"+id,
-                    form,
-                    { headers:  { 'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
+                    form
                 ).then(function(response) {
                     console.log(response);
                     return response.data;

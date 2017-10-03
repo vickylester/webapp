@@ -32,12 +32,12 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                     places: function(TaxonomyService) {
                         return TaxonomyService.getTaxonomyEntities('places');
                     },
-                    regiments: function(TaxonomyService) {
-                        return TaxonomyService.getTaxonomyEntities('regiments');
+                    militaryUnits: function(TaxonomyService) {
+                        return TaxonomyService.getTaxonomyEntities('military-units');
                     }
                 }
             })
-            .state('app.taxonomy.create', {
+            .state('transcript.app.taxonomy.create', {
                 views: {
                     "page" : {
                         templateUrl: 'App/Taxonomy/Edit/Edit.html',
@@ -46,7 +46,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 },
                 url: '/{type}/new',
                 ncyBreadcrumb: {
-                    parent: 'app.taxonomy.home',
+                    parent: 'transcript.app.taxonomy.home',
                     label: 'Nouveau'
                 },
                 resolve: {
@@ -62,14 +62,14 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                     places: function(TaxonomyService) {
                         return TaxonomyService.getTaxonomyEntities('places');
                     },
-                    regiments: function(TaxonomyService) {
-                        return TaxonomyService.getTaxonomyEntities('regiments');
+                    militaryUnits: function(TaxonomyService) {
+                        return TaxonomyService.getTaxonomyEntities('military-units');
                     }
                 }
             })
     }])
 
-    .controller('AppTaxonomyEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', 'TaxonomyService', '$transition$', 'flash', 'testators', 'places', 'regiments', 'GeonamesService', '$filter', function($rootScope, $scope, $http, $sce, $state, entity, entities, TaxonomyService, $transition$, flash, testators, places, regiments, GeonamesService, $filter) {
+    .controller('AppTaxonomyEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', 'TaxonomyService', '$transition$', 'flash', 'testators', 'places', 'militaryUnits', 'GeonamesService', '$filter', function($rootScope, $scope, $http, $sce, $state, entity, entities, TaxonomyService, $transition$, flash, testators, places, militaryUnits, GeonamesService, $filter) {
         if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === false) {$state.go('transcript.error.403');}
 
         /* -- Functions Loader ----------------------------------------------------- */
@@ -103,8 +103,8 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 });
             }
         }
-        function postEntityLoader() {
-            $scope.form = fillForm($scope.entity, $scope.entity.dataType);
+        function postEntityLoader(entity, dataType, action) {
+            $scope.form = fillForm(entity, dataType);
             $scope.form.updateComment = "Creation of the entity";
             postEntity();
 
@@ -113,9 +113,16 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             }
 
             function postEntity() {
-                return TaxonomyService.postTaxonomyEntity($scope.entity.dataType, $scope.form).then(function(data) {
+                return TaxonomyService.postTaxonomyEntity(dataType, $scope.form).then(function(data) {
                     $scope.submit.loading = false;
-                    $state.go('transcript.app.taxonomy.view', {type: $scope.entity.dataType, id: data.id});
+                    if(action === "redirect") {
+                        $state.go('transcript.app.taxonomy.view', {type: dataType, id: data.id});
+                    } else if(action === "reloadPlaces") {
+                        $scope.form = null;
+                        return TaxonomyService.getTaxonomyEntities("places").then(function(data) {
+                            $scope.places = data;
+                        });
+                    }
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {
@@ -139,7 +146,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
         /* -- Scope management ------------------------------------------------------ */
         $scope.testators = testators;
         $scope.places = places;
-        $scope.regiments = regiments;
+        $scope.militaryUnits = militaryUnits;
         $scope.entities = entities;
 
         $scope.submit = {
@@ -196,12 +203,30 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
         $scope.submit.action = function() {
             $scope.submit.loading = true;
 
+            if($scope.dataType === "places") {
+                parsePlaceNames();
+            }
+
             if(entity === null) {
-                postEntityLoader();
+                postEntityLoader($scope.entity, $scope.entity.dataType, "redirect");
             } else {
                 patchEntityLoader();
             }
         };
+
+        /* -- addPlace management ------------------------------------------------------------------ */
+        function parsePlaceNames() {
+            $scope.addPlace = {
+                name: null,
+                loading: false
+            };
+
+            $scope.addPlace.action = function() {
+                //postPlaceName({name: $scope.addPlace.name});
+                postEntityLoader({name: [{name: $scope.addPlace.name, updateComment: "Entity creation"}], dataType: "places", updateComment: "Entity creation"}, "places", "reloadPlaces");
+            };
+        }
+        /* -- End addPlace management -------------------------------------------------------------- */
 
         /* -- Geonames management ------------------------------------------------------------------ */
         $scope.geonames = {

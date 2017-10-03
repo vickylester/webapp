@@ -199,8 +199,6 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
 
                 // Rewriting of special fields
                 $scope.entity.will.title = "Testament "+$scope.entity.will.callNumber;
-                $scope.entity.will.minuteDate = new Date($scope.entity.will.minuteDate);
-                $scope.entity.will.willWritingDate = new Date($scope.entity.will.willWritingDate);
 
                 return EntityService.postEntity($scope.entity).then(function(data) {
                     $scope.form.submit.loading = false;

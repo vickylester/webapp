@@ -117,6 +117,7 @@
                 }, {
                     key: "getAccessToken",
                     value: function getAccessToken(data, options) {
+
                         data = angular.extend({
                             client_id: this.config.clientId,
                             grant_type: "password"

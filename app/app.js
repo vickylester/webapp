@@ -105,9 +105,16 @@ angular.module('transcriptApp', [
         'transcript.service.user-preference',
         'transcript.service.will'
     ]).
-    config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$injector', 'flashProvider', 'tfMetaTagsProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider, $injector, flashProvider, tfMetaTagsProvider) {
+    config(['$stateProvider','$httpProvider', '$urlRouterProvider', '$qProvider', '$injector', 'flashProvider', 'tfMetaTagsProvider', 'OAuthTokenProvider', function($stateProvider, $httpProvider, $urlRouterProvider, $qProvider, $injector, flashProvider, tfMetaTagsProvider, OAuthTokenProvider) {
         $urlRouterProvider.otherwise('/');
         $qProvider.errorOnUnhandledRejections(false);
+
+        OAuthTokenProvider.configure({
+            name: "transcript_security_token_access",
+            options: {
+                secure: false,
+            }
+        });
 
         /* ------------------------------------------------------ */
         /* Flash management */
@@ -131,9 +138,10 @@ angular.module('transcriptApp', [
         tfMetaTagsProvider.setTitlePrefix('');
         /* ------------------------------------------------------ */
     }])
-    .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', '$filter', '$window', 'PermRoleStore', 'PermPermissionStore', 'UserService', 'OAuth', function($rootScope, $http, $injector, $location, authService, $state, $cookies, $filter, $window, PermRoleStore, PermPermissionStore, UserService, OAuth) {
+    .run(['$rootScope', '$http', '$injector', '$location', 'authService', '$state', '$cookies', '$filter', '$window', 'PermRoleStore', 'PermPermissionStore', 'UserService', 'OAuth', 'OAuthToken', function($rootScope, $http, $injector, $location, authService, $state, $cookies, $filter, $window, PermRoleStore, PermPermissionStore, UserService, OAuth, OAuthToken) {
         /* -- Parameters management ------------------------------------------------------ */
         let parameters = YAML.load('parameters.yml');
+        $rootScope.version = parameters.version;
         $rootScope.api = parameters.api;
         $rootScope.api_web = parameters.api_web;
         $rootScope.webapp = {
@@ -147,10 +155,12 @@ angular.module('transcriptApp', [
 
         /* -- OAuth management ----------------------------------------------------------- */
         OAuth.configure({
-            baseUrl: $rootScope.webapp.strict,
+            baseUrl: $rootScope.api,
             clientId: $rootScope.client_id,
-            clientSecret: $rootScope.client_secret
+            clientSecret: $rootScope.client_secret,
+            grantPath: '/oauth/v2/token',
         });
+
 
         $rootScope.$on('oauth:error', function(event, rejection) {
             // Ignore `invalid_grant` error - should be catched on `LoginController`.
@@ -169,12 +179,11 @@ angular.module('transcriptApp', [
         /* -- End : OAuth management ----------------------------------------------------- */
 
         /* -- Token management ----------------------------------------------------------- */
-        // TO REMOVE IF OAUTHJS WORKS
-        /*if($cookies.get('transcript_security_token_access') !== undefined) {
+        /*if($cookies.get($rootScope.version+'_transcript_security_token_access') !== undefined) {
             $rootScope.oauth = {
-                access_token: $cookies.get('transcript_security_token_access'),
-                refresh_token: $cookies.get('transcript_security_token_refresh'),
-                token_type: $cookies.get('transcript_security_token_type')
+                access_token: $cookies.get($rootScope.version+'_transcript_security_token_access'),
+                refresh_token: $cookies.get($rootScope.version+'_transcript_security_token_refresh'),
+                token_type: $cookies.get($rootScope.version+'_transcript_security_token_type')
             };
         }*/
         /* -- End : Token management ----------------------------------------------------- */

@@ -108,9 +108,8 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
             };
             if($scope.content.id === null) {
                 /* If content.id == null > The content doesn't exist, we post it */
-                $http.post($rootScope.api+'/contents', form, {
-                    headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
-                }).then(function (response) {
+                $http.post($rootScope.api+'/contents', form).
+                then(function (response) {
                     console.log(response.data);
                     $scope.thread = CommentService.postThread('content-'+response.data.id);
                     flash.success = "Votre contenu a bien été créé";
@@ -136,11 +135,8 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 });
             } else if($scope.content.id !== null) {
                 /* If content.id != null > The content already exists, we just patch it */
-                $http.patch($rootScope.api+'/contents/'+$scope.content.id, form, {
-                    headers:  {
-                        'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                    }
-                }).then(function (response) {
+                $http.patch($rootScope.api+'/contents/'+$scope.content.id, form).
+                then(function (response) {
                     console.log(response.data);
                     flash.success = "Votre contenu a bien été mis à jour";
                     flash.success = $sce.trustAsHtml(flash.success);
@@ -170,9 +166,8 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
          */
         $scope.remove.action = function() {
             $scope.remove.loading = true;
-            $http.delete($rootScope.api+'/contents/'+$scope.content.id, {
-                headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}
-            }).then(function (response) {
+            $http.delete($rootScope.api+'/contents/'+$scope.content.id).
+            then(function (response) {
                 flash.success = "Votre contenu a bien été supprimé";
                 flash.success = $sce.trustAsHtml(flash.success);
                 $scope.submit.loading = false;

@@ -45,7 +45,8 @@ angular.module('transcript.app.security.login', ['ui.router'])
             function login() {
                 return UserService.login($scope.form, "transcript.app.home").
                 then(function(data) {
-                    $scope.submit.loading = data;
+                    console.log(data);
+                    $scope.submit.loading = false;
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     console.log(response);

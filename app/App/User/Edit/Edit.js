@@ -45,9 +45,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
         /* Submit data */
         $scope.submit.action = function() {
             $scope.submit.loading = true;
-            $http.patch($rootScope.api+"/users/"+$rootScope.user.id, $scope.form,
-                { headers:  {'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token}}
-            )
+            $http.patch($rootScope.api+"/users/"+$rootScope.user.id, $scope.form)
             .then(function (response) {
                 if(response.status === 200) {
                     $state.go('transcript.app.user.profile', {id: userEdit.id});

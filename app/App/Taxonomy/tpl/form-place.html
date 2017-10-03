@@ -17,6 +17,13 @@
         <small class="text-muted">Pour les localités françaises seulement</small>
     </div>
     <div class="form-group col-md-6">
+        <label for="app-entity-edit-city" class="form-control-label">Ville</label>
+        <input id="app-entity-edit-city" class="form-control form-control-sm" data-ng-model="entity.city" />
+    </div>
+</div>
+
+<div class="form-row">
+    <div class="form-group col-md-6">
         <label for="app-entity-edit-country" class="form-control-label">Pays</label>
         <input id="app-entity-edit-country" class="form-control form-control-sm" data-ng-model="entity.country" />
     </div>
@@ -31,7 +38,7 @@
 
 <div class="form-row">
     <div class="form-group col-md-12">
-        <label for="app-entity-edit-geonameId" class="form-control-label">Identifiant Géonames</label>
+        <label for="app-entity-edit-geonameId" class="form-control-label">Identifiant Geonames</label>
         <input id="app-entity-edit-geonameId" class="form-control form-control-sm" data-ng-model="entity.geonamesId" />
         <small class="text-muted">Inscrire uniquement l'identifiant et non toute l'URL (ex <code>2988784</code>)</small>
     </div>

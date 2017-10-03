@@ -27,13 +27,8 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
             },
 
             postTaxonomyEntity: function(type, data) {
-                return $http.post($rootScope.api+"/"+type, data,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
+                return $http.post($rootScope.api+"/"+type, data).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);
@@ -93,9 +88,12 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                             updateComment: entity.updateComment
                         };
                         break;
-                    case 'regiments':
+                    case 'military-units':
                         form = {
                             name: entity.name,
+                            country: entity.country,
+                            armyCorps: entity.armyCorps,
+                            regimentNumber: entity.regimentNumber,
                             description: entity.description,
                             updateComment: entity.updateComment
                         };
@@ -106,6 +104,7 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                             frenchDepartement: entity.frenchDepartement,
                             frenchRegion: entity.frenchRegion,
                             country: entity.country,
+                            city: entity.city,
                             geonamesId: entity.geonamesId,
                             geographicalCoordinates: entity.geographicalCoordinates,
                             description: entity.description,

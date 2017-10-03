@@ -23,11 +23,6 @@ angular.module('transcript.system.comment', ['ui.router'])
                     {
                         "body": $scope.comment.form.content
                     }
-                },
-                {
-                    headers:  {
-                        'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                    }
                 })
                 .then(function (response) {
                     $http.get($rootScope.api+'/threads/'+$scope.threadContainer.thread.id+'/comments')
@@ -62,12 +57,7 @@ angular.module('transcript.system.comment', ['ui.router'])
 
         /* Cette function ne marche pas*/
         $scope.admin.remove = function(id) {
-            $http.get($rootScope.api+'/threads/'+$scope.threadContainer.thread.id+'/comments/'+id+'/remove',
-                {
-                    headers:  {
-                        'Authorization': $rootScope.oauth.token_type+" "+$rootScope.oauth.access_token
-                    }
-                })
+            $http.get($rootScope.api+'/threads/'+$scope.threadContainer.thread.id+'/comments/'+id+'/remove')
                 .then(function (response) {
                     console.log(response);
                 }, function errorCallback(response) {

@@ -15,7 +15,7 @@ angular.module('transcript.app.user', ['ui.router'])
         })
     }])
 
-    .controller('AppTaxonomyCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, tfMetaTags) {
+    .controller('AppUserCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'tfMetaTags', function($rootScope, $scope, $http, $sce, $state, tfMetaTags) {
         tfMetaTags.setTitleSuffix(' | Profil utilisateur '+tfMetaTags.getTitleSuffix());
     }])
 

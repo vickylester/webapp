@@ -27,9 +27,9 @@
     <div class="col-2 user-nav p-0">
         <div class="header-user">
             <a data-ng-if="user != null" ui-sref="transcript.app.user.profile({id: user.id})">
-            <i data-ng-if="user.picture == null || user.picture == ''" class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
-            <img data-ng-if="user.picture != null && user.picture != ''" class="img-fluid rounded-circle" src="{{ user.picture }}" />
-            {{ user.name }}
+                <i data-ng-if="user.picture == null || user.picture == ''" class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
+                <img data-ng-if="user.picture != null && user.picture != ''" class="img-fluid rounded-circle" src="{{ user.picture }}" />
+                {{ user.name }}
             </a>
             <div data-ng-if="user == null">
                 <i class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
@@ -49,7 +49,7 @@
                     <a class="dropdown-item" href="#">Messagerie privée</a>
                     <a class="dropdown-item" href="#">Pratiquer la tei</a>
                     <a class="dropdown-item" ui-sref="transcript.app.user.preferences({id: user.id})">Préférences</a>
-                    <a class="dropdown-item" ui-sref="transcript.app.security.logout">déconnexion</a>
+                    <a class="dropdown-item" ui-sref="transcript.app.security.logout">Déconnexion</a>
                     <div role="separator" class="dropdown-divider"></div>
                     <a class="dropdown-item" href="https://testaments-de-poilus.myjetbrains.com/" target="_blank">BugTracker</a>
                     <a class="dropdown-item" permission permission-only="'ROLE_ADMIN'" ui-sref="transcript.admin.home">Admin</a>

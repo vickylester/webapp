@@ -1,7 +1,7 @@
 <nav class="nav nav-pills nav-justified" id="Tab">
-    <a role="presentation" class="nav-item nav-link active"  href="#">Les hommes</a>
-    <a role="presentation" class="nav-item nav-link" href="#">Les lieux</a>
-    <a role="presentation" class="nav-item nav-link" href="#">Les régiments</a>
+    <a role="presentation" class="nav-item nav-link" ui-sref="transcript.app.taxonomy.list({type: 'testators'})" ng-class="{active: entity.dataType == 'testators'}">Les hommes</a>
+    <a role="presentation" class="nav-item nav-link" ui-sref="transcript.app.taxonomy.list({type: 'places'})" ng-class="{active: entity.dataType == 'places'}">Les lieux</a>
+    <a role="presentation" class="nav-item nav-link" ui-sref="transcript.app.taxonomy.list({type: 'military-units'})" ng-class="{active: entity.dataType == 'military-units'}">Les unités militaires</a>
 </nav>
 
 <div class="alert alert-warning" data-ng-if="entities.length == 0">
@@ -9,7 +9,7 @@
 </div>
 
 <div class="m-4" ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'">
-    <div class="text-right"><a class="btn btn-light" href="#" ui-sref="transcript.app.taxonomy.create({type: entity.dataType})" title="Ajouter une notice"><i class="fa fa-plus"></i> Ajouter une notice</a></div>
+    <div class="text-right"><a class="btn btn-light" ui-sref="transcript.app.taxonomy.create({type: entity.dataType})" title="Ajouter une notice"><i class="fa fa-plus"></i> Ajouter une notice</a></div>
 </div>
 
 <div class="tab-content">
