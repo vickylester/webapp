@@ -1,6 +1,6 @@
 <ul id="listResults" class="list list-unstyled">
     <li class="row" data-ng-repeat="entity in results">
-        <div class="col-12"><div class="badge badge-status" data-ng-class="getResourceClassLabel(resource)">{{ entity._embedded.status | transcriptionStatusName }}</div></div>
+        <div class="col-12"><div class="badge badge-status" data-ng-class="getStatusClassLabel(entity._embedded.status)">{{ entity._embedded.status | transcriptionStatusName }}</div></div>
         <div class="col-2"><a ui-sref="transcript.app.entity({ id: entity.id })"><img class="img-fluid" src="{{ imageService.getThumbnail(entity) }}"/></a></div>
         <div class="col-9">
             <a ui-sref="transcript.app.entity({ id: entity.id })" class="nomTestataire">{{ entity.will.testator.name }}</a><br/>

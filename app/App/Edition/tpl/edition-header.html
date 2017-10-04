@@ -1,7 +1,7 @@
 <div class="row mb-5">
     <div class="col-auto mr-auto">
         <h1 class="page-heading mb-0"><i class="fa fa-edit" aria-hidden="true"></i> {{ entity.will.title }}</h1>
-        <span class="badge badge-status" data-ng-class="getResourceClassLabel(resource)">{{ resource.transcript.status | transcriptionStatusName }}</span>
+        <span class="badge badge-status" data-ng-class="getStatusClassLabel(resource.transcript.status)">{{ resource.transcript.status | transcriptionStatusName }}</span>
     </div>
     <div class="col-auto  justify-content-end">
         <nav class="mt-4">

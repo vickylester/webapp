@@ -5,6 +5,6 @@
 </div>
 <div data-ng-repeat="entity in results" class="row align-items-center">
     <div class="col-sm-4 col-4"><a ui-sref="transcript.app.entity({ id: entity.id })" >{{ entity.will.testator.name }}</a></div>
-    <div class="col-sm-7 col-5"><span class="badge badge-status" data-ng-class="getResourceClassLabel(resource)">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
+    <div class="col-sm-7 col-5"><span class="badge badge-status" data-ng-class="getStatusClassLabel(resource.transcript.status)">{{ entity._embedded.status | transcriptionStatusName }}</span></div>
     <div class="col-sm-1 col-3 text-center">{{ entity.resources.length }}</div>
 </div>

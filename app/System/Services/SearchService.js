@@ -41,7 +41,7 @@ angular.module('transcript.service.search', ['ui.router'])
                 // Passing every entity though the function
                 let dataset = [];
                 for(let entity in entities) {
-                    let value = Object.byString(entities[entity], stringProperty)
+                    let value = Object.byString(entities[entity], stringProperty);
                     dataset.push({name: value, value: value});
                 }
 

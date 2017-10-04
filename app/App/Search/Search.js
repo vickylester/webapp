@@ -28,6 +28,14 @@ angular.module('transcript.app.search', ['ui.router'])
 
     .controller('AppSearchCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'entities', 'EntityService', 'SearchService', 'ImageService', function($rootScope, $scope, $http, $sce, $state, flash, entities, EntityService, SearchService, ImageService) {
         $scope.entities = entities;
+        for(let iEntity in $scope.entities) {
+            if($scope.entities[iEntity].will.testator.placeOfBirth.names.length > 0) {
+                $scope.entities[iEntity].will.testator.placeOfBirth.name = $scope.entities[iEntity].will.testator.placeOfBirth.names[0].name;
+            }
+            if($scope.entities[iEntity].will.testator.placeOfDeath.names.length > 0) {
+                $scope.entities[iEntity].will.testator.placeOfDeath.name = $scope.entities[iEntity].will.testator.placeOfDeath.names[0].name;
+            }
+        }
         console.log($scope.entities);
         $scope.results = [];
 
@@ -40,13 +48,13 @@ angular.module('transcript.app.search', ['ui.router'])
                         placeOfDeath: {
                             name: null
                         },
-                        dateOfDeath: null,
+                        yearOfDeath: null,
                         placeOfBirth: {
                             name: null
                         }
                     },
                     hostingOrganization: null,
-                    willWritingDate: null,
+                    willWritingYear: null,
                     callNumber: null
                 }
             },
@@ -69,12 +77,12 @@ angular.module('transcript.app.search', ['ui.router'])
                         placeOfDeath: {
                             name: SearchService.dataset($scope.entities, "will.testator.placeOfDeath.name", "string")
                         },
-                        dateOfDeath: SearchService.dataset($scope.entities, "will.testator.dateOfDeath", "date"),
+                        yearOfDeath: SearchService.dataset($scope.entities, "will.testator.yearOfDeath", "date"),
                         placeOfBirth: {
                             name: SearchService.dataset($scope.entities, "will.testator.placeOfBirth.name", "string")
                         }
                     },
-                    willWritingDate: SearchService.dataset($scope.entities, "will.willWritingDate", "date"),
+                    willWritingYear: SearchService.dataset($scope.entities, "will.willWritingYear", "date"),
                     // Call number is not here because it's not used as an autocompleted field
                     // Same for status
                 }
@@ -117,11 +125,11 @@ angular.module('transcript.app.search', ['ui.router'])
             }
         });
 
-        $scope.$watch('search.form.will.testator.dateOfDeath', function() {
-            if($scope.search.form.will.testator.dateOfDeath !== undefined) {
-                if ($scope.search.form.will.testator.dateOfDeath !== null && $scope.search.form.will.testator.dateOfDeath !== "" && $scope.search.form.will.testator.dateOfDeath.originalObject !== undefined) {
-                    $scope.search.form.will.testator.dateOfDeath = $scope.search.form.will.testator.dateOfDeath.originalObject.value;
-                    console.log($scope.search.form.will.testator.dateOfDeath);
+        $scope.$watch('search.form.will.testator.yearOfDeath', function() {
+            if($scope.search.form.will.testator.yearOfDeath !== undefined) {
+                if ($scope.search.form.will.testator.yearOfDeath !== null && $scope.search.form.will.testator.yearOfDeath !== "" && $scope.search.form.will.testator.yearOfDeath.originalObject !== undefined) {
+                    $scope.search.form.will.testator.yearOfDeath = $scope.search.form.will.testator.yearOfDeath.originalObject.value;
+                    console.log($scope.search.form.will.testator.yearOfDeath);
                 }
                 refresh();
             }
@@ -137,11 +145,11 @@ angular.module('transcript.app.search', ['ui.router'])
             }
         });
 
-        $scope.$watch('search.form.will.willWritingDate', function() {
-            if($scope.search.form.will.willWritingDate !== undefined) {
-                if ($scope.search.form.will.willWritingDate !== null && $scope.search.form.will.willWritingDate !== "" && $scope.search.form.will.willWritingDate.originalObject !== undefined) {
-                    $scope.search.form.will.willWritingDate = $scope.search.form.will.willWritingDate.originalObject.value;
-                    console.log($scope.search.form.will.willWritingDate);
+        $scope.$watch('search.form.will.willWritingYear', function() {
+            if($scope.search.form.will.willWritingYear !== undefined) {
+                if ($scope.search.form.will.willWritingYear !== null && $scope.search.form.will.willWritingYear !== "" && $scope.search.form.will.willWritingYear.originalObject !== undefined) {
+                    $scope.search.form.will.willWritingYear = $scope.search.form.will.willWritingYear.originalObject.value;
+                    console.log($scope.search.form.will.willWritingYear);
                 }
                 refresh();
             }
@@ -207,8 +215,8 @@ angular.module('transcript.app.search', ['ui.router'])
             for(let result in $scope.results) {
                 let entity = $scope.results[result];
 
-                if(entity.will.testator.placeOfDeath !== null && entity.will.testator.placeOfDeath.geographical_coordinates !== null) {
-                    let coord = entity.will.testator.placeOfDeath.geographical_coordinates.split('+');
+                if(entity.will.testator.placeOfDeath !== null && entity.will.testator.placeOfDeath.geographicalCoordinates !== null) {
+                    let coord = entity.will.testator.placeOfDeath.geographicalCoordinates.split('+');
                     let id = "maker"+entity.will.testator.id;
                     let marker = {
                         lat: parseFloat(coord[0]),
