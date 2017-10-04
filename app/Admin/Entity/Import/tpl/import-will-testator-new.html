@@ -89,18 +89,18 @@
     </div>
 </div>
 <div class="form-group row">
-    <label for="admin-entity-edit-will-testator-regiment" class="col-md-4 col-form-label text-md-right">Régiment</label>
+    <label for="admin-entity-edit-will-testator-military-unit" class="col-md-4 col-form-label text-md-right">Unité militaire</label>
     <div class="col-md-8">
-        <uib-tabset active="activeTestatorRegiment" class="nav-fill nav-pills" justified="true">
+        <uib-tabset active="activeTestatorMilitaryUnit" class="nav-fill nav-pills" justified="true">
             <uib-tab index="0" heading="List">
-                <select class="custom-select col-md-12" id="admin-entity-edit-will-testator-regiment" data-ng-model="entity.will.testator.regiment" name="admin-entity-edit-will-testator-regiment" data-ng-options="regiment.id as regiment.name for regiment in regiments"></select>
+                <select class="custom-select col-md-12" id="admin-entity-edit-will-testator-military-unit" data-ng-model="entity.will.testator.militaryUnit" name="admin-entity-edit-will-testator-military-unit" data-ng-options="militaryUnit.id as militaryUnit.name for militaryUnit in militaryUnits"></select>
             </uib-tab>
             <uib-tab index="1" heading="New">
                 <div class="form-group row">
                     <div class="form-group row">
-                        <label for="admin-entity-edit-will-testator-regiment-name" class="col-md-2 col-form-label">Nom</label>
+                        <label for="admin-entity-edit-will-testator-military-unit-name" class="col-md-2 col-form-label">Nom</label>
                         <div class="col-md-10">
-                            <input id="admin-entity-edit-will-testator-regiment-name" class="form-control form-control-sm" data-ng-model="entity.will.testator.regiment.name" />
+                            <input id="admin-entity-edit-will-testator-military-unit-name" class="form-control form-control-sm" data-ng-model="entity.will.testator.militaryUnit.name" />
                         </div>
                     </div>
                 </div>

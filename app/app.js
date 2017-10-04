@@ -216,7 +216,24 @@ angular.module('transcriptApp', [
             .defineManyRoles({
                 'ROLE_ADMIN': ['adminAccess', 'transcriptAccess'],
                 'ROLE_USER': ['transcriptAccess']
-            })
+            });
         /* -- End : Permission management ------------------------------------------------ */
+
+        /* -- Resource label management -------------------------------------------------- */
+        $rootScope.getResourceClassLabel = function(resource) {
+            if(resource.transcript.status === "todo") {return "badge-danger";}
+            else if(resource.transcript.status === "transcription") {return "badge-warning";}
+            else if(resource.transcript.status === "validation") {return "badge-info";}
+            else if(resource.transcript.status === "validated") {return "badge-success";}
+            else{return "badge-danger";}
+        };
+        $rootScope.getResourceLabel = function(resource) {
+            if(resource.transcript.status === "todo") {return "À faire";}
+            else if(resource.transcript.status === "transcription") {return "En cours";}
+            else if(resource.transcript.status === "validation") {return "Validation";}
+            else if(resource.transcript.status === "validated") {return "Validée";}
+            else{return "Inconnu";}
+        };
+        /* -- End : Resource label management -------------------------------------------- */
     }])
 ;

@@ -35,5 +35,13 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
         console.log($scope.entities);
 
         $scope.pluralType = $filter('taxonomyName')($scope.entity.dataType, 'plural');
+
+        if($scope.entity.dataType === 'places') {
+            for(let iEntity in $scope.entities) {
+                if($scope.entities[iEntity].names.length > 0) {
+                    $scope.entities[iEntity].name = $scope.entities[iEntity].names[0].name;
+                }
+            }
+        }
     }])
 ;

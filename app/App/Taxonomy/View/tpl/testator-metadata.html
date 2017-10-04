@@ -16,13 +16,13 @@
     <dd class="col-sm-8">{{ entity.profession }}</dd>
 
     <dt class="col-sm-4">Adresse</dt>
-    <dd class="col-sm-8">{{ entity.address }}</dd>
+    <dd class="col-sm-8">{{ entity.addressNumber }}, {{ entity.addressStreet }}, {{ entity.addressCity }}, {{ entity.addressCountry }}</dd>
 
     <dt class="col-sm-4">Naissance</dt>
-    <dd class="col-sm-8">{{ entity.dateOfBirth | date:'dd-MM-yyyy'}} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.placeOfBirth.id})">{{ entity.placeOfBirth.name }}</a></dd>
+    <dd class="col-sm-8">{{ entity.dateOfBirth }} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.placeOfBirth.id})">{{ entity.placeOfBirth.name }}</a></dd>
 
     <dt class="col-sm-4">Décès</dt>
-    <dd class="col-sm-8">{{ entity.dateOfDeath | date:'dd-MM-yyyy' }} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.placeOfDeath.id})">{{ entity.placeOfDeath.name }}</a></dd>
+    <dd class="col-sm-8">{{ entity.dateOfDeath }} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.placeOfDeath.id})">{{ entity.placeOfDeath.name }}</a></dd>
 
     <dt class="col-sm-4">Mention</dt>
     <dd class="col-sm-8">{{ entity.deathMention }}</dd>
@@ -34,6 +34,6 @@
 <div class="row mt-4">
     <div class="col-md-12 ml-2">
         <h4 class="mb-1"><strong>Mémoire des hommes</strong></h4>
-        <p><i class="fa fa-angle-right" aria-hidden="true"></i><a href="{{ entity.memoireDesHommes }}">Voir la fiche sur Mémoire des hommes</a></p>
+        <p><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="{{ entity.memoireDesHommes }}">Voir la fiche sur Mémoire des hommes</a></p>
     </div>
 </div>

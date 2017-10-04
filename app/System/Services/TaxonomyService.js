@@ -37,13 +37,8 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
             },
 
             patchTaxonomyEntity: function(type, id, data) {
-                return $http.patch($rootScope.api+"/"+type+"/"+id, data,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
+                return $http.patch($rootScope.api+"/"+type+"/"+id, data).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);
@@ -52,13 +47,8 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
             },
 
             removeTaxonomyEntity: function(type, id) {
-                return $http.delete($rootScope.api+"/"+type+"/"+id,
-                    {
-                        headers: {
-                            'Authorization': $rootScope.oauth.token_type + " " + $rootScope.oauth.access_token
-                        }
-                    }
-                ).then(function(response) {
+                return $http.delete($rootScope.api+"/"+type+"/"+id).
+                then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {
                     console.log(response);
@@ -77,12 +67,14 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                             profession: entity.profession,
                             address: entity.address,
                             dateOfBirth: entity.dateOfBirth,
+                            yearOfBirth: entity.yearOfBirth,
                             placeOfBirth: entity.placeOfBirth.id,
                             dateOfDeath: entity.dateOfDeath,
+                            yearOfDeath: entity.yearOfDeath,
                             placeOfDeath: entity.placeOfDeath.id,
                             deathMention: entity.deathMention,
                             memoireDesHommes: entity.memoireDesHommes,
-                            regiment: entity.regiment.id,
+                            militaryUnit: entity.militaryUnit.id,
                             rank: entity.rank,
                             description: entity.description,
                             updateComment: entity.updateComment
@@ -100,11 +92,11 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                         break;
                     case 'places':
                         form = {
-                            name: entity.name,
-                            frenchDepartement: entity.frenchDepartement,
-                            frenchRegion: entity.frenchRegion,
-                            country: entity.country,
-                            city: entity.city,
+                            names: entity.names,
+                            frenchDepartements: entity.frenchDepartements,
+                            frenchRegions: entity.frenchRegions,
+                            countries: entity.countries,
+                            cities: entity.cities,
                             geonamesId: entity.geonamesId,
                             geographicalCoordinates: entity.geographicalCoordinates,
                             description: entity.description,

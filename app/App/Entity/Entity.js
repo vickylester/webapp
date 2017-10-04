@@ -49,21 +49,6 @@ angular.module('transcript.app.entity', ['ui.router'])
         $scope.entity = entity;
         console.log(entity);
 
-        $scope.getResourceClassLabel = function(resource) {
-            if(resource.transcript.status === "todo") {return "label-danger";}
-            else if(resource.transcript.status === "transcription") {return "label-warning";}
-            else if(resource.transcript.status === "validation") {return "label-info";}
-            else if(resource.transcript.status === "validated") {return "label-success";}
-            else{return "label-danger";}
-        };
-        $scope.getResourceLabel = function(resource) {
-            if(resource.transcript.status === "todo") {return "À faire";}
-            else if(resource.transcript.status === "transcription") {return "En cours";}
-            else if(resource.transcript.status === "validation") {return "Validation";}
-            else if(resource.transcript.status === "validated") {return "Validée";}
-            else{return "label-danger";}
-        };
-
         /* -- Contributors management ---------------------------------------------------- */
         $scope.contributors = [];
         let contributors = EntityService.getContributors($scope.entity);

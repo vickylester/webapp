@@ -34,6 +34,29 @@ angular.module('transcript.app.taxonomy.view', ['ui.router'])
         $scope.entities = entities;
         $scope.entity.dataType = $transition$.params().type;
 
+        /* -- Place name management ---------------------------------------------------------- */
+        if($scope.entity.dataType === 'places') {
+            if($scope.entity.names.length > 0) {
+                $scope.entity.name = $scope.entity.names[0].name;
+                console.log($scope.entity.name);
+            }
+
+            for(let iEntity in $scope.entities) {
+                if($scope.entities[iEntity].names.length > 0) {
+                    $scope.entities[iEntity].name = $scope.entities[iEntity].names[0].name;
+                }
+            }
+        }
+        if($scope.entity.dataType === 'testators') {
+            if($scope.entity.placeOfBirth.names.length > 0) {
+                $scope.entity.placeOfBirth.name = $scope.entity.placeOfBirth.names[0].name;
+            }
+            if($scope.entity.placeOfDeath.names.length > 0) {
+                $scope.entity.placeOfDeath.name = $scope.entity.placeOfDeath.names[0].name;
+            }
+        }
+        /* -- End : Place name management ---------------------------------------------------- */
+
         if($scope.entity.dataType === 'places' && $scope.entity.geographicalCoordinates !== null) {
             /* -- Setting up map ----------------------------------------------------------------- */
             // Doc is here: http://tombatossals.github.io/angular-leaflet-directive/#!/examples/center

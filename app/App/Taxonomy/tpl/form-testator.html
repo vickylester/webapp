@@ -122,8 +122,8 @@
 <fieldset>
     <div class="form-row">
         <div class="form-group col-md-6">
-            <label for="app-entity-edit-regiment" class="form-control-label">Régiment</label>
-            <select class="custom-select form-control form-control-sm" id="app-entity-edit-regiment" data-ng-model="entity.regiment.id" name="app-entity-edit-regiment" data-ng-options="regiment.id as regiment.name for regiment in regiments"></select>
+            <label for="app-entity-edit-military-unit" class="form-control-label">Unité militaire</label>
+            <select class="custom-select form-control form-control-sm" id="app-entity-edit-military-unit" data-ng-model="entity.militaryUnit.id" name="app-entity-edit-military-unit" data-ng-options="militaryUnit.id as militaryUnit.name for militaryUnit in militaryUnits"></select>
         </div>
 
         <div class="form-group col-md-6">
@@ -133,9 +133,9 @@
     </div>
 </fieldset>
 
-<div class="form-row" data-ng-if="context == 'edit'">
+<div class="form-row">
     <div class="form-group col-md-12">
-        <label for="app-entity-edit-description" class="form-control-label">Description de vos modifications</label>
+        <label for="app-entity-edit-description" class="form-control-label">Description - Biographie</label>
         <textarea id="app-entity-edit-description" class="form-control form-control-sm" data-ng-model="entity.description"></textarea>
     </div>
 </div>
@@ -146,6 +146,6 @@
     </div>
 </div>
 
-<button data-ng-click="submit.action()" class="btn btn-sm btn-primary" type="submit">Soumettre<i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+<button data-ng-click="submit.action()" class="btn btn-sm btn-primary" type="submit">Soumettre <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
 
 <div class="clearfix"></div>

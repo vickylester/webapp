@@ -25,14 +25,14 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 places: function(TaxonomyService) {
                     return TaxonomyService.getTaxonomyEntities('places');
                 },
-                regiments: function(TaxonomyService) {
-                    return TaxonomyService.getTaxonomyEntities('regiments');
+                militaryUnits: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('military-units');
                 }
             }
         })
     }])
 
-    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'places', 'regiments', 'EntityService', 'TaxonomyService', 'flash', function($rootScope, $scope, $http, $sce, $state, testators, places, regiments, EntityService, TaxonomyService, flash) {
+    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'places', 'militaryUnits', 'EntityService', 'TaxonomyService', 'flash', function($rootScope, $scope, $http, $sce, $state, testators, places, militaryUnits, EntityService, TaxonomyService, flash) {
         $scope.form = {
             submit: {
                 loading: false
@@ -44,7 +44,12 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
         };
         $scope.testators = testators;
         $scope.places = places;
-        $scope.regiments = regiments;
+        for(let iEntity in $scope.places) {
+            if($scope.places[iEntity].names.length > 0) {
+                $scope.places[iEntity].name = $scope.places[iEntity].names[0].name;
+            }
+        }
+        $scope.militaryUnits = militaryUnits;
 
 
         $scope.form.addResource = function(resourceNumber) {
@@ -77,6 +82,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
             function postEntityStarter() {
                 console.log('postEntityStarter');
                 if (typeof($scope.entity.will.testator) === "number" && typeof($scope.entity.will.willWritingPlace) === "number") {
+                    console.log($scope.entity);
                     postEntity();
                 }
             }
@@ -117,16 +123,16 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                 });
             }
 
-            function postRegiment(entity, entityName) {
-                console.log('postRegiment');
-                return TaxonomyService.postTaxonomyEntity('regiments',
+            function postMilitaryUnit(entity, entityName) {
+                console.log('postMilitaryUnit');
+                return TaxonomyService.postTaxonomyEntity('military-units',
                     {
                         name: entity.name,
                         updateComment: 'Creation of '+entity.name
                     }
                 ).then(function(data) {
-                    if(entityName === "testator.regiment") {
-                        $scope.entity.will.testator.regiment = data.id;
+                    if(entityName === "testator.militaryUnit") {
+                        $scope.entity.will.testator.militaryUnit = data.id;
                         postTestatorStarter();
                     }
                 }, function errorCallback(response) {
@@ -149,7 +155,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
 
             function postTestatorStarter() {
                 console.log('postTestatorStarter');
-                if(typeof($scope.entity.will.testator.placeOfDeath) === "number" && typeof($scope.entity.will.testator.placeOfBirth) === "number"  && typeof($scope.entity.will.testator.regiment) === "number") {
+                if(typeof($scope.entity.will.testator.placeOfDeath) === "number" && typeof($scope.entity.will.testator.placeOfBirth) === "number"  && typeof($scope.entity.will.testator.militaryUnit) === "number") {
                     postTestator();
                 }
                 else {
@@ -161,8 +167,8 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
                         postPlace($scope.entity.will.testator.placeOfBirth, 'testator.placeOfBirth');
                     }
 
-                    if(typeof($scope.entity.will.testator.regiment) === "object") {
-                        postRegiment($scope.entity.will.testator.regiment, 'testator.regiment');
+                    if(typeof($scope.entity.will.testator.militaryUnit) === "object") {
+                        postMilitaryUnit($scope.entity.will.testator.militaryUnit, 'testator.militaryUnit');
                     }
                 }
             }

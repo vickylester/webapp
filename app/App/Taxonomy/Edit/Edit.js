@@ -73,8 +73,8 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
         if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === false) {$state.go('transcript.error.403');}
 
         /* -- Functions Loader ----------------------------------------------------- */
-        function patchEntityLoader() {
-            $scope.form = fillForm($scope.entity, $scope.entity.dataType);
+        function patchEntityLoader(entity, dataType) {
+            $scope.form = fillForm(entity, dataType);
             patchEntity();
 
             function fillForm(data, type) {
@@ -82,9 +82,9 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             }
 
             function patchEntity() {
-                return TaxonomyService.patchTaxonomyEntity($scope.entity.dataType, $scope.entity.id, $scope.form).then(function(data) {
+                return TaxonomyService.patchTaxonomyEntity(dataType, entity.id, $scope.form).then(function(data) {
                     $scope.submit.loading = false;
-                    $state.go('transcript.app.taxonomy.view', {type: $scope.entity.dataType, id: data.id});
+                    $state.go('transcript.app.taxonomy.view', {type: dataType, id: data.id});
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {
@@ -106,6 +106,7 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
         function postEntityLoader(entity, dataType, action) {
             $scope.form = fillForm(entity, dataType);
             $scope.form.updateComment = "Creation of the entity";
+            console.log($scope.form);
             postEntity();
 
             function fillForm(data, type) {
@@ -200,33 +201,61 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             };
         }
 
+        /* -- Place name management ---------------------------------------------------------- */
+        if($scope.entity.dataType === 'places') {
+            if($scope.entity.names.length > 0) {
+                $scope.entity.name = $scope.entity.names[0].name;
+                console.log($scope.entity.name);
+            }
+
+            for(let iEntity in $scope.entities) {
+                if($scope.entities[iEntity].names.length > 0) {
+                    $scope.entities[iEntity].name = $scope.entities[iEntity].names[0].name;
+                }
+            }
+        }
+
+        console.log($scope.places);
+        for(let iEntity in $scope.places) {
+            if($scope.places[iEntity].names.length > 0) {
+                $scope.places[iEntity].name = $scope.places[iEntity].names[0].name;
+            }
+        }
+
+        function parsePlaceNames() {
+            if($scope.entity.name !== undefined && $scope.entity.name !== null) {
+                $scope.entity.names = [{name: $scope.entity.name, updateComment: "entity creation"}];
+            } else {$scope.entity.name = null;}
+            if($scope.entity.frenchDepartement !== undefined && $scope.entity.frenchDepartement !== null) {
+                $scope.entity.frenchDepartements = [{name: $scope.entity.frenchDepartement, updateComment: "entity creation"}];
+            } else {$scope.entity.frenchDepartement = null;}
+            if($scope.entity.frenchRegion !== undefined && $scope.entity.frenchRegion !== null) {
+                $scope.entity.frenchRegions = [{name: $scope.entity.frenchRegion, updateComment: "entity creation"}];
+            } else {$scope.entity.frenchRegion = null;}
+            if($scope.entity.country !== undefined && $scope.entity.country !== null) {
+                $scope.entity.countries = [{name: $scope.entity.country, updateComment: "entity creation"}];
+            } else {$scope.entity.country = null;}
+            if($scope.entity.city !== undefined && $scope.entity.city !== null) {
+                $scope.entity.cities = [{name: $scope.entity.city, updateComment: "entity creation"}];
+            } else {$scope.entity.city = null;}
+            console.log($scope.entity);
+        }
+        /* -- End : Place name management ---------------------------------------------------- */
+
+        /* -- Action management ----------------------------------------------------------------- */
         $scope.submit.action = function() {
             $scope.submit.loading = true;
 
-            if($scope.dataType === "places") {
-                parsePlaceNames();
-            }
+            if($scope.entity.dataType === "places") {parsePlaceNames();}
+            console.log($scope.entity);
 
             if(entity === null) {
                 postEntityLoader($scope.entity, $scope.entity.dataType, "redirect");
             } else {
-                patchEntityLoader();
+                patchEntityLoader($scope.entity, $scope.entity.dataType);
             }
         };
-
-        /* -- addPlace management ------------------------------------------------------------------ */
-        function parsePlaceNames() {
-            $scope.addPlace = {
-                name: null,
-                loading: false
-            };
-
-            $scope.addPlace.action = function() {
-                //postPlaceName({name: $scope.addPlace.name});
-                postEntityLoader({name: [{name: $scope.addPlace.name, updateComment: "Entity creation"}], dataType: "places", updateComment: "Entity creation"}, "places", "reloadPlaces");
-            };
-        }
-        /* -- End addPlace management -------------------------------------------------------------- */
+        /* -- End Action management ------------------------------------------------------------- */
 
         /* -- Geonames management ------------------------------------------------------------------ */
         $scope.geonames = {
