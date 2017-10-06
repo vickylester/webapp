@@ -1,128 +1,30 @@
-/* Toolbar management */
-#transcriptContainer #transcript-toolbar {
-    border: solid 1px #CCC;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #eee;
-    margin-bottom:-1px;
-}
 
-#transcriptContainer #transcript-toolbar #transcript-toolbar-edit {
-    padding: 2px;
-    padding-left: 7px;
-}
 
 /* Editing page */
 #transcriptContainer #transcript-workarea #transcript-edit {
-    /* These properties care for modal management */
+    /*     These properties care for modal management */
     position:relative;
 }
-
-#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-heading {
-    height: 40px;
-    background-color: #993333;
-    border-bottom: solid 1px #CCC;
-    padding: 10px 10px;
+/* Full screen management */
+#transcriptContainerFullScreen:fullscreen .h-100 {
+    height: 100%;
+}
+#transcriptContainerFullScreen:-moz-full-screen .h-100{
+    height: 100%;
+}
+#transcriptContainerFullScreen:-ms-fullscreen .h-100 {
+    height: 100%;
+}
+#transcriptContainerFullScreen:-webkit-full-screen .h-100 {
+    height: 100%;
 }
 
-#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-heading .transcript-edit-heading-title {
-    color: #FFF;
-}
-
-#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-editor {
-
-}
-
-#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-editor #transcript-edit-editor-ace {
-    padding-right: 0;
-}
-
-#transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-editor #transcript-edit-editor-ace #transcript-edit-editor-ace-area  {
-    padding: 10px;
-
-    border: solid 1px #ccc;
-    border-top: none;
-
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    border-radius: 0;
-
-}
 
 #transcriptContainer #transcript-workarea #transcript-edit #transcript-edit-editor #transcript-edit-editor-ace #transcript-edit-editor-ace-area:focus {
     outline: none;
     border-color: #ccc;
     box-shadow: 0 0;
 }
-
-#transcriptContainer #transcript-workarea #transcript-interaction {
-    background-color: #eee;
-    border-bottom: solid 1px #CCC;
-}
-
-#transcriptContainer #transcript-workarea #transcript-interaction #transcript-interaction-heading {
-    height: 40px;
-    background-color: #993333;
-    border-bottom: solid 1px #CCC;
-    padding: 10px 10px;
-}
-
-#transcriptContainer #transcript-workarea #transcript-interaction #transcript-interaction-heading .transcript-interaction-heading-title {
-    color: #FFF;
-}
-
-#transcriptContainer #transcript-workarea #transcript-interaction #div-interaction-help #div-interaction-help-content {
-    padding: 5px;
-}
-
-#transcriptContainer #transcript-workarea #transcript-interaction #div-interaction-live {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-
-#transcriptContainer #transcript-submit {
-    background-color: #EEE;
-    border: solid 1px #CCC;
-    border-top: none;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-
-}
-
-#transcriptContainer #transcript-submit #transcript-submit-status {
-    padding: 10px;
-    margin: 0;
-
-}
-
-#transcriptContainer #transcript-submit #app-transcript-edit-submit-comment-group {
-    padding: 5px 0;
-}
-
-
-/* Full screen management */
-#transcriptContainerFullScreen:fullscreen .fullscreen-h100 {
-    height: 100%;
-}
-#transcriptContainerFullScreen:-moz-full-screen .fullscreen-h100 {
-    height: 100%;
-}
-#transcriptContainerFullScreen:-ms-fullscreen .fullscreen-h100 {
-    height: 100%;
-}
-#transcriptContainerFullScreen:-webkit-full-screen .fullscreen-h100 {
-    height: 100%;
-}
-
-.breadcrumb-interaction {
-    margin: 0;
-}
-
-.breadcrumb-interaction li {
-    font-size: 85%;
-}
-
 
 /* Live encoder rules */
 #div-container-encode p {
@@ -167,7 +69,8 @@
     margin: 0;
 }
 
-/* Each of the items in the list */
+/*
+ Each of the items in the list */
 #transcript-edit-editor-ace-area-rmenu li {
     padding: 8px 12px;
     cursor: pointer;
@@ -181,5 +84,5 @@
 }
 
 .red {
-    color:red;
+    color:#bb1026;
 }

@@ -52,14 +52,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 places: function(TaxonomyService) {
                     return TaxonomyService.getTaxonomyEntities("places");
                 },
-                regiments: function(TaxonomyService) {
-                    return TaxonomyService.getTaxonomyEntities("regiments");
+                militaryUnits: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities("military-units");
                 }
             }
         })
     }])
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiInfo', 'config', 'testators', 'places', 'regiments', function($rootScope, $scope, $http, $sce, $state, $timeout, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiInfo, config, testators, places, regiments) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiInfo', 'config', 'testators', 'places', 'militaryUnits', function($rootScope, $scope, $http, $sce, $state, $timeout, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiInfo, config, testators, places, militaryUnits) {
         if($rootScope.user === undefined) {$state.go('transcript.app.security.login');}
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
@@ -72,7 +72,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.taxonomy = {
             testators: testators,
             places: places,
-            regiments: regiments
+            militaryUnits: militaryUnits
         };
         $scope.smartTEI = $rootScope.user._embedded.preferences.smartTEI;
 
@@ -907,11 +907,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.places, "name", "string");
                         $scope.transcriptArea.interaction.taxonomy.dataType = "places";
                         break;
-                    case "regiments":
-                        console.log("regiments");
-                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.regiments;
-                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.regiments, "name", "string");
-                        $scope.transcriptArea.interaction.taxonomy.dataType = "regiments";
+                    case "militaryUnits":
+                        console.log("militaryUnits");
+                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.militaryUnits;
+                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.militaryUnits, "name", "string");
+                        $scope.transcriptArea.interaction.taxonomy.dataType = "military-units";
                         break;
                     default:
                         console.log("default");

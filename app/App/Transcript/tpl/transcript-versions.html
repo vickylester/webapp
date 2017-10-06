@@ -1,22 +1,26 @@
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <h2 class="panel-title"><i class="fa fa-eye"></i> Historique</h2>
-    </div>
-    <table class="panel-body table table-striped table-bordered">
+<div class="card historique">
+    <div class="bg-white"><h3 class="card-header bg-light"><i class="fa fa-eye" aria-hidden="true"></i>Historique</h3></div>
+    <table class="table table-sm table-bordered table-hover">
+        <thead class="text-center">
         <tr>
+            <th>#</th>
+            <th>Commentaire</th>
+            <th>Utilisateur</th>
             <th>Date</th>
-            <th>Comment</th>
-            <th>User</th>
-            <th>View</th>
+            <th>Vue</th>
         </tr>
-        <tr data-ng-repeat="iVersion in transcript._embedded.version">
-            <td><span data-ng-bind="iVersion.logged_at | date:'dd-MM-yyyy, HH:mm'"></span></td>
+        </thead>
+        <tbody>
+        <tr  data-ng-repeat="iVersion in transcript._embedded.version">
+            <th scope="row"></th>
             <td><span data-ng-if="iVersion.data.updateComment != ''" data-ng-bind="iVersion.data.updateComment"></span><span data-ng-if="iVersion.data.updateComment == '' || iVersion.data.updateComment == null">Pas d'information</span></td>
-            <td>{{ iVersion.username }}</td>
+            <td><i class="fa fa-user" aria-hidden="true"></i>{{ iVersion.username }}</td>
+            <td><span data-ng-bind="iVersion.loggedAt | date:'dd-MM-yyyy, HH:mm'"></span></td>
             <td>
                 <span ng-if="$index == 0"><i class="fa fa-eye-slash"></i></span>
-                <a ng-if="$index != 0" ng-click="transcriptArea.interaction.version.action(iVersion.id)"><i class="fa fa-file-o"></i></a>
+                <a ng-if="$index != 0" title="Comparer" ng-click="transcriptArea.interaction.version.action(iVersion.id)"><i class="fa fa-file-o"></i></a>
             </td>
         </tr>
+        </tbody>
     </table>
 </div>

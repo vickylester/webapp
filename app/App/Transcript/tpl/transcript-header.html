@@ -1,28 +1,45 @@
-<div class="pull-right">
-    <div class="btn-group">
-        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-files-o"></i> Autres pages <i class="fa fa-sort"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right">
-            <li ng-repeat="iResource in entity.resources">
-                <a ng-if="iResource.id != resource.id" ui-sref="transcript.app.edition({idEntity: entity.id, idResource: iResource.id})">{{ iResource.type | ucFirstStrict }} {{ iResource.order_in_will }}</a>
-                <a ng-if="iResource.id == resource.id" class="bg-primary">{{ iResource.type | ucFirstStrict }} {{ iResource.order_in_will }}</a>
-            </li>
-        </ul>
+<div class="row mb-5">
+    <div class="col-auto mr-auto">
+        <h1 class="page-heading mb-0"><i class="fa fa-edit" aria-hidden="true"></i> {{ entity.will.title }} - {{ resource.type | ucfirst }} {{resource.orderInWill}}</h1>
+        <span class="badge badge-status" data-ng-class="getStatusClassLabel(transcript.status)">{{ transcript.status | transcriptionStatusName }}</span>
     </div>
-    <div class="btn-group" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
-        <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-cog"></i> Changer l'état <i class="fa fa-sort" data-ng-if="admin.status.loading == false"></i><i class="fa fa-spin fa-circle-o-notch" data-ng-if="admin.status.loading == true"></i>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-right">
-            <li><a ng-click="admin.status.action('todo')" ng-class="(transcript.status == 'todo') ? 'bg-primary' : ''">À faire</a></li>
-            <li><a ng-click="admin.status.action('transcription')" ng-class="(transcript.status == 'transcription') ? 'bg-primary' : ''">En cours</a></li>
-            <li><a ng-click="admin.status.action('validation')" ng-class="(transcript.status == 'validation') ? 'bg-primary' : ''">À valider</a></li>
-            <li><a ng-click="admin.status.action('validated')" ng-class="(transcript.status == 'validated') ? 'bg-primary' : ''">Validé</a></li>
-        </ul>
+    <div class="col-auto  justify-content-end">
+        <nav class="mt-4">
+            <ul class="nav nav-pills">
+                <li class="nav-item" data-ng-if="transcript.status == 'validation'">
+                    <a data-ng-click="admin.validation.accept.action()" class="nav-link bg-success">
+                        <span data-ng-if="admin.validation.accept.loading == false">Valider <i class="fa fa-check"></i></span>
+                        <span data-ng-if="admin.validation.accept.loading == true">Valider <i class="fa fa-spin fa-circle-o-notch"></i></span>
+                    </a>
+                </li>
+                <li class="nav-item" data-ng-if="transcript.status == 'validation'">
+                    <a data-ng-click="admin.validation.refuse.action()" class="nav-link bg-danger">
+                        <span data-ng-if="admin.validation.refuse.loading == false">Refuser <i class="fa fa-remove"></i></span>
+                        <span data-ng-if="admin.validation.refuse.loading == true">Refuser <i class="fa fa-spin fa-circle-o-notch"></i></span>
+                    </a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-files-o fa-lg" aria-hidden="true"></i> Autres pages</a>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <li ng-repeat="iResource in entity.resources">
+                            <a class="dropdown-item" ng-if="iResource.id != resource.id" ui-sref="transcript.app.edition({idEntity: entity.id, idResource: iResource.id})">{{ iResource.type | ucFirstStrict }} {{ iResource.orderInWill }}</a>
+                            <a class="dropdown-item" ng-if="iResource.id == resource.id">{{ iResource.type | ucFirstStrict }} {{ iResource.orderInWill }}</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+                    <a class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-gear fa-lg" aria-hidden="true"></i> Changer l'état <i class="fa fa-spin fa-circle-o-notch" data-ng-if="admin.status.loading == true"></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a  class="dropdown-item" ng-click="admin.status.action('todo')" ng-class="(resource.transcript.status == 'todo') ? 'bg-danger' : ''">À faire</a></li>
+                        <li><a  class="dropdown-item" ng-click="admin.status.action('transcription')" ng-class="(resource.transcript.status == 'transcription') ? 'bg-warning' : ''">En cours</a></li>
+                        <li><a  class="dropdown-item" ng-click="admin.status.action('validation')" ng-class="(resource.transcript.status == 'validation') ? 'bg-info' : ''">À valider</a></li>
+                        <li><a  class="dropdown-item" ng-click="admin.status.action('validated')" ng-class="(resource.transcript.status == 'validated') ? 'bg-success' : ''">Validé</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
     </div>
-</div>
-<div>
-    <h1><i class="fa fa-edit"></i> {{ entity.will.title }} - {{ resource.type | ucfirst }} {{resource.order_in_will}}</h1>
-    <span class="label label-info">{{ transcript.status | transcriptionStatusName }}</span>
 </div>

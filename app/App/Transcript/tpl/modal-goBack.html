@@ -1,17 +1,23 @@
-<div class="modal-content" id="choice-modal-content">
-    <div class="modal-body">
-        <p><strong>Attention, vous êtes sur le point de quitter l'interface de transcription sans avoir sauvergardé votre travail.</strong></p>
-        <div class="text-center">
-            <div class="btn-group">
-                <button data-ng-click="submit.action('load-read')" class="btn btn-primary">
-                    <span data-ng-if="submit.loading == false">Sauvegarder mon travail</span>
-                    <span data-ng-if="submit.loading == true">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
-                </button>
-                <button class="btn btn-warning" data-ng-click="submit.safeGoBack()">Ne pas sauvergarder</button>
+<div class="modal fade" id="choice-modal-content">
+    <div class="modal-doc modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Attention, vous êtes sur le point de quitter l'interface de transcription sans avoir sauvergardé votre travail.</h3>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <div class="btn-group">
+                        <button data-ng-click="submit.action('load-read')" class="btn btn-sm btn-secondary">
+                            <span data-ng-if="submit.loading == false">Sauvegarder mon travail</span>
+                            <span data-ng-if="submit.loading == true">Enregistrement <i class="fa fa-spin fa-circle-o-notch"></i></span>
+                        </button>
+                        <button class="btn btn-sm btn-warning" data-ng-click="submit.safeGoBack()">Ne pas sauvergarder</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-primary" data-dismiss="modal">Annuler</button>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Annuler</button>
     </div>
 </div>

@@ -1,16 +1,22 @@
-<div id="transcript-edit" class="h100">
-    <div id="transcript-edit-heading">
-        <strong class="transcript-edit-heading-title">Transcription</strong>
+<div id="transcript-edit" class="h-100">
+    <div class="clearfix" id="transcript-content-heading">
+        <div class="float-right">
+            <div class="btn-group" role="group">
+                <a data-ng-click="undo('prev')" class="btn btn-sm" title="Révenir à l'état précédant"><i class="fa fa-undo"></i></a>
+                <a data-ng-click="undo('next')" class="btn btn-sm" title="Révenir à l'état précédant"><i class="fa fa-repeat"></i></a>
+            </div>
+        </div>
+        <h3 class="card-header bg-light d-block">Transcription TEI</h3>
     </div>
-    <div style="height: 92%;">
-        <div id="transcript-edit-editor" class="h100">
-            <div id="transcript-edit-editor-ace" class="h100">
+    <div style="height: 95%;">
+        <div id="transcript-edit-editor" class="h-100">
+            <div id="transcript-edit-editor-ace" class="h-100">
                 <div ui-ace="{
-                mode: 'xml',
-                onLoad: aceLoaded,
-                onChange: aceChanged,
-                useWrapMode: true
-                }" id="transcript-edit-editor-ace-area" class="h100" data-ng-model="transcriptArea.ace.area"></div>
+                    mode: 'xml',
+                    onLoad: aceLoaded,
+                    onChange: aceChanged,
+                    useWrapMode: true
+                    }" id="transcript-edit-editor-ace-area" class="h-100"  data-ng-model="transcriptArea.ace.area"></div>
             </div>
         </div>
         <div id="transcript-edit-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="modal-title">

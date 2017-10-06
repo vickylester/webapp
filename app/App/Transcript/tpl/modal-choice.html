@@ -1,13 +1,19 @@
-<div class="modal-content" id="choice-modal-content">
-    <div class="modal-body">
-        <strong>Souhaitez-vous marquer la présence :</strong>
-        <ul>
-            <li><a data-ng-click="transcriptArea.ace.modal.setContent('choice-orig')">D'une ancienne formulation</a></li>
-            <li><a data-ng-click="transcriptArea.ace.modal.setContent('choice-sic')">D'une faute</a></li>
-            <li><a data-ng-click="transcriptArea.ace.modal.setContent('choice-abbr')">D'une abbréviation</a></li>
-        </ul>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-default" data-dismiss="modal">Annuler</button>
+<div class="modal fade" id="choice-modal-content">
+    <div class="modal-doc modal-dialog" role="document">
+        <div class="modal-content">
+            <div>
+                <h3 class="modal-title">Souhaitez-vous marquer la présence :</h3>
+            </div>
+            <div class="modal-body">
+                <ul>
+                    <li><a data-ng-click="transcriptArea.ace.modal.setContent('choice-orig')">D'une ancienne formulation</a></li>
+                    <li><a data-ng-click="transcriptArea.ace.modal.setContent('choice-sic')">D'une faute</a></li>
+                    <li><a data-ng-click="transcriptArea.ace.modal.setContent('choice-abbr')">D'une abbréviation</a></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
     </div>
 </div>
