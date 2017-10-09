@@ -45,8 +45,8 @@
                 <li data-ng-if="user != null" id="user-menu" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"  aria-expanded="false">tableau de bord</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item"  ui-sref="transcript.app.user.profile({id: user.id})">Profil</a>
-                    <a class="dropdown-item" href="#">Messagerie privée</a>
+                    <a class="dropdown-item" ui-sref="transcript.app.user.profile({id: user.id})">Profil</a>
+                    <a class="dropdown-item" ui-sref="transcript.app.user.private-message.list({id: user.id})">Messagerie privée</a>
                     <a class="dropdown-item" href="#">Pratiquer la tei</a>
                     <a class="dropdown-item" ui-sref="transcript.app.user.preferences({id: user.id})">Préférences</a>
                     <a class="dropdown-item" ui-sref="transcript.app.security.logout">Déconnexion</a>

@@ -36,7 +36,7 @@ angular.module('transcript.app.edition', ['ui.router'])
     }])
 
     .controller('AppEditionCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$transition$', 'ResourceService', 'UserService', 'TranscriptService', 'entity', 'config', function($rootScope, $scope, $http, $sce, $state, $transition$, ResourceService, UserService, TranscriptService, entity, config) {
-        $scope.entity = entity;
+        $scope.entity = entity; console.log($scope.entity);
         $scope.resource = ResourceService.getResourceIntern($scope.entity, parseInt($transition$.params().idResource));
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
         $scope.config = config;

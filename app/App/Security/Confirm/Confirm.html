@@ -1,18 +1,22 @@
-<div flash-alert data-active-class="in alert" class="fade" duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+<div class="container">
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
 
-<div class="well well-sm">
-    <div data-ng-if="status == 200">
-        <h1>Bienvenue sur {{ preferences.projectTitle }} !</h1>
-        <p>Votre compte est désormais actif.</p>
-        <p><a ui-sref="transcript.app.security.login">Me connecter</a></p>
+<main class="container" role="main">
+    <div class="card">
+        <div  class="card-body" data-ng-if="status == 200">
+            <h1>Bienvenue sur {{ preferences.projectTitle }} !</h1>
+            <p>Votre compte est désormais actif.</p>
+            <p><a ui-sref="transcript.app.security.login">Me connecter</a></p>
+        </div>
+        <div  class="card-body" data-ng-if="status != 200">
+            <h2>Valeur incorrecte</h2>
+            <p>La valeur proposée est incorrecte</p>
+            <p><a ui-sref="transcript.app.home">Retour à l'accueil</a></p>
+        </div>
     </div>
-    <div data-ng-if="status != 200">
-        <h2>Valeur incorrecte</h2>
-        <p>La valeur proposée est incorrecte</p>
-        <p><a ui-sref="transcript.app.home">Retour à l'accueil</a></p>
-    </div>
-</div>
+</main>

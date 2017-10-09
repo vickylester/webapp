@@ -3,7 +3,7 @@
     <div class="card-body">
         <div class="row contributeurs">
             <li class="col-lg-4 col-12" ng-repeat="contributor in contributors">
-                <a href="#" ui-sref="transcript.app.user.profile({id: contributor.user.id})"><i class="fa fa-user fa-lg" aria-hidden="true"></i>{{ contributor.user.name }}</a>
+                <a ui-sref="transcript.app.user.profile({id: contributor.user.id})"><i class="fa fa-user fa-lg" aria-hidden="true"></i> {{ contributor.user.name }}</a>
                 {{ contributor.contributionsNumber }} contributions
             </li>
         </div>

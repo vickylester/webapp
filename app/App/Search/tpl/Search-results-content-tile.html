@@ -5,7 +5,7 @@
         <span class="badge badge-secondary" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span>
         <div class="caption">
             <a  ui-sref="transcript.app.entity({ id: entity.id })" class="nomTestataire">{{ entity.will.testator.name }}</a>
-            Cote {{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate | classicDate }}
+            Cote {{ entity.will.callNumber }}, testament du {{ entity.will.willWritingDate }}
         </div>
     </li>
 </ul>

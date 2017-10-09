@@ -60,6 +60,11 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                 let form;
                 switch(type) {
                     case 'testators':
+                        let MDH = entity.memoireDesHommes.split(',');
+                        if(entity.memoireDesHommes.indexOf(',') !== -1) {
+                            MDH = [entity.memoireDesHommes];
+                        }
+
                         form = {
                             name: entity.name,
                             surname: entity.surname,
@@ -73,7 +78,7 @@ angular.module('transcript.service.taxonomy', ['ui.router'])
                             yearOfDeath: entity.yearOfDeath,
                             placeOfDeath: entity.placeOfDeath.id,
                             deathMention: entity.deathMention,
-                            memoireDesHommes: entity.memoireDesHommes,
+                            memoireDesHommes: MDH,
                             militaryUnit: entity.militaryUnit.id,
                             rank: entity.rank,
                             description: entity.description,

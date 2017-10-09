@@ -165,7 +165,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             },
             toolbar: {
                 tags: $scope.config.tags,
-                buttonsGroups: $scope.config.buttonsGroups,
+                groups: $scope.config.groups,
                 attributes: []
             }
         };
@@ -249,24 +249,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 }
             }
         }
-
-        /**
-         * This functions aims to count the number of enabled button for a group
-         * -> Used to disable or enable the dropdown
-         *
-         * @param group string
-         * @return integer
-         */
-        $scope.transcriptArea.toolbar.nbEnabledButtonsForGroup = function(group) {
-            let count = 0;
-            for(let btn in $scope.transcriptArea.toolbar.tags) {
-                if($scope.transcriptArea.toolbar.tags[btn].btn.btn_group === group && $scope.transcriptArea.toolbar.tags[btn].btn.enabled === true) {
-                    count += 1;
-                }
-            }
-
-            return count;
-        };
         /* Toolbar ------------------------------------------------------------------------ */
 
         /* -------------------------------------------------------------------------------- */

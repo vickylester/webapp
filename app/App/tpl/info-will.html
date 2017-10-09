@@ -1,0 +1,10 @@
+<div class="col-lg-1 col-2 pr-0"><img class="img-fluid" src="./web/images/default-testator.png"/></div>
+<div class="col-lg-11 col-10 pl-4">
+    <div class="mb-1">Testament de <a class="big" href="" ui-sref="transcript.app.taxonomy.view({type: 'testators', id: entity.will.testator.id})">{{ entity.will.testator.name }}</a></div>
+    <p>
+        {{ entity.will.testator.deathMention }} le {{ entity.will.testator.dateOfDeath }} <span class="text-danger">|</span> <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.will.testator.placeOfDeath.id})">{{ entity.will.testator.placeOfDeath.names[0].name }}</a><span ng-if="entity.will.testator.placeOfDeath.countries[0] != null">, {{ entity.will.testator.placeOfDeath.countries[0].name }}</span><br />
+        Testament rédigé le {{ entity.will.willWritingDate }} <span class="text-danger">|</span> <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.will.willWritingPlace.id})">{{ entity.will.willWritingPlace.names[0].name }}</a><span ng-if="entity.will.willWritingPlace.countries != null">, {{ entity.will.willWritingPlace.countries[0].name }}</span><br />
+        Cote aux {{ entity.will.hostingOrganization | organisationName }} <a href="{{ entity.will.minuteLink }}" target="_blank" class="big" ng-if="entity.will.minuteLink != null">{{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate }}</a><span ng-if="entity.will.minuteLink == null">{{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate }}</span><br />
+        {{ entity.will.pagePhysDescSupport }}, {{ entity.will.pagePhysDescHand }}, {{ entity.will.pagePhysDescHeight }}x{{ entity.will.pagePhysDescWidth }}, {{ entity.resources.length }} pages.
+    </p>
+</div>

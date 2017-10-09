@@ -24,5 +24,9 @@ angular.module('transcript.app.security.confirm', ['ui.router'])
 
     .controller('AppSecurityConfirmCtrl', ['$rootScope','$scope', '$http', '$sce', 'confirmation', function($rootScope, $scope, $http, $sce, confirmation) {
         $scope.status = confirmation.code;
+
+        if($rootScope.user !== undefined && $rootScope.user !== null) {
+            $state.go('transcript.app.user.profile', {id: $rootScope.user.id});
+        }
     }])
 ;

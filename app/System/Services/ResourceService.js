@@ -4,8 +4,8 @@ angular.module('transcript.service.resource', ['ui.router'])
 
     .service('ResourceService', function($http, $rootScope, $filter) {
         return {
-            getResource: function(id_transcript) {
-                return $http.get($rootScope.api+"/resources?transcript="+id_transcript
+            getResource: function(id_resource) {
+                return $http.get($rootScope.api+"/resources/"+id_resource
                 ).then(function(response) {
                     return response.data;
                 }, function errorCallback(response) {

@@ -9,7 +9,7 @@
 <main class="container" role="main">
     <div class="row">
         <div class="col-sm-10">
-            <h1 class="page-heading">Conversation avec <a ui-sref="transcript.app.user.profile({id: recipientUser.id})">{{ recipientUser.name }}</a></h1>
+            <h1 class="page-heading">Conversation avec {{ recipientUser.name }}</h1>
             <div ui-view="comment"></div>
         </div>
         <div class="col-sm-2">
@@ -19,7 +19,7 @@
                     <img data-ng-if="recipientUser.picture != null && recipientUser.picture != ''" class="img-fluid img-rounded" src="{{ recipientUser.picture }}" />
                 </div>
                 <div>
-                    <h3><a class="text-dark" ui-sref="transcript.app.user.profile({id: recipientUser.id})">Pauline Le Pallec</a></h3>
+                    <h3><a class="text-dark" ui-sref="transcript.app.user.profile({id: recipientUser.id})">{{ recipientUser.name }}</a></h3>
                     <span data-ng-repeat="role in recipientUser.roles" class="badge badge-pill badge-primary">{{ role }}</span>
                 </div>
             </div>

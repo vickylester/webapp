@@ -10,7 +10,7 @@
     <div class="row mb-2">
         <div class="col-md-5">
             <h1 class="page-heading mb-3">{{ iUser.name }}</h1>
-            <div><span data-ng-repeat="role in iUser.roles" class="label label-info">{{ role }}</span></div>
+            <div><span data-ng-repeat="role in iUser.roles"><span ng-if="$index > 0"> </span><span class="badge badge-pill badge-primary">{{ role }}</span></span></div>
             <p ng-if="iUser.biography != null" ng-bind="iUser.biography"></p>
         </div>
         <div class="col-md-2 mt-3 text-center">
@@ -45,7 +45,7 @@
         </div>
         <div class="col-lg-9 col-md-9" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
     </div>
-    <div class="row">
+    <div class="row" data-ng-if="context != 'self' && context != 'admin'">
         <div class="col-sm-12" data-ng-include="'App/User/Profile/tpl/profile-public.html'"></div>
     </div>
 </main>

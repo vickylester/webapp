@@ -23,7 +23,10 @@ angular.module('transcript.app.security.register', ['ui.router'])
     }])
 
     .controller('AppSecurityRegisterCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', function($rootScope, $scope, $http, $sce, $state) {
-        if($rootScope.user !== undefined) {$state.go('transcript.app.user.profile', {id: $rootScope.user.id});}
+        if($rootScope.user !== undefined && $rootScope.user !== null) {
+            $state.go('transcript.app.user.profile', {id: $rootScope.user.id});
+        }
+
         $scope.page = {};
         $scope.form = {
             name: null,

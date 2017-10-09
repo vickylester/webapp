@@ -21,8 +21,10 @@
                 <tbody>
                 <tr ng-repeat="thread in threads">
                     <td>{{ $index+1 }}</td>
-                    <td><a ui-sref="transcript.app.user.profile({id: thread.recipient.id})" title="Accéder au profil de {{ thread.recipient.name }}">{{ thread.recipient.name }}</a></td>
-                    <td><a ui-sref="transcript.app.user.private-message.thread({idUser: iUser.id, idRecipient: thread.recipient.id})" title="Accéder au fil de discussion">{{ thread.lastCommentAt | date:'dd-MM-yyyy à HH:mm' }}</a></td>
+                    <td>
+                        <a ui-sref="transcript.app.user.profile({id: thread.recipient})" title="Accéder au profil de {{ thread.recipient }}">{{ thread.recipient }}</a>
+                    </td>
+                    <td><a ui-sref="transcript.app.user.private-message.thread({idUser: iUser.id, idRecipient: thread.recipient})" title="Accéder au fil de discussion">{{ thread.lastCommentAt | date:'dd-MM-yyyy à HH:mm' }}</a></td>
                 </tr>
                 </tbody>
             </table>

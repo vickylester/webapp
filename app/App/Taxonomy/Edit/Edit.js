@@ -257,6 +257,12 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
         };
         /* -- End Action management ------------------------------------------------------------- */
 
+        /* -- Mémoire des Hommes management -------------------------------------------------------- */
+        if($scope.entity.dataType === 'testators') {
+            $scope.entity.memoireDesHommes = $scope.entity.memoireDesHommes.join(', ');
+        }
+        /* -- Mémoire des Hommes management -------------------------------------------------------- */
+
         /* -- Geonames management ------------------------------------------------------------------ */
         $scope.geonames = {
             keywords: null,

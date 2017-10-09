@@ -5,9 +5,9 @@
         <div class="col-9">
             <a ui-sref="transcript.app.entity({ id: entity.id })" class="nomTestataire">{{ entity.will.testator.name }}</a><br/>
             <div class="desc">
-                {{ entity.will.testator.deathMention }} le {{ entity.will.testator.dateOfDeath | classicDate }} <span class="text-danger">|</span> {{ entity.will.testator.placeOfDeath.name }}<span ng-if="entity.will.testator.placeOfDeath.country != null">, {{ entity.will.testator.placeOfDeath.country }}</span><br />
-                Testament rédigé le {{ entity.will.willWritingPlace | classicDate }} <span class="text-danger">|</span> {{ entity.will.willWritingPlace.name }}<span ng-if="entity.will.willWritingPlace.country != null">, {{ entity.will.willWritingPlace.country }}</span><br />
-                <div class="cote"> Cote aux {{ entity.will.hostingOrganization | organisationName }} {{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate | classicDate }}</div>
+                {{ entity.will.testator.deathMention }} le {{ entity.will.testator.dateOfDeath }} <span class="text-danger">|</span> {{ entity.will.testator.placeOfDeath.names[0].name }}<span ng-if="entity.will.testator.placeOfDeath.countries != null">, {{ entity.will.testator.placeOfDeath.countries[0].name }}</span><br />
+                Testament rédigé le {{ entity.will.willWritingDate }} <span class="text-danger">|</span> {{ entity.will.willWritingPlace.names[0].name }}<span ng-if="entity.will.willWritingPlace.countries != null">, {{ entity.will.willWritingPlace.countries[0].name }}</span><br />
+                <div class="cote"> Cote aux {{ entity.will.hostingOrganization | organisationName }} {{ entity.will.callNumber }}, minute du {{ entity.will.minuteDate }}</div>
             </div>
         </div>
         <div class="col-md-12 pr-0 text-right align-self-end"><span class="badge badge-secondary" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span></div>

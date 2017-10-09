@@ -1,51 +1,76 @@
-buttonsGroups:
-    structure:
-        type: "group" #dropdown
-        name: "Structure"
-        id: "structure"
-        icon: "fa fa-sitemap"
-    subStructure:
-        type: "group"
-        name: "Sous-structure"
-        id: "subStructure"
-        icon: ""
+groups:
     physicalStructure:
-        type: "group"
-        name: "Structure physique"
-        id: "physicalStructure"
-        icon: ""
-    layoutMarker:
-        type: "group"
-        name: "Marqueurs de la structure physique"
-        id: "layoutMarker"
-        icon: ""
-    subLayoutMarker:
-        type: "group"
-        name: "Marqueurs de la mise en page"
-        id: "subLayoutMarker"
-        icon: ""
-    microPhenomena:
-        type: "group"
-        name: "Micro-phénomènes de l'écriture"
-        id: "microPhenomena"
-        icon: ""
+        type: "real"
+        id: "hi"
+        parent: false
     renderingDifficulties:
-        type: "dropdown"
-        name: "Lisibilité"
+        type: "virtual"
         id: "renderingDifficulties"
+        name: "Lisibilité"
         icon: "fa fa-puzzle-piece"
+        parent: "physicalStructure"
+    microPhenomena:
+        type: "real"
+        id: "choice"
+        parent: false
     semantic:
-        type: "group"
-        name: "Balisage sémantique"
+        type: "virtual"
+        name: "Sémantique"
         id: "semantic"
-        icon: ""
+        icon: "fa fa-bug"
+        parent: false
     notes:
-        type: "group"
-        name: "Notes"
-        id: "notes"
-        icon: ""
+        type: "real"
+        id: "note"
+        parent: false
 tags:
     # éléments de structure logique du texte :
+    head:
+        btn :
+            id: "head"
+            label: "Entête"
+            title: "Ajouter un en-tête"
+            label_forced: true
+            icon: "fa fa-header"
+            btn_class: ""
+            btn_group: false
+            allow_root: true
+            restrict_to_root: true
+            enabled: false
+            level: 1
+        caret:
+            position: "prepend"
+        html:
+            name: "div"
+            attributes:
+                class: "tei-header"
+        xml:
+            name: "head"
+            unique: false
+        complex_entry: false
+    dateline:
+        btn :
+            id: "dateline"
+            label: "Ligne de date"
+            title: "Ajouter une ligne de date"
+            label_forced: true
+            icon: "fa fa-calendar"
+            btn_class: ""
+            btn_group: false
+            allow_root: true
+            restrict_to_root: true
+            enabled: false
+            level: 1
+        caret:
+            position: "prepend"
+        html:
+            name: "div"
+            attributes:
+                class: "dateline"
+        xml:
+            name: "dateline"
+            unique: false
+        complex_entry: false
     p:
         btn :
             id: "p"
@@ -54,7 +79,7 @@ tags:
             label_forced: true
             icon: "fa fa-paragraph"
             btn_class: ""
-            btn_group: "structure"
+            btn_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -75,7 +100,7 @@ tags:
             label_forced: true
             icon: "fa fa-list"
             btn_class: ""
-            btn_group: "structure"
+            btn_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -88,38 +113,15 @@ tags:
             name: "list"
             unique: false
         complex_entry: false
-    head:
-        btn :
-            id: "head"
-            label: "En-tête"
-            title: "Ajouter un en-tête"
-            label_forced: true
-            icon: "fa fa-header"
-            btn_class: ""
-            btn_group: "structure"
-            allow_root: true
-            restrict_to_root: true
-            enabled: false
-            level: 1
-        caret:
-            position: "prepend"
-        html:
-            name: "div"
-            attributes:
-                class: "tei-header"
-        xml:
-            name: "head"
-            unique: false
-        complex_entry: false
     signed:
         btn :
             id: "signed"
             label: "Signature"
             title: "Ajouter une signature"
             label_forced: true
-            icon: ""
+            icon: "fa fa-skyatlas"
             btn_class: ""
-            btn_group: "structure"
+            btn_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -130,29 +132,6 @@ tags:
             name: "signed"
         xml:
             name: "signed"
-            unique: false
-        complex_entry: false
-    dateline:
-        btn :
-            id: "dateline"
-            label: "Ligne de date"
-            title: "Ajouter une ligne de date"
-            label_forced: true
-            icon: "fa fa-clock-o"
-            btn_class: ""
-            btn_group: "structure"
-            allow_root: true
-            restrict_to_root: true
-            enabled: false
-            level: 1
-        caret:
-            position: "prepend"
-        html:
-            name: "div"
-            attributes:
-                class: "dateline"
-        xml:
-            name: "dateline"
             unique: false
         complex_entry: false
     postscript:
@@ -163,7 +142,7 @@ tags:
             label_forced: true
             icon: ""
             btn_class: ""
-            btn_group: "structure"
+            btn_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -185,8 +164,8 @@ tags:
             label_forced: false
             icon: "fa fa-list"
             btn_class: ""
-            btn_group: "subStructure"
-            allow_root: false
+            btn_group: false
+            allow_root: true
             restrict_to_root: false
             enabled: false
             level: 2
@@ -206,7 +185,7 @@ tags:
             label_forced: false
             icon: "fa fa-arrows-h"
             btn_class: ""
-            btn_group: "subStructure"
+            btn_group: "semantic"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -225,11 +204,11 @@ tags:
         btn :
             id: "addrLine"
             label: "Adresse"
-            title: "Ajouter une adresse"
+            title: "Baliser une ligne d'adresse postale dans le corps de la transcription"
             label_forced: true
             icon: "fa fa-envelope-o"
             btn_class: ""
-            btn_group: "subStructure"
+            btn_group: "semantic"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -244,29 +223,6 @@ tags:
             name: "addrLine"
             unique: false
         complex_entry: false
-    note:
-        btn :
-            id: "note"
-            label: "Note"
-            title: "Note du testateur"
-            label_forced: false
-            icon: "fa fa-comment-o"
-            btn_class: ""
-            btn_group: "subStructure"
-            allow_root: false
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "prepend"
-        html:
-            name: "span"
-            attributes:
-                class: "note"
-        xml:
-            name: "note"
-            unique: false
-        complex_entry: false
     # éléments marqueurs de la structure physique du testament :
     lb:
         btn:
@@ -276,8 +232,8 @@ tags:
             label_forced: false
             icon: "fa fa-level-down"
             btn_class: ""
-            btn_group: "physicalStructure"
-            allow_root: false
+            btn_group: false
+            allow_root: true
             restrict_to_root: false
             enabled: false
             level: 2
@@ -298,7 +254,7 @@ tags:
             label_forced: false
             icon: "fa fa-arrows-v"
             btn_class: ""
-            btn_group: "layoutMarker"
+            btn_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -319,9 +275,9 @@ tags:
             label: "Marque"
             title: "Signaler une marque"
             label_forced: false
-            icon: "fa fa-paw"
+            icon: "fa fa-ellipsis-v"
             btn_class: ""
-            btn_group: "layoutMarker"
+            btn_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -343,10 +299,10 @@ tags:
             label: "Marqueur"
             title: "Marquer le texte"
             label_forced: false
-            icon: ""
+            icon: "fa fa-codepen"
             btn_class: ""
-            btn_group: "subLayoutMarker"
-            allow_root: false
+            btn_is_group: "physicalStructure"
+            allow_root: true
             restrict_to_root: false
             enabled: false
             level: 2
@@ -367,10 +323,10 @@ tags:
             label: "Micro-phénomène"
             label_forced: true
             title: "Consigner un micro-phénomène de l'écriture"
-            icon: "fa fa-download"
+            icon: "fa fa-adjust"
             btn_class: ""
-            btn_group: "microPhenomena"
-            allow_root: false
+            btn_is_group: "microPhenomena"
+            allow_root: true
             restrict_to_root: false
             enabled: false
             level: 2
@@ -436,13 +392,14 @@ tags:
             label: "Faute"
             label_forced: false
             title: "Signaler une faute"
-            icon: ""
+            icon: "fa fa-thumbs-down"
             btn_class: ""
             btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
             level: 2
+            children: "surplus"
         caret:
             position: "prepend"
         html:
@@ -459,7 +416,7 @@ tags:
             label: "Correction"
             label_forced: false
             title: "Correction d'une faute"
-            icon: ""
+            icon: "fa fa-thumbs-up"
             btn_class: ""
             btn_group: "microPhenomena"
             allow_root: false
@@ -482,7 +439,7 @@ tags:
             label: "Forme ancienne"
             label_forced: false
             title: "Marquer une forme ancienne"
-            icon: ""
+            icon: "fa fa-pagelines"
             btn_class: ""
             btn_group: "microPhenomena"
             allow_root: false
@@ -505,7 +462,7 @@ tags:
             label: "Forme correcte"
             label_forced: false
             title: "Préciser une forme correcte"
-            icon: ""
+            icon: "fa fa-leaf"
             btn_class: ""
             btn_group: "microPhenomena"
             allow_root: false
@@ -528,9 +485,10 @@ tags:
             label: "Superflu"
             title: "Marquer le texte comme superflu"
             label_forced: false
-            icon: ""
+            icon: "fa fa-pause"
             btn_class: ""
             btn_group: "microPhenomena"
+            parent: "sic"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -548,12 +506,12 @@ tags:
     add:
         btn :
             id: "add"
-            label: "Ajout de texte"
+            label: "Texte ajouté"
             title: "Marquer le texte comme ajouté"
             label_forced: false
-            icon: "fa fa-plus"
+            icon: "fa fa-indent"
             btn_class: ""
-            btn_group: "microPhenomena"
+            btn_group: "physicalStructure"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -571,12 +529,12 @@ tags:
     del:
         btn :
             id: "del"
-            label: "Suppression de texte"
+            label: "Texte supprimé"
             title: "Marquer le texte comme supprimé"
             label_forced: false
             icon: "fa fa-strikethrough"
             btn_class: ""
-            btn_group: "microPhenomena"
+            btn_group: "physicalStructure"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -592,12 +550,12 @@ tags:
     subst:
         btn :
             id: "subst"
-            label: "Remplacement"
+            label: "Texte remplacé"
             title: "Marquer le texte comme remplacé"
             label_forced: false
             icon: "fa fa-pencil"
             btn_class: ""
-            btn_group: "microPhenomena"
+            btn_group: "physicalStructure"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -619,7 +577,7 @@ tags:
             label: "Endommagé"
             title: "Marquer le texte comme endommagé"
             label_forced: false
-            icon: ""
+            icon: "fa fa-yelp"
             btn_class: ""
             btn_group: "renderingDifficulties"
             allow_root: false
@@ -642,7 +600,7 @@ tags:
             label: "Restitution"
             title: "Texte restitué par le transcripteur"
             label_forced: false
-            icon: ""
+            icon: "fa fa-star-half-o"
             btn_class: ""
             btn_group: "renderingDifficulties"
             allow_root: false
@@ -665,7 +623,7 @@ tags:
             label: "Incertain"
             title: "Texte transcript incertain"
             label_forced: false
-            icon: ""
+            icon: "fa fa-star-half"
             btn_class: ""
             btn_group: "renderingDifficulties"
             allow_root: false
@@ -688,7 +646,7 @@ tags:
             label: "Manque"
             title: "Présence d'un manque dans la transcription"
             label_forced: false
-            icon: "fa fa-ellipsis-h"
+            icon: "fa fa-square-o"
             btn_class: ""
             btn_group: "renderingDifficulties"
             allow_root: false
@@ -822,7 +780,53 @@ tags:
             name: "term"
             unique: false
         complex_entry: false
+    foreign:
+        btn :
+            id: "foreign"
+            label: "Langue"
+            title: "Marquer une langue autre que le français"
+            label_forced: false
+            icon: "fa fa-globe"
+            btn_class: ""
+            btn_group: "semantic"
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "term"
+        xml:
+            name: "term"
+            unique: false
+        complex_entry: false
     # éléments pour les notes d'apparat critique ou les notes sur le contenu du testament :
+    note:
+        btn :
+            id: "note"
+            label: "Note"
+            title: "Note du testateur"
+            label_forced: false
+            icon: "fa fa-stack-overflow"
+            btn_class: ""
+            btn_is_group: "notes"
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "note"
+        xml:
+            name: "note"
+            unique: false
+        complex_entry: false
     ref:
         btn :
             id: "ref"
@@ -846,36 +850,13 @@ tags:
             name: "ref"
             unique: false
         complex_entry: false
-    note:
-        btn :
-            id: "note"
-            label: "Note"
-            title: "Note du testateur"
-            label_forced: false
-            icon: "fa fa-comment-o"
-            btn_class: ""
-            btn_group: "notes"
-            allow_root: false
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "prepend"
-        html:
-            name: "span"
-            attributes:
-                class: "note"
-        xml:
-            name: "note"
-            unique: false
-        complex_entry: false
     app:
         btn :
             id: "app"
             label: "Apparat"
             title: "Note d'apparat critique"
             label_forced: false
-            icon: "fa fa-comment"
+            icon: "fa fa-bookmark-o"
             btn_class: ""
             btn_group: "notes"
             allow_root: false
@@ -898,7 +879,7 @@ tags:
             label: "Leçon"
             title: "Leçon textuelle"
             label_forced: false
-            icon: ""
+            icon: "fa fa-graduation-cap"
             btn_class: ""
             btn_group: "notes"
             allow_root: false

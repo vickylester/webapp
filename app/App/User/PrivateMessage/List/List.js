@@ -33,6 +33,7 @@ angular.module('transcript.app.user.private-message.list', ['ui.router'])
         $scope.threads = threads;
         console.log($scope.threads);
         $scope.iUser = iUser;
+        $scope.UserService = UserService;
 
         for(let idThread in $scope.threads) {
             let thread = $scope.threads[idThread];
@@ -40,17 +41,13 @@ angular.module('transcript.app.user.private-message.list', ['ui.router'])
             if(parseInt(info[1]) === $scope.iUser.id) {
                 thread.iUser = info[1];
             } else {
-                return UserService.getUser(info[1]).then(function(data) {
-                    thread.recipient = data;
-                });
+                thread.recipient = info[1];
             }
 
             if(parseInt(info[2]) === $scope.iUser.id) {
                 thread.iUser = info[2];
             } else {
-                return UserService.getUser(info[1]).then(function(data) {
-                    thread.recipient = data;
-                });
+                thread.recipient = info[2];
             }
         }
     }])

@@ -22,8 +22,9 @@ angular.module('transcript.app.security.login', ['ui.router'])
     }])
 
     .controller('AppSecurityLoginCtrl', ['$rootScope', '$scope', '$http', '$sce', '$state', '$cookies', 'UserService', 'flash', function($rootScope, $scope, $http, $sce, $state, $cookies, UserService, flash) {
-        //console.log(user);
-        if($rootScope.user !== undefined) {$state.go('transcript.app.user.profile', {id: $rootScope.user.id});}
+        if($rootScope.user !== undefined && $rootScope.user !== null) {
+            $state.go('transcript.app.user.profile', {id: $rootScope.user.id});
+        }
 
         $scope.form = {
             username: null,
