@@ -1,0 +1,9 @@
+<label class="big">À propos des ressources</label>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-8">
+        <div class="alert alert-info">L'entité compte actuellement <span class="badge badge-info">{{ entity.resources.length }}</span> ressources.</div>
+        <div class="text-right"><a class="btn btn-light" data-ng-click="form.addResource(entity.resources.length)">Ajouter une ressource <i class="fa fa-plus"></i></a></div>
+    </div>
+</div>
+<div data-ng-repeat="resource in entity.resources" ng-include="'Admin/Entity/Edit/tpl/edit-resources-resource.html'"></div>

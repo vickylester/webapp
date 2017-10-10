@@ -11,7 +11,7 @@
                         <!-- Ajouter le <span> si page en cours d'édition
                             <span class="badge d-table" title="En cours d'édition">en cours d'édition</span>
                         -->
-                        <img class="img-fluid" src="{{ api_web  }}/images/data/testament_{{ entity.willNumber }}/JPEG/FRAN_Poilus_t-{{ entity.willNumber }}_{{ resource.images[0] }}.jpg"/>
+                        <img class="img-fluid" src="{{ api_web  }}/images/data/testament_{{ entity.willNumber | willNumberFormat }}/JPEG/FRAN_Poilus_t-{{ entity.willNumber| willNumberFormat }}_{{ resource.images[0] }}_L.jpg"/>
                     </a>
                 </li>
             </ul>

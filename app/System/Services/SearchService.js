@@ -29,7 +29,7 @@ angular.module('transcript.service.search', ['ui.router'])
                     let a = s.split('.');
                     for (let i = 0, n = a.length; i < n; ++i) {
                         let k = a[i];
-                        if (o[k] !== undefined) {
+                        if (o !== null && o[k] !== undefined) {
                             o = o[k];
                         } else {
                             return;

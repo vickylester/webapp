@@ -29,7 +29,7 @@ angular.module('transcript.app.search', ['ui.router'])
     .controller('AppSearchCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'entities', 'EntityService', 'SearchService', 'ImageService', function($rootScope, $scope, $http, $sce, $state, flash, entities, EntityService, SearchService, ImageService) {
         $scope.entities = entities;
         for(let iEntity in $scope.entities) {
-            if($scope.entities[iEntity].will.testator.placeOfBirth.names.length > 0) {
+            if($scope.entities[iEntity].will.testator.placeOfBirth !== null && $scope.entities[iEntity].will.testator.placeOfBirth.names.length > 0) {
                 $scope.entities[iEntity].will.testator.placeOfBirth.name = $scope.entities[iEntity].will.testator.placeOfBirth.names[0].name;
             }
             if($scope.entities[iEntity].will.testator.placeOfDeath.names.length > 0) {

@@ -959,6 +959,10 @@ ul.grid a{
 	box-shadow: 3px 3px 5px 0px #cfcfcf;
 	filter:progid:DXImageTransform.Microsoft.Shadow(color=#cfcfcf, Direction=135, Strength=5);
 }
+.img-150px {
+	max-height: 150px;
+	max-width: 150px;
+}
 /* @end */
 
 /* @group Transcription */
@@ -1822,8 +1826,7 @@ ul.listPages li a.disabled img{
 	margin-left: -20px;
 }
 /* Icône User */
-i[class="fa fa-user fa-lg"],
-i[class="fa fa-user"],
+i[class="red-color"],
 i[class="fa fa-angle-right"]
 {
 	color: #bb1026;

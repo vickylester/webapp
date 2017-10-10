@@ -1,8 +1,10 @@
-<div ncy-breadcrumb></div>
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
 
 <main class="container" role="main">
@@ -24,6 +26,10 @@
                     <p>Merci pour votre participation !<br />Votre requête a bien été envoyée. Elle sera examinée par un administrateur dans les meilleurs délais. Vous recevrez un email à l'issue de son traiement.</p>
                     <a class="btn btn-secondary" ui-sref="transcript.app.taxonomy.home">Retour</a>
                 </div>
+            </div>
+
+            <div class="alert alert-info" ng-if="context == 'review'">
+                <p>Votre demande d'accès à la contribution aux notices descriptives est en cours de validation.</p>
             </div>
         </div>
     </div>

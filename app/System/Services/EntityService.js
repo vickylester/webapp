@@ -74,7 +74,12 @@ angular.module('transcript.service.entity', ['ui.router'])
                     arrayContributors = arrayContributors.concat(ResourceService.getContributors(resource));
                 }
 
-                return arrayContributors;
+                // Remove duplicates
+                let arrayUniqueContributors = [];
+                $.each(arrayContributors, function(i, el){
+                    if($.inArray(el, arrayUniqueContributors) === -1) arrayUniqueContributors.push(el);
+                });
+                return arrayUniqueContributors;
             }
         };
     })

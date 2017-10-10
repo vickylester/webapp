@@ -1,0 +1,65 @@
+<div class="card bg-body">
+    <div data-ng-if="resource.id" class="row">
+        <div class="col-md-9">
+            <div class="form-group row">
+                <label for="admin-entity-edit-resource-type" class="col-md-4 col-form-label text-md-right">Type de ressource</label>
+                <div class="col-md-8">
+                    <select id="admin-entity-edit-resource-type" name="admin-entity-edit-resource-type" class="custom-select" data-ng-model="resource.type">
+                        <option value="" disabled>Sélectionnez ...</option>
+                        <option value="page">Page</option>
+                        <option value="envelop">Enveloppe</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="admin-entity-edit-resource-orderInWill" class="col-md-4 col-form-label text-md-right">Index de la ressource dans le testament</label>
+                <div class="col-sm-3">
+                    <input type="number" id="admin-entity-edit-resource-orderInWill" class="form-control form-control-sm" data-ng-model="resource.orderInWill" />
+                </div>
+                <div class="col-sm-1">
+                    <p class="form-control-static">/</p>
+                </div>
+                <div class="col-sm-2">
+                    <p class="form-control-static">{{ entity.resources.length }}</p>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="admin-entity-edit-resource-images" class="col-md-4 col-form-label text-md-right">Identifiants des images</label>
+                <div class="col-md-8">
+                    <input id="admin-entity-edit-resource-images" class="form-control form-control-sm" data-ng-model="resource.images" />
+                    <small  class="form-text text-muted">Identifiants des images de la ressource, séparés par des virgules. Ex: 02a, 02b, 02c</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="admin-entity-edit-resource-notes" class="col-md-4 col-form-label text-md-right">Notes (de numérisation ou autre)</label>
+                <div class="col-md-8">
+                    <input id="admin-entity-edit-resource-notes" class="form-control form-control-sm" data-ng-model="resource.notes" />
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3 mt-4">
+                <h2 class="card-header bg-dark text-white">Zone dangereuse</h2>
+                <div class="card-body">
+                    <p>En cliquant ci-dessous, vous supprimerez définitivement cette ressource.</p>
+                    <button mw-confirm-click="form.removeResource(resource)" class="btn btn-sm btn-primary" mw-confirm-click-message="Souhaitez-vous supprimer cette ressource ?">Supprimer la ressource <i class="fa fa-remove"></i></button>
+                </div>
+            </div>
+            <div class="thumbnail">
+                <img src="{{ api_web  }}/images/data/testament_{{ entity.willNumber | willNumberFormat }}/JPEG/FRAN_Poilus_t-{{ entity.willNumber | willNumberFormat }}_{{ resource.images[0] }}_L.jpg" class="img-150px" />
+            </div>
+            <dl>
+                <dt>Identifiant</dt>
+                <dd>{{ resource.id }}</dd>
+            </dl>
+            <dl>
+                <dt>Création</dt>
+                <dd><span ng-if="resource.createUser != null">Par {{ resource.createUser.name }}</span> le {{ resource.createDate | date:'dd/MM/yyyy à HH:mm' }}</dd>
+            </dl>
+            <dl>
+                <dt>Statut de transcription</dt>
+                <dd>{{ resource.transcript.status | transcriptionStatusName }}</dd>
+            </dl>
+        </div>
+    </div>
+</div>

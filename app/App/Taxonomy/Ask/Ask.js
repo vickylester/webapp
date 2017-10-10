@@ -25,7 +25,12 @@ angular.module('transcript.app.taxonomy.ask', ['ui.router'])
         if($rootScope.user === undefined) {$state.go('transcript.error.403');}
         if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === true) {$state.go('transcript.app.taxonomy.home');}
 
-        $scope.context = 'ask';
+        if($rootScope.user._embedded.accesses.taxonomyRequest !== null) {
+            $scope.context = 'review';
+        } else {
+            $scope.context = 'ask';
+        }
+
         $scope.form = {
             taxonomyRequest: null
         };

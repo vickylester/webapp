@@ -36,6 +36,14 @@ angular.module('transcript.app.home', ['ui.router'])
         $scope.contents = contents;
         $scope.staticContents = staticContents;
 
+        for(let iEntity in $scope.entities) {
+            if($scope.entities[iEntity].will.testator.placeOfBirth !== null && $scope.entities[iEntity].will.testator.placeOfBirth.names.length > 0) {
+                $scope.entities[iEntity].will.testator.placeOfBirth.name = $scope.entities[iEntity].will.testator.placeOfBirth.names[0].name;
+            }
+            if($scope.entities[iEntity].will.testator.placeOfDeath.names.length > 0) {
+                $scope.entities[iEntity].will.testator.placeOfDeath.name = $scope.entities[iEntity].will.testator.placeOfDeath.names[0].name;
+            }
+        }
 
         /* -- Search interface ------------------------------------------------ */
         /* -- Definition of the fields --------------------------------------------------------------- */
@@ -46,11 +54,11 @@ angular.module('transcript.app.home', ['ui.router'])
                     testator: {
                         name: null,
                         placeOfDeath: {
-                            name: null
+                            names: null
                         },
                         dateOfDeath: null,
                         placeOfBirth: {
-                            name: null
+                            names: null
                         }
                     }
                 }
@@ -130,7 +138,7 @@ angular.module('transcript.app.home', ['ui.router'])
                 zoom: 6
             },
             tiles: {
-                url: "http://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+                url: "http://a.tile.openstreetmap.fr/{z}/{x}/{y}.png"
             },
             markers: {
 

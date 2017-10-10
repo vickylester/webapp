@@ -5,265 +5,30 @@
         <button type="button" class="close" ng-click="hide()">&times;</button>
         <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
+    <div class="alert alert-info">
+        <p>Déposez le dossier contenant les images de votre testament <br/>(dont le nom doit correspondre au numéro de numérisation du testament) dans le dossier <strong>web/toImport</strong> de l'API.</p>
+    </div>
 </div>
 
 <main class="container" role="main">
-    <h1 class="page-heading">Modification d'une entité</h1>
-    <form>
-        <fieldset>
-            <label class="big">À propos de l'entité abstraite</label>
-            <div class="form-group row">
-                <label for="admin-entity-edit-entity-willNumber" class="col-md-4 col-form-label text-md-right">Numéro de numérisation du testamentform-control-static</label>
-                <div class="col-md-8">
-                    <input type="number" id="admin-entity-edit-entity-willNumber" class="form-control form-control-sm" data-ng-model="entity.willNumber" />
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label text-md-right">Identifiant</label>
-                <div class="col-md-8">
-                    <p class="form-control-static">{{ entity.id }}</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label text-md-right">Créé par</label>
-                <div class="col-md-8">
-                    <p class="form-control-static">{{ entity.createUser.name }}</p>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-md-4 col-form-label text-md-right">Date de création</label>
-                <div class="col-md-8">
-                    <p class="form-control-static">{{ entity.createDate | date:'dd-mm-yyyy à HH:mm' }}</p>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <label class="big">À propos du testament</label>
-            <div data-ng-if="entity.will != null">
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-callNumber" class="col-md-4 col-form-label text-md-right">Cote</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-callNumber" class="form-control form-control-sm" data-ng-model="entity.will.callNumber" />
+    <h1 class="page-heading">Importation des Entités</h1>
+    <div class="row">
+        <div class="col-sm-12">
+            <form class="col-12">
+                <fieldset data-ng-include="'Admin/Entity/Edit/tpl/edit-info-will.html'" class="card bg-body"></fieldset>
+                <div class="card text-white bg-danger mb-3 mt-4">
+                    <h2 class="card-header bg-dark text-white">Zone dangereuse</h2>
+                    <div class="card-body">
+                        <p>En cliquant ci-dessous, vous supprimerez définitivement cette entité.</p>
+                        <button class="btn btn-sm btn-primary" data-mw-confirm-click="remove.action()" data-mw-confirm-click-message="Êtes-vous sûr de vouloir supprimer cette entité ?">Supprimer cette entité <i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-minuteLink" class="col-md-4 col-form-label text-md-right">Lien vers la minute</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-minuteLink" type="url" class="form-control form-control-sm" data-ng-model="entity.will.minuteLink" />
-                    </div>
+                <fieldset data-ng-include="'Admin/Entity/Edit/tpl/edit-will.html'"></fieldset>
+                <fieldset data-ng-include="'Admin/Entity/Edit/tpl/edit-resources.html'"></fieldset>
+                <div class="text-center mt-5">
+                    <button data-ng-click="submit.action()" class="btn btn-primary">Soumettre <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
                 </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-minuteDate" class="col-md-4 col-form-label text-md-right">Date de la minute</label>
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <input id="admin-entity-edit-will-minuteDate" class="form-control form-control-sm datepicker" data-ng-model="entity.will.minuteDate" />
-                            <span class="input-group-addon">
-                                <span class="fa fa-calendar"></span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-willWritingDate" class="col-md-4 col-form-label text-md-right">Date d'écriture du testament</label>
-                    <div class="col-md-8">
-                        <div class="input-group">
-                            <input id="admin-entity-edit-will-willWritingDate" class="form-control form-control-sm datepicker" data-ng-model="entity.will.willWritingDate" />
-                            <span class="input-group-addon">
-                                <span class="fa fa-calendar"></span>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-willWritingPlace" class="col-md-4 col-form-label text-md-right">Lieu d'écriture du testament</label>
-                    <div class="col-md-8">
-                        <select class="custom-select" id="admin-entity-edit-will-willWritingPlace" data-ng-model="entity.will.willWritingPlace.id" name="admin-entity-edit-will-willWritingPlace" data-ng-options="place.id as place.name for place in places"></select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-physDescSupport" class="col-md-4 col-form-label text-md-right">Support physique</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-physDescSupport" class="form-control form-control-sm" data-ng-model="entity.will.physDescSupport" />
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-physDescHeight" class="col-md-4 col-form-label text-md-right">Hauteur</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-physDescHeight" class="form-control form-control-sm" data-ng-model="entity.will.physDescHeight" />
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-physDescWidth" class="col-md-4 col-form-label text-md-right">Largeur</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-physDescWidth" class="form-control form-control-sm" data-ng-model="entity.will.physDescWidth" />
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-physDescHand" class="col-md-4 col-form-label text-md-right">Type d'écriture</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-physDescHand" class="form-control form-control-sm" data-ng-model="entity.will.physDescHand" />
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-hostingOrganization" class="col-md-4 col-form-label text-md-right">Organisation (AN ou AD78)</label>
-                    <div class="col-md-8">
-                        <select id="admin-entity-edit-will-hostingOrganization" name="admin-entity-edit-will-hostingOrganization" class="custom-select" data-ng-model="entity.will.hostingOrganization">
-                            <option value="" disabled>Sélectionnez ...</option>
-                            <option value="AN">Archives nationales</option>
-                            <option value="AD78">Archives départementales des Yvelines</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-will-identificationUser" class="col-md-4 col-form-label text-md-right">Personne ayant identifié le document</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-will-identificationUser" class="form-control form-control-sm" data-ng-model="entity.will.identificationUser" />
-                    </div>
-                </div>
-
-
-
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Identifiant</label>
-                    <div class="col-md-8">
-                        <p class="form-control-static">{{ entity.will.id }}</p>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Créé par</label>
-                    <div class="col-md-8">
-                        <p class="form-control-static">{{ entity.will.createUser.name }}</p>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Date de création</label>
-                    <div class="col-md-8">
-                        <p class="form-control-static">{{ entity.will.createDate | date:'dd-mm-yyyy à HH:mm' }}</p>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Titre généré</label>
-                    <div class="col-md-8">
-                        <p class="form-control-static">{{ entity.will.title }}</p>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label class="col-md-4 col-form-label text-md-right">Testateur</label>
-                    <div class="col-md-8">
-                        <p class="form-control-static"><a>{{ entity.will.testator.name }}</a> <a class="text-warning" ui-sref="transcript.app.taxonomy.edit({type: 'testators', id: entity.will.testator.id})"><i class="fa fa-edit"></i></a></p>
-                    </div>
-                </div>
-
-
-            </div>
-            <div class="row" data-ng-if="entity.will == null">
-                <div class="col-md-4"></div>
-                <div class="col-md-8">
-                    <div class="alert alert-danger">Attention, cette entité abstraite ne possède pas de testament associé.</div>
-                    <div class="text-right"><a class="btn btn-light">Résoudre le problème</a></div>
-                </div>
-            </div>
-        </fieldset>
-        <fieldset>
-            <label class="big">À propos des ressources</label>
-            <div class="row">
-                <div class="col-md-4"></div>
-                <div class="col-md-8">
-                    <div class="alert alert-info">L'entité compte actuellement <span class="badge badge-info">{{ entity.resources.length }}</span> ressources.</div>
-                    <div class="text-right"><a class="btn btn-light" data-ng-click="form.addResource(entity.resources.length)">Ajouter une ressource</a></div>
-                </div>
-            </div>
-            <div data-ng-repeat="resource in entity.resources">
-                <div class="form-group row">
-                    <label for="admin-entity-edit-resource-type" class="col-md-4 col-form-label text-md-right">Type de ressourceform-control-static</label>
-                    <div class="col-md-8">
-                        <select id="admin-entity-edit-resource-type" name="admin-entity-edit-resource-type" class="custom-select" data-ng-model="resource.type">
-                            <option value="" disabled>Sélectionnez ...</option>
-                            <option value="page">Page</option>
-                            <option value="envelop">Enveloppe</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-resource-orderInWill" class="col-md-4 col-form-label text-md-right">Index de la ressource dans le testamentform-control-static</label>
-                    <div class="col-sm-3">
-                        <input type="number" id="admin-entity-edit-resource-orderInWill" class="form-control form-control-sm" data-ng-model="resource.orderInWill" />
-                    </div>
-                    <div class="col-sm-1">
-                        <p class="form-control-static">/</p>
-                    </div>
-                    <div class="col-sm-2">
-                        <p class="form-control-static">{{ entity.resources.length }}</p>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-resource-images" class="col-md-4 col-form-label text-md-right">Identifiants des imagesform-control-static</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-resource-images" class="form-control form-control-sm" data-ng-model="resource.images" />
-                        <small  class="form-text text-muted">Identifiants des images de la ressource, séparés par des virgules. Ex: 02a, 02b, 02c</small>
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="admin-entity-edit-resource-notes" class="col-md-4 col-form-label text-md-right">Notes (de numérisation ou autre)form-control-static</label>
-                    <div class="col-md-8">
-                        <input id="admin-entity-edit-resource-notes" class="form-control form-control-sm" data-ng-model="resource.notes" />
-                    </div>
-                </div>
-
-
-                <div data-ng-if="resource.id">
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Identifiant</label>
-                        <div class="col-md-8">
-                            <p class="form-control-static">{{ resource.id }}</p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Créé par</label>
-                        <div class="col-md-8">
-                            <p class="form-control-static">{{ resource.createUser.name }}</p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Date de création</label>
-                        <div class="col-md-8">
-                            <p class="form-control-static">{{ resource.createDate | date:'dd-mm-yyyy à HH:mm' }}</p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Statut de la transcription</label>
-                        <div class="col-md-8">
-                            <p class="form-control-static"><a>{{ resource.transcript.status }}</a></p>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Aperçu des images</label>
-                        <div class="col-md-8">
-                            <div class="form-control-static">
-                                <div class="thumbnail">
-                                    <img src="{{ api_web  }}/images/data/testament_{{ entity.willNumber }}/JPEG/FRAN_Poilus_t-{{ entity.willNumber }}_{{ resource.images[0] }}.jpg" class="img-fluid" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-4 col-form-label text-md-right">Remove</label>
-                        <div class="col-md-8">
-                            <p class="form-control-static"><button data-ng-click="form.removeResource(resource)" class="btn btn-danger">Remove resource</button></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <div class="text-center mt-3">
-            <button data-ng-click="submit.action()" class="btn btn-primary">Soumettre <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
-        </div>
-    </form>
-    <div class="card text-white bg-danger mb-3 mt-4">
-        <h2 class="card-header bg-dark text-white">Zone dangereuse</h2>
-        <div class="card-body">
-            <p>En cliquant ci-dessous, vous supprimerez définitivement cette entité.</p>
-            <button class="btn btn-sm btn-primary" data-mw-confirm-click="remove.action()" data-mw-confirm-click-message="Êtes-vous sûr de vouloir supprimer cette entité ?">Supprimer cette entité<i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            </form>
         </div>
     </div>
 </main>

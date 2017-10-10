@@ -24,16 +24,22 @@ angular.module('transcript.admin.entity.edit', ['ui.router'])
                 },
                 places: function(TaxonomyService) {
                     return TaxonomyService.getTaxonomyEntities('places');
+                },
+                testators: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('testators');
                 }
             }
         })
     }])
 
-    .controller('AdminEntityEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'flash', 'EntityService', 'places', function($rootScope, $scope, $http, $sce, $state, entity, flash, EntityService, places) {
+    .controller('AdminEntityEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'flash', 'EntityService', 'places', 'testators', function($rootScope, $scope, $http, $sce, $state, entity, flash, EntityService, places, testators) {
         if(entity === null) {$state.go('transcript.error.404');}
         else {$scope.entity = entity;}
         console.log($scope.entity);
+
+        $scope.entity.will.testator = $scope.entity.will.testator.id;
         $scope.places = places;
+        $scope.testators = testators;
 
         $scope.submit = {
             loading: false

@@ -1,0 +1,20 @@
+<label class="big">Informations</label>
+
+<div class="form-group row">
+    <label class="col-md-4 col-form-label text-md-right">Identifiant</label>
+    <div class="col-md-8">
+        <p class="form-control-static">{{ entity.id }}</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-4 col-form-label text-md-right">Créé par</label>
+    <div class="col-md-8">
+        <p class="form-control-static">{{ entity.createUser.name }}</p>
+    </div>
+</div>
+<div class="form-group row">
+    <label class="col-md-4 col-form-label text-md-right">Date de création</label>
+    <div class="col-md-8">
+        <p class="form-control-static">{{ entity.createDate | date:'dd-mm-yyyy à HH:mm' }}</p>
+    </div>
+</div>

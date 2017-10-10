@@ -89,6 +89,7 @@ angular.module('transcriptApp', [
         'transcript.filter.taxonomyName',
         'transcript.filter.transcriptionStatusName',
         'transcript.filter.ucFirstStrict',
+        'transcript.filter.willNumberFormat',
         'transcript.service.access',
         'transcript.service.app',
         'transcript.service.comment',
