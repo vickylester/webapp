@@ -43,7 +43,7 @@
                     <a class="nav-link" ui-sref="transcript.app.security.register">s'inscrire</a> <span>|</span> <a  class="nav-link" ui-sref="transcript.app.security.login">se connecter</a>
                 </li>
                 <li data-ng-if="user != null" id="user-menu" class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"  aria-expanded="false">tableau de bord</a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">tableau de bord</a>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" ui-sref="transcript.app.user.profile({id: user.id})">Profil</a>
                     <a class="dropdown-item" ui-sref="transcript.app.user.private-message.list({id: user.id})">Messagerie privée</a>

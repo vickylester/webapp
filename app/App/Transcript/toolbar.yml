@@ -8,6 +8,7 @@ groups:
     microPhenomena:
         type: "real"
         id: "choice"
+        idStrict: "microPhenomena"
         parent: false
     semantic:
         type: "virtual"
@@ -18,6 +19,7 @@ groups:
     notes:
         type: "real"
         id: "note"
+        idStrict: "notes"
         parent: false
 tags:
     # Level 1 :
@@ -30,6 +32,7 @@ tags:
             icon: "fa fa-header"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -53,6 +56,7 @@ tags:
             icon: "fa fa-calendar"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -76,6 +80,7 @@ tags:
             icon: "fa fa-paragraph"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -97,6 +102,7 @@ tags:
             icon: "fa fa-list"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -118,6 +124,7 @@ tags:
             icon: "fa fa-skyatlas"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -139,6 +146,7 @@ tags:
             icon: ""
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: true
             enabled: false
@@ -160,6 +168,7 @@ tags:
             icon: "fa fa-arrows-v"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -183,6 +192,7 @@ tags:
             icon: "fa fa-ellipsis-v"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -207,6 +217,7 @@ tags:
             icon: "fa fa-codepen"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -230,6 +241,7 @@ tags:
             icon: "fa fa-list"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -251,6 +263,7 @@ tags:
             icon: "fa fa-level-down"
             btn_class: ""
             btn_group: false
+            btn_is_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -272,6 +285,7 @@ tags:
             title: "Consigner un micro-phénomène de l'écriture"
             icon: "fa fa-adjust"
             btn_class: ""
+            btn_group: false
             btn_is_group: "microPhenomena"
             allow_root: true
             restrict_to_root: false
@@ -296,6 +310,7 @@ tags:
             icon: "fa fa-compress"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -319,6 +334,7 @@ tags:
             icon: "fa fa-expand"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -342,6 +358,7 @@ tags:
             icon: "fa fa-thumbs-down"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -366,6 +383,7 @@ tags:
             icon: "fa fa-thumbs-up"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -389,6 +407,7 @@ tags:
             icon: "fa fa-pagelines"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -412,6 +431,7 @@ tags:
             icon: "fa fa-leaf"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -435,6 +455,7 @@ tags:
             icon: "fa fa-pause"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             parent: "sic"
             allow_root: false
             restrict_to_root: false
@@ -459,6 +480,7 @@ tags:
             icon: "fa fa-indent"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -482,6 +504,7 @@ tags:
             icon: "fa fa-strikethrough"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -503,6 +526,7 @@ tags:
             icon: "fa fa-pencil"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -526,6 +550,7 @@ tags:
             icon: "fa fa-yelp"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -549,6 +574,7 @@ tags:
             icon: "fa fa-star-half-o"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -572,6 +598,7 @@ tags:
             icon: "fa fa-star-half"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -595,6 +622,7 @@ tags:
             icon: "fa fa-square-o"
             btn_class: ""
             btn_group: "microPhenomena"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -621,6 +649,7 @@ tags:
             icon: "fa fa-calendar-o"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -644,6 +673,7 @@ tags:
             icon: "fa fa-user"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -658,6 +688,30 @@ tags:
             name: "persName"
             unique: false
         complex_entry: false
+    surname:
+        btn :
+            id: "surname"
+            label: false
+            title: "Marquer un nom de famille"
+            label_forced: false
+            icon: "fa fa-users"
+            btn_class: ""
+            btn_group: "semantic"
+            btn_is_group: false
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "surname"
+        xml:
+            name: "surname"
+            unique: false
+        complex_entry: false
     placeName:
         btn :
             id: "placeName"
@@ -667,6 +721,7 @@ tags:
             icon: "fa fa-map-marker"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -690,6 +745,7 @@ tags:
             icon: "fa fa-envelope-o"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -713,6 +769,7 @@ tags:
             icon: "fa fa-envelope-o"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -736,6 +793,7 @@ tags:
             icon: "fa fa-university"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -759,6 +817,7 @@ tags:
             icon: "fa fa-flag-o"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -782,6 +841,7 @@ tags:
             icon: "fa fa-globe"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -805,6 +865,7 @@ tags:
             icon: "fa fa-arrows-h"
             btn_class: ""
             btn_group: "semantic"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -828,6 +889,7 @@ tags:
             label_forced: false
             icon: "fa fa-stack-overflow"
             btn_class: ""
+            btn_group: false
             btn_is_group: "notes"
             allow_root: false
             restrict_to_root: false
@@ -852,6 +914,7 @@ tags:
             icon: "fa fa-tag"
             btn_class: ""
             btn_group: "notes"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -875,6 +938,7 @@ tags:
             icon: "fa fa-bookmark-o"
             btn_class: ""
             btn_group: "notes"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -898,6 +962,7 @@ tags:
             icon: "fa fa-graduation-cap"
             btn_class: ""
             btn_group: "notes"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -921,6 +986,7 @@ tags:
             icon: "fa fa-book"
             btn_class: ""
             btn_group: "notes"
+            btn_is_group: false
             allow_root: false
             restrict_to_root: false
             enabled: false
