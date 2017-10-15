@@ -12,9 +12,9 @@
         </thead>
         <tbody>
         <tr  data-ng-repeat="iVersion in transcript._embedded.version">
-            <th scope="row"></th>
+            <th scope="row">{{ $index+1 }}</th>
             <td><span data-ng-if="iVersion.data.updateComment != ''" data-ng-bind="iVersion.data.updateComment"></span><span data-ng-if="iVersion.data.updateComment == '' || iVersion.data.updateComment == null">Pas d'information</span></td>
-            <td><i class="fa fa-user red-color" aria-hidden="true"></i> {{ iVersion.username }}</td>
+            <td><span class="red-color"><i class="fa fa-user" aria-hidden="true"></i></span> {{ iVersion.username }}</td>
             <td><span data-ng-bind="iVersion.loggedAt | date:'dd-MM-yyyy, HH:mm'"></span></td>
             <td>
                 <span ng-if="$index == 0"><i class="fa fa-eye-slash"></i></span>

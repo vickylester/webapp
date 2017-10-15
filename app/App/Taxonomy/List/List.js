@@ -36,6 +36,7 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
 
         $scope.pluralType = $filter('taxonomyName')($scope.entity.dataType, 'plural');
 
+        /* Place names management ----------------------------------------------------------------------------------- */
         if($scope.entity.dataType === 'places') {
             for(let iEntity in $scope.entities) {
                 if($scope.entities[iEntity].names.length > 0) {
@@ -43,5 +44,16 @@ angular.module('transcript.app.taxonomy.list', ['ui.router'])
                 }
             }
         }
+        /* End: Place names management ------------------------------------------------------------------------------ */
+
+        /* Entities sort management --------------------------------------------------------------------------------- */
+        if($scope.entity.dataType === 'places') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'name');
+        } else if($scope.entity.dataType === 'testators') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'surname');
+        } else if($scope.entity.dataType === 'military-units') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'name');
+        }
+        /* End: Entities sort management ---------------------------------------------------------------------------- */
     }])
 ;

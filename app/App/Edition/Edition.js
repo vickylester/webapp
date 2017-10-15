@@ -15,15 +15,18 @@ angular.module('transcript.app.edition', ['ui.router'])
             },
             ncyBreadcrumb: {
                 parent: 'transcript.app.entity({id: entity.id})',
-                label: '{{ resource.type | ucfirst }} {{resource.orderInWill}}'
+                label: '{{ resource.type | resourceTypeName | ucFirstStrict }} {{resource.orderInWill}}'
             },
             tfMetaTags: {
-                title: '{{ resource.type | ucfirst }} {{resource.orderInWill}} de {{ entity.will.title }}',
+                title: '{{ resource.type | resourceTypeName | ucFirstStrict }} {{resource.orderInWill}} de {{ entity.will.title }}',
             },
             url: '/edition/:idEntity/:idResource',
             resolve: {
                 entity: function(EntityService, $transition$) {
                     return EntityService.getEntity($transition$.params().idEntity);
+                },
+                resource: function(ResourceService, $transition$) {
+                    return ResourceService.getResource($transition$.params().idResource);
                 },
                 thread: function(CommentService, $transition$) {
                     return CommentService.getThread('transcript-'+$transition$.params().idResource);
@@ -35,11 +38,13 @@ angular.module('transcript.app.edition', ['ui.router'])
         })
     }])
 
-    .controller('AppEditionCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$transition$', 'ResourceService', 'UserService', 'TranscriptService', 'entity', 'config', function($rootScope, $scope, $http, $sce, $state, $transition$, ResourceService, UserService, TranscriptService, entity, config) {
+    .controller('AppEditionCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$filter', '$transition$', 'ResourceService', 'UserService', 'TranscriptService', 'entity', 'config', 'resource', function($rootScope, $scope, $http, $sce, $state, $filter, $transition$, ResourceService, UserService, TranscriptService, entity, config, resource) {
         $scope.entity = entity; console.log($scope.entity);
-        $scope.resource = ResourceService.getResourceIntern($scope.entity, parseInt($transition$.params().idResource));
+        $scope.resource = resource;
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
         $scope.config = config;
+        $scope.tfMetaTagsName = $filter('ucFirstStrict')($filter('resourceTypeName')($scope.resource.type));
+        console.log($scope.tfMetaTagsName);
 
         /* -- EncodedContent management ---------------------------------------------------- */
         if($scope.resource.transcript.content !== null) {

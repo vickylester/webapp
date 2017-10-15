@@ -1,9 +1,9 @@
 <div class="card bg-body" >
-    <h3 class="card-header bg-light"><i class="fa fa-user red-color" aria-hidden="true"></i> Contributeurs</h3>
+    <h3 class="card-header bg-light"><span class="red-color"><i class="fa fa-user" aria-hidden="true"></i></span> Contributeurs</h3>
     <div class="card-body">
         <div class="row contributeurs">
             <li class="col-xl-4 col-lg-6 col-12" ng-repeat="contributor in contributors">
-                <a ui-sref="transcript.app.user.profile({id: contributor.user.id})"><i class="fa fa-user red-color fa-lg" aria-hidden="true"></i> {{ contributor.user.name }}</a>
+                <a ui-sref="transcript.app.user.profile({id: contributor.user.id})"><span class="red-color"><i class="fa fa-user fa-lg" aria-hidden="true"></i></span> {{ contributor.user.name }}</a>
                 {{ contributor.contributionsNumber }} contributions
             </li>
         </div>

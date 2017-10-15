@@ -1826,7 +1826,7 @@ ul.listPages li a.disabled img{
 	margin-left: -20px;
 }
 /* Icône User */
-i[class="red-color"],
+.red-color,
 i[class="fa fa-angle-right"]
 {
 	color: #bb1026;
@@ -1973,7 +1973,7 @@ i[class="fa fa-angle-right"]
  	color: #016e82!important;
 } 
 
-/* @group Notice Les hommes/lieux/régiments */
+/* @group Notice Les hommes/lieux/unités militaires */
 #Tab .nav-link{
 	border-radius: 0px;
 	background: #c6c6c6;

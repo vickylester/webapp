@@ -23,7 +23,7 @@ angular.module('transcript.app.taxonomy.ask', ['ui.router'])
 
     .controller('AppTaxonomyAskCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'AccessService', '$filter', function($rootScope, $scope, $http, $sce, $state, flash, AccessService, $filter) {
         if($rootScope.user === undefined) {$state.go('transcript.error.403');}
-        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === true) {$state.go('transcript.app.taxonomy.home');}
+        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === true || $rootScope.preferences.taxonomyEditAccess === 'free' || $rootScope.preferences.taxonomyEditAccess === 'forbidden') {$state.go('transcript.app.taxonomy.home');}
 
         if($rootScope.user._embedded.accesses.taxonomyRequest !== null) {
             $scope.context = 'review';

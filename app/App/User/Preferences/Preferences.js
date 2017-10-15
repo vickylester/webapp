@@ -36,7 +36,8 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
         $scope.userPreferences = userPreferences;
         $scope.form = {
             transcriptionDeskPosition: $scope.userPreferences.transcriptionDeskPosition,
-            smartTEI: $scope.userPreferences.smartTEI.toString()
+            smartTEI: $scope.userPreferences.smartTEI,
+            showComplexEntry: $scope.userPreferences.showComplexEntry
         };
         $scope.submit = {
             loading: false
@@ -45,9 +46,6 @@ angular.module('transcript.app.user.preferences', ['ui.router'])
         /* Submit data */
         $scope.submit.action = function() {
             $scope.submit.loading = true;
-
-            if($scope.form.smartTEI === "true") {$scope.form.smartTEI = true;}
-            else if($scope.form.smartTEI === "false") {$scope.form.smartTEI = false;}
 
             return UserPreferenceService.patchPreferences(
                 $scope.form, $scope.iUser.id

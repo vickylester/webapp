@@ -16,7 +16,7 @@
     <dd class="col-sm-8">{{ entity.profession }}</dd>
 
     <dt class="col-sm-4">Adresse</dt>
-    <dd class="col-sm-8">{{ entity.addressNumber }}, {{ entity.addressStreet }}, {{ entity.addressCity }}, {{ entity.addressCountry }}</dd>
+    <dd class="col-sm-8">{{ entity.addressNumber }}, {{ entity.addressStreet }}, {{ entity.addressDistrict }}, {{ entity.addressCity }}</dd>
 
     <dt class="col-sm-4">Naissance</dt>
     <dd class="col-sm-8">{{ entity.dateOfBirth }} à <a ui-sref="transcript.app.taxonomy.view({type: 'places', id: entity.placeOfBirth.id})">{{ entity.placeOfBirth.name }}</a></dd>
@@ -28,12 +28,12 @@
     <dd class="col-sm-8">{{ entity.deathMention }}</dd>
 
     <dt class="col-sm-4">Grade</dt>
-    <dd class="col-sm-8">{{ entity.rank }}, <a ui-sref="transcript.app.taxonomy.view({type: 'regiments', id: entity.regiment.id})">{{ entity.regiment.name }}</a></dd>
+    <dd class="col-sm-8">{{ entity.rank }}, <a ui-sref="transcript.app.taxonomy.view({type: 'military-units', id: entity.militaryUnit.id})">{{ entity.militaryUnit.name }}</a></dd>
 </dl>
 
 <div class="row mt-4">
     <div class="col-md-12 ml-2">
         <h4 class="mb-1"><strong>Mémoire des hommes</strong></h4>
-        <p><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="{{ entity.memoireDesHommes }}">Voir la fiche sur Mémoire des hommes</a></p>
+        <div ng-repeat="memoireDesHommes in entity.memoireDesHommes"><i class="fa fa-angle-right" aria-hidden="true"></i> <a href="{{ memoireDesHommes }}" target="_blank">Voir la fiche sur Mémoire des hommes</a></div>
     </div>
 </div>

@@ -5,14 +5,14 @@
         <button type="button" class="close" ng-click="hide()">&times;</button>
         <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
-    <div ng-if="(user.roles | contains:'ROLE_TAXONOMY_EDIT') == false" ng-include="'App/Taxonomy/tpl/ask-edit-access.html'"></div>
+    <div ng-if="(user.roles | contains:'ROLE_TAXONOMY_EDIT') == false && (preferences.taxonomyEditAccess == 'selfAuthorization' || preferences.taxonomyEditAccess == 'controlledAuthorization')" ng-include="'App/Taxonomy/tpl/ask-edit-access.html'"></div>
 </div>
 
 <main class="container" role="main">
     <div class="row">
         <div class="col-sm-8">
             <nav>
-                <div class="float-right" ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'">
+                <div class="float-right" ng-if="((user.roles | contains:'ROLE_TAXONOMY_EDIT') && (preferences.taxonomyEditAccess == 'selfAuthorization' || preferences.taxonomyEditAccess == 'controlledAuthorization')) || preferences.taxonomyEditAccess == 'free'">
                     <a class="btn btn-light" ui-sref="transcript.app.taxonomy.edit({type: entity.dataType, id: entity.id})"><i class="fa fa-edit"></i> Modifier</a>
                 </div>
                 <h1 class="page-heading">{{ entity.name }}</h1>
@@ -25,7 +25,7 @@
             <div>
                 <div data-ng-if="entity.dataType == 'testators'" data-ng-include="'App/Taxonomy/View/tpl/testator-metadata.html'"></div>
                 <div data-ng-if="entity.dataType == 'places'" data-ng-include="'App/Taxonomy/View/tpl/place-metadata.html'"></div>
-                <div data-ng-if="entity.dataType == 'regiments'" data-ng-include="'App/Taxonomy/View/tpl/regiment-metadata.html'"></div>
+                <div data-ng-if="entity.dataType == 'military-units'" data-ng-include="'App/Taxonomy/View/tpl/military-unit-metadata.html'"></div>
             </div>
             <div class="mt-4 mb-4 ml-2" data-ng-if="entity.description != '' && entity.description != null">
                 <h4 data-ng-if="entity.dataType == 'testators'" class="mb-1"><strong>Biographie</strong></h4>

@@ -59,7 +59,7 @@
                     <div class="card bg-none">
                         <h2 class="card-header bg-dark"><a ui-sref="transcript.app.blog">Actualités</a></h2>
                         <div class="card-body" data-ng-repeat="article in contents">
-                            <img class="card-img-left" src=""/ <!-->ajouter chemin de l'image-->
+                            <img class="card-img-left" src="{{ article.illustration }}" ng-if="article.illustration != null" />
                             <h3 class="card-title"><a ui-sref="transcript.app.content({ id: article.id })" >{{ article.title }}</a></h3>
                             <div class="card-text" data-ng-bind-html="article.content | limitTo: 300"></div>
                             <div class="text-right"><a class="btn btn-sm btn-primary" ui-sref="transcript.app.content({ id: article.id })">Lire</a></div>

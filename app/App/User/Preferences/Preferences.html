@@ -1,9 +1,10 @@
-<div ncy-breadcrumb></div>
-
-<div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
-    <!-- Manually hide the alert with `hide()` -->
-    <button type="button" class="close" ng-click="hide()">&times;</button>
-    <span class="alert-message" data-ng-bind-html="flash.message"></span>
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
 </div>
 
 
@@ -28,21 +29,25 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
-                        <label  class="col-sm-3 text-md-right">SmartTEI</label>
-                        <div class="col-sm-9">
-                            <label class="custom-control custom-radio">
-                                <input  type="radio" class="custom-control-input" value="true" ng-model="form.smartTEI">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="custom-control custom-checkbox">
+                                <input ng-model="form.smartTEI" class="custom-control-input" type="checkbox">
                                 <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">Activé</span>
+                                <span class="custom-control-description">Activer SmartTEI</span>
                             </label>
-                            <label class="custom-control custom-radio">
-                                <input  type="radio" class="custom-control-input" value="false" ng-model="form.smartTEI">
-                                <span class="custom-control-indicator"></span>
-                                <span class="custom-control-description">Désactivé</span>
-                            </label>
-                            <small class="form-text text-muted">SmartTEI améliore votre expérience utilisateur en automatisant certaines tâches d'encodage de vos transcriptions en TEI comme l'ajout de balise <code>&lt;lb /&gt;</code> lorsque vous faites un retour à la ligne.</small>
                         </div>
+                        <small class="form-text text-muted">SmartTEI améliore votre expérience utilisateur en automatisant certaines tâches d'encodage de vos transcriptions en TEI comme l'ajout de balise <code>&lt;lb /&gt;</code> lorsque vous faites un retour à la ligne.</small>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="custom-control custom-checkbox">
+                                <input ng-model="form.showComplexEntry" class="custom-control-input" type="checkbox">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Afficher l'aide à la saisie pour d'entrées complexes</span>
+                            </label>
+                        </div>
+                        <small class="form-text text-muted">Lorsque vous insérez une balise dont nous considérons la structure complexe, l'interface charge une page d'aide afin de vous orienter.</small>
                     </div>
                     <div class="text-right">
                         <button type="submit" data-ng-click="submit.action()" class="btn btn-primary btn-sm">Sauvegarder mes préférences <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>

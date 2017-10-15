@@ -1,4 +1,4 @@
-<div class="modal fade" id="DocModal">
+<!--<div class="modal fade" id="DocModal">
     <div class="modal-doc modal-dialog" role="document">
         <div class="clearfix">
             <div class="float-right">
@@ -27,4 +27,20 @@
             <p class="mb-1 alert alert-warning text-center" ng-if="transcriptArea.interaction.doc.structure.exemplum.length == 0">Cette balise ne possède pas d'exemple.</p>
         </div>
     </div>
+</div>-->
+
+<h2 class="mb-3">{{ transcriptArea.interaction.doc.title | ucfirst }} ({{ transcriptArea.interaction.doc.element }})</h2>
+<h3 class="mb-1">Description générale :</h3>
+<div ng-repeat="description in transcriptArea.interaction.doc.structure.descriptions">
+    <hr ng-if="$index > 0" />
+    {{ description.content }}
 </div>
+<p class="mt-1 alert alert-warning text-center" ng-if="transcriptArea.interaction.doc.structure.descriptions.length == 0">Cette balise ne possède pas de description.</p>
+
+<h3 class="mt-5 mb-1">Dans le cadre de Testaments de Poilus :</h3>
+<div ng-bind="transcriptArea.interaction.doc.structure.projectDescription"></div>
+<p class="mt-1 alert alert-warning text-center" ng-if="transcriptArea.interaction.doc.structure.projectDescription == null">Cette balise ne possède pas de description.</p>
+
+<h3 class="mt-5 mb-3">Exemples :</h3>
+<div class="mb-1 bg-lighter p-3" ng-repeat="example in transcriptArea.interaction.doc.structure.exemplum"><pre ng-bind="example | prettyXml"></pre></div>
+<p class="mb-1 alert alert-warning text-center" ng-if="transcriptArea.interaction.doc.structure.exemplum.length == 0">Cette balise ne possède pas d'exemple.</p>

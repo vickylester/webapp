@@ -5,7 +5,7 @@
         <button type="button" class="close" ng-click="hide()">&times;</button>
         <span class="alert-message" data-ng-bind-html="flash.message"></span>
     </div>
-    <div ng-if="user !== undefined && (user.roles | contains:'ROLE_TAXONOMY_EDIT') == false" ng-include="'App/Taxonomy/tpl/ask-edit-access.html'"></div>
+    <div ng-if="user !== undefined && (user.roles | contains:'ROLE_TAXONOMY_EDIT') == false && (preferences.taxonomyEditAccess == 'selfAuthorization' || preferences.taxonomyEditAccess == 'controlledAuthorization')" ng-include="'App/Taxonomy/tpl/ask-edit-access.html'"></div>
 </div>
 
 <main class="container" role="main">
@@ -13,7 +13,7 @@
         <div class="col-md-8">
             <div class="jumbotron text-center">
                 <h2>Sélectionnez votre entrée dans la liste</h2>
-                <p ng-if="user.roles | contains:'ROLE_TAXONOMY_EDIT'"><a ui-sref="transcript.app.taxonomy.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
+                <p ng-if="((user.roles | contains:'ROLE_TAXONOMY_EDIT') && (preferences.taxonomyEditAccess == 'selfAuthorization' || preferences.taxonomyEditAccess == 'controlledAuthorization')) || preferences.taxonomyEditAccess == 'free'"><a ui-sref="transcript.app.taxonomy.create({type: entity.dataType})">Insérer une nouvelle entrée</a></p>
             </div>
         </div>
         <div class="col-md-4 pl-0 pr-0 bg-white"  data-ng-include="'App/Taxonomy/tpl/entities.html'"></div>

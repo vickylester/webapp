@@ -20,7 +20,7 @@
                 </label>
                 <div>
                     <angucomplete id="app-transcript-interaction-form-taxonomy-search"
-                                  placeholder="Chercher un nom, lieu, régiment"
+                                  placeholder="Chercher un nom, lieu, unité militaire"
                                   pause="100"
                                   selectedobject="transcriptArea.interaction.taxonomy.string"
                                   localdata="transcriptArea.interaction.taxonomy.values"
@@ -32,10 +32,10 @@
             </div>
         </form>
 
-        <div class="card-body">
+        <div class="card-body" ng-if="transcriptArea.interaction.taxonomy.string != null">
             <h3>
                 <div class="float-right">
-                    <a ui-sref="transcript.app.taxonomy.view({type: transcriptArea.interaction.taxonomy.dataType, id: transcriptArea.interaction.taxonomy.result[0].id})" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
+                    <a ui-sref="transcript.app.taxonomy.view({type: transcriptArea.interaction.taxonomy.dataType, id: transcriptArea.interaction.taxonomy.result[0].id})" target="_blank" title="Accéder à la notice dans un nouvel onglet"><i class="fa fa-external-link-square"></i></a>
                 </div>
                 {{ transcriptArea.interaction.taxonomy.result[0].name }}
             </h3>

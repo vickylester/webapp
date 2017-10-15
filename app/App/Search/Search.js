@@ -77,12 +77,12 @@ angular.module('transcript.app.search', ['ui.router'])
                         placeOfDeath: {
                             name: SearchService.dataset($scope.entities, "will.testator.placeOfDeath.name", "string")
                         },
-                        yearOfDeath: SearchService.dataset($scope.entities, "will.testator.yearOfDeath", "date"),
+                        yearOfDeath: SearchService.dataset($scope.entities, "will.testator.yearOfDeath", "string"),
                         placeOfBirth: {
                             name: SearchService.dataset($scope.entities, "will.testator.placeOfBirth.name", "string")
                         }
                     },
-                    willWritingYear: SearchService.dataset($scope.entities, "will.willWritingYear", "date"),
+                    willWritingYear: SearchService.dataset($scope.entities, "will.willWritingYear", "string"),
                     // Call number is not here because it's not used as an autocompleted field
                     // Same for status
                 }

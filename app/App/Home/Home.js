@@ -56,7 +56,7 @@ angular.module('transcript.app.home', ['ui.router'])
                         placeOfDeath: {
                             names: null
                         },
-                        dateOfDeath: null,
+                        yearOfDeath: null,
                         placeOfBirth: {
                             names: null
                         }
@@ -70,7 +70,7 @@ angular.module('transcript.app.home', ['ui.router'])
                         placeOfDeath: {
                             name: SearchService.dataset($scope.entities, "will.testator.placeOfDeath.name", "string")
                         },
-                        dateOfDeath: SearchService.dataset($scope.entities, "will.testator.dateOfDeath", "date"),
+                        yearOfDeath: SearchService.dataset($scope.entities, "will.testator.yearOfDeath", "string"),
                         placeOfBirth: {
                             name: SearchService.dataset($scope.entities, "will.testator.placeOfBirth.name", "string")
                         }
@@ -101,11 +101,11 @@ angular.module('transcript.app.home', ['ui.router'])
             }
         });
 
-        $scope.$watch('search.form.will.testator.dateOfDeath', function() {
-            if($scope.search.form.will.testator.dateOfDeath !== undefined) {
-                if ($scope.search.form.will.testator.dateOfDeath !== null && $scope.search.form.will.testator.dateOfDeath !== "" && $scope.search.form.will.testator.dateOfDeath.originalObject !== undefined) {
-                    $scope.search.form.will.testator.dateOfDeath = $scope.search.form.will.testator.dateOfDeath.originalObject.value;
-                    console.log($scope.search.form.will.testator.dateOfDeath);
+        $scope.$watch('search.form.will.testator.yearOfDeath', function() {
+            if($scope.search.form.will.testator.yearOfDeath !== undefined) {
+                if ($scope.search.form.will.testator.yearOfDeath !== null && $scope.search.form.will.testator.yearOfDeath !== "" && $scope.search.form.will.testator.yearOfDeath.originalObject !== undefined) {
+                    $scope.search.form.will.testator.yearOfDeath = $scope.search.form.will.testator.yearOfDeath.originalObject.value;
+                    console.log($scope.search.form.will.testator.yearOfDeath);
                 }
                 refresh();
             }

@@ -1,0 +1,26 @@
+<dl class="row pr-3 ml-1">
+    <dt class="col-sm-4">Pays</dt>
+    <dd class="col-sm-8">{{ entity.country }}</dd>
+
+    <dt class="col-sm-4">Corps d'armée</dt>
+    <dd class="col-sm-8">{{ entity.armyCorps }}</dd>
+
+    <dt class="col-sm-4">Numéro de régiment</dt>
+    <dd class="col-sm-8">{{ entity.regimentNumber }}</dd>
+</dl>
+
+<div class="row mt-4">
+    <div class="col-md-12 ml-2">
+        <h4 class="mb-1"><strong>Testateurs membres de cette unité militaire</strong></h4>
+        <div class="col-md-3 col-6" data-ng-repeat="testator in entity._embedded.testators">
+            <div class="img-thumbnail">
+                <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" >
+                    <img src="./web/images/default-testator.png" class="img-fluid" />
+                </a>
+                <div class="caption">
+                    <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" ><strong>{{ testator.name }}</strong></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

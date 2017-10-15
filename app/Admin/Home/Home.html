@@ -39,7 +39,7 @@
         <div class="col-sm-4 mb-5">
             <h2 >Notices descriptives</h2>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item"><a ui-sref="transcript.admin.taxonomy.access">Demandes d'accès <span class="badge bg-info" ng-bind="(accesses|filterTaxonomyAsk).length"></span></a></li>
+                <li class="list-group-item" ng-if="preferences.taxonomyEditAccess == 'controlledAuthorization'"><a ui-sref="transcript.admin.taxonomy.access">Demandes d'accès <span class="badge bg-info" ng-bind="(accesses|filterTaxonomyAsk).length"></span></a></li>
                 <li class="list-group-item"><a ui-sref="transcript.admin.taxonomy.logs">Historique des modifications</a></li>
             </ul>
         </div>

@@ -24,8 +24,8 @@ angular.module('transcript.admin.taxonomy.logs', ['ui.router'])
                         return data;
                     });
                 },
-                regiments: function(TaxonomyService) {
-                    return TaxonomyService.getTaxonomyEntities('regiments').then(function(data){
+                militaryUnits: function(TaxonomyService) {
+                    return TaxonomyService.getTaxonomyEntities('military-units').then(function(data){
                         return data;
                     });
                 },
@@ -38,11 +38,11 @@ angular.module('transcript.admin.taxonomy.logs', ['ui.router'])
         })
     }])
 
-    .controller('AdminTaxonomyLogsCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'TaxonomyService', 'places', 'regiments', 'testators', function($rootScope, $scope, $http, $sce, $state, TaxonomyService, places, regiments, testators) {
+    .controller('AdminTaxonomyLogsCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'TaxonomyService', 'places', 'militaryUnits', 'testators', function($rootScope, $scope, $http, $sce, $state, TaxonomyService, places, militaryUnits, testators) {
         $scope.places = places;
-        $scope.regiments = regiments;
+        $scope.militaryUnits = militaryUnits;
         $scope.testators = testators;
         console.log(places);
-        $scope.mixed = $scope.testators.concat($scope.regiments, $scope.places);
+        $scope.mixed = $scope.testators.concat($scope.militaryUnits, $scope.places);
     }])
 ;

@@ -32,7 +32,7 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
         })
     }])
 
-    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'testators', 'places', 'militaryUnits', 'EntityService', 'TaxonomyService', 'flash', function($rootScope, $scope, $http, $sce, $state, testators, places, militaryUnits, EntityService, TaxonomyService, flash) {
+    .controller('AdminEntityImportCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$filter', 'testators', 'places', 'militaryUnits', 'EntityService', 'TaxonomyService', 'flash', function($rootScope, $scope, $http, $sce, $state, $filter, testators, places, militaryUnits, EntityService, TaxonomyService, flash) {
         $scope.form = {
             submit: {
                 loading: false
@@ -42,14 +42,19 @@ angular.module('transcript.admin.entity.import', ['ui.router'])
             resources: [],
             will: {}
         };
-        $scope.testators = testators;
+        $scope.testators = $filter('orderBy')(testators, 'surname');
+        $scope.militaryUnits = $filter('orderBy')(militaryUnits, 'name');
+
+        /* Place's name management ---------------------------------------------------------------------------------  */
         $scope.places = places;
         for(let iEntity in $scope.places) {
             if($scope.places[iEntity].names.length > 0) {
                 $scope.places[iEntity].name = $scope.places[iEntity].names[0].name;
             }
         }
-        $scope.militaryUnits = militaryUnits;
+        $scope.places = $filter('orderBy')($scope.places, 'name');
+        /* End: Place's name management ----------------------------------------------------------------------------- */
+
 
 
         $scope.form.addResource = function(resourceNumber) {

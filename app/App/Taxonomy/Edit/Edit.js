@@ -70,9 +70,9 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
     }])
 
     .controller('AppTaxonomyEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', 'TaxonomyService', '$transition$', 'flash', 'testators', 'places', 'militaryUnits', 'GeonamesService', '$filter', function($rootScope, $scope, $http, $sce, $state, entity, entities, TaxonomyService, $transition$, flash, testators, places, militaryUnits, GeonamesService, $filter) {
-        if($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === false) {$state.go('transcript.error.403');}
+        if(($filter('contains')($rootScope.user.roles, "ROLE_TAXONOMY_EDIT") === false && ($rootScope.preferences.taxonomyEditAccess === 'selfAuthorization' || $rootScope.preferences.taxonomyEditAccess === 'controlledAuthorization')) || $rootScope.preferences.taxonomyEditAccess === 'forbidden') {$state.go('transcript.error.403');}
 
-        /* -- Functions Loader ----------------------------------------------------- */
+        /* -- Functions Loader -------------------------------------------------------------------------------------- */
         function patchEntityLoader(entity, dataType) {
             $scope.form = fillForm(entity, dataType);
             patchEntity();
@@ -142,18 +142,18 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 });
             }
         }
-        /* -- End : Functions Loader ------------------------------------------------ */
+        /* -- End : Functions Loader -------------------------------------------------------------------------------- */
 
-        /* -- Scope management ------------------------------------------------------ */
-        $scope.testators = testators;
+        /* -- Scope management -------------------------------------------------------------------------------------- */
+        $scope.testators = $filter('orderBy')(testators, 'surname');
         $scope.places = places;
-        $scope.militaryUnits = militaryUnits;
+        $scope.militaryUnits = $filter('orderBy')(militaryUnits, 'name');
         $scope.entities = entities;
 
         $scope.submit = {
             loading: false
         };
-        /* -- End : Scope management ------------------------------------------------- */
+        /* -- End : Scope management -------------------------------------------------------------------------------- */
 
         if(entity === null) {
             // Creation of a new entity
@@ -201,13 +201,15 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             };
         }
 
-        /* -- Place name management ---------------------------------------------------------- */
-        if($scope.entity.dataType === 'places') {
+        /* -- Place name management --------------------------------------------------------------------------------- */
+        if($scope.entity.dataType === 'places' && $scope.entity.id !== undefined) {
             if($scope.entity.names.length > 0) {
                 $scope.entity.name = $scope.entity.names[0].name;
                 console.log($scope.entity.name);
             }
+        }
 
+        if($scope.entity.dataType === 'places') {
             for(let iEntity in $scope.entities) {
                 if($scope.entities[iEntity].names.length > 0) {
                     $scope.entities[iEntity].name = $scope.entities[iEntity].names[0].name;
@@ -215,12 +217,12 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             }
         }
 
-        console.log($scope.places);
         for(let iEntity in $scope.places) {
             if($scope.places[iEntity].names.length > 0) {
                 $scope.places[iEntity].name = $scope.places[iEntity].names[0].name;
             }
         }
+        $scope.places = $filter('orderBy')($scope.places, 'name');
 
         function parsePlaceNames() {
             if($scope.entity.name !== undefined && $scope.entity.name !== null) {
@@ -240,9 +242,19 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
             } else {$scope.entity.city = null;}
             console.log($scope.entity);
         }
-        /* -- End : Place name management ---------------------------------------------------- */
+        /* -- End : Place name management --------------------------------------------------------------------------- */
 
-        /* -- Action management ----------------------------------------------------------------- */
+        /* Entities sort management --------------------------------------------------------------------------------- */
+        if($scope.entity.dataType === 'places') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'name');
+        } else if($scope.entity.dataType === 'testators') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'surname');
+        } else if($scope.entity.dataType === 'military-units') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'name');
+        }
+        /* End: Entities sort management ---------------------------------------------------------------------------- */
+
+        /* -- Action management ------------------------------------------------------------------------------------- */
         $scope.submit.action = function() {
             $scope.submit.loading = true;
 
@@ -255,15 +267,15 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 patchEntityLoader($scope.entity, $scope.entity.dataType);
             }
         };
-        /* -- End Action management ------------------------------------------------------------- */
+        /* -- End Action management --------------------------------------------------------------------------------- */
 
-        /* -- Mémoire des Hommes management -------------------------------------------------------- */
+        /* -- Mémoire des Hommes management ------------------------------------------------------------------------- */
         if($scope.entity.dataType === 'testators' && $scope.entity.id !== undefined) {
             $scope.entity.memoireDesHommes = $scope.entity.memoireDesHommes.join(', ');
         }
-        /* -- Mémoire des Hommes management -------------------------------------------------------- */
+        /* -- End: Mémoire des Hommes management--------------------------------------------------------------------- */
 
-        /* -- Geonames management ------------------------------------------------------------------ */
+        /* -- Geonames management ----------------------------------------------------------------------------------- */
         $scope.geonames = {
             keywords: null,
             loading: false,
@@ -297,6 +309,6 @@ angular.module('transcript.app.taxonomy.edit', ['ui.router'])
                 });
             }
         };
-        /* -- End Geonames management -------------------------------------------------------------- */
+        /* -- End Geonames management ------------------------------------------------------------------------------- */
     }])
 ;

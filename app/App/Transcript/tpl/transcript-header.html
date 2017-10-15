@@ -20,19 +20,19 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle"  role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-files-o fa-lg" aria-hidden="true"></i> Autres pages</a>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="nav-link dropdown-toggle"  role="button" id="resources-list-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-files-o fa-lg" aria-hidden="true"></i> Autres pages</a>
+                    <ul class="dropdown-menu" aria-labelledby="resources-list-menu">
                         <li ng-repeat="iResource in entity.resources">
-                            <a class="dropdown-item" ng-if="iResource.id != resource.id" ui-sref="transcript.app.edition({idEntity: entity.id, idResource: iResource.id})">{{ iResource.type | ucFirstStrict }} {{ iResource.orderInWill }}</a>
-                            <a class="dropdown-item" ng-if="iResource.id == resource.id">{{ iResource.type | ucFirstStrict }} {{ iResource.orderInWill }}</a>
+                            <a class="dropdown-item" ng-if="iResource.id != resource.id" ui-sref="transcript.app.edition({idEntity: entity.id, idResource: iResource.id})">{{ iResource.type | resourceTypeName }} {{ iResource.orderInWill }}</a>
+                            <a class="dropdown-item" ng-if="iResource.id == resource.id">{{ iResource.type | resourceTypeName }} {{ iResource.orderInWill }}</a>
                         </li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
-                    <a class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" role="button" id="state-menu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-gear fa-lg" aria-hidden="true"></i> Changer l'état <i class="fa fa-spin fa-circle-o-notch" data-ng-if="admin.status.loading == true"></i>
                     </a>
-                    <ul class="dropdown-menu">
+                    <ul class="dropdown-menu" aria-labelledby="state-menu">
                         <li><a  class="dropdown-item" ng-click="admin.status.action('todo')" ng-class="(resource.transcript.status == 'todo') ? 'bg-danger' : ''">À faire</a></li>
                         <li><a  class="dropdown-item" ng-click="admin.status.action('transcription')" ng-class="(resource.transcript.status == 'transcription') ? 'bg-warning' : ''">En cours</a></li>
                         <li><a  class="dropdown-item" ng-click="admin.status.action('validation')" ng-class="(resource.transcript.status == 'validation') ? 'bg-info' : ''">À valider</a></li>

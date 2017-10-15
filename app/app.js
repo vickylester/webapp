@@ -86,6 +86,8 @@ angular.module('transcriptApp', [
         'transcript.filter.classicDate',
         'transcript.filter.contentTypeName',
         'transcript.filter.organisationName',
+        'transcript.filter.resourceTypeName',
+        'transcript.filter.taxonomyEntityNameConstruct',
         'transcript.filter.taxonomyName',
         'transcript.filter.transcriptionStatusName',
         'transcript.filter.ucFirstStrict',
@@ -236,5 +238,9 @@ angular.module('transcriptApp', [
             else{return "Inconnu";}
         };
         /* -- End : Resource label management -------------------------------------------- */
+
+
+        $('[data-toggle="tooltip"]').tooltip();
+        $('.tooltip').tooltip();
     }])
 ;

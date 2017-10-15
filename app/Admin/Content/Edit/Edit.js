@@ -96,6 +96,15 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
         $scope.submit.action = function() {
             $scope.submit.success = false;
             $scope.submit.loading = true;
+
+            let tagEncode = null;
+            if($scope.content.tags !== null) {
+                let tagEncode = $scope.content.tags.split(',');
+                if ($scope.content.tags.indexOf(',') !== -1) {
+                    tagEncode = [$scope.content.tags];
+                }
+            }
+
             let form = {
                 title: $scope.content.title,
                 content: $scope.content.content,
@@ -103,7 +112,7 @@ angular.module('transcript.admin.content.edit', ['ui.router'])
                 status: $scope.content.status,
                 onHomepage: $scope.content.onHomepage,
                 updateComment: $scope.content.updateComment,
-                tags: $scope.content.tags.split(","),
+                tags: tagEncode,
                 illustration: $scope.content.illustration
             };
             if($scope.content.id === null) {

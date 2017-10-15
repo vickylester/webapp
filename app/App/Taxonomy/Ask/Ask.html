@@ -10,7 +10,7 @@
 <main class="container" role="main">
     <h1 class="page-heading">Demande d'accès</h1>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-sm-12" ng-if="preferences.taxonomyEditAccess == 'controlledAuthorization'">
             <form ng-if="context == 'ask'">
                 <div class="form-group">
                     <label for="app-taxonomy-ask-request">Pouvez-vous détailler vos connaissances ?</label>
@@ -31,6 +31,9 @@
             <div class="alert alert-info" ng-if="context == 'review'">
                 <p>Votre demande d'accès à la contribution aux notices descriptives est en cours de validation.</p>
             </div>
+        </div>
+        <div class="col-sm-12" ng-if="preferences.taxonomyEditAccess == 'selfAuthorization'">
+            <button type="submit"  data-ng-click="submit.action()" class="btn btn-primary ">Accéder à l'éditio, ma demande <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
         </div>
     </div>
 </main>

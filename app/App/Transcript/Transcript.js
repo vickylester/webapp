@@ -67,7 +67,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         $scope.transcript = transcript;
         $scope.resource = resource;
         $scope.entity = entity;
-        $scope.teiInfo = teiInfo.data;
+        $scope.teiInfo = teiInfo.data; console.log($scope.teiInfo);
         $scope.config = config;
         $scope.taxonomy = {
             testators: testators,
@@ -231,7 +231,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             if($scope.transcriptArea.ace.currentTag.name === null || $scope.transcriptArea.ace.currentTag.name === "") {
                 // If the caret is at the root of the doc, we allow root items == true
                 for(let btn in $scope.transcriptArea.toolbar.tags) {
-                    if($scope.transcriptArea.toolbar.tags[btn].btn.allow_root === true) {
+                    if($scope.transcriptArea.toolbar.tags[btn].btn.allow_root === true && $scope.transcriptArea.toolbar.tags[btn].btn.level === 1) {
                         $scope.transcriptArea.toolbar.tags[btn].btn.enabled = true;
                     }
                 }
@@ -488,6 +488,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 if($scope.transcriptArea.ace.currentTag.name !== null && $scope.transcriptArea.toolbar.tags[$scope.transcriptArea.ace.currentTag.name].complex_entry === true) {
                     $scope.transcriptArea.interaction.complexEntry.action();
                 }
+
+                //console.log($scope.transcriptArea.ace.currentTag);
             });
 
             /**
@@ -855,6 +857,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 let version = $scope.transcript._embedded.version[versionId];
                 if(version.id === id) {
                     $scope.transcriptArea.interaction.version.content = version.data.content;
+                    console.log($scope.transcriptArea.interaction.version.content);
                 }
             }
         };
@@ -876,6 +879,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.transcriptArea.interaction.status = 'taxonomySearch';
 
             $scope.$watch('transcriptArea.interaction.taxonomy.taxonomySelected', function() {
+                $scope.transcriptArea.interaction.taxonomy.string = null;
                 switch($scope.transcriptArea.interaction.taxonomy.taxonomySelected) {
                     case "testators":
                         console.log("testators");
@@ -885,6 +889,11 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         break;
                     case "places":
                         console.log("places");
+                        for(let iEntity in $scope.taxonomy.places) {
+                            if($scope.taxonomy.places[iEntity].names.length > 0) {
+                                $scope.taxonomy.places[iEntity].name = $scope.taxonomy.places[iEntity].names[0].name;
+                            }
+                        }
                         $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.places;
                         $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.places, "name", "string");
                         $scope.transcriptArea.interaction.taxonomy.dataType = "places";
@@ -897,9 +906,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         break;
                     default:
                         console.log("default");
-                        $scope.transcriptArea.interaction.taxonomy.entities = $scope.taxonomy.testators;
-                        $scope.transcriptArea.interaction.taxonomy.values = SearchService.dataset($scope.taxonomy.testators, "name", "string");
-                        $scope.transcriptArea.interaction.taxonomy.dataType = "testators";
                 }
             });
             $scope.$watch('transcriptArea.interaction.taxonomy.string', function() {
@@ -932,7 +938,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             for(let kLine in $scope.transcriptArea.ace.lines) {
                 kLine = parseInt(kLine);
                 let line = $scope.transcriptArea.ace.lines[kLine];
-                if(line.length > 20) {
+                if(line.length > 50) {
                     $scope.transcriptArea.interaction.alertZone.alerts.push({content: $sce.trustAsHtml("La ligne "+(kLine+1)+" semble longue. N'auriez-vous pas oublié un saut de ligne ?")});
                 }
             }

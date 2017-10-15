@@ -1,15 +1,15 @@
 <dl class="row pr-3 ml-1">
     <dt class="col-sm-4">Localisation</dt>
     <dd class="col-sm-8">
-        <span data-ng-if="entity.frenchDepartement != null">{{ entity.frenchDepartement }}</span>
-        <span data-ng-if="entity.frenchRegion != null"><span data-ng-if="entity.frenchDepartement != null">, </span>{{ entity.frenchRegion }}</span>
-        <span data-ng-if="entity.country != null"><span data-ng-if="entity.frenchDepartement != null || entity.frenchRegion != null">, </span>{{ entity.country }}</span>
+        <span data-ng-if="entity.cities > 0" title="Ville">{{ entity.cities[0].name }}</span>
+        <span data-ng-if="entity.frenchDepartements.length > 0" title="Département"><span data-ng-if="entity.cities.length > 0">, </span>{{ entity.frenchDepartements[0].name }}</span>
+        <span data-ng-if="entity.frenchRegions > 0" title="Région"><span data-ng-if="entity.cities.length > 0 || entity.frenchDepartements.length > 0">, </span>{{ entity.frenchRegions[0].name }}</span>
+        <span data-ng-if="entity.countries > 0" title="Pays"><span data-ng-if="entity.cities.length > 0 || entity.frenchDepartement.length > 0 || entity.frenchRegions.length > 0">, </span>{{ entity.countries[0].name }}</span>
     </dd>
 
     <dt class="col-sm-4">Identifiant Geonames</dt>
     <dd class="col-sm-8">
         <a ng-if="entity.geonamesId != null" href="http://sws.geonames.org/{{ entity.geonamesId }}" target="_blank">{{ entity.geonamesId }}</a>
-        <span ng-if="entity.geonamesId == null"><em>No data</em></span>
     </dd>
 
     <dt class="col-sm-4">Coordonnées géographiques</dt>
@@ -17,17 +17,22 @@
         <a ng-if="entity.geographicalCoordinates != null" href="https://www.openstreetmap.org/#map=12/{{ entity.geographicalCoordinates.replace('+', '/') }}" target="_blank">
             {{ entity.geographicalCoordinates }}
         </a>
-        <span ng-if="entity.geographicalCoordinates == null"><em>No data</em></span>
     </dd>
 </dl>
-<div class="row mb-4">
-    <div class="col-md-3 col-6">
-        <div class="img-thumbnail">
-            <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" >
-                <img src="./web/images/default-testator.png" class="img-fluid" />
-            </a>
-            <div class="caption">
-                <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" ><strong>{{ testator.name }}</strong></a>
+
+<div class="row mt-4">
+    <div class="col-md-12 ml-2">
+        <h4 class="mb-1"><strong>Testateurs en lien avec ce lieu</strong></h4>
+        <div class="col-md-3 col-6" data-ng-repeat="testator in entity._embedded.testators">
+            <div class="img-thumbnail">
+                <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" >
+                    <img src="./web/images/default-testator.png" class="img-fluid" />
+                </a>
+                <div class="caption">
+                    <a ui-sref="transcript.app.taxonomy.view({ type: 'testators', id: testator.id })" ><strong>{{ testator.name }}</strong></a>
+                    <p ng-if="testator.placeOfDeath != null">Originaire de {{ entity.name }}</p>
+                    <p ng-if="testator.placeOfDeath == null">Décédé à {{ entity.name }}</p>
+                </div>
             </div>
         </div>
     </div>

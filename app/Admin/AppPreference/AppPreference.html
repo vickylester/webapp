@@ -53,12 +53,34 @@
                     <label class="big">Utilisateurs</label>
 
                     <div class="form-group">
-                        <label for="admin-app-preference-user-allowRegistration" class="col-form-label">Autoriser l'inscription d'utilisateurs</label>
+                        <div class="checkbox">
+                            <label class="custom-control custom-checkbox">
+                                <input ng-model="preferences.enableRegister" class="custom-control-input" type="checkbox">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Autoriser l'inscription d'utilisateurs</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label class="custom-control custom-checkbox">
+                                <input ng-model="preferences.transcriptEditAccess" class="custom-control-input" type="checkbox">
+                                <span class="custom-control-indicator"></span>
+                                <span class="custom-control-description">Ouverture de la transcription</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="admin-app-preference-user-taxonomyEditAccess" class="col-form-label">Contrôle d'accès aux notices d'autorité</label>
                         <div>
-                            <select id="admin-app-preference-user-allowRegistration" name="admin-app-preference-user-allowRegistration" class="custom-select" data-ng-model="form.allowRegistration">
+                            <select id="admin-app-preference-user-taxonomyEditAccess" name="admin-app-preference-user-taxonomyEditAccess" class="custom-select" data-ng-model="preferences.taxonomyEditAccess">
                                 <option value="" disabled>Sélectionnez ...</option>
-                                <option value="opened">Inscriptions ouvertes</option>
-                                <option value="closed">Inscriptions fermées</option>
+                                <option value="selfAuthorization">Auto-autorisation</option>
+                                <option value="controlledAuthorization">Autorisation controllée</option>
+                                <option value="free">Accès libre</option>
+                                <option value="forbidden">Accès interdit</option>
                             </select>
                         </div>
                     </div>

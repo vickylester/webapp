@@ -30,7 +30,7 @@
                 <h3 class="card-header bg-light d-block">Guides</h3>
             </div>
         </div>
-        <!-- <div data-ng-if="transcriptArea.interaction.status == 'doc'">
+        <div data-ng-if="transcriptArea.interaction.status == 'doc'">
            <div class="clearfix">
                 <div class="float-right">
                    <div class="btn-group" role="group">
@@ -38,13 +38,13 @@
                         <button class="btn btn-sm" data-ng-click="transcriptArea.interaction.taxonomy.action()" title="Rechercher un identifiant"><i class="fa fa-id-badge fa-lg" aria-hidden="true"></i></button>
                         <button class="btn btn-sm" data-ng-click="transcriptArea.interaction.help(preferences.helpInsideHomeContent, 'helpContent', true)" title="Guides"><i class="fa fa-question-circle fa-lg" aria-hidden="true"></i></button>
                         <button class="btn btn-sm" data-ng-click="transcriptArea.interaction.bibliography.action()"  title="Accéder à la la bibliographie du testament"><i class="fa fa-book fa-lg" aria-hidden="true"></i></button>
-                        <button class="btn btn-sm" title="Information"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></button>
-                        <button class="btn btn-sm active" data-ng-click="transcriptArea.interaction.gotoDoc()" title="Documentation" data-toggle="modal" data-target="#DocModal"><i class="fa fa-list-alt" aria-hidden="true"></i></button>
+                        <!--<button class="btn btn-sm" title="Information"><i class="fa fa-info-circle fa-lg" aria-hidden="true"></i></button>-->
+                        <!--<button class="btn btn-sm active" data-ng-click="transcriptArea.interaction.gotoDoc()" title="Documentation" data-toggle="modal" data-target="#DocModal"><i class="fa fa-list-alt" aria-hidden="true"></i></button>-->
                      </div>
                 </div>
                 <h3 class="card-header bg-light d-block">Documentation</h3>
             </div>
-        </div> -->
+        </div>
         <div data-ng-if="transcriptArea.interaction.status == 'info'">
             <div class="clearfix">
                 <div class="float-right">
@@ -73,7 +73,7 @@
                         <!-- <button class="btn btn-sm" data-ng-click="transcriptArea.interaction.gotoDoc()" title="Documentation" data-toggle="modal" data-target="#DocModal"><i class="fa fa-list-alt" aria-hidden="true"></i></button>-->
                     </div>
                 </div>
-                <h3 class="card-header bg-light d-block">Historique : version # xxx</h3>
+                <h3 class="card-header bg-light d-block">Historique : version #{{ transcriptArea.interaction.version.id }}</h3>
             </div>
         </div>
         <div data-ng-if="transcriptArea.interaction.status == 'taxonomySearch'">
@@ -135,16 +135,7 @@
                     <span data-ng-if="page.title == transcriptArea.interaction.content.title" class="active">{{ page.title }}</span>
                 </li>
             </ol>
-            <div id="div-interaction-help-content" class="mt-2" compile="transcriptArea.interaction.content.text">
-                <!--  <h3>Vous êtes en difficulté ?</h3>
-                  <p>Vous trouverez ici la documentation à propos de notre outil de transcription :</p>
-                  <ul class="list-group">
-                      <li class="list-group-item"><a>Les grandes régles de la transcription</a></li>
-                      <li class="list-group-item"><a>Le fonctionnement de notre barre d'outils</a></li>
-                      <li class="list-group-item"><a>Voir des exemples de transcription</a></li>
-                  </ul>
-                  <p class="mt-5">Vous pouvez également <a>nous contacter</a> pour obtenir de l'aide ou discuter avec la communauté sur le forum.</p>-->
-            </div>
+            <div id="div-interaction-help-content" class="mt-2" compile="transcriptArea.interaction.content.text"></div>
         </div>
         <div id="div-interaction-doc" data-ng-if="transcriptArea.interaction.status == 'doc'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-doc.html'"></div>
         <div id="div-interaction-info" data-ng-if="transcriptArea.interaction.status == 'info'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-info.html'"></div>

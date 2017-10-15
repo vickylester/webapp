@@ -29,8 +29,8 @@ angular.module('transcript.app.taxonomy.view', ['ui.router'])
         })
     }])
 
-    .controller('AppTaxonomyViewCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entity', 'entities', '$transition$', function($rootScope, $scope, $http, $sce, $state, entity, entities, $transition$) {
-        $scope.entity = entity;
+    .controller('AppTaxonomyViewCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$filter', 'entity', 'entities', '$transition$', function($rootScope, $scope, $http, $sce, $state, $filter, entity, entities, $transition$) {
+        $scope.entity = entity; console.log($scope.entity);
         $scope.entities = entities;
         $scope.entity.dataType = $transition$.params().type;
 
@@ -57,8 +57,18 @@ angular.module('transcript.app.taxonomy.view', ['ui.router'])
         }
         /* -- End : Place name management ---------------------------------------------------- */
 
+        /* Entities sort management --------------------------------------------------------------------------------- */
+        if($scope.entity.dataType === 'places') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'name');
+        } else if($scope.entity.dataType === 'testators') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'surname');
+        } else if($scope.entity.dataType === 'military-units') {
+            $scope.entities = $filter('orderBy')($scope.entities, 'name');
+        }
+        /* End: Entities sort management ---------------------------------------------------------------------------- */
+
+        /* -- Place's map management -------------------------------------------------------------------------------- */
         if($scope.entity.dataType === 'places' && $scope.entity.geographicalCoordinates !== null) {
-            /* -- Setting up map ----------------------------------------------------------------- */
             // Doc is here: http://tombatossals.github.io/angular-leaflet-directive/#!/examples/center
             let coord = $scope.entity.geographicalCoordinates.split('+');
             angular.extend($scope, {
@@ -82,8 +92,8 @@ angular.module('transcript.app.taxonomy.view', ['ui.router'])
                     scrollWheelZoom: false
                 }
             });
-            /* -- End : Setting up map ----------------------------------------------------------- */
         }
+        /* -- End : Place's map management -------------------------------------------------------------------------- */
 
         /* -- Relative items management ------------------------------------------------------ */
 

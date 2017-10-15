@@ -14,7 +14,7 @@
         </ul>
     </section>
     <div class="row">
-        <div class="col-xl-10 col-12">
+        <div class="col-xl-10 col-12" ng-if="preferences.enableRegister == true">
             <form class="mt-2 mb-2">
                 <div class="form-group row">
                     <label for="app-security-register-name" class="col-md-4 col-form-label text-md-right">Nom</label>
@@ -47,6 +47,9 @@
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="col-md-12 col-12" ng-if="preferences.enableRegister != true">
+            <p class="alert alert-info">Les inscriptions de {{ preferences.projectTitle }} ne sont pas ouvertes pour le moment.<br />Revenez plus tard <a ng-if="preferences.enableContact == true" ui-sref="transcript.app.contact">ou prenez contact avec l'équipe du projet</a>.</p>
         </div>
     </div>
 </main>

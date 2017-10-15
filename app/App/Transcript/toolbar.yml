@@ -1,8 +1,4 @@
 groups:
-    physicalStructure:
-        type: "real"
-        id: "hi"
-        parent: false
     renderingDifficulties:
         type: "virtual"
         id: "renderingDifficulties"
@@ -24,11 +20,11 @@ groups:
         id: "note"
         parent: false
 tags:
-    # éléments de structure logique du texte :
+    # Level 1 :
     head:
         btn :
             id: "head"
-            label: "Entête"
+            label: false
             title: "Ajouter un en-tête"
             label_forced: true
             icon: "fa fa-header"
@@ -51,7 +47,7 @@ tags:
     dateline:
         btn :
             id: "dateline"
-            label: "Ligne de date"
+            label: false
             title: "Ajouter une ligne de date"
             label_forced: true
             icon: "fa fa-calendar"
@@ -74,7 +70,7 @@ tags:
     p:
         btn :
             id: "p"
-            label: "Paragraphe"
+            label: false
             title: "Ajouter un paragraphe"
             label_forced: true
             icon: "fa fa-paragraph"
@@ -95,7 +91,7 @@ tags:
     list:
         btn :
             id: "list"
-            label: "Liste"
+            label: false
             title: "Ajouter une liste"
             label_forced: true
             icon: "fa fa-list"
@@ -116,7 +112,7 @@ tags:
     signed:
         btn :
             id: "signed"
-            label: "Signature"
+            label: false
             title: "Ajouter une signature"
             label_forced: true
             icon: "fa fa-skyatlas"
@@ -137,7 +133,7 @@ tags:
     postscript:
         btn :
             id: "postscript"
-            label: "Post-scriptum"
+            label: false
             title: "Ajouter un post-scriptum"
             label_forced: true
             icon: ""
@@ -155,103 +151,12 @@ tags:
             name: "postscript"
             unique: false
         complex_entry: false
-    # éléments de structure de 2e niveau :
-    item:
-        btn:
-            id: "item"
-            label: "Item"
-            title: "Ajouter un item à la liste"
-            label_forced: false
-            icon: "fa fa-list"
-            btn_class: ""
-            btn_group: false
-            allow_root: true
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "prepend"
-        html:
-            name: "li"
-        xml:
-            name: "item"
-            unique: false
-        complex_entry: false
-    seg:
-        btn:
-            id: "seg"
-            label: "Segment"
-            title: "Segment de texte"
-            label_forced: false
-            icon: "fa fa-arrows-h"
-            btn_class: ""
-            btn_group: "semantic"
-            allow_root: false
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "prepend"
-        html:
-            name: "span"
-            attributes:
-                class: "segment"
-        xml:
-            name: "seg"
-            unique: false
-        complex_entry: false
-    addrLine:
-        btn :
-            id: "addrLine"
-            label: "Adresse"
-            title: "Baliser une ligne d'adresse postale dans le corps de la transcription"
-            label_forced: true
-            icon: "fa fa-envelope-o"
-            btn_class: ""
-            btn_group: "semantic"
-            allow_root: false
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "prepend"
-        html:
-            name: "span"
-            attributes:
-                class: "addrLine"
-        xml:
-            name: "addrLine"
-            unique: false
-        complex_entry: false
-    # éléments marqueurs de la structure physique du testament :
-    lb:
-        btn:
-            id: "lb"
-            label: "Changement de ligne"
-            title: "Changement de ligne"
-            label_forced: false
-            icon: "fa fa-level-down"
-            btn_class: ""
-            btn_group: false
-            allow_root: true
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "after"
-        html:
-            name: "br"
-        xml:
-            name: "lb"
-            unique: true
-        complex_entry: false
-    # éléments marqueurs de la mise en page du testament, ou de la mise en valeur de parties du texte :
     space:
         btn:
             id: "space"
-            label: "Espace"
+            label: false
             title: "Ajouter un espace"
-            label_forced: false
+            label_forced: true
             icon: "fa fa-arrows-v"
             btn_class: ""
             btn_group: false
@@ -272,9 +177,9 @@ tags:
     metamark:
         btn:
             id: "metamark"
-            label: "Marque"
+            label: false
             title: "Signaler une marque"
-            label_forced: false
+            label_forced: true
             icon: "fa fa-ellipsis-v"
             btn_class: ""
             btn_group: false
@@ -292,16 +197,16 @@ tags:
             name: "metamark"
             unique: true
         complex_entry: false
-    # éléments marqueurs de 2ème niveau :
+    # Lvl2
     hi:
-        btn :
+        btn:
             id: "hi"
-            label: "Marqueur"
+            label: "Mise en forme du texte"
             title: "Marquer le texte"
-            label_forced: false
+            label_forced: true
             icon: "fa fa-codepen"
             btn_class: ""
-            btn_is_group: "physicalStructure"
+            btn_group: false
             allow_root: true
             restrict_to_root: false
             enabled: false
@@ -316,11 +221,53 @@ tags:
             name: "hi"
             unique: false
         complex_entry: false
-    # éléments permettant de consigner des micro-phénomènes de l'écriture :
+    item:
+        btn:
+            id: "item"
+            label: false
+            title: "Ajouter un item à la liste"
+            label_forced: false
+            icon: "fa fa-list"
+            btn_class: ""
+            btn_group: false
+            allow_root: true
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "li"
+        xml:
+            name: "item"
+            unique: false
+        complex_entry: false
+    lb:
+        btn:
+            id: "lb"
+            label: false
+            title: "Changement de ligne"
+            label_forced: false
+            icon: "fa fa-level-down"
+            btn_class: ""
+            btn_group: false
+            allow_root: true
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "after"
+        html:
+            name: "br"
+        xml:
+            name: "lb"
+            unique: true
+        complex_entry: false
+    # Particularité de l'écriture :
     choice:
         btn :
             id: "choice"
-            label: "Micro-phénomène"
+            label: "Particularité de l'écriture"
             label_forced: true
             title: "Consigner un micro-phénomène de l'écriture"
             icon: "fa fa-adjust"
@@ -343,7 +290,7 @@ tags:
     abbr:
         btn :
             id: "abbr"
-            label: "Abbréviation"
+            label: false
             label_forced: false
             title: "Signaliser la présence d'une abbréviation"
             icon: "fa fa-compress"
@@ -366,7 +313,7 @@ tags:
     expan:
         btn :
             id: "expan"
-            label: "Déplier"
+            label: false
             label_forced: false
             title: "Déplier une abbréviation"
             icon: "fa fa-expand"
@@ -389,7 +336,7 @@ tags:
     sic:
         btn :
             id: "sic"
-            label: "Faute"
+            label: false
             label_forced: false
             title: "Signaler une faute"
             icon: "fa fa-thumbs-down"
@@ -413,7 +360,7 @@ tags:
     corr:
         btn :
             id: "corr"
-            label: "Correction"
+            label: false
             label_forced: false
             title: "Correction d'une faute"
             icon: "fa fa-thumbs-up"
@@ -436,7 +383,7 @@ tags:
     orig:
         btn :
             id: "orig"
-            label: "Forme ancienne"
+            label: false
             label_forced: false
             title: "Marquer une forme ancienne"
             icon: "fa fa-pagelines"
@@ -459,7 +406,7 @@ tags:
     reg:
         btn :
             id: "orig"
-            label: "Forme correcte"
+            label: false
             label_forced: false
             title: "Préciser une forme correcte"
             icon: "fa fa-leaf"
@@ -482,7 +429,7 @@ tags:
     surplus:
         btn :
             id: "surplus"
-            label: "Superflu"
+            label: false
             title: "Marquer le texte comme superflu"
             label_forced: false
             icon: "fa fa-pause"
@@ -506,12 +453,12 @@ tags:
     add:
         btn :
             id: "add"
-            label: "Texte ajouté"
+            label: false
             title: "Marquer le texte comme ajouté"
             label_forced: false
             icon: "fa fa-indent"
             btn_class: ""
-            btn_group: "physicalStructure"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -529,12 +476,12 @@ tags:
     del:
         btn :
             id: "del"
-            label: "Texte supprimé"
+            label: false
             title: "Marquer le texte comme supprimé"
             label_forced: false
             icon: "fa fa-strikethrough"
             btn_class: ""
-            btn_group: "physicalStructure"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -550,12 +497,12 @@ tags:
     subst:
         btn :
             id: "subst"
-            label: "Texte remplacé"
+            label: false
             title: "Marquer le texte comme remplacé"
             label_forced: false
             icon: "fa fa-pencil"
             btn_class: ""
-            btn_group: "physicalStructure"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -570,16 +517,15 @@ tags:
             name: "subst"
             unique: false
         complex_entry: false
-    # éléments permettant de consigner des difficultés de lecture :
     damage:
         btn :
             id: "damage"
-            label: "Endommagé"
+            label: false
             title: "Marquer le texte comme endommagé"
             label_forced: false
             icon: "fa fa-yelp"
             btn_class: ""
-            btn_group: "renderingDifficulties"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -597,12 +543,12 @@ tags:
     supplied:
         btn :
             id: "supplied"
-            label: "Restitution"
+            label: false
             title: "Texte restitué par le transcripteur"
             label_forced: false
             icon: "fa fa-star-half-o"
             btn_class: ""
-            btn_group: "renderingDifficulties"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -620,12 +566,12 @@ tags:
     unclear:
         btn :
             id: "unclear"
-            label: "Incertain"
+            label: false
             title: "Texte transcript incertain"
             label_forced: false
             icon: "fa fa-star-half"
             btn_class: ""
-            btn_group: "renderingDifficulties"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -643,12 +589,12 @@ tags:
     gap:
         btn :
             id: "gap"
-            label: "Manque"
+            label: false
             title: "Présence d'un manque dans la transcription"
             label_forced: false
             icon: "fa fa-square-o"
             btn_class: ""
-            btn_group: "renderingDifficulties"
+            btn_group: "microPhenomena"
             allow_root: false
             restrict_to_root: false
             enabled: false
@@ -664,11 +610,35 @@ tags:
             name: "gap"
             unique: true
         complex_entry: false
-    # éléments de balisage sémantique :
+
+    # sémantique :
+    date:
+        btn :
+            id: "date"
+            label: false
+            title: "Marquer une date"
+            label_forced: false
+            icon: "fa fa-calendar-o"
+            btn_class: ""
+            btn_group: "semantic"
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "date"
+        xml:
+            name: "date"
+            unique: false
+        complex_entry: false
     persName:
         btn :
             id: "persName"
-            label: "Personne"
+            label: false
             title: "Marquer un nom de personne"
             label_forced: false
             icon: "fa fa-user"
@@ -691,7 +661,7 @@ tags:
     placeName:
         btn :
             id: "placeName"
-            label: "Lieu"
+            label: false
             title: "Marquer un nom de lieu"
             label_forced: false
             icon: "fa fa-map-marker"
@@ -711,10 +681,56 @@ tags:
             name: "placeName"
             unique: false
         complex_entry: false
+    address:
+        btn :
+            id: "address"
+            label: false
+            title: "Baliser une adresse"
+            label_forced: true
+            icon: "fa fa-envelope-o"
+            btn_class: ""
+            btn_group: "semantic"
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "addrLine"
+        xml:
+            name: "addrLine"
+            unique: false
+        complex_entry: false
+    addrLine:
+        btn :
+            id: "addrLine"
+            label: false
+            title: "Baliser une ligne d'adresse postale dans le corps de la transcription"
+            label_forced: true
+            icon: "fa fa-envelope-o"
+            btn_class: ""
+            btn_group: "semantic"
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "addrLine"
+        xml:
+            name: "addrLine"
+            unique: false
+        complex_entry: false
     orgName:
         btn :
             id: "orgName"
-            label: "Organisation"
+            label: false
             title: "Marquer un nom d'organisation"
             label_forced: false
             icon: "fa fa-university"
@@ -734,33 +750,10 @@ tags:
             name: "orgName"
             unique: false
         complex_entry: false
-    date:
-        btn :
-            id: "date"
-            label: "Date"
-            title: "Marquer une date"
-            label_forced: false
-            icon: "fa fa-calendar-o"
-            btn_class: ""
-            btn_group: "semantic"
-            allow_root: false
-            restrict_to_root: false
-            enabled: false
-            level: 2
-        caret:
-            position: "prepend"
-        html:
-            name: "span"
-            attributes:
-                class: "date"
-        xml:
-            name: "date"
-            unique: false
-        complex_entry: false
     term:
         btn :
             id: "term"
-            label: "Terme"
+            label: false
             title: "Marquer un terme"
             label_forced: false
             icon: "fa fa-flag-o"
@@ -783,7 +776,7 @@ tags:
     foreign:
         btn :
             id: "foreign"
-            label: "Langue"
+            label: false
             title: "Marquer une langue autre que le français"
             label_forced: false
             icon: "fa fa-globe"
@@ -803,11 +796,34 @@ tags:
             name: "term"
             unique: false
         complex_entry: false
+    seg:
+        btn:
+            id: "seg"
+            label: false
+            title: "Segment de texte"
+            label_forced: false
+            icon: "fa fa-arrows-h"
+            btn_class: ""
+            btn_group: "semantic"
+            allow_root: false
+            restrict_to_root: false
+            enabled: false
+            level: 2
+        caret:
+            position: "prepend"
+        html:
+            name: "span"
+            attributes:
+                class: "segment"
+        xml:
+            name: "seg"
+            unique: false
+        complex_entry: false
     # éléments pour les notes d'apparat critique ou les notes sur le contenu du testament :
     note:
         btn :
             id: "note"
-            label: "Note"
+            label: false
             title: "Note du testateur"
             label_forced: false
             icon: "fa fa-stack-overflow"
@@ -830,7 +846,7 @@ tags:
     ref:
         btn :
             id: "ref"
-            label: "Référence"
+            label: false
             title: "Pointer vers une note sur le contenu"
             label_forced: false
             icon: "fa fa-tag"
@@ -853,7 +869,7 @@ tags:
     app:
         btn :
             id: "app"
-            label: "Apparat"
+            label: false
             title: "Note d'apparat critique"
             label_forced: false
             icon: "fa fa-bookmark-o"
@@ -876,7 +892,7 @@ tags:
     lem:
         btn :
             id: "lem"
-            label: "Leçon"
+            label: false
             title: "Leçon textuelle"
             label_forced: false
             icon: "fa fa-graduation-cap"
@@ -899,7 +915,7 @@ tags:
     bibl:
         btn :
             id: "bibl"
-            label: "Ref biblio"
+            label: false
             title: "Référence bibliographique"
             label_forced: false
             icon: "fa fa-book"
@@ -919,6 +935,3 @@ tags:
             name: "bibl"
             unique: false
         complex_entry: false
-
-# The list is the list of allowed tag in the toolbar
-list: [p, list, head, signed, dateline, postscript, item, seg, addrLine, note, lb, space, metamark, hi, choice, sic, abbr, orig, surplus, add, del, subst, dammage, supplied, unclear, gap, persName, placeName, orgName, date, term, ref, app, lem, bibl]
