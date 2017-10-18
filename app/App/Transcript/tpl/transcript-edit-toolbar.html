@@ -50,7 +50,7 @@
     <div class="clearfix level level-3">
         <div class="btn-group" role="group">
             <div class="btn-group" role="group" data-ng-repeat="attribute in transcriptArea.toolbar.attributes" data-ng-if="attribute.values.length > 0">
-                <button id="dropdown-attr-{{ attribute.id }}" type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{ attribute.desc | ucFirstStrict }}">
+                <button id="dropdown-attr-{{ attribute.id }}" type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="{{ attribute.desc | ucFirstStrict }}" ng-disabled="attribute.alreadyUsed == true">
                     {{ attribute.id | ucfirst }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdown-attr-{{ attribute.id }}">
@@ -58,6 +58,6 @@
                 </div>
             </div>
         </div>
-        <button data-ng-repeat="attribute in transcriptArea.toolbar.attributes" class="btn btn-sm" data-ng-click="transcriptArea.ace.addAttribute(attribute, null)" data-ng-if="attribute.values.length == 0" data-toggle="tooltip" data-placement="bottom" title="{{ attribute.desc | ucFirstStrict }}">{{ attribute.id | ucfirst }}</button>
+        <button data-ng-repeat="attribute in transcriptArea.toolbar.attributes" class="btn btn-sm" data-ng-click="transcriptArea.ace.addAttribute(attribute, null)" data-ng-if="attribute.values.length == 0" data-toggle="tooltip" data-placement="bottom" title="{{ attribute.desc | ucFirstStrict }}" ng-disabled="attribute.alreadyUsed == true">{{ attribute.id | ucfirst }}</button>
     </div>
 </div>

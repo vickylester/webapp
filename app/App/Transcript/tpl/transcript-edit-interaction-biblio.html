@@ -1,1 +1,11 @@
-Bibliographie management
+<div class="float-right">
+    <button class="btn btn-sm btn-primary" ng-click="transcriptArea.interaction.bibliography.addForm.action()">Nouvelle entrée</button>
+</div>
+<h2 class="mb-3">Bibliographie</h2>
+
+<div class="mt-3">
+    <h3 class="mb-1">Liste des éléments bibliographiques attachés au testament {{ entity.will.title }}</h3>
+
+    <p class="alert alert-info" ng-if="transcriptArea.interaction.bibliography.elements.length == 0">Ce testament ne possède aucune entrée bibliographique</p>
+</div>
+

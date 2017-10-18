@@ -1,0 +1,99 @@
+<div class="float-right">
+    <button class="btn btn-sm btn-primary" ng-click="transcriptArea.interaction.bibliography.action()">Retour</button>
+</div>
+<h2 class="mb-3">Nouvelle entrée bibliographique</h2>
+
+<div class="mt-3">
+    <form class="form-conntrol-sm p-3">
+        <div class="form-group">
+            <h3>Type d'entrée bibliographique</h3>
+            <label class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" name="app-transcript-interaction-form-biblio-add-type" id="app-transcript-interaction-form-biblio-add-type-1" ng-model="transcriptArea.interaction.bibliography.addForm.type" value="printedReference" checked >
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Référence imprimée</span>
+            </label>
+            <label class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" name="app-transcript-interaction-form-biblio-add-type" id="app-transcript-interaction-form-biblio-add-type-2" ng-model="transcriptArea.interaction.bibliography.addForm.type" value="manuscriptReference">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Référence manuscrite</span>
+            </label>
+        </div>
+
+        <fieldset ng-if="transcriptArea.interaction.bibliography.addForm.type == 'printedReference'">
+            <label>Référence imprimée</label>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-printedReference-authors" class="form-control-label">Auteurs</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-printedReference-authors" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.printedReference.authors" />
+                <p class="help-block">Séparer les auteurs par des virgules</p>
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-printedReference-referenceTitle" class="form-control-label">Titre de la référence</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-printedReference-referenceTitle" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.printedReference.referenceTitle" />
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-printedReference-url" class="form-control-label">URL</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-printedReference-url" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.printedReference.url" />
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-printedReference-otherInformation" class="form-control-label">Autres informations à noter</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-printedReference-otherInformation" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.printedReference.otherInformation" />
+            </div>
+
+            <fieldset>
+                <label>Si la référence est partie d'un ensemble :</label>
+                <div class="form-group row">
+                    <label for="transcriptArea-interaction-bibliography-addForm-printedReference-containerType" class="col-md-4 col-form-label text-md-right">Type d'ensemble</label>
+                    <div class="col-md-8">
+                        <select id="transcriptArea-interaction-bibliography-addForm-printedReference-containerType" name="transcriptArea-interaction-bibliography-addForm-printedReference-containerType" class="custom-select" data-ng-model="transcriptArea.interaction.bibliography.addForm.printedReference.containerType">
+                            <option value="" disabled>Sélectionnez ...</option>
+                            <option value="Revue">Revue</option>
+                            <option value="Monographie">Monographie</option>
+                            <option value="Ouvrage collectif">Ouvrage collectif</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label for="transcriptArea-interaction-bibliography-addForm-printedReference-containerTitle" class="form-control-label">Titre de l'ensemble</label>
+                    <input id="transcriptArea-interaction-bibliography-addForm-printedReference-containerTitle" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.printedReference.containerTitle" />
+                    <p class="help-block">Peut être le titre de la monographie, de la revue, etc.</p>
+                </div>
+            </fieldset>
+        </fieldset>
+        <fieldset ng-if="transcriptArea.interaction.bibliography.addForm.type == 'manuscriptReference'">
+            <label>Référence manuscrite</label>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-manuscriptReference-documentName" class="form-control-label">Nom du document</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-manuscriptReference-documentName" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.manuscriptReference.documentName" />
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-manuscriptReference-institutionName" class="form-control-label">Nom de l'institution de conservation</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-manuscriptReference-institutionName" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.manuscriptReference.institutionName" />
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-manuscriptReference-collectionName" class="form-control-label">Nom de la collection</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-manuscriptReference-collectionName" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.manuscriptReference.collectionName" />
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-manuscriptReference-documentNumber" class="form-control-label">Numéro d'identification</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-manuscriptReference-documentNumber" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.manuscriptReference.documentNumber" />
+            </div>
+
+            <div class="form-group col-md-12">
+                <label for="transcriptArea-interaction-bibliography-addForm-manuscriptReference-url" class="form-control-label">URL</label>
+                <input id="transcriptArea-interaction-bibliography-addForm-manuscriptReference-url" class="form-control form-control-sm" data-ng-model="transcriptArea.interaction.bibliography.addForm.manuscriptReference.url" />
+            </div>
+        </fieldset>
+
+        <button data-ng-click="transcriptArea.interaction.bibliography.addForm.submit.action()" type="submit" class="btn btn-sm btn-primary">Soumettre <i data-ng-if="transcriptArea.interaction.bibliography.addForm.submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+    </form>
+</div>
+

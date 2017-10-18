@@ -91,7 +91,7 @@
                 <h3 class="card-header bg-light d-block">Rechercher un identifiant</h3>
             </div>
         </div>
-        <div data-ng-if="transcriptArea.interaction.status == 'bibliography'">
+        <div data-ng-if="transcriptArea.interaction.status == 'bibliography' || transcriptArea.interaction.status == 'bibliographyAdd'">
             <div class="clearfix">
                 <div class="float-right">
                     <div class="btn-group" role="group">
@@ -140,6 +140,7 @@
         <div id="div-interaction-doc" data-ng-if="transcriptArea.interaction.status == 'doc'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-doc.html'"></div>
         <div id="div-interaction-info" data-ng-if="transcriptArea.interaction.status == 'info'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-info.html'"></div>
         <div id="div-interaction-biblio" data-ng-if="transcriptArea.interaction.status == 'bibliography'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-biblio.html'"></div>
+        <div id="div-interaction-biblio-add" data-ng-if="transcriptArea.interaction.status == 'bibliographyAdd'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-biblio-add.html'"></div>
         <div id="div-interaction-version" data-ng-if="transcriptArea.interaction.status == 'version'" class="h-100" >
             <div id="div-interaction-version-ace" class="h-100">
                 <div ui-ace="{

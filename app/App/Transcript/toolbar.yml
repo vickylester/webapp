@@ -24,7 +24,7 @@ groups:
 tags:
     # Level 1 :
     head:
-        btn :
+        btn:
             id: "head"
             label: false
             title: "Ajouter un en-tête"
@@ -48,7 +48,7 @@ tags:
             unique: false
         complex_entry: false
     dateline:
-        btn :
+        btn:
             id: "dateline"
             label: false
             title: "Ajouter une ligne de date"
@@ -72,7 +72,7 @@ tags:
             unique: false
         complex_entry: false
     p:
-        btn :
+        btn:
             id: "p"
             label: false
             title: "Ajouter un paragraphe"
@@ -94,7 +94,7 @@ tags:
             unique: false
         complex_entry: false
     list:
-        btn :
+        btn:
             id: "list"
             label: false
             title: "Ajouter une liste"
@@ -116,7 +116,7 @@ tags:
             unique: false
         complex_entry: false
     signed:
-        btn :
+        btn:
             id: "signed"
             label: false
             title: "Ajouter une signature"
@@ -138,7 +138,7 @@ tags:
             unique: false
         complex_entry: false
     postscript:
-        btn :
+        btn:
             id: "postscript"
             label: false
             title: "Ajouter un post-scriptum"
@@ -278,7 +278,7 @@ tags:
         complex_entry: false
     # Particularité de l'écriture :
     choice:
-        btn :
+        btn:
             id: "choice"
             label: "Particularité de l'écriture"
             label_forced: true
@@ -302,7 +302,7 @@ tags:
             unique: false
         complex_entry: true
     abbr:
-        btn :
+        btn:
             id: "abbr"
             label: false
             label_forced: false
@@ -326,7 +326,7 @@ tags:
             unique: false
         complex_entry: true
     expan:
-        btn :
+        btn:
             id: "expan"
             label: false
             label_forced: false
@@ -350,7 +350,7 @@ tags:
             unique: false
         complex_entry: true
     sic:
-        btn :
+        btn:
             id: "sic"
             label: false
             label_forced: false
@@ -375,7 +375,7 @@ tags:
             unique: false
         complex_entry: true
     corr:
-        btn :
+        btn:
             id: "corr"
             label: false
             label_forced: false
@@ -399,7 +399,7 @@ tags:
             unique: false
         complex_entry: true
     orig:
-        btn :
+        btn:
             id: "orig"
             label: false
             label_forced: false
@@ -423,7 +423,7 @@ tags:
             unique: false
         complex_entry: true
     reg:
-        btn :
+        btn:
             id: "orig"
             label: false
             label_forced: false
@@ -447,7 +447,7 @@ tags:
             unique: false
         complex_entry: true
     surplus:
-        btn :
+        btn:
             id: "surplus"
             label: false
             title: "Marquer le texte comme superflu"
@@ -472,7 +472,7 @@ tags:
             unique: false
         complex_entry: false
     add:
-        btn :
+        btn:
             id: "add"
             label: false
             title: "Marquer le texte comme ajouté"
@@ -496,7 +496,7 @@ tags:
             unique: false
         complex_entry: false
     del:
-        btn :
+        btn:
             id: "del"
             label: false
             title: "Marquer le texte comme supprimé"
@@ -518,7 +518,7 @@ tags:
             unique: false
         complex_entry: false
     subst:
-        btn :
+        btn:
             id: "subst"
             label: false
             title: "Marquer le texte comme remplacé"
@@ -542,7 +542,7 @@ tags:
             unique: false
         complex_entry: false
     damage:
-        btn :
+        btn:
             id: "damage"
             label: false
             title: "Marquer le texte comme endommagé"
@@ -566,7 +566,7 @@ tags:
             unique: false
         complex_entry: false
     supplied:
-        btn :
+        btn:
             id: "supplied"
             label: false
             title: "Texte restitué par le transcripteur"
@@ -590,7 +590,7 @@ tags:
             unique: false
         complex_entry: false
     unclear:
-        btn :
+        btn:
             id: "unclear"
             label: false
             title: "Texte transcript incertain"
@@ -614,7 +614,7 @@ tags:
             unique: false
         complex_entry: false
     gap:
-        btn :
+        btn:
             id: "gap"
             label: false
             title: "Présence d'un manque dans la transcription"
@@ -641,7 +641,7 @@ tags:
 
     # sémantique :
     date:
-        btn :
+        btn:
             id: "date"
             label: false
             title: "Marquer une date"
@@ -665,7 +665,7 @@ tags:
             unique: false
         complex_entry: false
     persName:
-        btn :
+        btn:
             id: "persName"
             label: false
             title: "Marquer un nom de personne"
@@ -689,7 +689,7 @@ tags:
             unique: false
         complex_entry: false
     surname:
-        btn :
+        btn:
             id: "surname"
             label: false
             title: "Marquer un nom de famille"
@@ -713,7 +713,7 @@ tags:
             unique: false
         complex_entry: false
     placeName:
-        btn :
+        btn:
             id: "placeName"
             label: false
             title: "Marquer un nom de lieu"
@@ -737,7 +737,7 @@ tags:
             unique: false
         complex_entry: false
     address:
-        btn :
+        btn:
             id: "address"
             label: false
             title: "Baliser une adresse"
@@ -761,7 +761,7 @@ tags:
             unique: false
         complex_entry: false
     addrLine:
-        btn :
+        btn:
             id: "addrLine"
             label: false
             title: "Baliser une ligne d'adresse postale dans le corps de la transcription"
@@ -785,7 +785,7 @@ tags:
             unique: false
         complex_entry: false
     orgName:
-        btn :
+        btn:
             id: "orgName"
             label: false
             title: "Marquer un nom d'organisation"
@@ -809,7 +809,7 @@ tags:
             unique: false
         complex_entry: false
     term:
-        btn :
+        btn:
             id: "term"
             label: false
             title: "Marquer un terme"
@@ -833,7 +833,7 @@ tags:
             unique: false
         complex_entry: false
     foreign:
-        btn :
+        btn:
             id: "foreign"
             label: false
             title: "Marquer une langue autre que le français"
@@ -882,7 +882,7 @@ tags:
         complex_entry: false
     # éléments pour les notes d'apparat critique ou les notes sur le contenu du testament :
     note:
-        btn :
+        btn:
             id: "note"
             label: false
             title: "Note du testateur"
@@ -906,7 +906,7 @@ tags:
             unique: false
         complex_entry: false
     ref:
-        btn :
+        btn:
             id: "ref"
             label: false
             title: "Pointer vers une note sur le contenu"
@@ -930,7 +930,7 @@ tags:
             unique: false
         complex_entry: false
     app:
-        btn :
+        btn:
             id: "app"
             label: false
             title: "Note d'apparat critique"
@@ -954,7 +954,7 @@ tags:
             unique: false
         complex_entry: false
     lem:
-        btn :
+        btn:
             id: "lem"
             label: false
             title: "Leçon textuelle"
@@ -978,7 +978,7 @@ tags:
             unique: false
         complex_entry: false
     bibl:
-        btn :
+        btn:
             id: "bibl"
             label: false
             title: "Référence bibliographique"
