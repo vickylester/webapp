@@ -62,7 +62,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
         })
     }])
 
-    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', '$filter', 'TranscriptService', 'ContentService', 'SearchService', 'entity', 'resource', 'transcript', 'teiInfo', 'config', 'testators', 'places', 'militaryUnits', 'bibliographies', function($rootScope, $scope, $http, $sce, $state, $timeout, $filter, TranscriptService, ContentService, SearchService, entity, resource, transcript, teiInfo, config, testators, places, militaryUnits, bibliographies) {
+    .controller('AppTranscriptCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', '$timeout', '$filter', 'TranscriptService', 'ContentService', 'SearchService', 'BibliographyService', 'entity', 'resource', 'transcript', 'teiInfo', 'config', 'testators', 'places', 'militaryUnits', 'bibliographies', function($rootScope, $scope, $http, $sce, $state, $timeout, $filter, TranscriptService, ContentService, SearchService, BibliographyService, entity, resource, transcript, teiInfo, config, testators, places, militaryUnits, bibliographies) {
         if($rootScope.user === undefined) {$state.go('transcript.app.security.login');}
         /* -------------------------------------------------------------------------------- */
         /* $scope & variables */
@@ -78,6 +78,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             militaryUnits: militaryUnits
         };
         $scope.smartTEI = $rootScope.user._embedded.preferences.smartTEI;
+        $scope.complexEntry = $rootScope.user._embedded.preferences.complexEntry;
 
         $scope.page = {
             fullscreen: {
@@ -205,7 +206,8 @@ angular.module('transcript.app.transcript', ['ui.router'])
                  * a3 = don't know
                  * a4 = no info
                  */
-                isTranscribed: "a4"
+                isTranscribed: "a4",
+                isEncoded: "a4"
             },
             state: {
                 icon: "fa-thumbs-o-up",
@@ -510,7 +512,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 updateToolbar();
                 updateAttributes();
 
-                if($scope.transcriptArea.ace.currentTag.name !== null && $scope.transcriptArea.toolbar.tags[$scope.transcriptArea.ace.currentTag.name].complex_entry === true) {
+                if($scope.transcriptArea.ace.currentTag.name !== null && $scope.transcriptArea.toolbar.tags[$scope.transcriptArea.ace.currentTag.name].complex_entry === true && $scope.complexEntry === true) {
                     $scope.transcriptArea.interaction.complexEntry.action();
                 }
 
@@ -665,9 +667,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
             }
         }
 
-        /**
-         * Actions on addAttribute
-         */
         $scope.transcriptArea.ace.addAttribute = function(attribute, value) {
             let alreadyHaveAttribute = false;
             for(let iAttribute in $scope.transcriptArea.ace.currentTag.attributes) {
@@ -684,12 +683,15 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     attributeInsert = " " + attribute.id + "=\""+$filter('userIDFromName')($rootScope.user.name)+"\"";
                 }
 
+                if(attribute.id === "ref") {
+                    $scope.transcriptArea.interaction.taxonomy.action();
+                }
+
                 $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.startTag.end.row, column: $scope.transcriptArea.ace.currentTag.startTag.end.column-1}, attributeInsert);
                 $scope.aceEditor.focus();
                 $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
             }
         };
-
         /* End : Attributes Management ---------------------------------------------------- */
 
         /* -------------------------------------------------------------------------------- */
@@ -907,7 +909,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Versions Management */
         /* -------------------------------------------------------------------------------- */
         $scope.transcriptArea.interaction.version.action = function(id) {
-            console.log(id);
             $scope.transcriptArea.interaction.version.id = id;
             $scope.transcriptArea.interaction.status = 'version';
 
@@ -915,7 +916,6 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 let version = $scope.transcript._embedded.version[versionId];
                 if(version.id === id) {
                     $scope.transcriptArea.interaction.version.content = version.data.content;
-                    console.log($scope.transcriptArea.interaction.version.content);
                 }
             }
         };
@@ -934,6 +934,19 @@ angular.module('transcript.app.transcript', ['ui.router'])
 
         $scope.transcriptArea.interaction.bibliography.addForm.submit.action = function() {
             $scope.transcriptArea.interaction.bibliography.addForm.submit.loading = true;
+
+            let reference = {};
+            if ($scope.transcriptArea.interaction.bibliography.addForm.type === "printedItem") {
+                reference = $scope.transcriptArea.interaction.bibliography.addForm.printedReference;
+            } else if ($scope.transcriptArea.interaction.bibliography.addForm.type === "manuscriptItem") {
+                reference = $scope.transcriptArea.interaction.bibliography.addForm.manuscriptItem;
+            }
+            return BibliographyService.postBibliography($scope.entity, reference, $scope.transcriptArea.interaction.bibliography.addForm.type)
+            .then(function (response) {
+                return BibliographyService.getBibliographiesByEntity($scope.entity.id).then(function(data) {
+                    $scope.transcriptArea.interaction.bibliography.elements = data;
+                });
+            });
         };
         /* Bibliography Management -------------------------------------------------------- */
 
@@ -1004,7 +1017,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             for(let kLine in $scope.transcriptArea.ace.lines) {
                 kLine = parseInt(kLine);
                 let line = $scope.transcriptArea.ace.lines[kLine];
-                if(line.length > 50) {
+                if(line.length > 250) {
                     $scope.transcriptArea.interaction.alertZone.alerts.push({content: $sce.trustAsHtml("La ligne "+(kLine+1)+" semble longue. N'auriez-vous pas oublié un saut de ligne ?")});
                 }
             }

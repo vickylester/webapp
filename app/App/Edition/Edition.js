@@ -44,7 +44,6 @@ angular.module('transcript.app.edition', ['ui.router'])
         $scope.role = TranscriptService.getTranscriptRights($rootScope.user);
         $scope.config = config;
         $scope.tfMetaTagsName = $filter('ucFirstStrict')($filter('resourceTypeName')($scope.resource.type));
-        console.log($scope.tfMetaTagsName);
 
         /* -- EncodedContent management ---------------------------------------------------- */
         if($scope.resource.transcript.content !== null) {
@@ -99,5 +98,6 @@ angular.module('transcript.app.edition', ['ui.router'])
             });
         };
         /* -- Admin management ------------------------------------------------------------- */
+
     }])
 ;

@@ -30,5 +30,32 @@
             <p data-ng-if="submit.checkList.isTranscribed == 'a3'" class="text-warning">Besoin d'aide pour identifier les parties olographes du testament ?</p>
 
         </div>
+
+        <div class="form-group">
+
+            <label class="custom-control pl-0">La transcription est-elle encodée ?</label>
+
+            <label class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" name="isEncodedOptions" data-ng-model="submit.checkList.isEncoded" id="isEncoded1" value="a1">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Oui</span>
+            </label>
+            <label class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" name="isEncodedOptions" data-ng-model="submit.checkList.isEncoded" id="isEncoded2" value="a2">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Non</span>
+            </label>
+            <label class="custom-control custom-radio">
+                <input class="custom-control-input" type="radio" name="isEncodedOptions" data-ng-model="submit.checkList.isEncoded" id="isEncoded3" value="a3">
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-description">Je ne sais pas</span>
+            </label>
+
+
+            <p data-ng-if="submit.checkList.isEncoded == 'a1'" class="text-success">Très bien !</p>
+            <p data-ng-if="submit.checkList.isEncoded == 'a2'" class="text-danger">Il s'agit d'un point fondamental pour nous, veillez à ce que l'intégralité du testament soit encodée.</p>
+            <p data-ng-if="submit.checkList.isEncoded == 'a3'" class="text-warning">Besoin d'aide pour encoder le testament ?</p>
+
+        </div>
     </form>
 </div>

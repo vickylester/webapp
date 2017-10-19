@@ -38,25 +38,7 @@
                 </div>
             </div>
 
-            <div class="card-group h-100 no-gutters" id="transcript-workarea">
-                <div class="col-md-8 card h-100">
-                    <div id="transcript-toolbar">
-                        <div id="transcript-toolbar-edit" data-ng-include="'App/Transcript/tpl/transcript-edit-toolbar.html'"></div>
-                    </div>
-                    <div class="card-group  no-gutters" style="height:92%; min-height: 400px;">
-                        <div class="card bg-container  h-100">
-                            <div class="h-100" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
-                        </div>
-                        <div class="card bg-container">
-                            <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 h-100 p-0 card viewer bg-dark">
-                    <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
-                </div>
-            </div>
+            <div id="transcript-workarea" ng-include="'App/Transcript/tpl/transcript-edit.html'"></div>
         </div>
 
         <div id="transcript-submit" class="clearfix" data-ng-include="'App/Transcript/tpl/transcript-submit.html'"></div>

@@ -141,14 +141,14 @@
         <div id="div-interaction-info" data-ng-if="transcriptArea.interaction.status == 'info'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-info.html'"></div>
         <div id="div-interaction-biblio" data-ng-if="transcriptArea.interaction.status == 'bibliography'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-biblio.html'"></div>
         <div id="div-interaction-biblio-add" data-ng-if="transcriptArea.interaction.status == 'bibliographyAdd'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-biblio-add.html'"></div>
-        <div id="div-interaction-version" data-ng-if="transcriptArea.interaction.status == 'version'" class="h-100" >
+        <div id="div-interaction-version" data-ng-if="transcriptArea.interaction.status == 'version'" class="h-100" style="padding: 0;">
             <div id="div-interaction-version-ace" class="h-100">
                 <div ui-ace="{
                 mode: 'xml',
                 onLoad: versionAceLoaded,
                 onChange: versionAceChanged,
                 useWrapMode: true
-                }" id="transcript-edit-interaction-version-ace-area" class="h100" data-ng-model="transcriptArea.interaction.version.content"></div>
+                }" id="transcript-edit-interaction-version-ace-area" class="h-100" style="min-height: 400px;" data-ng-model="transcriptArea.interaction.version.content"></div>
             </div>
         </div>
         <div id="div-interaction-taxonomy" data-ng-if="transcriptArea.interaction.status == 'taxonomySearch'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction-taxonomy-search.html'"></div>

@@ -344,7 +344,8 @@ tags:
         html:
             name: "span"
             attributes:
-                class: "expan hidden"
+                class: "expan"
+                hidden: "hidden"
         xml:
             name: "expan"
             unique: false
@@ -393,7 +394,8 @@ tags:
         html:
             name: "span"
             attributes:
-                class: "corr hidden"
+                class: "corr"
+                hidden: "hidden"
         xml:
             name: "corr"
             unique: false
@@ -441,7 +443,8 @@ tags:
         html:
             name: "span"
             attributes:
-                class: "reg hidden"
+                class: "reg"
+                hidden: "hidden"
         xml:
             name: "reg"
             unique: false
@@ -584,7 +587,8 @@ tags:
         html:
             name: "span"
             attributes:
-                class: "supplied hidden"
+                class: "supplied"
+                hidden: "hidden"
         xml:
             name: "supplied"
             unique: false

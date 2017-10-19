@@ -1,17 +1,53 @@
+<div class="card-group h-100 no-gutters"  data-ng-if="user._embedded.preferences.transcriptionDeskPosition != 'leftImage-centerRead-rightHelp' && user._embedded.preferences.transcriptionDeskPosition != 'leftImage-centerHelp-rightRead'">
+    <div class="col-md-8 card h-100">
+        <div id="transcript-toolbar">
+            <div id="transcript-toolbar-edit" data-ng-include="'App/Transcript/tpl/transcript-edit-toolbar.html'"></div>
+        </div>
+        <div class="card-group  no-gutters" style="height:92%; min-height: 400px;" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerHelp-rightImage'">
+            <div class="card bg-container  h-100">
+                <div class="h-100" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
+            </div>
+            <div class="card bg-container">
+                <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
+            </div>
+        </div>
+        <div class="card-group  no-gutters" style="height:92%; min-height: 400px;" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerRead-rightImage'">
+            <div class="card bg-container">
+                <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
+            </div>
+            <div class="card bg-container  h-100">
+                <div class="h-100" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
+            </div>
+        </div>
+    </div>
 
-<!--
-<div class="card col-md-4 bg-white content">
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerHelp-rightImage' || user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerImage-rightHelp'" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerRead-rightImage' || user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerImage-rightRead'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerRead-rightHelp' || user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerHelp-rightRead'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+    <div class="col-md-4 h-100 p-0 card viewer bg-dark">
+        <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+    </div>
 </div>
-<div class="card col-md-4 bg-body interaction">
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerRead-rightImage' || user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerRead-rightHelp'" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerHelp-rightImage' || user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerHelp-rightRead'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerImage-rightHelp' || user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerImage-rightRead'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+<div class="card-group h-100 no-gutters"  data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerRead-rightHelp' || user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerHelp-rightRead'">
+    <div class="col-md-4 h-100 p-0 card viewer bg-dark">
+        <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
+    </div>
+    <div class="col-md-8 card h-100">
+        <div id="transcript-toolbar">
+            <div id="transcript-toolbar-edit" data-ng-include="'App/Transcript/tpl/transcript-edit-toolbar.html'"></div>
+        </div>
+        <div class="card-group  no-gutters" style="height:92%; min-height: 400px;" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerRead-rightHelp'">
+            <div class="card bg-container  h-100">
+                <div class="h-100" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
+            </div>
+            <div class="card bg-container">
+                <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
+            </div>
+        </div>
+        <div class="card-group  no-gutters" style="height:92%; min-height: 400px;" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerHelp-rightRead'">
+            <div class="card bg-container">
+                <div class="h-100"  data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
+            </div>
+            <div class="card bg-container  h-100">
+                <div class="h-100" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
+            </div>
+        </div>
+    </div>
 </div>
-<div class="card col-md-4 viewer">
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerHelp-rightRead' || user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerImage-rightRead'" data-ng-include="'App/Transcript/tpl/transcript-edit-content.html'"></div>
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftImage-centerRead-rightHelp' || user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerImage-rightHelp'" data-ng-include="'App/Transcript/tpl/transcript-edit-interaction.html'"></div>
-    <div class="h-100" data-ng-if="user._embedded.preferences.transcriptionDeskPosition == 'leftHelp-centerRead-rightImage' || user._embedded.preferences.transcriptionDeskPosition == 'leftRead-centerHelp-rightImage'" data-ng-include="'App/Transcript/tpl/transcript-viewer.html'"></div>
-</div>-->

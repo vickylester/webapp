@@ -41,7 +41,7 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 console.log(user);
 
                 if(user !== undefined && user !== null) {
-                    if ($.inArray("ROLE_SUPER_ADMIN", user.roles) > -1 && $.inArray("ROLE_ADMIN", user.roles) > -1 && $.inArray("ROLE_MODO", user.roles) > -1) {
+                    if ($.inArray("ROLE_SUPER_ADMIN", user.roles) !== -1 || $.inArray("ROLE_ADMIN", user.roles) !== -1 || $.inArray("ROLE_MODO", user.roles) !== -1) {
                         role = "validator";
                     } else {
                         role = "editor";
@@ -108,6 +108,23 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 return 'App/Transcript/tpl/'+file+'.html';
             },
             getParentTag: function(leftOfCursor, rightOfCursor, lines, tags) {
+                function getTagPos(tpContent, tpTag, order) {
+                    let tagPosA = null, tagPosB = null, tagPosC = null;
+                    if(order === "ASC") {
+                        tagPosA = tpContent.indexOf("<"+tpTag+" ");
+                        tagPosB = tpContent.indexOf("<"+tpTag+"/>");
+                        tagPosC = tpContent.indexOf("<"+tpTag+">");
+                    } else if(order === "DESC") {
+                        tagPosA = tpContent.lastIndexOf("<"+tpTag+" ");
+                        tagPosB = tpContent.lastIndexOf("<"+tpTag+"/>");
+                        tagPosC = tpContent.lastIndexOf("<"+tpTag+">");
+                    }
+
+                    let tagPosArray = [tagPosA, tagPosB, tagPosC];
+                    tagPosArray.sort();
+                    tagPosArray.reverse();
+                    return tagPosArray[0];
+                }
                 /* GLOBAL INFORMATION:
                  * - Positions shouldn't depend on the caret position. It should be absolute values, not relative.
                  * - endPos should be an absolute value, not relative to tagPos
@@ -144,53 +161,17 @@ angular.module('transcript.service.transcript', ['ui.router'])
                 /* -------------------------------------------------------------------------------------------------- */
                 /* -- Functions used to compute start and end position of tags -- */
                 /* -------------------------------------------------------------------------------------------------- */
-                function computeEndOfTag(tag, startPosition, startContent, leftOfCursor, rightOfCursor, carriedCounter, leftCredit) {
-                    let iContent = leftOfCursor+rightOfCursor,
-                        iEndPos = content.substring(startPosition, content.length).indexOf("</" + tag),
-                        iPortion = iContent.substring(startPosition+startContent.length, leftOfCursor.length+iEndPos),
-                        iFirstOccu = iPortion.indexOf("<"+tag);
-
-                    if(iFirstOccu !== -1) {
-                        // In this case, the tag contains at least on similar subtag. I.e.: <span><span></span></span>
-                        let iLeftOfCursor = leftOfCursor+rightOfCursor.substring(0, iFirstOccu),
-                            iRightOfCursor = rightOfCursor.substring(iFirstOccu, rightOfCursor.length),
-                            iStartContent = iLeftOfCursor.substring(iLeftOfCursor.lastIndexOf("</"), iLeftOfCursor.length)+iRightOfCursor.substring(0, iRightOfCursor.indexOf(">")+1);
-                        return computeEndOfTag(tag, iFirstOccu+startPosition, iStartContent, iLeftOfCursor, iRightOfCursor, carriedCounter+1, leftCredit+iFirstOccu);
-                    } else {
-                        // The tag doesn't contain similar tag
-                        if(carriedCounter !== 0 && iEndPos !== null) {
-                            // If we are computing the value for a parent:
-                            let previous = 0;
-                            for(let i = 0; i <= carriedCounter; i++) {
-                                previous = rightOfCursor.indexOf("</" + tag);
-                                rightOfCursor = rightOfCursor.substring(previous+2+tag.length+1, rightOfCursor.length);
-                                iEndPos += rightOfCursor.indexOf("</" + tag)+2+tag.length+1;
-                            }
-                            iEndPos += leftCredit+1-(2+tag.length+1);
-                        }
-                        return iEndPos;
-                    }
-                }
-                function computeEndOfTag2(tag, tagPos, leftOfCursor, rightOfCursor, carriedCounter) {
+                function computeEndOfTag(tag, tagPos, leftOfCursor, rightOfCursor, carriedCounter) {
                     let iEndPos = tagPos+content.substring(tagPos, content.length).indexOf("</" + tag),
                         iPortion = content.substring(tagPos+1+tag.length, iEndPos);
 
-                    /*console.log(content.substring(tagPos+1+tag.length, content.length));
-                    console.log(content.substring(tagPos+1+tag.length, content.length).indexOf("</" + tag));
-                    console.log(tagPos);
-                    console.log(iEndPos);
-                    console.log(iPortion);*/
-
                     if(iPortion.indexOf("<"+tag) !== -1) {
-                        //console.log("while");
                         // Meaning there is another similar tag as child
                         let list = iPortion.match(new RegExp("<"+tag,'g'));
-                        //console.log(list);
-                        return computeEndOfTag2(tag, iEndPos, leftOfCursor, rightOfCursor, carriedCounter+list.length-1);
+                        return computeEndOfTag(tag, iEndPos, leftOfCursor, rightOfCursor, carriedCounter+list.length-1);
                     } else if(carriedCounter > 0) {
-                        //console.log("carried");
                         // If the carried list is not empty
-                        return computeEndOfTag2(tag, iEndPos, leftOfCursor, rightOfCursor, carriedCounter-1);
+                        return computeEndOfTag(tag, iEndPos, leftOfCursor, rightOfCursor, carriedCounter-1);
                     } else {
                         if(carriedCounter > 0 && iEndPos !== null) {
                             // If we are computing the value for a parent:
@@ -202,17 +183,21 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             }
                             iEndPos += leftCredit+1-(2+tag.length+1);
                         }
-
-                        //console.log("return");
                         // Else, we return the tag pos
-                        //console.log(iEndPos);
                         return iEndPos;
                     }
                 }
                 function computeStartOfTag(tag, endPos, leftOfCursor, rightOfCursor, carriedCounter) {
-                    let iContent = leftOfCursor+rightOfCursor,
-                        iTagPos = content.substring(0, endPos).lastIndexOf("<" + tag),
-                        iPortion = iContent.substring(iTagPos, endPos);
+                    let iContent = leftOfCursor+rightOfCursor;
+                    console.log(endPos);
+                    console.log(content.substring(0, endPos));
+
+                    // We are looking for the last position of tag pos
+                    let iTagPos = getTagPos(content.substring(0, endPos), tag, "DESC");
+                    console.log(iTagPos);
+
+                    let iPortion = iContent.substring(iTagPos, endPos);
+                    console.log(iPortion);
 
                     if(iPortion.indexOf("</"+tag+">") !== -1) {
                         // Meaning there is another similar tag as child
@@ -231,10 +216,6 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                     if(tag !== "") {
                         tagType = "standard"; // -> This is an end tag, can't be a single tag
-
-                        //tagPos = leftOfCursor.lastIndexOf("<"+tag);
-                        //endPos = content.substring(tagPos, content.length).indexOf(startContent);
-
                         endPos = leftOfCursor.lastIndexOf("<");
                         tagPos = computeStartOfTag(tag, endPos, leftOfCursor, rightOfCursor, 0);
 
@@ -250,9 +231,9 @@ angular.module('transcript.service.transcript', ['ui.router'])
                             tagType = "single";
                         } else { tagType = "standard"; }
 
-                        tagPos = leftOfCursor.lastIndexOf("<");
+                        tagPos = getTagPos(leftOfCursor, tag, "DESC");
                         if(tagType === "standard") {
-                            endPos = computeEndOfTag2(tag, tagPos, leftOfCursor, rightOfCursor, 0);
+                            endPos = computeEndOfTag(tag, tagPos, leftOfCursor, rightOfCursor, 0);
                         }
 
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
@@ -312,8 +293,8 @@ angular.module('transcript.service.transcript', ['ui.router'])
 
                     if(tag !== "") {
                         tagType = "standard";
+                        let tagPos = getTagPos(leftOfCursor, tag, "DESC");
 
-                        tagPos = leftOfCursor.lastIndexOf("<"+tag);
                         let startContentFull = content.substring(tagPos, content.length);
                         startContent = startContentFull.substring(0, startContentFull.indexOf(">")+1);
                         computeFromStartTag(startContent);
@@ -358,8 +339,6 @@ angular.module('transcript.service.transcript', ['ui.router'])
                      * This part returns end tag's information
                      ------------------------------------------------------------------------------------------------ */
                     if(tagType === "standard") {
-                        console.log(endPos);
-
                         let endPosStart = endPos;
                         for(let kLine in lines) {
                             let line = lines[kLine];
@@ -407,6 +386,11 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
                         parents = this.getParents(parent, []);
                         parents.push(parent);
+
+                        if(tags[tag].btn.allow_root === true && parent.name === null) {
+                            parent = null;
+                            parents = [];
+                        }
                     } else if(tags[tag] !== undefined && tags[tag].btn.restrict_to_root === true){
                         parent = null;
                         parents = [];
@@ -417,11 +401,6 @@ angular.module('transcript.service.transcript', ['ui.router'])
                      * This part compiles the children of the tag
                      ------------------------------------------------------------------------------------------------ */
                     if(tagContent !== null) {
-                        console.log(tagContent);
-
-                        //startContent = leftOfCursor.substring(leftOfCursor.lastIndexOf("</"), leftOfCursor.length)+rightOfCursor.substring(0, rightOfCursor.indexOf(">")+1);
-                        //tag = startContent.replace(/<([a-zA-Z]+).*>/g, '$1');
-
                         if(tagContent.indexOf("<") !== -1) {
                             // First step: we create a list of the tags and the string in the tagContent
 

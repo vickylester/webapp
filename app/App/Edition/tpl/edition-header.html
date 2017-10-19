@@ -17,7 +17,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+                <li class="nav-item dropdown" data-ng-if="role == 'validator'">
                     <a class="nav-link dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-gear fa-lg" aria-hidden="true"></i> Changer l'état <i class="fa fa-spin fa-circle-o-notch" data-ng-if="admin.status.loading == true"></i>
                     </a>

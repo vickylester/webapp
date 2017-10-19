@@ -3,7 +3,7 @@
     <h4 class="card-header bg-dark align-right">{{ resource.type | ucfirst }} {{resource.orderInWill}}</h4>
     <div class="card-body">
         <div data-ng-if="resource.transcript.content == '' || resource.transcript.content == null" class="alert alert-info text-center">
-            Cette transcription n'est pas commencée. Cliquez sur le bouton "Commencer cette transcription" pour y contribuer.
+            Cette transcription n'est pas commencée. Cliquez sur le bouton "<i class="fa fa-edit"></i> <span ng-if="role != 'readOnly'">Commencer cette transcription</span><span ng-if="role == 'readOnly'">Participer à la transcription</span>" pour y contribuer.
         </div>
         <div data-ng-bind-html="encodedContent"></div>
     </div>

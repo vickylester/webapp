@@ -7,7 +7,7 @@
                 <li class="col-lg-2 col-md-3 col-sm-4 col-12 pb-3" data-ng-repeat="entity in iUser._embedded.contributions">
                     <div class="nbPage">{{ entity.resources.length }}</div>
                     <span title="État de la transcription" class="badge badge-status d-table" data-ng-class="getStatusClassLabel(entity._embedded.status)">{{ entity._embedded.status | transcriptionStatusName }}</span>
-                    <a ui-sref="transcript.app.edition({ idEntity: entity.id, idResource: resource.id })">
+                    <a ui-sref="transcript.app.entity({ id: entity.id })">
                         <img class="img-fluid" src="{{ imageService.getThumbnail(entity) }}"/>
                     </a>
                     <div class="caption">
