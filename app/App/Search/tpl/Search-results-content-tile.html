@@ -1,5 +1,5 @@
 <ul id="listResults" class="grid row">
-    <li class="col-md-4 col-6" data-ng-repeat="entity in results">
+    <li class="col-md-4 col-6" data-ng-repeat="entity in results|orderBy:search.resultsSorting">
         <span class="badge badge-status" data-ng-class="getStatusClassLabel(entity._embedded.status)">{{ entity._embedded.status | transcriptionStatusName }}</span>
         <a ui-sref="transcript.app.entity({ id: entity.id })"><img class="img-fluid" src="{{ imageService.getThumbnail(entity) }}"/></a>
         <span class="badge badge-secondary" title="Nombre de ressources à transcrire">{{ entity.resources.length }}</span>

@@ -1,8 +1,10 @@
 <nav class="navbar">
     <form>
-        <select class="custom-select">
-            <option>Par date de testament</option>
-            <option>Par statut de transcription</option>
+        <select ng-model="search.resultsSorting" class="custom-select" title="Critère de tri des résultats de recherche">
+            <option value="will.willWritingYear">Par année de rédaction</option>
+            <option value="will.testator.yearOfDeath">Par année de décès</option>
+            <option value="will.testator.surname">Par nom de testateur</option>
+            <option value="_embedded.status">Par statut de transcription</option>
         </select>
     </form>
     <ul class="nav nav-pills">

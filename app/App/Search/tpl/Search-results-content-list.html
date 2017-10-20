@@ -1,5 +1,5 @@
 <ul id="listResults" class="list list-unstyled">
-    <li class="row" data-ng-repeat="entity in results">
+    <li class="row" data-ng-repeat="entity in results|orderBy:search.resultsSorting">
         <div class="col-12"><div class="badge badge-status" data-ng-class="getStatusClassLabel(entity._embedded.status)">{{ entity._embedded.status | transcriptionStatusName }}</div></div>
         <div class="col-2"><a ui-sref="transcript.app.entity({ id: entity.id })"><img class="img-fluid" src="{{ imageService.getThumbnail(entity) }}"/></a></div>
         <div class="col-9">

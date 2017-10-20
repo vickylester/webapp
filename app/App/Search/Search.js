@@ -89,7 +89,8 @@ angular.module('transcript.app.search', ['ui.router'])
             },
             result: {
                 display: "list"
-            }
+            },
+            resultsSorting: "will.willWritingYear"
         };
         $scope.imageService = ImageService;
         /* -- End : Definition of the fields --------------------------------------------------------- */
