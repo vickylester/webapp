@@ -26,26 +26,28 @@ angular.module('transcript.admin.user.view', ['ui.router'])
         })
     }])
 
-    .controller('AdminUserViewCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', function($rootScope, $scope, $http, $sce, $state, user) {
+    .controller('AdminUserViewCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'user', 'flash', function($rootScope, $scope, $http, $sce, $state, user, flash) {
         $scope.iUser = user;
         $scope.roles = {
             submit: {
-                isLoading: false
+                loading: false
             }
         };
 
         $scope.roles.submit.action = function() {
-            $scope.roles.submit.isLoading = true;
-            var form = {
-                roles: $scope.iUser.roles
+            $scope.roles.submit.loading = true;
+            let form = {
+                id: $scope.iUser.id,
+                roles: $scope.iUser.roles,
+                action: "set"
             };
+            console.log(form);
 
-            $http.patch($rootScope.api+'/users/'+$scope.iUser.id, form).
+            $http.post($rootScope.api+'/users/'+$scope.iUser.id+"/roles", form).
             then(function (response) {
                 console.log(response.data);
-                flash.success = "Les rôles ont bien été mis à jour";
-                flash.success = $sce.trustAsHtml(flash.success);
-                $scope.roles.submit.isLoading = false;
+                flash.success = $sce.trustAsHtml("Les rôles ont bien été mis à jour");
+                $scope.roles.submit.loading = false;
             }, function errorCallback(response) {
                 if(response.data.code === 400) {
                     flash.error = "<ul>";
@@ -60,7 +62,7 @@ angular.module('transcript.admin.user.view', ['ui.router'])
                     flash.error = $sce.trustAsHtml(flash.error);
                 }
                 console.log(response);
-                $scope.roles.submit.isLoading = false;
+                $scope.roles.submit.loading = false;
             });
         };
     }])
