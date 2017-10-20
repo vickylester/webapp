@@ -15,7 +15,7 @@
         </div>
         <div class="col-md-2 mt-3 text-center">
             <i data-ng-if="iUser.picture == null || iUser.picture == ''" class="fa fa-user-circle fa-5x text-light" aria-hidden="true"></i>
-            <img data-ng-if="iUser.picture != null && iUser.picture != ''" class="img-fluid rounded-circle" src="{{ iUser.picture }}" />
+            <img data-ng-if="iUser.picture != null && iUser.picture != ''" class="img-fluid rounded-circle" src="{{ api_web }}/uploads/{{ iUser.picture }}" />
         </div>
         <div class="col-md-5 mt-3 text-right">
             <a ui-sref="transcript.app.user.private-message.thread({idUser: user.id, idRecipient: iUser.id})" data-ng-if="context != 'self' && user !== undefined" class="btn btn-default" title="Envoyer un message privé"><i class="fa fa-send"></i> Envoyer un message privé</a>

@@ -107,7 +107,8 @@ angular.module('transcript.service.transcript', ['ui.router'])
             loadFile: function(file) {
                 return 'App/Transcript/tpl/'+file+'.html';
             },
-            getParentTag: function(leftOfCursor, rightOfCursor, lines, tags) {
+            getParentTag: function(leftOfCursor, rightOfCursor, lines, tags, teiInfo, computeParent) {
+                console.log(teiInfo);
                 function getTagPos(tpContent, tpTag, order) {
                     let tagPosA = null, tagPosB = null, tagPosC = null;
                     if(order === "ASC") {
@@ -239,6 +240,9 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         parentLeftOfCursor = leftOfCursor.substring(0, tagPos);
                         parentRightOfCursor = leftOfCursor.substring(tagPos, leftOfCursor.length)+rightOfCursor;
                     }
+                }
+                function computeChildren(tagPos, fullContent) {
+                    // Reste à faire cette partie
                 }
                 /* -------------------------------------------------------------------------------------------------- */
 
@@ -382,8 +386,8 @@ angular.module('transcript.service.transcript', ['ui.router'])
                      * This part compiles the parents of the tag
                      ------------------------------------------------------------------------------------------------ */
                     // If tag can have parents, we compute the parents
-                    if(tags[tag] !== undefined && tags[tag].btn.restrict_to_root === false) {
-                        parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags);
+                    if(tags[tag] !== undefined && tags[tag].btn.restrict_to_root === false && computeParent === true) {
+                        parent = this.getParentTag(parentLeftOfCursor, parentRightOfCursor, lines, tags, teiInfo, true);
                         parents = this.getParents(parent, []);
                         parents.push(parent);
 
@@ -400,16 +404,15 @@ angular.module('transcript.service.transcript', ['ui.router'])
                     /* -------------------------------------------------------------------------------------------------
                      * This part compiles the children of the tag
                      ------------------------------------------------------------------------------------------------ */
-                    if(tagContent !== null) {
-                        if(tagContent.indexOf("<") !== -1) {
+                    if(tagContent !== null && teiInfo[tag]["textAllowed"] === false) {
+                        /*if(tagContent.indexOf("<") !== -1) {
                             // First step: we create a list of the tags and the string in the tagContent
 
                             // There is at least one tag in the tag content
                             let currentContent = "";
                             let currentContentType = null;
-                            /* Methodology:
-                             * We loop each character and when we detect changes (by < and > characters), we register the entry
-                             */
+                            // Methodology:
+                            // We loop each character and when we detect changes (by < and > characters), we register the entry
                             for(let key in tagContent) {
                                 key = parseInt(key);
                                 let character           = tagContent[key]; //console.log(character);
@@ -525,7 +528,10 @@ angular.module('transcript.service.transcript', ['ui.router'])
                         } else {
                             // Tag content is string
                             registerChild(tagContent, "string");
-                        }
+                        }*/
+                        children = computeChildren(tagContent.indexOf("<")+1, tagContent);
+                    } else if(teiInfo[tag]["textAllowed"] === true) {
+                        children = null;
                     }
                     /* ---------------------------------------------------------------------------------------------- */
 

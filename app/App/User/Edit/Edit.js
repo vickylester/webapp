@@ -35,8 +35,7 @@ angular.module('transcript.app.user.edit', ['ui.router'])
 
         $scope.form = {
             name: $rootScope.user.name,
-            biography: $rootScope.user.biography,
-            picture: $rootScope.user.picture
+            biography: $rootScope.user.biography
         };
         $scope.submit = {
             loading: false

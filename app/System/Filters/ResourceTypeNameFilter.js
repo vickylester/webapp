@@ -12,6 +12,9 @@ angular.module('transcript.filter.resourceTypeName', ['ui.router'])
                 case "envelope":
                     resourceTypeName = "enveloppe";
                     break;
+                case "envelop":
+                    resourceTypeName = "enveloppe";
+                    break;
                 case "codicil":
                     resourceTypeName = "codicille";
                     break;

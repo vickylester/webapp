@@ -54,6 +54,7 @@ angular.module('transcript.app.user.change-password', ['ui.router'])
                 then(function(data) {
                     console.log(data);
                     $scope.submit.loading = false;
+                    $state.go('transcript.app.user.profile', {id: $rootScope.user.id});
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     console.log(response);

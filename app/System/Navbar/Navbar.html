@@ -28,7 +28,7 @@
         <div class="header-user">
             <a data-ng-if="user != null" ui-sref="transcript.app.user.profile({id: user.id})">
                 <i data-ng-if="user.picture == null || user.picture == ''" class="fa fa-user-circle-o fa-lg" aria-hidden="true"></i>
-                <img data-ng-if="user.picture != null && user.picture != ''" class="img-fluid rounded-circle" src="{{ user.picture }}" />
+                <img data-ng-if="user.picture != null && user.picture != ''" class="img-fluid rounded-circle" src="{{ api_web }}/uploads/{{ user.picture }}" />
                 {{ user.name }}
             </a>
             <div data-ng-if="user == null">

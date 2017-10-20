@@ -78,7 +78,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             militaryUnits: militaryUnits
         };
         $scope.smartTEI = $rootScope.user._embedded.preferences.smartTEI;
-        $scope.complexEntry = $rootScope.user._embedded.preferences.complexEntry;
+        $scope.complexEntry = $rootScope.user._embedded.preferences.showComplexEntry;
 
         $scope.page = {
             fullscreen: {
@@ -319,7 +319,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     if($scope.transcriptArea.ace.currentTag.name === "item" && /^\s*$/.test($scope.transcriptArea.ace.currentTag.content) && $scope.smartTEI === true) {
                         $scope.aceSession.getDocument().remove(new AceRange($scope.transcriptArea.ace.currentTag.startTag.start.row, $scope.transcriptArea.ace.currentTag.startTag.start.column-1, $scope.transcriptArea.ace.currentTag.endTag.end.row, $scope.transcriptArea.ace.currentTag.endTag.end.column+1));
                         $scope.$apply(function() {
-                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                         });
                         $scope.aceEditor.getSelection().moveCursorTo($scope.transcriptArea.ace.currentTag.endTag.end.row, $scope.transcriptArea.ace.currentTag.endTag.end.column+1);
                         $scope.aceEditor.focus();
@@ -345,7 +345,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
 
                     $scope.$apply(function() {
                         /* Computing of current tag value */
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                     });
                 }
             });
@@ -355,7 +355,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 exec: function(editor) {
                     $scope.$apply(function() {
                         /* Computing of current tag value */
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                     });
 
                     /* *Item insert:*
@@ -373,7 +373,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         $scope.aceEditor.focus();
                         $scope.$apply(function() {
                             /* Computing of current tag value */
-                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                         });
                     }
                     /* *Paragraph insert:*
@@ -391,7 +391,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                         $scope.aceEditor.focus();
                         $scope.$apply(function() {
                             /* Computing of current tag value */
-                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                         });
                     } else {
                         return false;
@@ -408,7 +408,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 exec: function() {
                     $scope.$apply(function() {
                         /* Computing of current tag value */
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                     });
                     return false;
                 }
@@ -422,7 +422,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 exec: function() {
                     $scope.$apply(function() {
                         /* Computing of current tag value */
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                     });
                     return false;
                 }
@@ -436,7 +436,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 exec: function() {
                     $scope.$apply(function() {
                         /* Computing of current tag value */
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                     });
                     return false;
                 }
@@ -450,7 +450,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                 exec: function() {
                     $scope.$apply(function() {
                         /* Computing of current tag value */
-                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                        $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                     });
                     return false;
                 }
@@ -486,7 +486,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
 
                 $scope.$apply(function() {
                     /* Computing of current tag value */
-                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                    $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                 });
                 return false;
             }, false);
@@ -528,7 +528,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
                     encodeLiveRender += $scope.aceSession.getLine(r);
                 }
                 $scope.transcriptArea.interaction.live.content = $sce.trustAsHtml(encodeHTML(encodeLiveRender, $scope.transcriptArea.toolbar.tags));
-                $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
                 $scope.transcriptArea.ace.lines = $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1);
                 updateAlerts();
             });
@@ -601,7 +601,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.getSelection().moveCursorToPosition({row: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.row, column: $scope.transcriptArea.ace.currentTag.parents[index].startTag.end.column});
             $scope.aceEditor.clearSelection();
             $scope.aceEditor.focus();
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
         };
         /* XML TEI breadcrumb Management --------------------------------------------------------- */
 
@@ -629,7 +629,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
             $scope.aceEditor.insert(tagInsert);
             $scope.aceEditor.getSelection().moveCursorTo(lineNumber, column);
             $scope.aceEditor.focus();
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
 
             // If this is a level 1 tag, we split the line to indent the code
             console.log($scope.transcriptArea.ace.currentTag);
@@ -689,7 +689,7 @@ angular.module('transcript.app.transcript', ['ui.router'])
 
                 $scope.aceSession.insert({row: $scope.transcriptArea.ace.currentTag.startTag.end.row, column: $scope.transcriptArea.ace.currentTag.startTag.end.column-1}, attributeInsert);
                 $scope.aceEditor.focus();
-                $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+                $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
             }
         };
         /* End : Attributes Management ---------------------------------------------------- */
@@ -1190,14 +1190,14 @@ angular.module('transcript.app.transcript', ['ui.router'])
         /* Right menu Management */
         /* -------------------------------------------------------------------------------- */
         $scope.transcriptArea.ace.rightMenu.loadDocumentation = function() {
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
             $scope.transcriptArea.interaction.help($scope.transcriptArea.ace.currentTag.name, "modelDoc", true);
 
             $("#transcript-edit-editor-ace-area-rmenu").hide(100);
         };
 
         $scope.transcriptArea.ace.rightMenu.loadInformation = function() {
-            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags);
+            $scope.transcriptArea.ace.currentTag = TranscriptService.getParentTag(getLeftOfCursor(), getRightOfCursor(), $scope.aceSession.getLines(0, $scope.aceSession.getLength()-1), $scope.transcriptArea.toolbar.tags, $scope.teiInfo, true);
             $scope.transcriptArea.interaction.help($scope.transcriptArea.ace.currentTag, "modelInfo", true);
 
             $("#transcript-edit-editor-ace-area-rmenu").hide(100);
