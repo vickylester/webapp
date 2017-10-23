@@ -12,11 +12,12 @@
     <div class="row">
         <div class="col-xl-10 col-12">
             <table class="table table-sm table-bordered">
+                <caption><a ui-sref="transcript.admin.training.new">Ajouter un nouvel élément</a><span ng-if="trainingContents.length > 0"> - <a ui-sref="transcript.admin.training.list">Accéder à tous les éléments</a></span></caption>
                 <thead>
                 <tr>
                     <th>#</th>
                     <th>#</th>
-                    <th>Title</th>
+                    <th>Titre</th>
                     <th>Type</th>
                     <th>Status</th>
                     <th>Author</th>
@@ -24,14 +25,17 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr data-ng-repeat="content in contents">
+                <tr ng-repeat="trainingContent in trainingContents">
                     <td>{{ $index+1 }}</td>
-                    <td><a ui-sref="transcript.admin.content.edit({id: content.id})"><i class="fa fa-edit"></i></a></td>
-                    <td><a ui-sref="transcript.app.content({id: content.id})">{{ content.title }}</a></td>
-                    <td>{{ content.type }}</td>
-                    <td>{{ content.status }}</td>
-                    <td>{{ content.author.name }}</td>
-                    <td data-ng-bind="content.createDate | date:'dd-MM-yyyy HH:mm'"></td>
+                    <td><a ui-sref="transcript.admin.training.edit({id: trainingContent.id})"><i class="fa fa-edit"></i></a></td>
+                    <td><a ui-sref="transcript.admin.training.view({id: trainingContent.id})">{{ trainingContent.title }}</a></td>
+                    <td>{{ trainingContent.pageType }}</td>
+                    <td>{{ trainingContent.pageStatus }}</td>
+                    <td>{{ trainingContent.createUser.name }}</td>
+                    <td data-ng-bind="trainingContent.createDate | date:'dd-MM-yyyy HH:mm'"></td>
+                </tr>
+                <tr ng-if="trainingContents.length == 0">
+                    <td colspan="7" class="bg-warning">Aucun contenu d'entrainement n'existe pour le moment. <a ui-sref="transcript.admin.training.new">Commencer à configurer le module d'entrainement</a></td>
                 </tr>
                 </tbody>
             </table>

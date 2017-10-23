@@ -9,7 +9,7 @@ angular.module('transcript.app.content', ['ui.router'])
                     templateUrl: 'App/Content/Content.html',
                     controller: 'AppContentCtrl'
                 },
-                "comment@app.content" : {
+                "comment@transcript.app.content" : {
                     templateUrl: 'System/Comment/tpl/Thread.html',
                     controller: 'SystemCommentCtrl'
                 }

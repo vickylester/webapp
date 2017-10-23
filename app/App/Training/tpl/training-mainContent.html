@@ -1,0 +1,8 @@
+<div ng-bind-html="trainingContent.content"></div>
+
+<div ng-if="trainingContent.videoContainer != null" class="text-center">
+    <hr />
+
+    <div ng-bind-html="trainingContent.videoContainer | trustAsHtml"></div>
+</div>
+

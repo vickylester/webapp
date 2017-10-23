@@ -21,7 +21,7 @@ angular.module('transcript.admin.training.home', ['ui.router'])
                 },
                 resolve: {
                     trainingContents: function(TrainingContentService) {
-                        return TrainingContentService.getTrainingContents(null, null);
+                        return TrainingContentService.getTrainingContents(null, null, "ASC");
                     }
                 }
             })

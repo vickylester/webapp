@@ -3,6 +3,11 @@
 angular.module('transcript.service.user', ['ui.router'])
 
     .service('UserService', function($http, $rootScope, $cookies, $state, $sce, $filter, flash, OAuth) {
+        /*
+         * Allowed profiles :
+         * - short
+         * - full
+         *  */
         return {
             getUsers: function(profile) {
                 return $http.get($rootScope.api+"/users?profile="+profile).

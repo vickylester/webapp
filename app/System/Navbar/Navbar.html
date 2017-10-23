@@ -47,7 +47,8 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" ui-sref="transcript.app.user.profile({id: user.id})">Profil</a>
                     <a class="dropdown-item" ui-sref="transcript.app.user.private-message.list({id: user.id})">Messagerie privée</a>
-                    <a class="dropdown-item" href="#">Pratiquer la tei</a>
+                    <a class="dropdown-item" ui-sref="transcript.app.training({order: '1'})" ng-if="user._embedded.preferences.tutorialStatus == 'todo' || user._embedded.preferences.tutorialStatus == 'done' || user._embedded.preferences.tutorialStatus == 'notInterested'">Pratiquer la TEI</a>
+                    <a class="dropdown-item" ui-sref="transcript.app.training({order: user._embedded.preferences.tutorialProgress})" ng-if="user._embedded.preferences.tutorialStatus == 'inProgress'">Pratiquer la TEI</a>
                     <a class="dropdown-item" ui-sref="transcript.app.user.preferences({id: user.id})">Préférences</a>
                     <a class="dropdown-item" ui-sref="transcript.app.security.logout">Déconnexion</a>
                     <div role="separator" class="dropdown-divider"></div>

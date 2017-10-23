@@ -1,0 +1,19 @@
+<h2>Média associé</h2>
+
+<div ng-if="trainingContent.illustration != null">
+    <img class="img-fluid" src="{{ api_web  }}/uploads/{{ trainingContent.illustration }}"/>
+</div>
+<div ng-if="trainingContent.illustration == null">
+    <form class="mt-2 mb-2">
+        <div class="form-group row">
+            <label for="app-user-edit-picture" class="control-label col-md-2 text-md-right">Image</label>
+            <div class="col-md-10">
+                <input id="app-user-edit-picture" type="file" ngf-select ng-model="media.form.picture" name="file" accept="image/*" ngf-max-size="2MB" required ngf-model-invalid="errorFile">
+            </div>
+        </div>
+
+        <div class="text-right">
+            <button type="submit" data-ng-click="media.submit.action()" class="btn btn-sm  btn-primary">Mettre à jour l'illustration <i data-ng-if="media.submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+        </div>
+    </form>
+</div>

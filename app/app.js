@@ -97,6 +97,7 @@ angular.module('transcriptApp', [
         'transcript.filter.taxonomyEntityNameConstruct',
         'transcript.filter.taxonomyName',
         'transcript.filter.transcriptionStatusName',
+        'transcript.filter.trustAsHtml',
         'transcript.filter.ucFirstStrict',
         'transcript.filter.willNumberFormat',
         'transcript.filter.userIDFromName',

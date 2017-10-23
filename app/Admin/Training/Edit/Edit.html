@@ -27,10 +27,12 @@
                         <input id="admin-trainingContent-edit-orderInTraining" type="number" class="form-control" data-ng-model="trainingContent.orderInTraining" />
                     </div>
                     <div class="col-md-4">
-                        / {{ trainingContents.length }}
+                        / <span ng-if="trainingContent.id === undefined">{{ trainingContents.length+1 }}</span><span ng-if="trainingContent.id !== undefined">{{ trainingContents.length }}</span>
+                    </div>
+                    <div class="col-md-12">
+                        <small class="form-text text-muted">Définissez ici l'ordre d'apparition de votre page dans le module d'entrainement. Saisissez 1 pour définir la page comme page d'accueil. Laissez vide si vous souhaitez désindexer la page.</small>
                     </div>
                 </div>
-                <small class="col-md-offset-2 col-md-10 form-text text-muted">Définissez ici l'ordre d'apparition de votre page dans le module d'entrainement. Saisissez 1 pour définir la page comme page d'accueil. Laissez vide si vous souhaitez désindexer la page.</small>
             </div>
             <div class="form-group row">
                 <label for="admin-trainingContent-edit-type" class="col-md-2 col-form-label text-md-right">Type </label>
@@ -53,13 +55,35 @@
                     </select>
                 </div>
             </div>
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-editorialResponsibility" class="col-md-2 col-form-label text-md-right">Responsable éditorial</label>
+                <div class="col-md-10">
+                    <angucomplete id="admin-trainingContent-edit-editorialResponsibility"
+                                  placeholder=""
+                                  pause="100"
+                                  selectedobject="trainingContent.editorialResponsibility"
+                                  localdata="users"
+                                  searchfields="name"
+                                  titlefield="name"
+                                  minlength="1"
+                                  inputclass="form-control form-control-sm"/>
+                </div>
+            </div>
             <hr />
             <div class="form-group row">
                 <label for="admin-trainingContent-edit-image" class="col-md-2 col-form-label text-md-right">Image d'illustration</label>
                 <div class="col-md-10">
-                    <input id="admin-trainingContent-edit-image" type="url" class="form-control form-control-sm" data-ng-model="trainingContent.illustration" />
-                    <small class="form-text text-muted">Spécifiez l'URL de votre image, ou uploadez une image par la suite</small>
-                    <img src="{{ trainingContent.illustration }}" class="img-fluid" style="max-height: 200px; max-width: 200px" alt="Prévisualisation de votre image" title="Prévisualisation de votre image" data-ng-if="trainingContent.illustration != '' && trainingContent.illustration != null" />
+                    <input id="admin-trainingContent-edit-image" type="string" class="form-control form-control-sm" data-ng-model="trainingContent.illustration" />
+                    <small class="form-text text-muted">Spécifiez une URL externe, ou uploadez une image par la suite</small>
+                    <div ng-if="isExternMedia() == true"><img src="{{ trainingContent.illustration }}" class="img-150px" /></div>
+                    <div ng-if="isExternMedia() == false"><img src="{{ api_web}}/uploads/{{ trainingContent.illustration }}" class="img-150px" /></div>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-videoContainer" class="col-md-2 col-form-label text-md-right">Conteneur vidéo</label>
+                <div class="col-md-10">
+                    <textarea id="admin-trainingContent-edit-videoContainer" class="form-control form-control-sm" data-ng-model="trainingContent.videoContainer"></textarea>
+                    <small class="form-text text-muted">Copiez-collez un code de vidéo</small>
                 </div>
             </div>
             <hr />
@@ -85,13 +109,6 @@
 
             <hr data-ng-if="trainingContent.id != null && trainingContent.id !== undefined" />
             <div class="card-deck mt-5" data-ng-if="trainingContent.id !== null && trainingContent.id !== undefined" >
-                <div class="card text-white bg-info mb-3 mt-4">
-                    <h2 class="card-header bg-dark text-white">Informations</h2>
-                    <div class="card-body">
-                        <h3>Voir l'élément d'entrainement</h3>
-                        <a class="btn btn-sm btn-secondary" ui-sref="transcript.app.trainingContent.view({id: trainingContent.id})">Voir</a>
-                    </div>
-                </div>
                 <div class="card text-white bg-danger mb-3 mt-4">
                     <h2 class="card-header bg-dark text-white">Zone dangereuse</h2>
                     <div class="card-body">

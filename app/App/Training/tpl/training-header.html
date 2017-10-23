@@ -1,0 +1,22 @@
+<div class="row mb-5">
+    <div class="col-auto mr-auto">
+        <h1 class="page-heading mb-0"><i class="fa fa-graduation-cap" aria-hidden="true"></i> {{ trainingContent.title }}</h1>
+    </div>
+    <div class="col-auto justify-content-end">
+        <nav class="mt-4">
+            <ul class="nav nav-pills">
+                <li class="nav-item" data-ng-if="user.roles | contains:'ROLE_ADMIN'">
+                    <a class="btn btn-light" ui-sref="transcript.admin.training.edit({id: trainingContent.id})"><i class="fa fa-edit fa-lg"></i> Modifier</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="row bg-body post-meta">
+    <div class="col-auto mr-auto" ng-if="trainingContent.editorialResponsibility != null">
+        <strong>Par <a ui-sref="transcript.app.user.profile({id: trainingContent.editorialeResponsibility.id})">{{ trainingContent.editorialResponsibility.name }}</a></strong>
+        <div ng-if="trainingContent.editorialResponsibility.biography != null" ng-bind="trainingContent.editorialResponsibility.biography"></div>
+    </div>
+    <div class="col-auto">Publié le <span data-ng-bind="trainingContent.createDate |  date:'MM/dd/yyyy à HH:mm'"></span></span></div>
+</div>

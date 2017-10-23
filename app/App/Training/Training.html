@@ -8,5 +8,26 @@
 </div>
 
 <main class="container" role="main">
-    <h1 class="page-heading">Module d'entrainement</h1>
+    <div ng-include="'App/Training/tpl/training-header.html'"></div>
+    <div ng-if="trainingContent.illustration != null" class="row">
+        <div class="col-md-7" ng-include="'App/Training/tpl/training-mainContent.html'"></div>
+        <div class="col-md-5">
+            <div ng-if="isExternMedia() == true"><img src="{{ trainingContent.illustration }}" class="img-fluid" /></div>
+            <div ng-if="isExternMedia() == false"><img src="{{ api_web}}/uploads/{{ trainingContent.illustration }}" class="img-fluid" /></div>
+        </div>
+    </div>
+    <div ng-if="trainingContent.illustration == null" class="row">
+        <div class="col-md-10 col-12" ng-include="'App/Training/tpl/training-mainContent.html'"></div>
+    </div>
+
+    <hr />
+    <div class="text-center">
+        <a ng-if="trainingContent.orderInTraining-1 > 0" class="btn btn-primary" ui-sref="transcript.app.training({order: trainingContent.orderInTraining-1})"><i class="fa fa-arrow-left"></i> Page précédente</a>
+        <a class="btn btn-primary" ui-sref="transcript.app.home"><i class="fa fa-home"></i> Accueil</a>
+        <a ng-if="nextContent !== null" class="btn btn-primary" ui-sref="transcript.app.training({order: trainingContent.orderInTraining+1})"><i class="fa fa-arrow-right"></i> Page suivante</a>
+        <button ng-if="nextContent === null" class="btn btn-primary" ng-click="endTraining()">Trouver un testament</button>
+    </div>
+
+    <hr />
+    <div ui-view="comment"></div>
 </main>

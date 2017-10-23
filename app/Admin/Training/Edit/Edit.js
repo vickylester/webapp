@@ -35,13 +35,13 @@ angular.module('transcript.admin.training.edit', ['ui.router'])
                         controller: 'AdminTrainingEditCtrl'
                     }
                 },
-                url: '/edit/:id',
+                url: '/:id/edit',
                 ncyBreadcrumb: {
-                    parent: 'transcript.app.training.view({id: content.id})',
+                    parent: 'transcript.admin.training.view({id: trainingContent.id})',
                     label: 'Modification'
                 },
                 tfMetaTags: {
-                    title: 'Modification',
+                    title: 'Modification de {{trainingContent.title}}',
                 },
                 resolve: {
                     trainingContent: function(TrainingContentService, $transition$) {
@@ -49,21 +49,28 @@ angular.module('transcript.admin.training.edit', ['ui.router'])
                     },
                     trainingContents: function(TrainingContentService) {
                         return TrainingContentService.getTrainingContents(null, null);
+                    },
+                    users: function(UserService) {
+                        return UserService.getUsers('short');
                     }
                 }
             })
     }])
 
-    .controller('AdminTrainingEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'trainingContent', 'trainingContents', 'flash', function($rootScope, $scope, $http, $sce, $state, trainingContent, trainingContents, flash) {
+    .controller('AdminTrainingEditCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'flash', 'trainingContent', 'trainingContents', 'users', function($rootScope, $scope, $http, $sce, $state, flash, trainingContent, trainingContents, users) {
         $scope.trainingContents = trainingContents;
+        $scope.users = users;
         if(trainingContent !== null) {
             console.log(trainingContent);
             $scope.trainingContent = trainingContent;
+            $scope.trainingContent.updateComment = "";
         } else {
             $scope.trainingContent = {
                 title: null,
+                editorialResponsibility: null,
                 orderInTraining: null,
                 illustration: null,
+                videoContainer: null,
                 content: null,
                 pageStatus: null,
                 pageType: null,
@@ -90,23 +97,50 @@ angular.module('transcript.admin.training.edit', ['ui.router'])
             ]
         };
 
-        /**
-         * Submit management
-         */
+        /* Image loading -------------------------------------------------------------------------------------------- */
+        $scope.isExternMedia = function(){
+            return /^http/.test($scope.trainingContent.illustration);
+        };
+        /* End: Image loading --------------------------------------------------------------------------------------- */
+
+        /* Autocompletion management -------------------------------------------------------------------------------- */
+        $scope.$watch('trainingContent.editorialResponsibility', function() {
+            console.log($scope.trainingContent.editorialResponsibility);
+            if($scope.trainingContent.editorialResponsibility !== undefined) {
+                if ($scope.trainingContent.editorialResponsibility !== null && $scope.trainingContent.editorialResponsibility !== "" && $scope.trainingContent.editorialResponsibility.originalObject !== undefined) {
+                    $scope.trainingContent.editorialResponsibility = $scope.trainingContent.editorialResponsibility.originalObject.id;
+                    console.log($scope.trainingContent.editorialResponsibility);
+                }
+            }
+        });
+        /* End: Autocompletion management --------------------------------------------------------------------------- */
+
+        /* Submit management ---------------------------------------------------------------------------------------- */
         $scope.submit.action = function() {
             $scope.submit.success = false;
             $scope.submit.loading = true;
+            $scope.form = {
+                content: $scope.trainingContent.content,
+                editorialResponsibility: $scope.trainingContent.editorialResponsibility,
+                illustration: $scope.trainingContent.illustration,
+                videoContainer: $scope.trainingContent.videoContainer,
+                orderInTraining: $scope.trainingContent.orderInTraining,
+                pageStatus: $scope.trainingContent.pageStatus,
+                pageType: $scope.trainingContent.pageType,
+                title: $scope.trainingContent.title,
+                updateComment: $scope.trainingContent.updateComment
+            };
 
             if($scope.trainingContent.id === null || $scope.trainingContent.id === undefined) {
                 /* If trainingContent.id == null > The trainingContent doesn't exist, we post it */
-                $http.post($rootScope.api+'/training-contents', $scope.trainingContent).
+                $http.post($rootScope.api+'/training-contents', $scope.form).
                 then(function (response) {
                     console.log(response.data);
                     flash.success = "Votre contenu a bien été créé";
                     flash.success = $sce.trustAsHtml(flash.success);
                     $scope.submit.loading = false;
                     $scope.submit.success = true;
-                    $state.go('transcript.app.training.view', {id: response.data.id});
+                    $state.go('transcript.admin.training.view', {id: response.data.id});
                 }, function errorCallback(response) {
                     $scope.submit.loading = false;
                     if(response.data.code === 400) {
@@ -125,7 +159,8 @@ angular.module('transcript.admin.training.edit', ['ui.router'])
                 });
             } else if($scope.trainingContent.id !== null && $scope.trainingContent.id !== undefined) {
                 /* If content.id != null > The trainingContent already exists, we just patch it */
-                $http.patch($rootScope.api+'/training-contents/'+$scope.trainingContent.id, form).
+
+                $http.patch($rootScope.api+'/training-contents/'+$scope.trainingContent.id, $scope.form).
                 then(function (response) {
                     console.log(response.data);
                     flash.success = "Votre contenu a bien été mis à jour";
@@ -150,10 +185,9 @@ angular.module('transcript.admin.training.edit', ['ui.router'])
                 });
             }
         };
+        /* End: Submit management ----------------------------------------------------------------------------------- */
 
-        /**
-         * Submit management
-         */
+        /* Remove management ---------------------------------------------------------------------------------------- */
         $scope.remove.action = function() {
             $scope.remove.loading = true;
             $http.delete($rootScope.api+'/training-contents/'+$scope.trainingContent.id).
@@ -168,5 +202,6 @@ angular.module('transcript.admin.training.edit', ['ui.router'])
             });
 
         };
+        /* End: Remove management ----------------------------------------------------------------------------------- */
     }])
 ;
