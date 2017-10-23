@@ -1,12 +1,27 @@
 <div class="comment-comment" data-ng-repeat="commentContainer in threadContainer.comments">
-    <div class="comment-comment-header">
-        <i class="fa fa-user fa-lg" aria-hidden="true"></i>&nbsp;<a data-ng-if="commentContainer.comment.author != null" ui-sref="transcript.app.user.profile({id: commentContainer.comment.author.id})" data-ng-bind="commentContainer.comment.author.name"></a> <span data-ng-if="commentContainer.comment.author == null" >Anonyme</span>&nbsp;
-        <span data-ng-if="user.roles | contains:'ROLE_ADMIN'">&nbsp;<a class="badge badge-pill badge-primary">Edit</a>&nbsp;<a class="badge badge-pill badge-danger data-ng-click="admin.remove(commentContainer.comment.id)">Remove</a></span>
+    <div class="comment-comment-header" ng-if="commentContainer.comment.state == 0">
+        <span class="red-color"><i class="fa fa-user fa-lg" aria-hidden="true"></i></span> <a data-ng-if="commentContainer.comment.author != null" ui-sref="transcript.app.user.profile({id: commentContainer.comment.author.id})" data-ng-bind="commentContainer.comment.author.name"></a> <span data-ng-if="commentContainer.comment.author == null" >Anonyme</span>&nbsp;
+        <span data-ng-if="user.roles | contains:'ROLE_ADMIN'">&nbsp;<a class="badge badge-pill badge-primary" ng-click="comment.edit.load(commentContainer.comment.id)">Edit</a>&nbsp;<a class="badge badge-pill badge-danger" data-ng-click="admin.remove(commentContainer.comment.id)">Remove</a></span> <a ng-if="commentContainer.editAction == true" ng-click="commentContainer.editAction = false"><i class="fa fa-close"></i></a>
         <div class="date">Écrit le <span data-ng-bind="commentContainer.comment.createdAt | date:'MM/dd/yyyy'"></span> à <span data-ng-bind="commentContainer.comment.createdAt | date:'H:mm'"></span></div>
     </div>
-    <blockquote data-ng-bind-html="commentContainer.comment.body"></blockquote>
+    <blockquote data-ng-bind-html="commentContainer.comment.body" ng-if="commentContainer.comment.state == 0 && commentContainer.editAction != true"></blockquote>
+    <form ng-if="commentContainer.comment.state == 0 && commentContainer.editAction == true">
+        <div class="form-group comment-post-form-group">
+            <label for="thread-edit-content" class="form-control-label sr-only">Contenu :</label>
+            <div id="thread-edit-content" ckeditor="options" data-ng-model="editContent[commentContainer.comment.id]"></div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary btn-sm" data-ng-click="comment.edit.action(commentContainer.comment.id)"> Modifier <i data-ng-if="comment.edit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+        </div>
+    </form>
+
+    <div class="comment-comment-header" ng-if="commentContainer.comment.state == 1">
+        <span class="red-color"><i class="fa fa-user fa-lg" aria-hidden="true"></i></span> Anonyme
+        <div class="date">Écrit le <span data-ng-bind="commentContainer.comment.createdAt | date:'MM/dd/yyyy'"></span> à <span data-ng-bind="commentContainer.comment.createdAt | date:'H:mm'"></span></div>
+    </div>
+    <p ng-if="commentContainer.comment.state == 1" class="alert alert-warning">Ce commentaire a été supprimé par un modérateur.</p>
 </div>
-<div data-ng-if="threadContainer.comments.length == 0" class="alert alert-info">
+<div ng-if="threadContainer.comments.length == 0" class="alert alert-info">
     <p>Soyez-le premier à commencer la discussion !</p>
 </div>
 

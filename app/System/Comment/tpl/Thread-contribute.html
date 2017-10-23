@@ -2,11 +2,11 @@
     <h4 class="sr-only">Participez à la discussion</h4>
     <form id="comment-thread-contribute-form">
         <div class="form-group comment-post-form-group">
-            <label for="admin-content-edit-content" class="form-control-label sr-only">Contenu :</label>
-            <div id="admin-content-edit-content" ckeditor="options" data-ng-model="comment.form.content"></div>
+            <label for="thread-new-content" class="form-control-label sr-only">Contenu :</label>
+            <div id="thread-new-content" ckeditor="options" data-ng-model="comment.form.content"></div>
         </div>
         <div id="comment-thread-contribute-form-footer">
-            <button type="submit" class="btn btn-primary btn-sm" data-ng-click="comment.action.post()"><i class="fa fa-check" aria-hidden="true"></i> Soumettre <i data-ng-if="comment.action.isLoading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+            <button type="submit" class="btn btn-primary btn-sm" data-ng-click="comment.action.post()"> Soumettre <i data-ng-if="comment.action.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
         </div>
     </form>
 </div>

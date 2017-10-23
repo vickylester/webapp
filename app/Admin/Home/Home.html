@@ -17,7 +17,7 @@
             </ul>
         </div>
         <div class="col-sm-4 mb-5">
-            <h2 >Gestion des entités </h2>
+            <h2>Gestion des entités </h2>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a ui-sref="transcript.admin.entity.list">Liste des entités</a></li>
                 <li class="list-group-item"><a ui-sref="transcript.admin.entity.import">Importer une entité</a></li>
@@ -31,16 +31,22 @@
             </ul>
         </div>
         <div class="col-sm-4 mb-5">
-            <h2 >Utilisateurs</h2>
+            <h2>Utilisateurs</h2>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item"><a ui-sref="transcript.admin.user.list">Liste des utilisateurs</a></li>
             </ul>
         </div>
         <div class="col-sm-4 mb-5">
-            <h2 >Notices descriptives</h2>
+            <h2>Notices descriptives</h2>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" ng-if="preferences.taxonomyEditAccess == 'controlledAuthorization'"><a ui-sref="transcript.admin.taxonomy.access">Demandes d'accès <span class="badge bg-info" ng-bind="(accesses|filterTaxonomyAsk).length"></span></a></li>
                 <li class="list-group-item"><a ui-sref="transcript.admin.taxonomy.logs">Historique des modifications</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-4 mb-5">
+            <h2>Module d'entrainement</h2>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item"><a ui-sref="transcript.admin.training.home">Module d'entrainement</a></li>
             </ul>
         </div>
     </div>

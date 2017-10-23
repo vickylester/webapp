@@ -28,5 +28,7 @@ angular.module('transcript.admin.entity.list', ['ui.router'])
 
     .controller('AdminEntityListCtrl', ['$rootScope','$scope', '$http', '$sce', '$state', 'entities', function($rootScope, $scope, $http, $sce, $state, entities) {
         $scope.entities = entities;
+        console.log($scope.entities);
+        $scope.entitiesSorting = "willNumber";
     }])
 ;

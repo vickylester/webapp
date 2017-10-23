@@ -1,0 +1,47 @@
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
+</div>
+
+<main class="container" role="main">
+    <h1 class="page-heading">Module d'entrainement</h1>
+    <div class="row">
+        <div class="col-xl-10 col-12">
+            <p>Afin de permettre aux contributeurs de {{ preferences.projectTitle }} de se former aux disciplines requises pour leur contribution, Transcribe To TEI dispose d'un module de formation et d'entrainement.<br />
+            Ce module fonctionne autour de deux types de blocs : des pages de présentation et des blocs d'exercice. L'objectif est de concevoir un parcours de formation pour les utilisateurs allant des tâches les plus simples aux plus complexes.</p>
+
+            <table class="table table-sm table-bordered">
+                <caption>Parcours de formation<span ng-if="trainingContents.length > 0"> - <a ui-sref="transcript.admin.training.list">Accéder à tous les éléments</a></span></caption>
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>#</th>
+                    <th>Titre</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Author</th>
+                    <th>Date</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="trainingContent in trainingContents">
+                        <td>{{ $index+1 }}</td>
+                        <td><a ui-sref="transcript.admin.training.edit({id: trainingContent.id})"><i class="fa fa-edit"></i></a></td>
+                        <td><a ui-sref="transcript.admin.training.view({id: trainingContent.id})">{{ trainingContent.title }}</a></td>
+                        <td>{{ trainingContent.type }}</td>
+                        <td>{{ trainingContent.status }}</td>
+                        <td>{{ trainingContent.createUser.name }}</td>
+                        <td data-ng-bind="trainingContent.createDate | date:'dd-MM-yyyy HH:mm'"></td>
+                    </tr>
+                    <tr ng-if="trainingContents.length == 0">
+                        <td colspan="7" class="bg-warning">Aucun contenu d'entrainement n'existe pour le moment. <a ui-sref="transcript.admin.training.new">Commencer à configurer le module d'entrainement</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

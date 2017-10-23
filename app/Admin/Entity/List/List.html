@@ -12,7 +12,24 @@
         <h3>Aucune entité</h3>
         <p>Aucune entité n'est présente pour le moment dans la base de données.</p>
     </div>
-    <ul>
-        <li data-ng-repeat="entity in entities"><a ui-sref="transcript.app.entity({id: entity.id})">{{ entity.will.title }}</a></li>
-    </ul>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>#</th>
+            <th><a ng-click="entitiesSorting = 'willNumber'" title="Trier par numéro d'identification du testament">IdNum <i class="fa fa-caret-down"></i></a></th>
+            <th><a ng-click="entitiesSorting = 'will.hostingOrganization'" title="Trier par institution de conservation">Institution <i class="fa fa-caret-down"></i></a></th>
+            <th><a ng-click="entitiesSorting = 'will.title'" title="Trier par titre du testament">Titre <i class="fa fa-caret-down"></i></a></th>
+            <th><a ng-click="entitiesSorting = 'will.willWritingYear'" title="Trier par année de rédaction du testament">Rédaction <i class="fa fa-caret-down"></i></a></th>
+            <th><a ng-click="entitiesSorting = 'will.testator.surname'" title="Trier par nom de famille du testateur">Testateur <i class="fa fa-caret-down"></i></a></th>
+            <th><a ng-click="entitiesSorting = '_embedded.status'" title="Trier par statut de la transcription">Statut <i class="fa fa-caret-down"></i></a></th>
+        </tr>
+        <tr data-ng-repeat="entity in entities|orderBy:entitiesSorting">
+            <td>{{ $index+1 }}</td>
+            <td>{{ entity.willNumber }}</td>
+            <td>{{ entity.will.hostingOrganization }}</td>
+            <td><a ui-sref="transcript.app.entity({id: entity.id})">{{ entity.will.title }}</a></td>
+            <td>{{ entity.will.willWritingDate }}</td>
+            <td>{{ entity.will.testator.name }}</td>
+            <td><span class="badge badge-status" data-ng-class="getStatusClassLabel(entity._embedded.status)">{{ entity._embedded.status | transcriptionStatusName }}</span></td>
+        </tr>
+    </table>
 </main>

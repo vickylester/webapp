@@ -9,7 +9,8 @@
 
 <main class="container" role="main">
     <h1 class="page-heading mb-2">{{ iUser.name }}</h1>
-    <div><i class="fa fa-envelope" aria-hidden="true"></i> Email : {{ iUser.email }}</div>
+    <div><i class="fa fa-envelope" aria-hidden="true"></i> Email : <a href="mailto:{{ iUser.email }}">{{ iUser.email }}</a></div>
+    <div><i class="fa fa-user" aria-hidden="true"></i> <a ui-sref="transcript.app.user.profile({id: iUser.id})">Accéder au profil public</a></div>
     <div class="row mt-5 ">
         <form class="col-md-6 mr-auto">
             <label class="big">Gestion des rôles</label>

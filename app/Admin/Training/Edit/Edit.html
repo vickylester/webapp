@@ -1,0 +1,106 @@
+<div class="container">
+    <div ncy-breadcrumb></div>
+    <div flash-alert data-active-class="in alert" class="fade" data-duration="10000">
+        <!-- Manually hide the alert with `hide()` -->
+        <button type="button" class="close" ng-click="hide()">&times;</button>
+        <span class="alert-message" data-ng-bind-html="flash.message"></span>
+    </div>
+</div>
+
+<main class="container" role="main">
+    <h1 class="page-heading" data-ng-if="trainingContent.title != null && trainingContent.title != ''">{{ trainingContent.title }}</h1>
+    <h1 class="page-heading" data-ng-if="trainingContent.title == null || trainingContent.title == ''">Nouveau contenu</h1>
+
+    <form>
+        <div class="col-xl-10 col-12">
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-title" class="col-md-2 col-form-label text-md-right">Titre </label>
+                <div class="col-md-10">
+                    <input id="admin-trainingContent-edit-title" type="text" class="form-control" data-ng-model="trainingContent.title" />
+                    <small class="form-text text-muted">Optez pour un titre clair, décrivant précisément votre contenu et comportant des mots-clés signifiant si vous publiez un article.</small>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-orderInTraining" class="col-md-2 col-form-label text-md-right">Ordre d'apparition</label>
+                <div class="col-md-10 row">
+                    <div class="col-md-8">
+                        <input id="admin-trainingContent-edit-orderInTraining" type="number" class="form-control" data-ng-model="trainingContent.orderInTraining" />
+                    </div>
+                    <div class="col-md-4">
+                        / {{ trainingContents.length }}
+                    </div>
+                </div>
+                <small class="col-md-offset-2 col-md-10 form-text text-muted">Définissez ici l'ordre d'apparition de votre page dans le module d'entrainement. Saisissez 1 pour définir la page comme page d'accueil. Laissez vide si vous souhaitez désindexer la page.</small>
+            </div>
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-type" class="col-md-2 col-form-label text-md-right">Type </label>
+                <div class="col-md-10">
+                    <select id="admin-trainingContent-edit-type" name="admin-trainingContent-edit-type" class="custom-select" data-ng-model="trainingContent.pageType">
+                        <option value="" disabled>Sélectionnez ...</option>
+                        <option value="presentation">Page de présentation</option>
+                        <option value="exercise">Bloc d'exercice</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-status" class="col-md-2 col-form-label text-md-right">Statut </label>
+                <div class="col-md-10">
+                    <select id="admin-trainingContent-edit-status" name="admin-trainingContent-edit-status" class="custom-select" data-ng-model="trainingContent.pageStatus">
+                        <option value="" disabled>Sélectionnez ...</option>
+                        <option value="draft">Brouillon</option>
+                        <option value="public">Public</option>
+                        <option value="notIndexed">Non indexé</option>
+                    </select>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-image" class="col-md-2 col-form-label text-md-right">Image d'illustration</label>
+                <div class="col-md-10">
+                    <input id="admin-trainingContent-edit-image" type="url" class="form-control form-control-sm" data-ng-model="trainingContent.illustration" />
+                    <small class="form-text text-muted">Spécifiez l'URL de votre image, ou uploadez une image par la suite</small>
+                    <img src="{{ trainingContent.illustration }}" class="img-fluid" style="max-height: 200px; max-width: 200px" alt="Prévisualisation de votre image" title="Prévisualisation de votre image" data-ng-if="trainingContent.illustration != '' && trainingContent.illustration != null" />
+                </div>
+            </div>
+            <hr />
+            <div class="form-group row">
+                <label for="admin-trainingContent-edit-content"  class="col-md-2 col-form-label text-md-right">Contenu </label>
+                <div class="col-md-10">
+                    <div id="admin-trainingContent-edit-content" ckeditor="options" data-ng-model="trainingContent.content"></div>
+                </div>
+            </div>
+
+            <hr data-ng-if="trainingContent.id != null && trainingContent.id !== undefined" />
+            <div class="form-group row" data-ng-if="trainingContent.id != null && trainingContent.id !== undefined">
+                <label for="admin-trainingContent-edit-updateComment" class="col-md-2 col-form-label text-md-right">Qu'avez-vous modifié ?</label>
+                <div class="col-md-10">
+                    <input id="admin-trainingContent-edit-updateComment" type="text" class="form-control form-control-sm" data-ng-model="trainingContent.updateComment" />
+                </div>
+            </div>
+
+            <div class="text-right">
+                <button data-ng-if="submit.success == false" class="btn btn-sm btn-primary" type="button" data-ng-click="submit.action()">Soumettre <i data-ng-if="submit.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                <button data-ng-if="submit.success == true" class="btn btn-sm btn-success" type="button" data-ng-click="submit.action()">Succès !</button>
+            </div>
+
+            <hr data-ng-if="trainingContent.id != null && trainingContent.id !== undefined" />
+            <div class="card-deck mt-5" data-ng-if="trainingContent.id !== null && trainingContent.id !== undefined" >
+                <div class="card text-white bg-info mb-3 mt-4">
+                    <h2 class="card-header bg-dark text-white">Informations</h2>
+                    <div class="card-body">
+                        <h3>Voir l'élément d'entrainement</h3>
+                        <a class="btn btn-sm btn-secondary" ui-sref="transcript.app.trainingContent.view({id: trainingContent.id})">Voir</a>
+                    </div>
+                </div>
+                <div class="card text-white bg-danger mb-3 mt-4">
+                    <h2 class="card-header bg-dark text-white">Zone dangereuse</h2>
+                    <div class="card-body">
+                        <p>En cliquant ci-dessous, vous supprimerez définitivement ce contenu.</p>
+                        <button class="btn btn-sm btn-primary" type="button" data-mw-confirm-click="remove.action()" data-mw-confirm-click-message="Êtes-vous sûr de vouloir supprimer ce contenu ?">Supprimer <i data-ng-if="remove.loading == false" class="fa fa-remove"></i><i data-ng-if="remove.loading == true" class="fa fa-spin fa-circle-o-notch"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</main>
